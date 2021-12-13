@@ -69,7 +69,7 @@ fn tx_progress(
 fn main() {
 	setup_logger();
 	// init with debugging
-	let mut trezor = trezor_client::unique(true).unwrap();
+	let mut trezor = trezor_client::unique(false).unwrap();
 	trezor.init_device(None).unwrap();
 
 	let pubkey = handle_interaction(

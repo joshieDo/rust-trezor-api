@@ -1,9 +1,23 @@
-extern crate bitcoin;
 extern crate trezor_client;
 
-use std::{io, str::FromStr};
+use std::io;
 
-use bitcoin::util::{self};
+fn convert_path_from_str(derivation: &str) -> Vec<u32> {
+	let derivation = derivation.to_string();
+	let elements = derivation.split('/').skip(1).collect::<Vec<_>>();
+
+	let mut path = vec![];
+	for derivation_index in elements {
+		let hardened = derivation_index.contains('\'');
+		let mut index = derivation_index.replace('\'', "").parse::<u32>().unwrap();
+		if hardened {
+			index |= 0x80000000;
+		}
+		path.push(index);
+	}
+
+	path
+}
 
 fn device_selector() -> trezor_client::Trezor {
 	let mut devices = trezor_client::find_devices(false).expect("error finding devices");
@@ -50,11 +64,7 @@ fn do_main() -> Result<(), trezor_client::Error> {
 	println!("passphrase protection: {}", f.get_passphrase_protection());
 	println!(
 		"{:?}",
-		trezor
-			.ethereum_get_address(trezor_client::utils::convert_path(
-				&util::bip32::DerivationPath::from_str("m/44'/60'/1'/0/0").unwrap(),
-			))
-			.unwrap()
+		trezor.ethereum_get_address(convert_path_from_str("m/44'/60'/1'/0/0")).unwrap()
 	);
 	drop(trezor);
 
@@ -64,11 +74,7 @@ fn do_main() -> Result<(), trezor_client::Error> {
 
 	println!(
 		"{:?}",
-		trezor2
-			.ethereum_get_address(trezor_client::utils::convert_path(
-				&util::bip32::DerivationPath::from_str("m/44'/60'/1'/0/0").unwrap(),
-			))
-			.unwrap()
+		trezor2.ethereum_get_address(convert_path_from_str("m/44'/60'/1'/0/0")).unwrap()
 	);
 	//optional bool bootloader_mode = 5;          // is device in bootloader mode?
 	//optional string language = 9;               // device language

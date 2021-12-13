@@ -1,5 +1,11 @@
+#[cfg(feature = "f_bitcoin")]
 mod bitcoin;
+#[cfg(feature = "f_bitcoin")]
+pub use self::bitcoin::*;
+#[cfg(feature = "f_ethereum")]
 mod ethereum;
+#[cfg(feature = "f_ethereum")]
+pub use self::ethereum::*;
 
 pub mod common;
 pub use self::common::*;

@@ -12,19 +12,27 @@
 //! Please be aware that `trace` logging can contain sensitive data.
 //!
 
+#[cfg(feature = "f_bitcoin")]
 extern crate bitcoin;
+#[cfg(feature = "f_bitcoin")]
 extern crate bitcoin_bech32;
+#[cfg(feature = "f_bitcoin")]
 extern crate bitcoin_hashes;
+#[cfg(feature = "f_bitcoin")]
+extern crate secp256k1;
+#[cfg(feature = "f_bitcoin")]
+extern crate unicode_normalization;
+
+#[cfg(feature = "f_ethereum")]
+extern crate primitive_types;
+
 extern crate byteorder;
 extern crate hex;
 extern crate hidapi;
 extern crate rusb;
-extern crate unicode_normalization;
 #[macro_use]
 extern crate log;
-extern crate primitive_types;
 extern crate protobuf;
-extern crate secp256k1;
 
 mod messages;
 mod transport;
@@ -32,9 +40,11 @@ mod transport;
 pub mod client;
 pub mod error;
 pub mod protos;
+#[cfg(feature = "f_bitcoin")]
 pub mod utils;
 
 mod flows {
+	#[cfg(feature = "f_bitcoin")]
 	pub mod sign_tx;
 }
 
@@ -43,6 +53,7 @@ pub use client::{
 	PassphraseRequest, PinMatrixRequest, PinMatrixRequestType, Trezor, TrezorResponse, WordCount,
 };
 pub use error::{Error, Result};
+#[cfg(feature = "f_bitcoin")]
 pub use flows::sign_tx::SignTxProgress;
 pub use messages::TrezorMessage;
 

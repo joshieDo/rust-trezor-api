@@ -526,7 +526,7 @@ dependencies = [
  "bitcoin_hashes",
  "byteorder",
  "fern",
- "hex 0.3.2",
+ "hex 0.4.3",
  "hidapi",
  "log",
  "primitive-types",

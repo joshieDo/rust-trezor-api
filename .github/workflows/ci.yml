@@ -29,6 +29,8 @@ jobs:
         run: |
             export PATH=$HOME/bin:$PATH
             cargo build
+            cargo build --features f_bitcoin
+            cargo build --features f_ethereum
   lint:
     name: lints
     runs-on: ubuntu-latest
