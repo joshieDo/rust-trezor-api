@@ -4,7 +4,6 @@ use super::{AvailableDevice, Model};
 use crate::protos::MessageType;
 
 pub mod error;
-pub mod hid;
 pub mod protocol;
 pub mod udp;
 pub mod webusb;
@@ -13,7 +12,6 @@ pub mod webusb;
 /// transports.
 #[derive(Debug)]
 pub enum AvailableDeviceTransport {
-	Hid(hid::AvailableHidTransport),
 	WebUsb(webusb::AvailableWebUsbTransport),
 	Udp(udp::AvailableUdpTransport),
 }
@@ -21,7 +19,6 @@ pub enum AvailableDeviceTransport {
 impl fmt::Display for AvailableDeviceTransport {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 		match self {
-			AvailableDeviceTransport::Hid(ref t) => write!(f, "{}", t),
 			AvailableDeviceTransport::WebUsb(ref t) => write!(f, "{}", t),
 			AvailableDeviceTransport::Udp(ref t) => write!(f, "{}", t),
 		}
@@ -66,7 +63,6 @@ pub trait Transport {
 /// transport types.
 pub fn connect(available_device: &AvailableDevice) -> Result<Box<dyn Transport>, error::Error> {
 	match available_device.transport {
-		AvailableDeviceTransport::Hid(_) => hid::HidTransport::connect(available_device),
 		AvailableDeviceTransport::WebUsb(_) => webusb::WebUsbTransport::connect(available_device),
 		AvailableDeviceTransport::Udp(_) => udp::UdpTransport::connect(available_device),
 	}
@@ -79,7 +75,7 @@ mod constants {
 	pub const DEV_TREZOR_BOOTLOADER: (u16, u16) = (0x1209, 0x53C0);
 }
 
-/// Derive the Trezor model from the HID device.
+/// Derive the Trezor model from the USB device.
 pub(crate) fn derive_model(dev_id: (u16, u16)) -> Option<Model> {
 	match dev_id {
 		constants::DEV_TREZOR_LEGACY => Some(Model::TrezorLegacy),

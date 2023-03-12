@@ -89,20 +89,10 @@ impl AvailableDevice {
 
 /// Search for all available devices.
 /// Most devices will show up twice both either debugging enables or disabled.
-///
-/// Note: This will not show older devices that only support the HID interface.
-/// To use those, please use [find_hid_devices].
 pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
 	let mut devices = WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)?;
 	devices.extend(UdpTransport::find_devices(debug, None).map_err(Error::TransportConnect)?);
 	Ok(devices)
-}
-
-/// Search for old HID devices. This should only be used for older devices that don't have the
-/// firmware updated to version 1.7.0 yet. Trying to connect to a post-1.7.0 device will fail.
-pub fn find_hid_devices() -> Result<Vec<AvailableDevice>> {
-	use transport::hid::HidTransport;
-	HidTransport::find_devices(true).map_err(Error::TransportConnect)
 }
 
 /// Try to get a single device.  Optionally specify whether debug should be enabled or not.
