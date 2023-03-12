@@ -41,6 +41,8 @@ pub use flows::sign_tx::SignTxProgress;
 pub use protos::InputScriptType;
 
 use std::fmt;
+use transport::udp::UdpTransport;
+use transport::webusb::WebUsbTransport;
 
 /// The different kind of Trezor device models.
 #[derive(PartialEq, Eq, Clone, Debug, Copy)]
@@ -48,6 +50,7 @@ pub enum Model {
 	TrezorLegacy,
 	Trezor,
 	TrezorBootloader,
+	TrezorEmulator,
 }
 
 impl fmt::Display for Model {
@@ -56,6 +59,7 @@ impl fmt::Display for Model {
 			Model::TrezorLegacy => "Trezor (legacy)",
 			Model::Trezor => "Trezor",
 			Model::TrezorBootloader => "Trezor (bootloader)",
+			Model::TrezorEmulator => "Trezor Emulator",
 		})
 	}
 }
@@ -89,8 +93,9 @@ impl AvailableDevice {
 /// Note: This will not show older devices that only support the HID interface.
 /// To use those, please use [find_hid_devices].
 pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
-	use transport::webusb::WebUsbTransport;
-	WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)
+	let mut devices = WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)?;
+	devices.extend(UdpTransport::find_devices(debug, None).map_err(Error::TransportConnect)?);
+	Ok(devices)
 }
 
 /// Search for old HID devices. This should only be used for older devices that don't have the

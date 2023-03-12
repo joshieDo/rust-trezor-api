@@ -6,6 +6,7 @@ use crate::protos::MessageType;
 pub mod error;
 pub mod hid;
 pub mod protocol;
+pub mod udp;
 pub mod webusb;
 
 /// An available transport for a Trezor device, containing any of the different supported
@@ -14,6 +15,7 @@ pub mod webusb;
 pub enum AvailableDeviceTransport {
 	Hid(hid::AvailableHidTransport),
 	WebUsb(webusb::AvailableWebUsbTransport),
+	Udp(udp::AvailableUdpTransport),
 }
 
 impl fmt::Display for AvailableDeviceTransport {
@@ -21,6 +23,7 @@ impl fmt::Display for AvailableDeviceTransport {
 		match self {
 			AvailableDeviceTransport::Hid(ref t) => write!(f, "{}", t),
 			AvailableDeviceTransport::WebUsb(ref t) => write!(f, "{}", t),
+			AvailableDeviceTransport::Udp(ref t) => write!(f, "{}", t),
 		}
 	}
 }
@@ -65,6 +68,7 @@ pub fn connect(available_device: &AvailableDevice) -> Result<Box<dyn Transport>,
 	match available_device.transport {
 		AvailableDeviceTransport::Hid(_) => hid::HidTransport::connect(available_device),
 		AvailableDeviceTransport::WebUsb(_) => webusb::WebUsbTransport::connect(available_device),
+		AvailableDeviceTransport::Udp(_) => udp::UdpTransport::connect(available_device),
 	}
 }
 
