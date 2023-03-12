@@ -13,6 +13,8 @@ pub enum Error {
 	Hid(hid::HidError),
 	/// Error from ruusb.
 	Usb(rusb::Error),
+	/// Error from io
+	IO(std::io::Error),
 	/// The device to connect to was not found.
 	DeviceNotFound,
 	/// The device is no longer available.
@@ -47,6 +49,12 @@ impl From<rusb::Error> for Error {
 	}
 }
 
+impl From<std::io::Error> for Error {
+	fn from(e: std::io::Error) -> Error {
+		Error::IO(e)
+	}
+}
+
 impl error::Error for Error {
 	fn cause(&self) -> Option<&dyn error::Error> {
 		match *self {
@@ -62,6 +70,7 @@ impl fmt::Display for Error {
 		match *self {
 			Error::Hid(ref e) => fmt::Display::fmt(e, f),
 			Error::Usb(ref e) => fmt::Display::fmt(e, f),
+			Error::IO(ref e) => fmt::Display::fmt(e, f),
 			Error::DeviceNotFound => write!(f, "the device to connect to was not found"),
 			Error::DeviceDisconnected => write!(f, "the device is no longer available"),
 			Error::UnknownHidVersion => write!(f, "HID version of the device unknown"),

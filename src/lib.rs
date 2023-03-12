@@ -65,6 +65,7 @@ pub enum Model {
 	Trezor1,
 	Trezor2,
 	Trezor2Bl,
+	TrezorEmulator,
 }
 
 impl fmt::Display for Model {
@@ -73,6 +74,7 @@ impl fmt::Display for Model {
 			Model::Trezor1 => "Trezor 1",
 			Model::Trezor2 => "Trezor 2",
 			Model::Trezor2Bl => "Trezor 2 Bootloader",
+			Model::TrezorEmulator => "Trezor Emulator",
 		})
 	}
 }
@@ -107,8 +109,10 @@ impl AvailableDevice {
 /// To use those, please use [find_hid_device].
 pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
 	let mut devices = Vec::new();
+	use transport::udp::UdpTransport;
 	use transport::webusb::WebUsbTransport;
 	devices.extend(WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)?);
+	devices.extend(UdpTransport::find_devices(debug, None).map_err(Error::TransportConnect)?);
 	Ok(devices)
 }
 
