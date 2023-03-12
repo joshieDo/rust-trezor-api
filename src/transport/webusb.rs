@@ -42,7 +42,7 @@ impl fmt::Display for AvailableWebUsbTransport {
 	}
 }
 
-/// An actual serial HID USB link to a device over which bytes can be sent.
+/// An actual serial USB link to a device over which bytes can be sent.
 pub struct WebUsbLink {
 	handle: &'static mut rusb::DeviceHandle<GlobalContext>,
 	endpoint: u8,
@@ -127,7 +127,6 @@ impl WebUsbTransport {
 	pub fn connect(device: &AvailableDevice) -> Result<Box<dyn Transport>, Error> {
 		let transport = match device.transport {
 			AvailableDeviceTransport::WebUsb(ref t) => t,
-			_ => panic!("passed wrong AvailableDevice in WebUsbTransport::connect"),
 		};
 
 		let interface = match device.debug {

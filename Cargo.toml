@@ -25,7 +25,6 @@ primitive-types = { version = "0.12.1", default-features = false, optional = tru
 
 protobuf = "2.0"
 byteorder = "1.2"
-hidapi-rusb = { version = "1.3.2" }
 rusb = "0.9"
 
 [dev-dependencies]
