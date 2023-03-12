@@ -71,17 +71,17 @@ pub fn connect(available_device: &AvailableDevice) -> Result<Box<dyn Transport>,
 mod constants {
 	//! A collection of transport-global constants.
 
-	pub const DEV_TREZOR1: (u16, u16) = (0x534C, 0x0001);
-	pub const DEV_TREZOR2: (u16, u16) = (0x1209, 0x53C1);
-	pub const DEV_TREZOR2_BL: (u16, u16) = (0x1209, 0x53C0);
+	pub const DEV_TREZOR_LEGACY: (u16, u16) = (0x534C, 0x0001);
+	pub const DEV_TREZOR: (u16, u16) = (0x1209, 0x53C1);
+	pub const DEV_TREZOR_BOOTLOADER: (u16, u16) = (0x1209, 0x53C0);
 }
 
 /// Derive the Trezor model from the HID device.
 pub(crate) fn derive_model(dev_id: (u16, u16)) -> Option<Model> {
 	match dev_id {
-		constants::DEV_TREZOR1 => Some(Model::Trezor1),
-		constants::DEV_TREZOR2 => Some(Model::Trezor2),
-		constants::DEV_TREZOR2_BL => Some(Model::Trezor2Bl),
+		constants::DEV_TREZOR_LEGACY => Some(Model::TrezorLegacy),
+		constants::DEV_TREZOR => Some(Model::Trezor),
+		constants::DEV_TREZOR_BOOTLOADER => Some(Model::TrezorBootloader),
 		_ => None,
 	}
 }

@@ -45,17 +45,17 @@ use std::fmt;
 /// The different kind of Trezor device models.
 #[derive(PartialEq, Eq, Clone, Debug, Copy)]
 pub enum Model {
-	Trezor1,
-	Trezor2,
-	Trezor2Bl,
+	TrezorLegacy,
+	Trezor,
+	TrezorBootloader,
 }
 
 impl fmt::Display for Model {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 		f.write_str(match self {
-			Model::Trezor1 => "Trezor 1",
-			Model::Trezor2 => "Trezor 2",
-			Model::Trezor2Bl => "Trezor 2 Bootloader",
+			Model::TrezorLegacy => "Trezor (legacy)",
+			Model::Trezor => "Trezor",
+			Model::TrezorBootloader => "Trezor (bootloader)",
 		})
 	}
 }
