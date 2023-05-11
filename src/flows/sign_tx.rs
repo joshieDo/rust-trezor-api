@@ -290,7 +290,7 @@ impl<'a> SignTxProgress<'a> {
 	/// Get the part of the serialized signed tx from the device.
 	pub fn get_serialized_tx_part(&self) -> Option<&[u8]> {
 		if self.has_serialized_tx_part() {
-			Some(&self.req.serialized.serialized_tx())
+			Some(self.req.serialized.serialized_tx())
 		} else {
 			None
 		}

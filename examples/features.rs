@@ -20,7 +20,7 @@ fn convert_path_from_str(derivation: &str) -> Vec<u32> {
 fn device_selector() -> trezor_client::Trezor {
 	let mut devices = trezor_client::find_devices(false).expect("error finding devices");
 
-	if devices.len() == 0 {
+	if devices.is_empty() {
 		panic!("No devices connected");
 	} else if devices.len() == 1 {
 		devices.remove(0).connect().expect("connection error")

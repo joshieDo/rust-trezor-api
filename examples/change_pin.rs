@@ -21,7 +21,7 @@ fn do_main() -> Result<(), trezor_client::Error> {
 
 	let new_pin2 = new_pin1.ack_pin(read_pin())?.pin_matrix_request()?;
 
-	let _ = new_pin2.ack_pin(read_pin())?.ok()?;
+	new_pin2.ack_pin(read_pin())?.ok()?;
 
 	Ok(())
 }

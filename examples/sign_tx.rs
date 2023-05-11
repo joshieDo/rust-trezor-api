@@ -48,11 +48,11 @@ fn tx_progress(
 	raw_tx: &mut Vec<u8>,
 ) -> Result<(), Error> {
 	if let Some(part) = progress.get_serialized_tx_part() {
-		raw_tx.write(part).unwrap();
+		raw_tx.write_all(part).unwrap();
 	}
 
 	if !progress.finished() {
-		let progress = handle_interaction(progress.ack_psbt(&psbt, Network::Testnet).unwrap());
+		let progress = handle_interaction(progress.ack_psbt(psbt, Network::Testnet).unwrap());
 		tx_progress(psbt, progress, raw_tx)
 	} else {
 		Ok(())
