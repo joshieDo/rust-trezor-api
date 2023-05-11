@@ -1,11 +1,11 @@
 use std::cmp;
 
 use byteorder::{BigEndian, ByteOrder};
-use protobuf::ProtobufEnum;
+use protobuf::Enum;
 
-use protos::MessageType;
-use transport::error::Error;
-use transport::ProtoMessage;
+use crate::protos::MessageType;
+use crate::transport::error::Error;
+use crate::transport::ProtoMessage;
 
 /// A link represents a serial connection to send and receive byte chunks from and to a device.
 pub trait Link {

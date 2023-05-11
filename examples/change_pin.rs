@@ -1,5 +1,3 @@
-extern crate trezor_client;
-
 use std::io;
 
 fn read_pin() -> String {

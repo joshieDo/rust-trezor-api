@@ -1,9 +1,6 @@
-extern crate bitcoin;
-extern crate trezor_client;
-
 use std::io;
 
-use bitcoin::{network::constants::Network, util::bip32, Address};
+use bitcoin::{bip32, network::constants::Network, Address};
 use trezor_client::{Error, TrezorMessage, TrezorResponse};
 
 fn handle_interaction<T, R: TrezorMessage>(resp: TrezorResponse<T, R>) -> Result<T, Error> {
@@ -50,7 +47,7 @@ fn do_main() -> Result<(), trezor_client::Error> {
 	)?;
 	println!("{}", xpub);
 	println!("{:?}", xpub);
-	println!("{}", Address::p2pkh(&xpub.public_key, Network::Testnet));
+	println!("{}", Address::p2pkh(&xpub.to_pub(), Network::Testnet));
 
 	Ok(())
 }

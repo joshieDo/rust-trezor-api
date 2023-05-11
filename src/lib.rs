@@ -10,29 +10,9 @@
 //!
 //! We use the log package interface, so any logger that supports log can be attached.
 //! Please be aware that `trace` logging can contain sensitive data.
-//!
 
-#[cfg(feature = "f_bitcoin")]
-extern crate bitcoin;
-#[cfg(feature = "f_bitcoin")]
-extern crate bitcoin_bech32;
-#[cfg(feature = "f_bitcoin")]
-extern crate bitcoin_hashes;
-#[cfg(feature = "f_bitcoin")]
-extern crate secp256k1;
-#[cfg(feature = "f_bitcoin")]
-extern crate unicode_normalization;
-
-#[cfg(feature = "f_ethereum")]
-extern crate primitive_types;
-
-extern crate byteorder;
-extern crate hex;
-extern crate hidapi_rusb;
-extern crate rusb;
 #[macro_use]
 extern crate log;
-extern crate protobuf;
 
 mod messages;
 mod transport;
@@ -106,10 +86,8 @@ impl AvailableDevice {
 /// Note: This will not show older devices that only support the HID interface.
 /// To use those, please use [find_hid_device].
 pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
-	let mut devices = Vec::new();
 	use transport::webusb::WebUsbTransport;
-	devices.extend(WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)?);
-	Ok(devices)
+	WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)
 }
 
 /// Search for old HID devices. This should only be used for older devices that don't have the

@@ -1,7 +1,6 @@
-use protos;
-
 use super::{handle_interaction, Trezor};
-use crate::error::Result;
+use crate::protos;
+use crate::{error::Result, protos::ethereum_sign_tx_eip1559::EthereumAccessList};
 
 use primitive_types::U256;
 
@@ -29,22 +28,21 @@ impl Trezor {
 	// ETHEREUM
 	pub fn ethereum_get_address(&mut self, path: Vec<u32>) -> Result<String> {
 		let mut req = protos::EthereumGetAddress::new();
-		req.set_address_n(path);
-
+		req.address_n = path;
 		let address = handle_interaction(
-			self.call(req, Box::new(|_, m: protos::EthereumAddress| Ok(m.get_address().into())))?,
+			self.call(req, Box::new(|_, m: protos::EthereumAddress| Ok(m.address().into())))?,
 		)?;
 		Ok(address)
 	}
 
 	pub fn ethereum_sign_message(&mut self, message: Vec<u8>, path: Vec<u32>) -> Result<Signature> {
 		let mut req = protos::EthereumSignMessage::new();
-		req.set_address_n(path);
+		req.address_n = path;
 		req.set_message(message);
 		let signature = handle_interaction(self.call(
 			req,
 			Box::new(|_, m: protos::EthereumMessageSignature| {
-				let signature = m.get_signature();
+				let signature = m.signature();
 
 				// why are you in the end
 				let v = signature[64] as u64;
@@ -77,7 +75,7 @@ impl Trezor {
 		let mut req = protos::EthereumSignTx::new();
 		let mut data = _data;
 
-		req.set_address_n(path);
+		req.address_n = path;
 		req.set_nonce(nonce);
 		req.set_gas_price(gas_price);
 		req.set_gas_limit(gas_limit);
@@ -91,21 +89,21 @@ impl Trezor {
 		let mut resp =
 			handle_interaction(self.call(req, Box::new(|_, m: protos::EthereumTxRequest| Ok(m)))?)?;
 
-		while resp.get_data_length() > 0 {
+		while resp.data_length() > 0 {
 			let mut ack = protos::EthereumTxAck::new();
 			ack.set_data_chunk(data.splice(..std::cmp::min(1024, data.len()), []).collect());
 
 			resp = self.call(ack, Box::new(|_, m: protos::EthereumTxRequest| Ok(m)))?.ok()?;
 		}
 
-		if resp.get_signature_v() <= 1 {
-			resp.set_signature_v(resp.get_signature_v() + 2 * (chain_id as u32) + 35);
+		if resp.signature_v() <= 1 {
+			resp.set_signature_v(resp.signature_v() + 2 * (chain_id as u32) + 35);
 		}
 
 		Ok(Signature {
-			r: resp.get_signature_r().into(),
-			v: resp.get_signature_v().into(),
-			s: resp.get_signature_s().into(),
+			r: resp.signature_r().into(),
+			v: resp.signature_v().into(),
+			s: resp.signature_s().into(),
 		})
 	}
 
@@ -126,7 +124,7 @@ impl Trezor {
 		let mut req = protos::EthereumSignTxEIP1559::new();
 		let mut data = _data;
 
-		req.set_address_n(path);
+		req.address_n = path;
 		req.set_nonce(nonce);
 		req.set_max_gas_fee(max_gas_fee);
 		req.set_max_priority_fee(max_priority_fee);
@@ -136,18 +134,14 @@ impl Trezor {
 		req.set_to(to);
 
 		if !access_list.is_empty() {
-			let mut list_access = Vec::new();
-
-			for item in access_list {
-				let mut access = protos::EthereumSignTxEIP1559_EthereumAccessList::new();
-
-				access.set_address(item.address);
-				access.set_storage_keys(protobuf::RepeatedField::from_vec(item.storage_keys));
-
-				list_access.push(access)
-			}
-
-			req.set_access_list(protobuf::RepeatedField::from_vec(list_access.clone()));
+			req.access_list = access_list
+				.into_iter()
+				.map(|item| EthereumAccessList {
+					address: Some(item.address),
+					storage_keys: item.storage_keys,
+					..Default::default()
+				})
+				.collect();
 		}
 
 		req.set_data_length(data.len() as u32);
@@ -156,21 +150,21 @@ impl Trezor {
 		let mut resp =
 			handle_interaction(self.call(req, Box::new(|_, m: protos::EthereumTxRequest| Ok(m)))?)?;
 
-		while resp.get_data_length() > 0 {
+		while resp.data_length() > 0 {
 			let mut ack = protos::EthereumTxAck::new();
 			ack.set_data_chunk(data.splice(..std::cmp::min(1024, data.len()), []).collect());
 
 			resp = self.call(ack, Box::new(|_, m: protos::EthereumTxRequest| Ok(m)))?.ok()?
 		}
 
-		if resp.get_signature_v() <= 1 {
-			resp.set_signature_v(resp.get_signature_v() + 2 * (chain_id as u32) + 35);
+		if resp.signature_v() <= 1 {
+			resp.set_signature_v(resp.signature_v() + 2 * (chain_id as u32) + 35);
 		}
 
 		Ok(Signature {
-			r: resp.get_signature_r().into(),
-			v: resp.get_signature_v().into(),
-			s: resp.get_signature_s().into(),
+			r: resp.signature_r().into(),
+			v: resp.signature_v().into(),
+			s: resp.signature_s().into(),
 		})
 	}
 }

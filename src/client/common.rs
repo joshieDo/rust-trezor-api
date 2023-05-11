@@ -1,16 +1,15 @@
 use std::fmt;
 
-use error::{Error, Result};
-
-use super::Trezor;
-use messages::TrezorMessage;
-use protos;
+use crate::error::{Error, Result};
+use crate::messages::TrezorMessage;
+use crate::protos;
+use crate::Trezor;
 
 // Some types with raw protos that we use in the public interface so they have to be exported.
-pub use protos::ButtonRequest_ButtonRequestType as ButtonRequestType;
+pub use protos::button_request::ButtonRequestType;
+pub use protos::pin_matrix_request::PinMatrixRequestType;
 pub use protos::Features;
 pub use protos::InputScriptType;
-pub use protos::PinMatrixRequest_PinMatrixRequestType as PinMatrixRequestType;
 
 /// The different options for the number of words in a seed phrase.
 pub enum WordCount {
@@ -49,7 +48,7 @@ impl<'a, T, R: TrezorMessage> fmt::Debug for ButtonRequest<'a, T, R> {
 impl<'a, T, R: TrezorMessage> ButtonRequest<'a, T, R> {
 	/// The type of button request.
 	pub fn request_type(&self) -> ButtonRequestType {
-		self.message.get_code()
+		self.message.code()
 	}
 
 	/// The metadata sent with the button request.
@@ -81,7 +80,7 @@ impl<'a, T, R: TrezorMessage> fmt::Debug for PinMatrixRequest<'a, T, R> {
 impl<'a, T, R: TrezorMessage> PinMatrixRequest<'a, T, R> {
 	/// The type of PIN matrix request.
 	pub fn request_type(&self) -> PinMatrixRequestType {
-		self.message.get_field_type()
+		self.message.type_()
 	}
 
 	/// Ack the request with a PIN and get the next message from the device.
@@ -108,7 +107,7 @@ impl<'a, T, R: TrezorMessage> fmt::Debug for PassphraseRequest<'a, T, R> {
 impl<'a, T, R: TrezorMessage> PassphraseRequest<'a, T, R> {
 	/// Check whether the use is supposed to enter the passphrase on the device or not.
 	pub fn on_device(&self) -> bool {
-		self.message.get__on_device()
+		self.message._on_device()
 	}
 
 	/// Ack the request with a passphrase and get the next message from the device.

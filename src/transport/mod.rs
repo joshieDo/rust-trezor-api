@@ -1,8 +1,7 @@
-use fmt;
-use protobuf;
+use std::fmt;
 
 use super::{AvailableDevice, Model};
-use protos::MessageType;
+use crate::protos::MessageType;
 
 pub mod error;
 pub mod hid;
@@ -45,7 +44,7 @@ impl ProtoMessage {
 	}
 
 	/// Take the payload from the ProtoMessage and parse it to a protobuf message.
-	pub fn into_message<M: protobuf::Message>(self) -> Result<M, protobuf::error::ProtobufError> {
+	pub fn into_message<M: protobuf::Message>(self) -> Result<M, protobuf::Error> {
 		protobuf::Message::parse_from_bytes(&self.into_payload())
 	}
 }

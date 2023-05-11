@@ -2,14 +2,14 @@ use std::fmt;
 
 use hidapi_rusb as hid;
 
-use super::super::AvailableDevice;
-use transport::error::Error;
-use transport::protocol::{Link, Protocol, ProtocolV1};
-use transport::{derive_model, AvailableDeviceTransport, ProtoMessage, Transport};
+use crate::transport::error::Error;
+use crate::transport::protocol::{Link, Protocol, ProtocolV1};
+use crate::transport::{derive_model, AvailableDeviceTransport, ProtoMessage, Transport};
+use crate::AvailableDevice;
 
 mod constants {
-	///! A collection of constants related to the HID protocol.
-	pub use super::super::constants::*;
+	//! A collection of constants related to the HID protocol.
+	pub use crate::transport::constants::*;
 
 	pub const WIRELINK_USAGE: u16 = 0xFF00;
 	pub const WIRELINK_INTERFACE: isize = 0;

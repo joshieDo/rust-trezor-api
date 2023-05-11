@@ -7,3 +7,5 @@ binop_separator = "Back"
 trailing_comma = "Vertical"
 trailing_semicolon = false
 use_field_init_shorthand = true
+
+ignore = ["src/protos/"]

@@ -1,5 +1,3 @@
-extern crate trezor_client;
-
 use std::io;
 
 fn convert_path_from_str(derivation: &str) -> Vec<u32> {
@@ -50,18 +48,13 @@ fn do_main() -> Result<(), trezor_client::Error> {
 	let f = trezor.features().expect("no features").clone();
 
 	println!("Features:");
-	println!("vendor: {}", f.get_vendor());
-	println!(
-		"version: {}.{}.{}",
-		f.get_major_version(),
-		f.get_minor_version(),
-		f.get_patch_version()
-	);
-	println!("device id: {}", f.get_device_id());
-	println!("label: {}", f.get_label());
-	println!("is initialized: {}", f.get_initialized());
-	println!("pin protection: {}", f.get_pin_protection());
-	println!("passphrase protection: {}", f.get_passphrase_protection());
+	println!("vendor: {}", f.vendor());
+	println!("version: {}.{}.{}", f.major_version(), f.minor_version(), f.patch_version());
+	println!("device id: {}", f.device_id());
+	println!("label: {}", f.label());
+	println!("is initialized: {}", f.initialized());
+	println!("pin protection: {}", f.pin_protection());
+	println!("passphrase protection: {}", f.passphrase_protection());
 	println!(
 		"{:?}",
 		trezor.ethereum_get_address(convert_path_from_str("m/44'/60'/1'/0/0")).unwrap()
@@ -70,7 +63,7 @@ fn do_main() -> Result<(), trezor_client::Error> {
 
 	let mut trezor2 = device_selector();
 
-	trezor2.init_device(Some(f.get_session_id().to_vec()))?;
+	trezor2.init_device(Some(f.session_id().to_vec()))?;
 
 	println!(
 		"{:?}",

@@ -1,5 +1,7 @@
 #[cfg(feature = "f_bitcoin")]
 mod bitcoin;
+use protobuf::MessageField;
+
 #[cfg(feature = "f_bitcoin")]
 pub use self::bitcoin::*;
 #[cfg(feature = "f_ethereum")]
@@ -10,13 +12,12 @@ pub use self::ethereum::*;
 pub mod common;
 pub use self::common::*;
 
-use super::Model;
-use error::{Error, Result};
-
-use messages::TrezorMessage;
-use protos;
-use protos::MessageType::*;
-use transport::{ProtoMessage, Transport};
+use crate::error::{Error, Result};
+use crate::messages::TrezorMessage;
+use crate::protos;
+use crate::protos::MessageType::*;
+use crate::transport::{ProtoMessage, Transport};
+use crate::Model;
 
 /// A Trezor client.
 pub struct Trezor {
@@ -165,8 +166,8 @@ impl Trezor {
 		req.set_label(label);
 		req.set_enforce_wordlist(true);
 		req.set_dry_run(dry_run);
-		req.set_field_type(
-			protos::RecoveryDevice_RecoveryDeviceType::RecoveryDeviceType_ScrambledWords,
+		req.set_type(
+			protos::recovery_device::RecoveryDeviceType::RecoveryDeviceType_ScrambledWords,
 		);
 		//TODO(stevenroose) support languages
 		req.set_language("english".to_owned());
@@ -239,10 +240,10 @@ impl Trezor {
 		curve: String,
 	) -> Result<TrezorResponse<Vec<u8>, protos::SignedIdentity>> {
 		let mut req = protos::SignIdentity::new();
-		req.set_identity(identity);
+		req.identity = MessageField::some(identity);
 		req.set_challenge_hidden(digest);
 		req.set_challenge_visual("".to_owned());
 		req.set_ecdsa_curve_name(curve);
-		self.call(req, Box::new(|_, m| Ok(m.get_signature().to_owned())))
+		self.call(req, Box::new(|_, m| Ok(m.signature().to_owned())))
 	}
 }

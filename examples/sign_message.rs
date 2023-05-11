@@ -1,13 +1,6 @@
-extern crate bitcoin;
-extern crate fern;
-extern crate hex;
-extern crate log;
-extern crate trezor_client;
-
 use std::io;
 
-use bitcoin::{network::constants::Network, util::bip32, Address};
-
+use bitcoin::{bip32, network::constants::Network, Address};
 use trezor_client::{InputScriptType, TrezorMessage, TrezorResponse};
 
 fn setup_logger() {
@@ -66,7 +59,7 @@ fn main() {
 			)
 			.unwrap(),
 	);
-	let addr = Address::p2pkh(&pubkey.public_key, Network::Testnet);
+	let addr = Address::p2pkh(&pubkey.to_pub(), Network::Testnet);
 	println!("address: {}", addr);
 
 	let (addr, signature) = handle_interaction(

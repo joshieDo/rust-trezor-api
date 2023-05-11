@@ -3,14 +3,14 @@ use std::{fmt, result::Result};
 
 use rusb::*;
 
-use super::super::AvailableDevice;
-use transport::error::Error;
-use transport::protocol::{Link, Protocol, ProtocolV1};
-use transport::{derive_model, AvailableDeviceTransport, ProtoMessage, Transport};
+use crate::transport::error::Error;
+use crate::transport::protocol::{Link, Protocol, ProtocolV1};
+use crate::transport::{derive_model, AvailableDeviceTransport, ProtoMessage, Transport};
+use crate::AvailableDevice;
 
 mod constants {
-	///! A collection of constants related to the WebUsb protocol.
-	pub use super::super::constants::*;
+	//! A collection of constants related to the WebUsb protocol.
+	pub use crate::transport::constants::*;
 
 	pub const CONFIG_ID: u8 = 0;
 	pub const INTERFACE_DESCRIPTOR: u8 = 0;

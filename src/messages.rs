@@ -1,13 +1,13 @@
-use protobuf;
+//! This module implements the `message_type` getter for all protobuf message types.
 
-use protos::MessageType::*;
-use protos::*;
+use std::fmt;
 
-///! In this module we implement the message_type() getter for all protobuf message types.
+use crate::protos::MessageType::*;
+use crate::protos::*;
 
 /// This trait extends the protobuf Message trait to also have a static getter for the message
 /// type code.  This getter is implemented in this file for all the messages we use.
-pub trait TrezorMessage: protobuf::Message {
+pub trait TrezorMessage: protobuf::Message + fmt::Debug {
 	fn message_type() -> MessageType;
 }
 
