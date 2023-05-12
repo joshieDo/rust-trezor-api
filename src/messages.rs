@@ -85,7 +85,7 @@ trezor_message_impl! {
 	DebugLinkFlashErase => MessageType_DebugLinkFlashErase,
 }
 
-#[cfg(feature = "f_bitcoin")]
+#[cfg(feature = "bitcoin")]
 trezor_message_impl! {
 	GetPublicKey => MessageType_GetPublicKey,
 	PublicKey => MessageType_PublicKey,
@@ -99,7 +99,7 @@ trezor_message_impl! {
 	MessageSignature => MessageType_MessageSignature,
 }
 
-#[cfg(feature = "f_ethereum")]
+#[cfg(feature = "ethereum")]
 trezor_message_impl! {
 	EthereumGetAddress => MessageType_EthereumGetAddress,
 	EthereumAddress => MessageType_EthereumAddress,
@@ -118,7 +118,7 @@ trezor_message_impl! {
 	EthereumTypedDataSignature => MessageType_EthereumTypedDataSignature,
 }
 
-#[cfg(feature = "f_nem")]
+#[cfg(feature = "nem")]
 trezor_message_impl! {
 	NEMGetAddress => MessageType_NEMGetAddress,
 	NEMAddress => MessageType_NEMAddress,
@@ -128,7 +128,7 @@ trezor_message_impl! {
 	NEMDecryptedMessage => MessageType_NEMDecryptedMessage,
 }
 
-#[cfg(feature = "f_lisk")]
+#[cfg(feature = "lisk")]
 trezor_message_impl! {
 	LiskGetAddress => MessageType_LiskGetAddress,
 	LiskAddress => MessageType_LiskAddress,
@@ -141,7 +141,7 @@ trezor_message_impl! {
 	LiskPublicKey => MessageType_LiskPublicKey,
 }
 
-#[cfg(feature = "f_tezos")]
+#[cfg(feature = "tezos")]
 trezor_message_impl! {
 	TezosGetAddress => MessageType_TezosGetAddress,
 	TezosAddress => MessageType_TezosAddress,
@@ -151,7 +151,7 @@ trezor_message_impl! {
 	TezosPublicKey => MessageType_TezosPublicKey,
 }
 
-#[cfg(feature = "f_stellar")]
+#[cfg(feature = "stellar")]
 trezor_message_impl! {
 	StellarSignTx => MessageType_StellarSignTx,
 	StellarTxOpRequest => MessageType_StellarTxOpRequest,
@@ -171,7 +171,7 @@ trezor_message_impl! {
 	StellarSignedTx => MessageType_StellarSignedTx,
 }
 
-#[cfg(feature = "f_tron")]
+#[cfg(feature = "tron")]
 trezor_message_impl! {
 	TronGetAddress => MessageType_TronGetAddress,
 	TronAddress => MessageType_TronAddress,
@@ -179,7 +179,7 @@ trezor_message_impl! {
 	TronSignedTx => MessageType_TronSignedTx,
 }
 
-#[cfg(feature = "f_cardano")]
+#[cfg(feature = "cardano")]
 trezor_message_impl! {
 	CardanoSignTx => MessageType_CardanoSignTx,
 	CardanoTxRequest => MessageType_CardanoTxRequest,
@@ -191,7 +191,7 @@ trezor_message_impl! {
 	CardanoSignedTx => MessageType_CardanoSignedTx,
 }
 
-#[cfg(feature = "f_ontology")]
+#[cfg(feature = "ontology")]
 trezor_message_impl! {
 	OntologyGetAddress => MessageType_OntologyGetAddress,
 	OntologyAddress => MessageType_OntologyAddress,
@@ -207,7 +207,7 @@ trezor_message_impl! {
 	OntologySignedOntIdAddAttributes => MessageType_OntologySignedOntIdAddAttributes,
 }
 
-#[cfg(feature = "f_ripple")]
+#[cfg(feature = "ripple")]
 trezor_message_impl! {
 	RippleGetAddress => MessageType_RippleGetAddress,
 	RippleAddress => MessageType_RippleAddress,
@@ -215,7 +215,7 @@ trezor_message_impl! {
 	RippleSignedTx => MessageType_RippleSignedTx,
 }
 
-#[cfg(feature = "f_monero")]
+#[cfg(feature = "monero")]
 trezor_message_impl! {
 	MoneroTransactionInitRequest => MessageType_MoneroTransactionInitRequest,
 	MoneroTransactionInitAck => MessageType_MoneroTransactionInitAck,

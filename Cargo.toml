@@ -35,19 +35,19 @@ primitive-types = { version = "0.12", default-features = false, optional = true 
 fern = "0.6"
 
 [features]
-default = ["f_bitcoin", "f_ethereum"]
+default = ["bitcoin", "ethereum"]
 
 # Client implementations
-f_bitcoin = ["bitcoin", "secp256k1", "unicode-normalization", "bitcoin-bech32", "bitcoin_hashes"]
-f_ethereum = ["primitive-types"]
+bitcoin = ["dep:bitcoin", "secp256k1", "unicode-normalization", "bitcoin-bech32", "bitcoin_hashes"]
+ethereum = ["primitive-types"]
 
 # Just protobufs
-f_cardano = []
-f_lisk = []
-f_monero = []
-f_nem = []
-f_ontology = []
-f_ripple = []
-f_stellar = []
-f_tezos = []
-f_tron = []
+cardano = []
+lisk = []
+monero = []
+nem = []
+ontology = []
+ripple = []
+stellar = []
+tezos = []
+tron = []

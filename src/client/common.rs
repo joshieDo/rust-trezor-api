@@ -10,7 +10,7 @@ pub use protos::button_request::ButtonRequestType;
 pub use protos::pin_matrix_request::PinMatrixRequestType;
 pub use protos::Features;
 
-#[cfg(feature = "f_bitcoin")]
+#[cfg(feature = "bitcoin")]
 pub use protos::InputScriptType;
 
 /// The different options for the number of words in a seed phrase.

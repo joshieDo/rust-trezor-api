@@ -20,11 +20,11 @@ mod transport;
 pub mod client;
 pub mod error;
 pub mod protos;
-#[cfg(feature = "f_bitcoin")]
+#[cfg(feature = "bitcoin")]
 pub mod utils;
 
 mod flows {
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	pub mod sign_tx;
 }
 
@@ -35,9 +35,9 @@ pub use client::{
 pub use error::{Error, Result};
 pub use messages::TrezorMessage;
 
-#[cfg(feature = "f_bitcoin")]
+#[cfg(feature = "bitcoin")]
 pub use flows::sign_tx::SignTxProgress;
-#[cfg(feature = "f_bitcoin")]
+#[cfg(feature = "bitcoin")]
 pub use protos::InputScriptType;
 
 use std::fmt;

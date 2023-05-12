@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        features: ["", "--features f_bitcoin", "--features f_ethereum", "--all-features"]
+        features: ["", "--features bitcoin", "--features ethereum", "--all-features"]
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable

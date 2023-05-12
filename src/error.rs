@@ -61,35 +61,35 @@ pub enum Error {
 
 	// bitcoin
 	/// Error in Base58 decoding
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error(transparent)]
 	Base58(#[from] bitcoin::base58::Error),
 	/// The device erenced an unknown TXID.
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error("device referenced unknown TXID: {0}")]
 	TxRequestUnknownTxid(bitcoin_hashes::sha256d::Hash),
 	/// The PSBT is missing the full tx for given input.
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error("PSBT missing input tx: {0}")]
 	PsbtMissingInputTx(bitcoin_hashes::sha256d::Hash),
 	/// Device produced invalid TxRequest message.
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error("malformed TxRequest: {0:?}")]
 	MalformedTxRequest(protos::TxRequest),
 	/// Error encoding/decoding a Bitcoin data structure.
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error(transparent)]
 	BitcoinEncode(#[from] bitcoin::consensus::encode::Error),
 	/// Elliptic curve crypto error.
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error(transparent)]
 	Secp256k1(#[from] secp256k1::Error),
 	/// Bip32 error.
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error(transparent)]
 	Bip32(#[from] bitcoin::bip32::Error),
 	/// Address error.
-	#[cfg(feature = "f_bitcoin")]
+	#[cfg(feature = "bitcoin")]
 	#[error(transparent)]
 	Address(#[from] bitcoin::address::Error),
 }
