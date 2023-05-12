@@ -12,9 +12,11 @@ Previous iterations were focused on bitcoin-only, **this one focuses on providin
 
 ## Requirements
 
-Make sure you have trezor [udev](https://wiki.trezor.io/Udev_rules) rules installed:
+**MSRV: 1.60**
 
-Tested with Firmware v2.4.2
+Make sure you have Trezor [udev](https://wiki.trezor.io/Udev_rules) rules installed.
+
+Last tested with firmware v2.4.2
 
 ## Examples / Tests
 

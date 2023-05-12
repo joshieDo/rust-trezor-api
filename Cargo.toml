@@ -10,6 +10,7 @@ keywords = ["ethereum", "bitcoin", "trezor", "wallet"]
 readme = "README.md"
 exclude = [".github/", "examples/", "protos/", "generate-protos.sh", "rustfmt.toml"]
 edition = "2021"
+rust-version = "1.60"
 
 [dependencies]
 protobuf = "3.2"
