@@ -22,11 +22,8 @@ hex = { version = "0.4", default-features = false, features = ["std"] }
 thiserror = "1.0"
 
 # bitcoin
-unicode-normalization = { version = "0.1.22", optional = true }
 bitcoin = { version = "0.30", optional = true }
-bitcoin_hashes = { version = "0.12", optional = true }
-bitcoin-bech32 = { version = "0.13", optional = true }
-secp256k1 = { version = "0.27", optional = true }
+unicode-normalization = { version = "0.1.22", optional = true }
 
 # ethereum
 primitive-types = { version = "0.12", default-features = false, optional = true }
@@ -38,7 +35,7 @@ fern = "0.6"
 default = ["bitcoin", "ethereum"]
 
 # Client implementations
-bitcoin = ["dep:bitcoin", "secp256k1", "unicode-normalization", "bitcoin-bech32", "bitcoin_hashes"]
+bitcoin = ["dep:bitcoin", "unicode-normalization"]
 ethereum = ["primitive-types"]
 
 # Just protobufs

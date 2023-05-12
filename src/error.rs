@@ -67,11 +67,11 @@ pub enum Error {
 	/// The device erenced an unknown TXID.
 	#[cfg(feature = "bitcoin")]
 	#[error("device referenced unknown TXID: {0}")]
-	TxRequestUnknownTxid(bitcoin_hashes::sha256d::Hash),
+	TxRequestUnknownTxid(bitcoin::hashes::sha256d::Hash),
 	/// The PSBT is missing the full tx for given input.
 	#[cfg(feature = "bitcoin")]
 	#[error("PSBT missing input tx: {0}")]
-	PsbtMissingInputTx(bitcoin_hashes::sha256d::Hash),
+	PsbtMissingInputTx(bitcoin::hashes::sha256d::Hash),
 	/// Device produced invalid TxRequest message.
 	#[cfg(feature = "bitcoin")]
 	#[error("malformed TxRequest: {0:?}")]
@@ -83,7 +83,7 @@ pub enum Error {
 	/// Elliptic curve crypto error.
 	#[cfg(feature = "bitcoin")]
 	#[error(transparent)]
-	Secp256k1(#[from] secp256k1::Error),
+	Secp256k1(#[from] bitcoin::secp256k1::Error),
 	/// Bip32 error.
 	#[cfg(feature = "bitcoin")]
 	#[error(transparent)]

@@ -1,56 +1,14 @@
+use bitcoin::hashes::{sha256d, Hash};
+use bitcoin::secp256k1::ecdsa::{RecoverableSignature, RecoveryId};
 use bitcoin::{address, bip32, psbt};
 use bitcoin::{address::Payload, Network};
 use bitcoin::{blockdata::script::Script, Address};
-use bitcoin_hashes::{sha256d, Hash};
-use secp256k1::{
-	self,
-	ecdsa::{RecoverableSignature, RecoveryId},
-};
 
 use crate::error::{Error, Result};
 
-/*
-/// convert Network to bech32 network (this should go away soon)
-fn bech_network(network: Network) -> bitcoin_bech32::constants::Network {
-	match network {
-		Network::Bitcoin => bitcoin_bech32::constants::Network::Bitcoin,
-		Network::Testnet => bitcoin_bech32::constants::Network::Testnet,
-		Network::Regtest => bitcoin_bech32::constants::Network::Regtest,
-		Network::Signet => bitcoin_bech32::constants::Network::Signet,
-		_ => panic!("Network not supported"),
-	}
-}
-*/
-
 /// Retrieve an address from the given script.
 pub fn address_from_script(script: &Script, network: Network) -> Option<address::Address> {
-	// TODO: Is this the same?
 	let payload = Payload::from_script(script).ok()?;
-	// let payload = if script.is_p2sh() {
-	// 	Payload::ScriptHash(hash160::Hash::from_slice(&script[2..22]).unwrap().into())
-	// } else if script.is_p2pkh() {
-	// 	Payload::PubkeyHash(hash160::Hash::from_slice(&script[3..23]).unwrap().into())
-	// } else if script.is_v0_p2wsh() {
-	// 	match WitnessProgram::new(
-	// 		u5::try_from_u8(0).expect("0<32"),
-	// 		script.as_bytes()[2..34].to_vec(),
-	// 		bech_network(network),
-	// 	) {
-	// 		Ok(prog) => Payload::WitnessProgram(prog),
-	// 		Err(_) => return None,
-	// 	}
-	// } else if script.is_v0_p2wpkh() {
-	// 	match WitnessProgram::new(
-	// 		u5::try_from_u8(0).expect("0<32"),
-	// 		script.as_bytes()[2..22].to_vec(),
-	// 		bech_network(network),
-	// 	) {
-	// 		Ok(prog) => address::Payload::WitnessProgram(prog),
-	// 		Err(_) => return None,
-	// 	}
-	// } else {
-	// 	return None;
-	// };
 	Some(Address::new(network, payload))
 }
 
@@ -84,9 +42,9 @@ pub fn to_rev_bytes(hash: &sha256d::Hash) -> [u8; 32] {
 /// Parse a Bitcoin Core-style 65-byte recoverable signature.
 pub fn parse_recoverable_signature(
 	sig: &[u8],
-) -> std::result::Result<RecoverableSignature, secp256k1::Error> {
+) -> Result<RecoverableSignature, bitcoin::secp256k1::Error> {
 	if sig.len() != 65 {
-		return Err(secp256k1::Error::InvalidSignature);
+		return Err(bitcoin::secp256k1::Error::InvalidSignature);
 	}
 
 	// Bitcoin Core sets the first byte to `27 + rec + (fCompressed ? 4 : 0)`.

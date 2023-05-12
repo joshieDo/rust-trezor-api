@@ -1,9 +1,9 @@
 //! Logic to handle the sign_tx command flow.
 
+use bitcoin::hashes::sha256d;
 use bitcoin::psbt;
 use bitcoin::Network;
 use bitcoin::Transaction;
-use bitcoin_hashes::sha256d;
 
 use crate::protos::{self, tx_ack::transaction_type::TxOutputType};
 use crate::utils;

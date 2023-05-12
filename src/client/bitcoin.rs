@@ -5,10 +5,9 @@ use crate::protos;
 use crate::utils;
 use bitcoin::network::constants::Network;
 use bitcoin::psbt;
+use bitcoin::secp256k1::ecdsa::RecoverableSignature;
 use bitcoin::Address;
 use bitcoin::{address::NetworkUnchecked, bip32};
-use secp256k1::{self, ecdsa::RecoverableSignature};
-use unicode_normalization::UnicodeNormalization;
 
 pub use crate::protos::InputScriptType;
 
@@ -69,7 +68,7 @@ impl Trezor {
 		let mut req = protos::SignMessage::new();
 		req.address_n = utils::convert_path(path);
 		// Normalize to Unicode NFC.
-		let msg_bytes = message.nfc().collect::<String>().into_bytes();
+		let msg_bytes = nfc_normalize(&message).into_bytes();
 		req.set_message(msg_bytes);
 		req.set_coin_name(utils::coin_name(network)?);
 		req.set_script_type(script_type);
@@ -87,4 +86,14 @@ impl Trezor {
 fn parse_address(s: &str) -> Result<Address> {
 	let address = s.parse::<Address<NetworkUnchecked>>()?;
 	Ok(address.assume_checked())
+}
+
+// Modified from:
+// https://github.com/rust-lang/rust/blob/2a8221dbdfd180a2d56d4b0089f4f3952d8c2bcd/compiler/rustc_parse/src/lexer/mod.rs#LL754C5-L754C5
+fn nfc_normalize(string: &str) -> String {
+	use unicode_normalization::{is_nfc_quick, IsNormalized, UnicodeNormalization};
+	match is_nfc_quick(string.chars()) {
+		IsNormalized::Yes => string.to_string(),
+		_ => string.chars().nfc().collect::<String>(),
+	}
 }
