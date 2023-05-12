@@ -38,13 +38,13 @@ default = ["bitcoin", "ethereum"]
 bitcoin = ["dep:bitcoin", "unicode-normalization"]
 ethereum = ["primitive-types"]
 
-# Just protobufs
+# Just bindings to the Trezor protobufs
+binance = []
 cardano = []
-lisk = []
+eos = []
 monero = []
 nem = []
-ontology = []
 ripple = []
 stellar = []
 tezos = []
-tron = []
+webauthn = []

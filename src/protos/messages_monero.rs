@@ -50,6 +50,8 @@ pub struct MoneroTransactionSourceEntry {
     pub mask: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.multisig_kLRki)
     pub multisig_kLRki: ::protobuf::MessageField<monero_transaction_source_entry::MoneroMultisigKLRki>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.subaddr_minor)
+    pub subaddr_minor: ::std::option::Option<u32>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -214,8 +216,27 @@ impl MoneroTransactionSourceEntry {
         self.mask.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
+    // optional uint32 subaddr_minor = 10;
+
+    pub fn subaddr_minor(&self) -> u32 {
+        self.subaddr_minor.unwrap_or(0)
+    }
+
+    pub fn clear_subaddr_minor(&mut self) {
+        self.subaddr_minor = ::std::option::Option::None;
+    }
+
+    pub fn has_subaddr_minor(&self) -> bool {
+        self.subaddr_minor.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_subaddr_minor(&mut self, v: u32) {
+        self.subaddr_minor = ::std::option::Option::Some(v);
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(9);
+        let mut fields = ::std::vec::Vec::with_capacity(10);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
             "outputs",
@@ -262,6 +283,11 @@ impl MoneroTransactionSourceEntry {
             |m: &MoneroTransactionSourceEntry| { &m.multisig_kLRki },
             |m: &mut MoneroTransactionSourceEntry| { &mut m.multisig_kLRki },
         ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "subaddr_minor",
+            |m: &MoneroTransactionSourceEntry| { &m.subaddr_minor },
+            |m: &mut MoneroTransactionSourceEntry| { &mut m.subaddr_minor },
+        ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionSourceEntry>(
             "MoneroTransactionSourceEntry",
             fields,
@@ -274,6 +300,16 @@ impl ::protobuf::Message for MoneroTransactionSourceEntry {
     const NAME: &'static str = "MoneroTransactionSourceEntry";
 
     fn is_initialized(&self) -> bool {
+        for v in &self.outputs {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.multisig_kLRki {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -306,6 +342,9 @@ impl ::protobuf::Message for MoneroTransactionSourceEntry {
                 },
                 74 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.multisig_kLRki)?;
+                },
+                80 => {
+                    self.subaddr_minor = ::std::option::Option::Some(is.read_uint32()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -348,6 +387,9 @@ impl ::protobuf::Message for MoneroTransactionSourceEntry {
             let len = v.compute_size();
             my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
         }
+        if let Some(v) = self.subaddr_minor {
+            my_size += ::protobuf::rt::uint32_size(10, v);
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -381,6 +423,9 @@ impl ::protobuf::Message for MoneroTransactionSourceEntry {
         if let Some(v) = self.multisig_kLRki.as_ref() {
             ::protobuf::rt::write_message_field_with_cached_size(9, v, os)?;
         }
+        if let Some(v) = self.subaddr_minor {
+            os.write_uint32(10, v)?;
+        }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
     }
@@ -407,6 +452,7 @@ impl ::protobuf::Message for MoneroTransactionSourceEntry {
         self.rct = ::std::option::Option::None;
         self.mask = ::std::option::Option::None;
         self.multisig_kLRki.clear();
+        self.subaddr_minor = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -421,6 +467,7 @@ impl ::protobuf::Message for MoneroTransactionSourceEntry {
             rct: ::std::option::Option::None,
             mask: ::std::option::Option::None,
             multisig_kLRki: ::protobuf::MessageField::none(),
+            subaddr_minor: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -453,7 +500,7 @@ pub mod monero_transaction_source_entry {
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.idx)
         pub idx: ::std::option::Option<u64>,
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.key)
-        pub key: ::protobuf::MessageField<monero_output_entry::MoneroRctKey>,
+        pub key: ::protobuf::MessageField<monero_output_entry::MoneroRctKeyPublic>,
         // special fields
         // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.special_fields)
         pub special_fields: ::protobuf::SpecialFields,
@@ -497,7 +544,7 @@ pub mod monero_transaction_source_entry {
                 |m: &MoneroOutputEntry| { &m.idx },
                 |m: &mut MoneroOutputEntry| { &mut m.idx },
             ));
-            fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, monero_output_entry::MoneroRctKey>(
+            fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, monero_output_entry::MoneroRctKeyPublic>(
                 "key",
                 |m: &MoneroOutputEntry| { &m.key },
                 |m: &mut MoneroOutputEntry| { &mut m.key },
@@ -514,6 +561,11 @@ pub mod monero_transaction_source_entry {
         const NAME: &'static str = "MoneroOutputEntry";
 
         fn is_initialized(&self) -> bool {
+            for v in &self.key {
+                if !v.is_initialized() {
+                    return false;
+                }
+            };
             true
         }
 
@@ -609,30 +661,30 @@ pub mod monero_transaction_source_entry {
     /// Nested message and enums of message `MoneroOutputEntry`
     pub mod monero_output_entry {
         #[derive(PartialEq,Clone,Default,Debug)]
-        // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKey)
-        pub struct MoneroRctKey {
+        // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKeyPublic)
+        pub struct MoneroRctKeyPublic {
             // message fields
-            // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKey.dest)
+            // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKeyPublic.dest)
             pub dest: ::std::option::Option<::std::vec::Vec<u8>>,
-            // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKey.mask)
-            pub mask: ::std::option::Option<::std::vec::Vec<u8>>,
+            // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKeyPublic.commitment)
+            pub commitment: ::std::option::Option<::std::vec::Vec<u8>>,
             // special fields
-            // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKey.special_fields)
+            // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKeyPublic.special_fields)
             pub special_fields: ::protobuf::SpecialFields,
         }
 
-        impl<'a> ::std::default::Default for &'a MoneroRctKey {
-            fn default() -> &'a MoneroRctKey {
-                <MoneroRctKey as ::protobuf::Message>::default_instance()
+        impl<'a> ::std::default::Default for &'a MoneroRctKeyPublic {
+            fn default() -> &'a MoneroRctKeyPublic {
+                <MoneroRctKeyPublic as ::protobuf::Message>::default_instance()
             }
         }
 
-        impl MoneroRctKey {
-            pub fn new() -> MoneroRctKey {
+        impl MoneroRctKeyPublic {
+            pub fn new() -> MoneroRctKeyPublic {
                 ::std::default::Default::default()
             }
 
-            // optional bytes dest = 1;
+            // required bytes dest = 1;
 
             pub fn dest(&self) -> &[u8] {
                 match self.dest.as_ref() {
@@ -668,40 +720,40 @@ pub mod monero_transaction_source_entry {
                 self.dest.take().unwrap_or_else(|| ::std::vec::Vec::new())
             }
 
-            // optional bytes mask = 2;
+            // required bytes commitment = 2;
 
-            pub fn mask(&self) -> &[u8] {
-                match self.mask.as_ref() {
+            pub fn commitment(&self) -> &[u8] {
+                match self.commitment.as_ref() {
                     Some(v) => v,
                     None => &[],
                 }
             }
 
-            pub fn clear_mask(&mut self) {
-                self.mask = ::std::option::Option::None;
+            pub fn clear_commitment(&mut self) {
+                self.commitment = ::std::option::Option::None;
             }
 
-            pub fn has_mask(&self) -> bool {
-                self.mask.is_some()
+            pub fn has_commitment(&self) -> bool {
+                self.commitment.is_some()
             }
 
             // Param is passed by value, moved
-            pub fn set_mask(&mut self, v: ::std::vec::Vec<u8>) {
-                self.mask = ::std::option::Option::Some(v);
+            pub fn set_commitment(&mut self, v: ::std::vec::Vec<u8>) {
+                self.commitment = ::std::option::Option::Some(v);
             }
 
             // Mutable pointer to the field.
             // If field is not initialized, it is initialized with default value first.
-            pub fn mut_mask(&mut self) -> &mut ::std::vec::Vec<u8> {
-                if self.mask.is_none() {
-                    self.mask = ::std::option::Option::Some(::std::vec::Vec::new());
+            pub fn mut_commitment(&mut self) -> &mut ::std::vec::Vec<u8> {
+                if self.commitment.is_none() {
+                    self.commitment = ::std::option::Option::Some(::std::vec::Vec::new());
                 }
-                self.mask.as_mut().unwrap()
+                self.commitment.as_mut().unwrap()
             }
 
             // Take field
-            pub fn take_mask(&mut self) -> ::std::vec::Vec<u8> {
-                self.mask.take().unwrap_or_else(|| ::std::vec::Vec::new())
+            pub fn take_commitment(&mut self) -> ::std::vec::Vec<u8> {
+                self.commitment.take().unwrap_or_else(|| ::std::vec::Vec::new())
             }
 
             pub(in super::super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
@@ -709,26 +761,32 @@ pub mod monero_transaction_source_entry {
                 let mut oneofs = ::std::vec::Vec::with_capacity(0);
                 fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                     "dest",
-                    |m: &MoneroRctKey| { &m.dest },
-                    |m: &mut MoneroRctKey| { &mut m.dest },
+                    |m: &MoneroRctKeyPublic| { &m.dest },
+                    |m: &mut MoneroRctKeyPublic| { &mut m.dest },
                 ));
                 fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-                    "mask",
-                    |m: &MoneroRctKey| { &m.mask },
-                    |m: &mut MoneroRctKey| { &mut m.mask },
+                    "commitment",
+                    |m: &MoneroRctKeyPublic| { &m.commitment },
+                    |m: &mut MoneroRctKeyPublic| { &mut m.commitment },
                 ));
-                ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroRctKey>(
-                    "MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKey",
+                ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroRctKeyPublic>(
+                    "MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKeyPublic",
                     fields,
                     oneofs,
                 )
             }
         }
 
-        impl ::protobuf::Message for MoneroRctKey {
-            const NAME: &'static str = "MoneroRctKey";
+        impl ::protobuf::Message for MoneroRctKeyPublic {
+            const NAME: &'static str = "MoneroRctKeyPublic";
 
             fn is_initialized(&self) -> bool {
+                if self.dest.is_none() {
+                    return false;
+                }
+                if self.commitment.is_none() {
+                    return false;
+                }
                 true
             }
 
@@ -739,7 +797,7 @@ pub mod monero_transaction_source_entry {
                             self.dest = ::std::option::Option::Some(is.read_bytes()?);
                         },
                         18 => {
-                            self.mask = ::std::option::Option::Some(is.read_bytes()?);
+                            self.commitment = ::std::option::Option::Some(is.read_bytes()?);
                         },
                         tag => {
                             ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -756,7 +814,7 @@ pub mod monero_transaction_source_entry {
                 if let Some(v) = self.dest.as_ref() {
                     my_size += ::protobuf::rt::bytes_size(1, &v);
                 }
-                if let Some(v) = self.mask.as_ref() {
+                if let Some(v) = self.commitment.as_ref() {
                     my_size += ::protobuf::rt::bytes_size(2, &v);
                 }
                 my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
@@ -768,7 +826,7 @@ pub mod monero_transaction_source_entry {
                 if let Some(v) = self.dest.as_ref() {
                     os.write_bytes(1, v)?;
                 }
-                if let Some(v) = self.mask.as_ref() {
+                if let Some(v) = self.commitment.as_ref() {
                     os.write_bytes(2, v)?;
                 }
                 os.write_unknown_fields(self.special_fields.unknown_fields())?;
@@ -783,40 +841,40 @@ pub mod monero_transaction_source_entry {
                 &mut self.special_fields
             }
 
-            fn new() -> MoneroRctKey {
-                MoneroRctKey::new()
+            fn new() -> MoneroRctKeyPublic {
+                MoneroRctKeyPublic::new()
             }
 
             fn clear(&mut self) {
                 self.dest = ::std::option::Option::None;
-                self.mask = ::std::option::Option::None;
+                self.commitment = ::std::option::Option::None;
                 self.special_fields.clear();
             }
 
-            fn default_instance() -> &'static MoneroRctKey {
-                static instance: MoneroRctKey = MoneroRctKey {
+            fn default_instance() -> &'static MoneroRctKeyPublic {
+                static instance: MoneroRctKeyPublic = MoneroRctKeyPublic {
                     dest: ::std::option::Option::None,
-                    mask: ::std::option::Option::None,
+                    commitment: ::std::option::Option::None,
                     special_fields: ::protobuf::SpecialFields::new(),
                 };
                 &instance
             }
         }
 
-        impl ::protobuf::MessageFull for MoneroRctKey {
+        impl ::protobuf::MessageFull for MoneroRctKeyPublic {
             fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
                 static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-                descriptor.get(|| super::super::file_descriptor().message_by_package_relative_name("MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKey").unwrap()).clone()
+                descriptor.get(|| super::super::file_descriptor().message_by_package_relative_name("MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKeyPublic").unwrap()).clone()
             }
         }
 
-        impl ::std::fmt::Display for MoneroRctKey {
+        impl ::std::fmt::Display for MoneroRctKeyPublic {
             fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
                 ::protobuf::text_format::fmt(self, f)
             }
         }
 
-        impl ::protobuf::reflect::ProtobufValue for MoneroRctKey {
+        impl ::protobuf::reflect::ProtobufValue for MoneroRctKeyPublic {
             type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
         }
     }
@@ -1155,6 +1213,10 @@ pub struct MoneroTransactionDestinationEntry {
     pub addr: ::protobuf::MessageField<monero_transaction_destination_entry::MoneroAccountPublicAddress>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionDestinationEntry.is_subaddress)
     pub is_subaddress: ::std::option::Option<bool>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionDestinationEntry.original)
+    pub original: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionDestinationEntry.is_integrated)
+    pub is_integrated: ::std::option::Option<bool>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionDestinationEntry.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -1209,8 +1271,63 @@ impl MoneroTransactionDestinationEntry {
         self.is_subaddress = ::std::option::Option::Some(v);
     }
 
+    // optional bytes original = 4;
+
+    pub fn original(&self) -> &[u8] {
+        match self.original.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_original(&mut self) {
+        self.original = ::std::option::Option::None;
+    }
+
+    pub fn has_original(&self) -> bool {
+        self.original.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_original(&mut self, v: ::std::vec::Vec<u8>) {
+        self.original = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_original(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.original.is_none() {
+            self.original = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.original.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_original(&mut self) -> ::std::vec::Vec<u8> {
+        self.original.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // optional bool is_integrated = 5;
+
+    pub fn is_integrated(&self) -> bool {
+        self.is_integrated.unwrap_or(false)
+    }
+
+    pub fn clear_is_integrated(&mut self) {
+        self.is_integrated = ::std::option::Option::None;
+    }
+
+    pub fn has_is_integrated(&self) -> bool {
+        self.is_integrated.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_is_integrated(&mut self, v: bool) {
+        self.is_integrated = ::std::option::Option::Some(v);
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(3);
+        let mut fields = ::std::vec::Vec::with_capacity(5);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "amount",
@@ -1226,6 +1343,16 @@ impl MoneroTransactionDestinationEntry {
             "is_subaddress",
             |m: &MoneroTransactionDestinationEntry| { &m.is_subaddress },
             |m: &mut MoneroTransactionDestinationEntry| { &mut m.is_subaddress },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "original",
+            |m: &MoneroTransactionDestinationEntry| { &m.original },
+            |m: &mut MoneroTransactionDestinationEntry| { &mut m.original },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "is_integrated",
+            |m: &MoneroTransactionDestinationEntry| { &m.is_integrated },
+            |m: &mut MoneroTransactionDestinationEntry| { &mut m.is_integrated },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionDestinationEntry>(
             "MoneroTransactionDestinationEntry",
@@ -1254,6 +1381,12 @@ impl ::protobuf::Message for MoneroTransactionDestinationEntry {
                 24 => {
                     self.is_subaddress = ::std::option::Option::Some(is.read_bool()?);
                 },
+                34 => {
+                    self.original = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                40 => {
+                    self.is_integrated = ::std::option::Option::Some(is.read_bool()?);
+                },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
                 },
@@ -1276,6 +1409,12 @@ impl ::protobuf::Message for MoneroTransactionDestinationEntry {
         if let Some(v) = self.is_subaddress {
             my_size += 1 + 1;
         }
+        if let Some(v) = self.original.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(4, &v);
+        }
+        if let Some(v) = self.is_integrated {
+            my_size += 1 + 1;
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -1290,6 +1429,12 @@ impl ::protobuf::Message for MoneroTransactionDestinationEntry {
         }
         if let Some(v) = self.is_subaddress {
             os.write_bool(3, v)?;
+        }
+        if let Some(v) = self.original.as_ref() {
+            os.write_bytes(4, v)?;
+        }
+        if let Some(v) = self.is_integrated {
+            os.write_bool(5, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -1311,6 +1456,8 @@ impl ::protobuf::Message for MoneroTransactionDestinationEntry {
         self.amount = ::std::option::Option::None;
         self.addr.clear();
         self.is_subaddress = ::std::option::Option::None;
+        self.original = ::std::option::Option::None;
+        self.is_integrated = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -1319,6 +1466,8 @@ impl ::protobuf::Message for MoneroTransactionDestinationEntry {
             amount: ::std::option::Option::None,
             addr: ::protobuf::MessageField::none(),
             is_subaddress: ::std::option::Option::None,
+            original: ::std::option::Option::None,
+            is_integrated: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -1561,34 +1710,25 @@ pub mod monero_transaction_destination_entry {
 
 /// *
 ///  Range sig parameters / data.
+///  @embed
 #[derive(PartialEq,Clone,Default,Debug)]
 // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionRsigData)
 pub struct MoneroTransactionRsigData {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.version)
-    pub version: ::std::option::Option<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.rsig_type)
     pub rsig_type: ::std::option::Option<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.offload_type)
     pub offload_type: ::std::option::Option<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.grouping)
     pub grouping: ::std::vec::Vec<u64>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.step)
-    pub step: ::std::option::Option<u32>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.operation)
-    pub operation: ::std::option::Option<u64>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.seed)
-    pub seed: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.mask)
     pub mask: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.amount)
-    pub amount: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.rsig)
     pub rsig: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.rsig_parts)
     pub rsig_parts: ::std::vec::Vec<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.outputs)
-    pub outputs: ::std::vec::Vec<MoneroTransactionDestinationEntry>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionRsigData.bp_version)
+    pub bp_version: ::std::option::Option<u32>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionRsigData.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -1605,26 +1745,7 @@ impl MoneroTransactionRsigData {
         ::std::default::Default::default()
     }
 
-    // optional uint32 version = 1;
-
-    pub fn version(&self) -> u32 {
-        self.version.unwrap_or(0)
-    }
-
-    pub fn clear_version(&mut self) {
-        self.version = ::std::option::Option::None;
-    }
-
-    pub fn has_version(&self) -> bool {
-        self.version.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_version(&mut self, v: u32) {
-        self.version = ::std::option::Option::Some(v);
-    }
-
-    // optional uint32 rsig_type = 2;
+    // optional uint32 rsig_type = 1;
 
     pub fn rsig_type(&self) -> u32 {
         self.rsig_type.unwrap_or(0)
@@ -1643,7 +1764,7 @@ impl MoneroTransactionRsigData {
         self.rsig_type = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 offload_type = 3;
+    // optional uint32 offload_type = 2;
 
     pub fn offload_type(&self) -> u32 {
         self.offload_type.unwrap_or(0)
@@ -1662,81 +1783,7 @@ impl MoneroTransactionRsigData {
         self.offload_type = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 step = 5;
-
-    pub fn step(&self) -> u32 {
-        self.step.unwrap_or(0)
-    }
-
-    pub fn clear_step(&mut self) {
-        self.step = ::std::option::Option::None;
-    }
-
-    pub fn has_step(&self) -> bool {
-        self.step.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_step(&mut self, v: u32) {
-        self.step = ::std::option::Option::Some(v);
-    }
-
-    // optional uint64 operation = 6;
-
-    pub fn operation(&self) -> u64 {
-        self.operation.unwrap_or(0)
-    }
-
-    pub fn clear_operation(&mut self) {
-        self.operation = ::std::option::Option::None;
-    }
-
-    pub fn has_operation(&self) -> bool {
-        self.operation.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_operation(&mut self, v: u64) {
-        self.operation = ::std::option::Option::Some(v);
-    }
-
-    // optional bytes seed = 7;
-
-    pub fn seed(&self) -> &[u8] {
-        match self.seed.as_ref() {
-            Some(v) => v,
-            None => &[],
-        }
-    }
-
-    pub fn clear_seed(&mut self) {
-        self.seed = ::std::option::Option::None;
-    }
-
-    pub fn has_seed(&self) -> bool {
-        self.seed.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_seed(&mut self, v: ::std::vec::Vec<u8>) {
-        self.seed = ::std::option::Option::Some(v);
-    }
-
-    // Mutable pointer to the field.
-    // If field is not initialized, it is initialized with default value first.
-    pub fn mut_seed(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.seed.is_none() {
-            self.seed = ::std::option::Option::Some(::std::vec::Vec::new());
-        }
-        self.seed.as_mut().unwrap()
-    }
-
-    // Take field
-    pub fn take_seed(&mut self) -> ::std::vec::Vec<u8> {
-        self.seed.take().unwrap_or_else(|| ::std::vec::Vec::new())
-    }
-
-    // optional bytes mask = 8;
+    // optional bytes mask = 4;
 
     pub fn mask(&self) -> &[u8] {
         match self.mask.as_ref() {
@@ -1772,43 +1819,7 @@ impl MoneroTransactionRsigData {
         self.mask.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes amount = 9;
-
-    pub fn amount(&self) -> &[u8] {
-        match self.amount.as_ref() {
-            Some(v) => v,
-            None => &[],
-        }
-    }
-
-    pub fn clear_amount(&mut self) {
-        self.amount = ::std::option::Option::None;
-    }
-
-    pub fn has_amount(&self) -> bool {
-        self.amount.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_amount(&mut self, v: ::std::vec::Vec<u8>) {
-        self.amount = ::std::option::Option::Some(v);
-    }
-
-    // Mutable pointer to the field.
-    // If field is not initialized, it is initialized with default value first.
-    pub fn mut_amount(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.amount.is_none() {
-            self.amount = ::std::option::Option::Some(::std::vec::Vec::new());
-        }
-        self.amount.as_mut().unwrap()
-    }
-
-    // Take field
-    pub fn take_amount(&mut self) -> ::std::vec::Vec<u8> {
-        self.amount.take().unwrap_or_else(|| ::std::vec::Vec::new())
-    }
-
-    // optional bytes rsig = 10;
+    // optional bytes rsig = 5;
 
     pub fn rsig(&self) -> &[u8] {
         match self.rsig.as_ref() {
@@ -1844,14 +1855,28 @@ impl MoneroTransactionRsigData {
         self.rsig.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
+    // optional uint32 bp_version = 7;
+
+    pub fn bp_version(&self) -> u32 {
+        self.bp_version.unwrap_or(0)
+    }
+
+    pub fn clear_bp_version(&mut self) {
+        self.bp_version = ::std::option::Option::None;
+    }
+
+    pub fn has_bp_version(&self) -> bool {
+        self.bp_version.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_bp_version(&mut self, v: u32) {
+        self.bp_version = ::std::option::Option::Some(v);
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(12);
+        let mut fields = ::std::vec::Vec::with_capacity(7);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "version",
-            |m: &MoneroTransactionRsigData| { &m.version },
-            |m: &mut MoneroTransactionRsigData| { &mut m.version },
-        ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "rsig_type",
             |m: &MoneroTransactionRsigData| { &m.rsig_type },
@@ -1868,29 +1893,9 @@ impl MoneroTransactionRsigData {
             |m: &mut MoneroTransactionRsigData| { &mut m.grouping },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "step",
-            |m: &MoneroTransactionRsigData| { &m.step },
-            |m: &mut MoneroTransactionRsigData| { &mut m.step },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "operation",
-            |m: &MoneroTransactionRsigData| { &m.operation },
-            |m: &mut MoneroTransactionRsigData| { &mut m.operation },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "seed",
-            |m: &MoneroTransactionRsigData| { &m.seed },
-            |m: &mut MoneroTransactionRsigData| { &mut m.seed },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "mask",
             |m: &MoneroTransactionRsigData| { &m.mask },
             |m: &mut MoneroTransactionRsigData| { &mut m.mask },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "amount",
-            |m: &MoneroTransactionRsigData| { &m.amount },
-            |m: &mut MoneroTransactionRsigData| { &mut m.amount },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "rsig",
@@ -1902,10 +1907,10 @@ impl MoneroTransactionRsigData {
             |m: &MoneroTransactionRsigData| { &m.rsig_parts },
             |m: &mut MoneroTransactionRsigData| { &mut m.rsig_parts },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
-            "outputs",
-            |m: &MoneroTransactionRsigData| { &m.outputs },
-            |m: &mut MoneroTransactionRsigData| { &mut m.outputs },
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "bp_version",
+            |m: &MoneroTransactionRsigData| { &m.bp_version },
+            |m: &mut MoneroTransactionRsigData| { &mut m.bp_version },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionRsigData>(
             "MoneroTransactionRsigData",
@@ -1926,43 +1931,28 @@ impl ::protobuf::Message for MoneroTransactionRsigData {
         while let Some(tag) = is.read_raw_tag_or_eof()? {
             match tag {
                 8 => {
-                    self.version = ::std::option::Option::Some(is.read_uint32()?);
-                },
-                16 => {
                     self.rsig_type = ::std::option::Option::Some(is.read_uint32()?);
                 },
-                24 => {
+                16 => {
                     self.offload_type = ::std::option::Option::Some(is.read_uint32()?);
                 },
-                34 => {
+                26 => {
                     is.read_repeated_packed_uint64_into(&mut self.grouping)?;
                 },
-                32 => {
+                24 => {
                     self.grouping.push(is.read_uint64()?);
                 },
-                40 => {
-                    self.step = ::std::option::Option::Some(is.read_uint32()?);
-                },
-                48 => {
-                    self.operation = ::std::option::Option::Some(is.read_uint64()?);
-                },
-                58 => {
-                    self.seed = ::std::option::Option::Some(is.read_bytes()?);
-                },
-                66 => {
+                34 => {
                     self.mask = ::std::option::Option::Some(is.read_bytes()?);
                 },
-                74 => {
-                    self.amount = ::std::option::Option::Some(is.read_bytes()?);
-                },
-                82 => {
+                42 => {
                     self.rsig = ::std::option::Option::Some(is.read_bytes()?);
                 },
-                90 => {
+                50 => {
                     self.rsig_parts.push(is.read_bytes()?);
                 },
-                98 => {
-                    self.outputs.push(is.read_message()?);
+                56 => {
+                    self.bp_version = ::std::option::Option::Some(is.read_uint32()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -1976,85 +1966,54 @@ impl ::protobuf::Message for MoneroTransactionRsigData {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u64 {
         let mut my_size = 0;
-        if let Some(v) = self.version {
+        if let Some(v) = self.rsig_type {
             my_size += ::protobuf::rt::uint32_size(1, v);
         }
-        if let Some(v) = self.rsig_type {
+        if let Some(v) = self.offload_type {
             my_size += ::protobuf::rt::uint32_size(2, v);
         }
-        if let Some(v) = self.offload_type {
-            my_size += ::protobuf::rt::uint32_size(3, v);
-        }
         for value in &self.grouping {
-            my_size += ::protobuf::rt::uint64_size(4, *value);
+            my_size += ::protobuf::rt::uint64_size(3, *value);
         };
-        if let Some(v) = self.step {
-            my_size += ::protobuf::rt::uint32_size(5, v);
-        }
-        if let Some(v) = self.operation {
-            my_size += ::protobuf::rt::uint64_size(6, v);
-        }
-        if let Some(v) = self.seed.as_ref() {
-            my_size += ::protobuf::rt::bytes_size(7, &v);
-        }
         if let Some(v) = self.mask.as_ref() {
-            my_size += ::protobuf::rt::bytes_size(8, &v);
-        }
-        if let Some(v) = self.amount.as_ref() {
-            my_size += ::protobuf::rt::bytes_size(9, &v);
+            my_size += ::protobuf::rt::bytes_size(4, &v);
         }
         if let Some(v) = self.rsig.as_ref() {
-            my_size += ::protobuf::rt::bytes_size(10, &v);
+            my_size += ::protobuf::rt::bytes_size(5, &v);
         }
         for value in &self.rsig_parts {
-            my_size += ::protobuf::rt::bytes_size(11, &value);
+            my_size += ::protobuf::rt::bytes_size(6, &value);
         };
-        for value in &self.outputs {
-            let len = value.compute_size();
-            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
-        };
+        if let Some(v) = self.bp_version {
+            my_size += ::protobuf::rt::uint32_size(7, v);
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        if let Some(v) = self.version {
+        if let Some(v) = self.rsig_type {
             os.write_uint32(1, v)?;
         }
-        if let Some(v) = self.rsig_type {
+        if let Some(v) = self.offload_type {
             os.write_uint32(2, v)?;
         }
-        if let Some(v) = self.offload_type {
-            os.write_uint32(3, v)?;
-        }
         for v in &self.grouping {
-            os.write_uint64(4, *v)?;
+            os.write_uint64(3, *v)?;
         };
-        if let Some(v) = self.step {
-            os.write_uint32(5, v)?;
-        }
-        if let Some(v) = self.operation {
-            os.write_uint64(6, v)?;
-        }
-        if let Some(v) = self.seed.as_ref() {
-            os.write_bytes(7, v)?;
-        }
         if let Some(v) = self.mask.as_ref() {
-            os.write_bytes(8, v)?;
-        }
-        if let Some(v) = self.amount.as_ref() {
-            os.write_bytes(9, v)?;
+            os.write_bytes(4, v)?;
         }
         if let Some(v) = self.rsig.as_ref() {
-            os.write_bytes(10, v)?;
+            os.write_bytes(5, v)?;
         }
         for v in &self.rsig_parts {
-            os.write_bytes(11, &v)?;
+            os.write_bytes(6, &v)?;
         };
-        for v in &self.outputs {
-            ::protobuf::rt::write_message_field_with_cached_size(12, v, os)?;
-        };
+        if let Some(v) = self.bp_version {
+            os.write_uint32(7, v)?;
+        }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
     }
@@ -2072,35 +2031,25 @@ impl ::protobuf::Message for MoneroTransactionRsigData {
     }
 
     fn clear(&mut self) {
-        self.version = ::std::option::Option::None;
         self.rsig_type = ::std::option::Option::None;
         self.offload_type = ::std::option::Option::None;
         self.grouping.clear();
-        self.step = ::std::option::Option::None;
-        self.operation = ::std::option::Option::None;
-        self.seed = ::std::option::Option::None;
         self.mask = ::std::option::Option::None;
-        self.amount = ::std::option::Option::None;
         self.rsig = ::std::option::Option::None;
         self.rsig_parts.clear();
-        self.outputs.clear();
+        self.bp_version = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
     fn default_instance() -> &'static MoneroTransactionRsigData {
         static instance: MoneroTransactionRsigData = MoneroTransactionRsigData {
-            version: ::std::option::Option::None,
             rsig_type: ::std::option::Option::None,
             offload_type: ::std::option::Option::None,
             grouping: ::std::vec::Vec::new(),
-            step: ::std::option::Option::None,
-            operation: ::std::option::Option::None,
-            seed: ::std::option::Option::None,
             mask: ::std::option::Option::None,
-            amount: ::std::option::Option::None,
             rsig: ::std::option::Option::None,
             rsig_parts: ::std::vec::Vec::new(),
-            outputs: ::std::vec::Vec::new(),
+            bp_version: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -2138,11 +2087,13 @@ pub struct MoneroGetAddress {
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetAddress.show_display)
     pub show_display: ::std::option::Option<bool>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetAddress.network_type)
-    pub network_type: ::std::option::Option<u32>,
+    pub network_type: ::std::option::Option<::protobuf::EnumOrUnknown<MoneroNetworkType>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetAddress.account)
     pub account: ::std::option::Option<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetAddress.minor)
     pub minor: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetAddress.payment_id)
+    pub payment_id: ::std::option::Option<::std::vec::Vec<u8>>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroGetAddress.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -2178,10 +2129,13 @@ impl MoneroGetAddress {
         self.show_display = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 network_type = 3;
+    // optional .hw.trezor.messages.monero.MoneroNetworkType network_type = 3;
 
-    pub fn network_type(&self) -> u32 {
-        self.network_type.unwrap_or(0)
+    pub fn network_type(&self) -> MoneroNetworkType {
+        match self.network_type {
+            Some(e) => e.enum_value_or(MoneroNetworkType::MAINNET),
+            None => MoneroNetworkType::MAINNET,
+        }
     }
 
     pub fn clear_network_type(&mut self) {
@@ -2193,8 +2147,8 @@ impl MoneroGetAddress {
     }
 
     // Param is passed by value, moved
-    pub fn set_network_type(&mut self, v: u32) {
-        self.network_type = ::std::option::Option::Some(v);
+    pub fn set_network_type(&mut self, v: MoneroNetworkType) {
+        self.network_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     // optional uint32 account = 4;
@@ -2235,8 +2189,44 @@ impl MoneroGetAddress {
         self.minor = ::std::option::Option::Some(v);
     }
 
+    // optional bytes payment_id = 6;
+
+    pub fn payment_id(&self) -> &[u8] {
+        match self.payment_id.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_payment_id(&mut self) {
+        self.payment_id = ::std::option::Option::None;
+    }
+
+    pub fn has_payment_id(&self) -> bool {
+        self.payment_id.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_payment_id(&mut self, v: ::std::vec::Vec<u8>) {
+        self.payment_id = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_payment_id(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.payment_id.is_none() {
+            self.payment_id = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.payment_id.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_payment_id(&mut self) -> ::std::vec::Vec<u8> {
+        self.payment_id.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(5);
+        let mut fields = ::std::vec::Vec::with_capacity(6);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
             "address_n",
@@ -2262,6 +2252,11 @@ impl MoneroGetAddress {
             "minor",
             |m: &MoneroGetAddress| { &m.minor },
             |m: &mut MoneroGetAddress| { &mut m.minor },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "payment_id",
+            |m: &MoneroGetAddress| { &m.payment_id },
+            |m: &mut MoneroGetAddress| { &mut m.payment_id },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroGetAddress>(
             "MoneroGetAddress",
@@ -2291,13 +2286,16 @@ impl ::protobuf::Message for MoneroGetAddress {
                     self.show_display = ::std::option::Option::Some(is.read_bool()?);
                 },
                 24 => {
-                    self.network_type = ::std::option::Option::Some(is.read_uint32()?);
+                    self.network_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 32 => {
                     self.account = ::std::option::Option::Some(is.read_uint32()?);
                 },
                 40 => {
                     self.minor = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                50 => {
+                    self.payment_id = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -2318,13 +2316,16 @@ impl ::protobuf::Message for MoneroGetAddress {
             my_size += 1 + 1;
         }
         if let Some(v) = self.network_type {
-            my_size += ::protobuf::rt::uint32_size(3, v);
+            my_size += ::protobuf::rt::int32_size(3, v.value());
         }
         if let Some(v) = self.account {
             my_size += ::protobuf::rt::uint32_size(4, v);
         }
         if let Some(v) = self.minor {
             my_size += ::protobuf::rt::uint32_size(5, v);
+        }
+        if let Some(v) = self.payment_id.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(6, &v);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
@@ -2339,13 +2340,16 @@ impl ::protobuf::Message for MoneroGetAddress {
             os.write_bool(2, v)?;
         }
         if let Some(v) = self.network_type {
-            os.write_uint32(3, v)?;
+            os.write_enum(3, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         if let Some(v) = self.account {
             os.write_uint32(4, v)?;
         }
         if let Some(v) = self.minor {
             os.write_uint32(5, v)?;
+        }
+        if let Some(v) = self.payment_id.as_ref() {
+            os.write_bytes(6, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -2369,6 +2373,7 @@ impl ::protobuf::Message for MoneroGetAddress {
         self.network_type = ::std::option::Option::None;
         self.account = ::std::option::Option::None;
         self.minor = ::std::option::Option::None;
+        self.payment_id = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -2379,6 +2384,7 @@ impl ::protobuf::Message for MoneroGetAddress {
             network_type: ::std::option::Option::None,
             account: ::std::option::Option::None,
             minor: ::std::option::Option::None,
+            payment_id: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -2575,7 +2581,7 @@ pub struct MoneroGetWatchKey {
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetWatchKey.address_n)
     pub address_n: ::std::vec::Vec<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetWatchKey.network_type)
-    pub network_type: ::std::option::Option<u32>,
+    pub network_type: ::std::option::Option<::protobuf::EnumOrUnknown<MoneroNetworkType>>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroGetWatchKey.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -2592,10 +2598,13 @@ impl MoneroGetWatchKey {
         ::std::default::Default::default()
     }
 
-    // optional uint32 network_type = 2;
+    // optional .hw.trezor.messages.monero.MoneroNetworkType network_type = 2;
 
-    pub fn network_type(&self) -> u32 {
-        self.network_type.unwrap_or(0)
+    pub fn network_type(&self) -> MoneroNetworkType {
+        match self.network_type {
+            Some(e) => e.enum_value_or(MoneroNetworkType::MAINNET),
+            None => MoneroNetworkType::MAINNET,
+        }
     }
 
     pub fn clear_network_type(&mut self) {
@@ -2607,8 +2616,8 @@ impl MoneroGetWatchKey {
     }
 
     // Param is passed by value, moved
-    pub fn set_network_type(&mut self, v: u32) {
-        self.network_type = ::std::option::Option::Some(v);
+    pub fn set_network_type(&mut self, v: MoneroNetworkType) {
+        self.network_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
@@ -2649,7 +2658,7 @@ impl ::protobuf::Message for MoneroGetWatchKey {
                     self.address_n.push(is.read_uint32()?);
                 },
                 16 => {
-                    self.network_type = ::std::option::Option::Some(is.read_uint32()?);
+                    self.network_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -2667,7 +2676,7 @@ impl ::protobuf::Message for MoneroGetWatchKey {
             my_size += ::protobuf::rt::uint32_size(1, *value);
         };
         if let Some(v) = self.network_type {
-            my_size += ::protobuf::rt::uint32_size(2, v);
+            my_size += ::protobuf::rt::int32_size(2, v.value());
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
@@ -2679,7 +2688,7 @@ impl ::protobuf::Message for MoneroGetWatchKey {
             os.write_uint32(1, *v)?;
         };
         if let Some(v) = self.network_type {
-            os.write_uint32(2, v)?;
+            os.write_enum(2, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -2958,7 +2967,7 @@ pub struct MoneroTransactionInitRequest {
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.address_n)
     pub address_n: ::std::vec::Vec<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.network_type)
-    pub network_type: ::std::option::Option<u32>,
+    pub network_type: ::std::option::Option<::protobuf::EnumOrUnknown<MoneroNetworkType>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.tsx_data)
     pub tsx_data: ::protobuf::MessageField<monero_transaction_init_request::MoneroTransactionData>,
     // special fields
@@ -2996,10 +3005,13 @@ impl MoneroTransactionInitRequest {
         self.version = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 network_type = 3;
+    // optional .hw.trezor.messages.monero.MoneroNetworkType network_type = 3;
 
-    pub fn network_type(&self) -> u32 {
-        self.network_type.unwrap_or(0)
+    pub fn network_type(&self) -> MoneroNetworkType {
+        match self.network_type {
+            Some(e) => e.enum_value_or(MoneroNetworkType::MAINNET),
+            None => MoneroNetworkType::MAINNET,
+        }
     }
 
     pub fn clear_network_type(&mut self) {
@@ -3011,8 +3023,8 @@ impl MoneroTransactionInitRequest {
     }
 
     // Param is passed by value, moved
-    pub fn set_network_type(&mut self, v: u32) {
-        self.network_type = ::std::option::Option::Some(v);
+    pub fn set_network_type(&mut self, v: MoneroNetworkType) {
+        self.network_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
@@ -3066,7 +3078,7 @@ impl ::protobuf::Message for MoneroTransactionInitRequest {
                     self.address_n.push(is.read_uint32()?);
                 },
                 24 => {
-                    self.network_type = ::std::option::Option::Some(is.read_uint32()?);
+                    self.network_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 34 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.tsx_data)?;
@@ -3090,7 +3102,7 @@ impl ::protobuf::Message for MoneroTransactionInitRequest {
             my_size += ::protobuf::rt::uint32_size(2, *value);
         };
         if let Some(v) = self.network_type {
-            my_size += ::protobuf::rt::uint32_size(3, v);
+            my_size += ::protobuf::rt::int32_size(3, v.value());
         }
         if let Some(v) = self.tsx_data.as_ref() {
             let len = v.compute_size();
@@ -3109,7 +3121,7 @@ impl ::protobuf::Message for MoneroTransactionInitRequest {
             os.write_uint32(2, *v)?;
         };
         if let Some(v) = self.network_type {
-            os.write_uint32(3, v)?;
+            os.write_enum(3, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         if let Some(v) = self.tsx_data.as_ref() {
             ::protobuf::rt::write_message_field_with_cached_size(4, v, os)?;
@@ -3195,16 +3207,16 @@ pub mod monero_transaction_init_request {
         pub account: ::std::option::Option<u32>,
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.minor_indices)
         pub minor_indices: ::std::vec::Vec<u32>,
-        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.is_multisig)
-        pub is_multisig: ::std::option::Option<bool>,
-        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.exp_tx_prefix_hash)
-        pub exp_tx_prefix_hash: ::std::option::Option<::std::vec::Vec<u8>>,
-        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.use_tx_keys)
-        pub use_tx_keys: ::std::vec::Vec<::std::vec::Vec<u8>>,
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.rsig_data)
         pub rsig_data: ::protobuf::MessageField<super::MoneroTransactionRsigData>,
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.integrated_indices)
         pub integrated_indices: ::std::vec::Vec<u32>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.client_version)
+        pub client_version: ::std::option::Option<u32>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.hard_fork)
+        pub hard_fork: ::std::option::Option<u32>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.monero_version)
+        pub monero_version: ::std::option::Option<::std::vec::Vec<u8>>,
         // special fields
         // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionInitRequest.MoneroTransactionData.special_fields)
         pub special_fields: ::protobuf::SpecialFields,
@@ -3371,59 +3383,78 @@ pub mod monero_transaction_init_request {
             self.account = ::std::option::Option::Some(v);
         }
 
-        // optional bool is_multisig = 11;
+        // optional uint32 client_version = 13;
 
-        pub fn is_multisig(&self) -> bool {
-            self.is_multisig.unwrap_or(false)
+        pub fn client_version(&self) -> u32 {
+            self.client_version.unwrap_or(0)
         }
 
-        pub fn clear_is_multisig(&mut self) {
-            self.is_multisig = ::std::option::Option::None;
+        pub fn clear_client_version(&mut self) {
+            self.client_version = ::std::option::Option::None;
         }
 
-        pub fn has_is_multisig(&self) -> bool {
-            self.is_multisig.is_some()
+        pub fn has_client_version(&self) -> bool {
+            self.client_version.is_some()
         }
 
         // Param is passed by value, moved
-        pub fn set_is_multisig(&mut self, v: bool) {
-            self.is_multisig = ::std::option::Option::Some(v);
+        pub fn set_client_version(&mut self, v: u32) {
+            self.client_version = ::std::option::Option::Some(v);
         }
 
-        // optional bytes exp_tx_prefix_hash = 12;
+        // optional uint32 hard_fork = 14;
 
-        pub fn exp_tx_prefix_hash(&self) -> &[u8] {
-            match self.exp_tx_prefix_hash.as_ref() {
+        pub fn hard_fork(&self) -> u32 {
+            self.hard_fork.unwrap_or(0)
+        }
+
+        pub fn clear_hard_fork(&mut self) {
+            self.hard_fork = ::std::option::Option::None;
+        }
+
+        pub fn has_hard_fork(&self) -> bool {
+            self.hard_fork.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_hard_fork(&mut self, v: u32) {
+            self.hard_fork = ::std::option::Option::Some(v);
+        }
+
+        // optional bytes monero_version = 15;
+
+        pub fn monero_version(&self) -> &[u8] {
+            match self.monero_version.as_ref() {
                 Some(v) => v,
                 None => &[],
             }
         }
 
-        pub fn clear_exp_tx_prefix_hash(&mut self) {
-            self.exp_tx_prefix_hash = ::std::option::Option::None;
+        pub fn clear_monero_version(&mut self) {
+            self.monero_version = ::std::option::Option::None;
         }
 
-        pub fn has_exp_tx_prefix_hash(&self) -> bool {
-            self.exp_tx_prefix_hash.is_some()
+        pub fn has_monero_version(&self) -> bool {
+            self.monero_version.is_some()
         }
 
         // Param is passed by value, moved
-        pub fn set_exp_tx_prefix_hash(&mut self, v: ::std::vec::Vec<u8>) {
-            self.exp_tx_prefix_hash = ::std::option::Option::Some(v);
+        pub fn set_monero_version(&mut self, v: ::std::vec::Vec<u8>) {
+            self.monero_version = ::std::option::Option::Some(v);
         }
 
         // Mutable pointer to the field.
         // If field is not initialized, it is initialized with default value first.
-        pub fn mut_exp_tx_prefix_hash(&mut self) -> &mut ::std::vec::Vec<u8> {
-            if self.exp_tx_prefix_hash.is_none() {
-                self.exp_tx_prefix_hash = ::std::option::Option::Some(::std::vec::Vec::new());
+        pub fn mut_monero_version(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.monero_version.is_none() {
+                self.monero_version = ::std::option::Option::Some(::std::vec::Vec::new());
             }
-            self.exp_tx_prefix_hash.as_mut().unwrap()
+            self.monero_version.as_mut().unwrap()
         }
 
         // Take field
-        pub fn take_exp_tx_prefix_hash(&mut self) -> ::std::vec::Vec<u8> {
-            self.exp_tx_prefix_hash.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        pub fn take_monero_version(&mut self) -> ::std::vec::Vec<u8> {
+            self.monero_version.take().unwrap_or_else(|| ::std::vec::Vec::new())
         }
 
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
@@ -3479,21 +3510,6 @@ pub mod monero_transaction_init_request {
                 |m: &MoneroTransactionData| { &m.minor_indices },
                 |m: &mut MoneroTransactionData| { &mut m.minor_indices },
             ));
-            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-                "is_multisig",
-                |m: &MoneroTransactionData| { &m.is_multisig },
-                |m: &mut MoneroTransactionData| { &mut m.is_multisig },
-            ));
-            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-                "exp_tx_prefix_hash",
-                |m: &MoneroTransactionData| { &m.exp_tx_prefix_hash },
-                |m: &mut MoneroTransactionData| { &mut m.exp_tx_prefix_hash },
-            ));
-            fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
-                "use_tx_keys",
-                |m: &MoneroTransactionData| { &m.use_tx_keys },
-                |m: &mut MoneroTransactionData| { &mut m.use_tx_keys },
-            ));
             fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, super::MoneroTransactionRsigData>(
                 "rsig_data",
                 |m: &MoneroTransactionData| { &m.rsig_data },
@@ -3503,6 +3519,21 @@ pub mod monero_transaction_init_request {
                 "integrated_indices",
                 |m: &MoneroTransactionData| { &m.integrated_indices },
                 |m: &mut MoneroTransactionData| { &mut m.integrated_indices },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "client_version",
+                |m: &MoneroTransactionData| { &m.client_version },
+                |m: &mut MoneroTransactionData| { &mut m.client_version },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "hard_fork",
+                |m: &MoneroTransactionData| { &m.hard_fork },
+                |m: &mut MoneroTransactionData| { &mut m.hard_fork },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "monero_version",
+                |m: &MoneroTransactionData| { &m.monero_version },
+                |m: &mut MoneroTransactionData| { &mut m.monero_version },
             ));
             ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionData>(
                 "MoneroTransactionInitRequest.MoneroTransactionData",
@@ -3555,23 +3586,23 @@ pub mod monero_transaction_init_request {
                     80 => {
                         self.minor_indices.push(is.read_uint32()?);
                     },
-                    88 => {
-                        self.is_multisig = ::std::option::Option::Some(is.read_bool()?);
-                    },
-                    98 => {
-                        self.exp_tx_prefix_hash = ::std::option::Option::Some(is.read_bytes()?);
-                    },
-                    106 => {
-                        self.use_tx_keys.push(is.read_bytes()?);
-                    },
-                    114 => {
+                    90 => {
                         ::protobuf::rt::read_singular_message_into_field(is, &mut self.rsig_data)?;
                     },
-                    122 => {
+                    98 => {
                         is.read_repeated_packed_uint32_into(&mut self.integrated_indices)?;
                     },
-                    120 => {
+                    96 => {
                         self.integrated_indices.push(is.read_uint32()?);
+                    },
+                    104 => {
+                        self.client_version = ::std::option::Option::Some(is.read_uint32()?);
+                    },
+                    112 => {
+                        self.hard_fork = ::std::option::Option::Some(is.read_uint32()?);
+                    },
+                    122 => {
+                        self.monero_version = ::std::option::Option::Some(is.read_bytes()?);
                     },
                     tag => {
                         ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -3617,22 +3648,22 @@ pub mod monero_transaction_init_request {
             for value in &self.minor_indices {
                 my_size += ::protobuf::rt::uint32_size(10, *value);
             };
-            if let Some(v) = self.is_multisig {
-                my_size += 1 + 1;
-            }
-            if let Some(v) = self.exp_tx_prefix_hash.as_ref() {
-                my_size += ::protobuf::rt::bytes_size(12, &v);
-            }
-            for value in &self.use_tx_keys {
-                my_size += ::protobuf::rt::bytes_size(13, &value);
-            };
             if let Some(v) = self.rsig_data.as_ref() {
                 let len = v.compute_size();
                 my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
             }
             for value in &self.integrated_indices {
-                my_size += ::protobuf::rt::uint32_size(15, *value);
+                my_size += ::protobuf::rt::uint32_size(12, *value);
             };
+            if let Some(v) = self.client_version {
+                my_size += ::protobuf::rt::uint32_size(13, v);
+            }
+            if let Some(v) = self.hard_fork {
+                my_size += ::protobuf::rt::uint32_size(14, v);
+            }
+            if let Some(v) = self.monero_version.as_ref() {
+                my_size += ::protobuf::rt::bytes_size(15, &v);
+            }
             my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
             self.special_fields.cached_size().set(my_size as u32);
             my_size
@@ -3669,21 +3700,21 @@ pub mod monero_transaction_init_request {
             for v in &self.minor_indices {
                 os.write_uint32(10, *v)?;
             };
-            if let Some(v) = self.is_multisig {
-                os.write_bool(11, v)?;
-            }
-            if let Some(v) = self.exp_tx_prefix_hash.as_ref() {
-                os.write_bytes(12, v)?;
-            }
-            for v in &self.use_tx_keys {
-                os.write_bytes(13, &v)?;
-            };
             if let Some(v) = self.rsig_data.as_ref() {
-                ::protobuf::rt::write_message_field_with_cached_size(14, v, os)?;
+                ::protobuf::rt::write_message_field_with_cached_size(11, v, os)?;
             }
             for v in &self.integrated_indices {
-                os.write_uint32(15, *v)?;
+                os.write_uint32(12, *v)?;
             };
+            if let Some(v) = self.client_version {
+                os.write_uint32(13, v)?;
+            }
+            if let Some(v) = self.hard_fork {
+                os.write_uint32(14, v)?;
+            }
+            if let Some(v) = self.monero_version.as_ref() {
+                os.write_bytes(15, v)?;
+            }
             os.write_unknown_fields(self.special_fields.unknown_fields())?;
             ::std::result::Result::Ok(())
         }
@@ -3711,11 +3742,11 @@ pub mod monero_transaction_init_request {
             self.fee = ::std::option::Option::None;
             self.account = ::std::option::Option::None;
             self.minor_indices.clear();
-            self.is_multisig = ::std::option::Option::None;
-            self.exp_tx_prefix_hash = ::std::option::Option::None;
-            self.use_tx_keys.clear();
             self.rsig_data.clear();
             self.integrated_indices.clear();
+            self.client_version = ::std::option::Option::None;
+            self.hard_fork = ::std::option::Option::None;
+            self.monero_version = ::std::option::Option::None;
             self.special_fields.clear();
         }
 
@@ -3731,11 +3762,11 @@ pub mod monero_transaction_init_request {
                 fee: ::std::option::Option::None,
                 account: ::std::option::Option::None,
                 minor_indices: ::std::vec::Vec::new(),
-                is_multisig: ::std::option::Option::None,
-                exp_tx_prefix_hash: ::std::option::Option::None,
-                use_tx_keys: ::std::vec::Vec::new(),
                 rsig_data: ::protobuf::MessageField::none(),
                 integrated_indices: ::std::vec::Vec::new(),
+                client_version: ::std::option::Option::None,
+                hard_fork: ::std::option::Option::None,
+                monero_version: ::std::option::Option::None,
                 special_fields: ::protobuf::SpecialFields::new(),
             };
             &instance
@@ -3767,18 +3798,8 @@ pub mod monero_transaction_init_request {
 // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionInitAck)
 pub struct MoneroTransactionInitAck {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitAck.version)
-    pub version: ::std::option::Option<u32>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitAck.status)
-    pub status: ::std::option::Option<u32>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitAck.in_memory)
-    pub in_memory: ::std::option::Option<bool>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitAck.hmacs)
     pub hmacs: ::std::vec::Vec<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitAck.many_inputs)
-    pub many_inputs: ::std::option::Option<bool>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitAck.many_outputs)
-    pub many_outputs: ::std::option::Option<bool>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInitAck.rsig_data)
     pub rsig_data: ::protobuf::MessageField<MoneroTransactionRsigData>,
     // special fields
@@ -3797,133 +3818,13 @@ impl MoneroTransactionInitAck {
         ::std::default::Default::default()
     }
 
-    // optional uint32 version = 1;
-
-    pub fn version(&self) -> u32 {
-        self.version.unwrap_or(0)
-    }
-
-    pub fn clear_version(&mut self) {
-        self.version = ::std::option::Option::None;
-    }
-
-    pub fn has_version(&self) -> bool {
-        self.version.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_version(&mut self, v: u32) {
-        self.version = ::std::option::Option::Some(v);
-    }
-
-    // optional uint32 status = 2;
-
-    pub fn status(&self) -> u32 {
-        self.status.unwrap_or(0)
-    }
-
-    pub fn clear_status(&mut self) {
-        self.status = ::std::option::Option::None;
-    }
-
-    pub fn has_status(&self) -> bool {
-        self.status.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_status(&mut self, v: u32) {
-        self.status = ::std::option::Option::Some(v);
-    }
-
-    // optional bool in_memory = 3;
-
-    pub fn in_memory(&self) -> bool {
-        self.in_memory.unwrap_or(false)
-    }
-
-    pub fn clear_in_memory(&mut self) {
-        self.in_memory = ::std::option::Option::None;
-    }
-
-    pub fn has_in_memory(&self) -> bool {
-        self.in_memory.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_in_memory(&mut self, v: bool) {
-        self.in_memory = ::std::option::Option::Some(v);
-    }
-
-    // optional bool many_inputs = 5;
-
-    pub fn many_inputs(&self) -> bool {
-        self.many_inputs.unwrap_or(false)
-    }
-
-    pub fn clear_many_inputs(&mut self) {
-        self.many_inputs = ::std::option::Option::None;
-    }
-
-    pub fn has_many_inputs(&self) -> bool {
-        self.many_inputs.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_many_inputs(&mut self, v: bool) {
-        self.many_inputs = ::std::option::Option::Some(v);
-    }
-
-    // optional bool many_outputs = 6;
-
-    pub fn many_outputs(&self) -> bool {
-        self.many_outputs.unwrap_or(false)
-    }
-
-    pub fn clear_many_outputs(&mut self) {
-        self.many_outputs = ::std::option::Option::None;
-    }
-
-    pub fn has_many_outputs(&self) -> bool {
-        self.many_outputs.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_many_outputs(&mut self, v: bool) {
-        self.many_outputs = ::std::option::Option::Some(v);
-    }
-
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(7);
+        let mut fields = ::std::vec::Vec::with_capacity(2);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "version",
-            |m: &MoneroTransactionInitAck| { &m.version },
-            |m: &mut MoneroTransactionInitAck| { &mut m.version },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "status",
-            |m: &MoneroTransactionInitAck| { &m.status },
-            |m: &mut MoneroTransactionInitAck| { &mut m.status },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "in_memory",
-            |m: &MoneroTransactionInitAck| { &m.in_memory },
-            |m: &mut MoneroTransactionInitAck| { &mut m.in_memory },
-        ));
         fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
             "hmacs",
             |m: &MoneroTransactionInitAck| { &m.hmacs },
             |m: &mut MoneroTransactionInitAck| { &mut m.hmacs },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "many_inputs",
-            |m: &MoneroTransactionInitAck| { &m.many_inputs },
-            |m: &mut MoneroTransactionInitAck| { &mut m.many_inputs },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "many_outputs",
-            |m: &MoneroTransactionInitAck| { &m.many_outputs },
-            |m: &mut MoneroTransactionInitAck| { &mut m.many_outputs },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, MoneroTransactionRsigData>(
             "rsig_data",
@@ -3948,25 +3849,10 @@ impl ::protobuf::Message for MoneroTransactionInitAck {
     fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
         while let Some(tag) = is.read_raw_tag_or_eof()? {
             match tag {
-                8 => {
-                    self.version = ::std::option::Option::Some(is.read_uint32()?);
-                },
-                16 => {
-                    self.status = ::std::option::Option::Some(is.read_uint32()?);
-                },
-                24 => {
-                    self.in_memory = ::std::option::Option::Some(is.read_bool()?);
-                },
-                34 => {
+                10 => {
                     self.hmacs.push(is.read_bytes()?);
                 },
-                40 => {
-                    self.many_inputs = ::std::option::Option::Some(is.read_bool()?);
-                },
-                48 => {
-                    self.many_outputs = ::std::option::Option::Some(is.read_bool()?);
-                },
-                58 => {
+                18 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.rsig_data)?;
                 },
                 tag => {
@@ -3981,24 +3867,9 @@ impl ::protobuf::Message for MoneroTransactionInitAck {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u64 {
         let mut my_size = 0;
-        if let Some(v) = self.version {
-            my_size += ::protobuf::rt::uint32_size(1, v);
-        }
-        if let Some(v) = self.status {
-            my_size += ::protobuf::rt::uint32_size(2, v);
-        }
-        if let Some(v) = self.in_memory {
-            my_size += 1 + 1;
-        }
         for value in &self.hmacs {
-            my_size += ::protobuf::rt::bytes_size(4, &value);
+            my_size += ::protobuf::rt::bytes_size(1, &value);
         };
-        if let Some(v) = self.many_inputs {
-            my_size += 1 + 1;
-        }
-        if let Some(v) = self.many_outputs {
-            my_size += 1 + 1;
-        }
         if let Some(v) = self.rsig_data.as_ref() {
             let len = v.compute_size();
             my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
@@ -4009,26 +3880,11 @@ impl ::protobuf::Message for MoneroTransactionInitAck {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        if let Some(v) = self.version {
-            os.write_uint32(1, v)?;
-        }
-        if let Some(v) = self.status {
-            os.write_uint32(2, v)?;
-        }
-        if let Some(v) = self.in_memory {
-            os.write_bool(3, v)?;
-        }
         for v in &self.hmacs {
-            os.write_bytes(4, &v)?;
+            os.write_bytes(1, &v)?;
         };
-        if let Some(v) = self.many_inputs {
-            os.write_bool(5, v)?;
-        }
-        if let Some(v) = self.many_outputs {
-            os.write_bool(6, v)?;
-        }
         if let Some(v) = self.rsig_data.as_ref() {
-            ::protobuf::rt::write_message_field_with_cached_size(7, v, os)?;
+            ::protobuf::rt::write_message_field_with_cached_size(2, v, os)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -4047,24 +3903,14 @@ impl ::protobuf::Message for MoneroTransactionInitAck {
     }
 
     fn clear(&mut self) {
-        self.version = ::std::option::Option::None;
-        self.status = ::std::option::Option::None;
-        self.in_memory = ::std::option::Option::None;
         self.hmacs.clear();
-        self.many_inputs = ::std::option::Option::None;
-        self.many_outputs = ::std::option::Option::None;
         self.rsig_data.clear();
         self.special_fields.clear();
     }
 
     fn default_instance() -> &'static MoneroTransactionInitAck {
         static instance: MoneroTransactionInitAck = MoneroTransactionInitAck {
-            version: ::std::option::Option::None,
-            status: ::std::option::Option::None,
-            in_memory: ::std::option::Option::None,
             hmacs: ::std::vec::Vec::new(),
-            many_inputs: ::std::option::Option::None,
-            many_outputs: ::std::option::Option::None,
             rsig_data: ::protobuf::MessageField::none(),
             special_fields: ::protobuf::SpecialFields::new(),
         };
@@ -4096,8 +3942,6 @@ impl ::protobuf::reflect::ProtobufValue for MoneroTransactionInitAck {
 // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionSetInputRequest)
 pub struct MoneroTransactionSetInputRequest {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetInputRequest.version)
-    pub version: ::std::option::Option<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetInputRequest.src_entr)
     pub src_entr: ::protobuf::MessageField<MoneroTransactionSourceEntry>,
     // special fields
@@ -4116,33 +3960,9 @@ impl MoneroTransactionSetInputRequest {
         ::std::default::Default::default()
     }
 
-    // optional uint32 version = 1;
-
-    pub fn version(&self) -> u32 {
-        self.version.unwrap_or(0)
-    }
-
-    pub fn clear_version(&mut self) {
-        self.version = ::std::option::Option::None;
-    }
-
-    pub fn has_version(&self) -> bool {
-        self.version.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_version(&mut self, v: u32) {
-        self.version = ::std::option::Option::Some(v);
-    }
-
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(2);
+        let mut fields = ::std::vec::Vec::with_capacity(1);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "version",
-            |m: &MoneroTransactionSetInputRequest| { &m.version },
-            |m: &mut MoneroTransactionSetInputRequest| { &mut m.version },
-        ));
         fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, MoneroTransactionSourceEntry>(
             "src_entr",
             |m: &MoneroTransactionSetInputRequest| { &m.src_entr },
@@ -4160,16 +3980,18 @@ impl ::protobuf::Message for MoneroTransactionSetInputRequest {
     const NAME: &'static str = "MoneroTransactionSetInputRequest";
 
     fn is_initialized(&self) -> bool {
+        for v in &self.src_entr {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
     fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
         while let Some(tag) = is.read_raw_tag_or_eof()? {
             match tag {
-                8 => {
-                    self.version = ::std::option::Option::Some(is.read_uint32()?);
-                },
-                18 => {
+                10 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.src_entr)?;
                 },
                 tag => {
@@ -4184,9 +4006,6 @@ impl ::protobuf::Message for MoneroTransactionSetInputRequest {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u64 {
         let mut my_size = 0;
-        if let Some(v) = self.version {
-            my_size += ::protobuf::rt::uint32_size(1, v);
-        }
         if let Some(v) = self.src_entr.as_ref() {
             let len = v.compute_size();
             my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
@@ -4197,11 +4016,8 @@ impl ::protobuf::Message for MoneroTransactionSetInputRequest {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        if let Some(v) = self.version {
-            os.write_uint32(1, v)?;
-        }
         if let Some(v) = self.src_entr.as_ref() {
-            ::protobuf::rt::write_message_field_with_cached_size(2, v, os)?;
+            ::protobuf::rt::write_message_field_with_cached_size(1, v, os)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -4220,14 +4036,12 @@ impl ::protobuf::Message for MoneroTransactionSetInputRequest {
     }
 
     fn clear(&mut self) {
-        self.version = ::std::option::Option::None;
         self.src_entr.clear();
         self.special_fields.clear();
     }
 
     fn default_instance() -> &'static MoneroTransactionSetInputRequest {
         static instance: MoneroTransactionSetInputRequest = MoneroTransactionSetInputRequest {
-            version: ::std::option::Option::None,
             src_entr: ::protobuf::MessageField::none(),
             special_fields: ::protobuf::SpecialFields::new(),
         };
@@ -4255,7 +4069,7 @@ impl ::protobuf::reflect::ProtobufValue for MoneroTransactionSetInputRequest {
 /// *
 ///  Response: Response to setting UTXO for signature. Contains sealed values needed for further protocol steps.
 ///  @next MoneroTransactionSetInputAck
-///  @next MoneroTransactionInputsPermutationRequest
+///  @next MoneroTransactionInputViniRequest
 #[derive(PartialEq,Clone,Default,Debug)]
 // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionSetInputAck)
 pub struct MoneroTransactionSetInputAck {
@@ -4268,10 +4082,10 @@ pub struct MoneroTransactionSetInputAck {
     pub pseudo_out: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetInputAck.pseudo_out_hmac)
     pub pseudo_out_hmac: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetInputAck.alpha_enc)
-    pub alpha_enc: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetInputAck.spend_enc)
-    pub spend_enc: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetInputAck.pseudo_out_alpha)
+    pub pseudo_out_alpha: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetInputAck.spend_key)
+    pub spend_key: ::std::option::Option<::std::vec::Vec<u8>>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSetInputAck.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -4432,76 +4246,76 @@ impl MoneroTransactionSetInputAck {
         self.pseudo_out_hmac.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes alpha_enc = 5;
+    // optional bytes pseudo_out_alpha = 5;
 
-    pub fn alpha_enc(&self) -> &[u8] {
-        match self.alpha_enc.as_ref() {
+    pub fn pseudo_out_alpha(&self) -> &[u8] {
+        match self.pseudo_out_alpha.as_ref() {
             Some(v) => v,
             None => &[],
         }
     }
 
-    pub fn clear_alpha_enc(&mut self) {
-        self.alpha_enc = ::std::option::Option::None;
+    pub fn clear_pseudo_out_alpha(&mut self) {
+        self.pseudo_out_alpha = ::std::option::Option::None;
     }
 
-    pub fn has_alpha_enc(&self) -> bool {
-        self.alpha_enc.is_some()
+    pub fn has_pseudo_out_alpha(&self) -> bool {
+        self.pseudo_out_alpha.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_alpha_enc(&mut self, v: ::std::vec::Vec<u8>) {
-        self.alpha_enc = ::std::option::Option::Some(v);
+    pub fn set_pseudo_out_alpha(&mut self, v: ::std::vec::Vec<u8>) {
+        self.pseudo_out_alpha = ::std::option::Option::Some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_alpha_enc(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.alpha_enc.is_none() {
-            self.alpha_enc = ::std::option::Option::Some(::std::vec::Vec::new());
+    pub fn mut_pseudo_out_alpha(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.pseudo_out_alpha.is_none() {
+            self.pseudo_out_alpha = ::std::option::Option::Some(::std::vec::Vec::new());
         }
-        self.alpha_enc.as_mut().unwrap()
+        self.pseudo_out_alpha.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_alpha_enc(&mut self) -> ::std::vec::Vec<u8> {
-        self.alpha_enc.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    pub fn take_pseudo_out_alpha(&mut self) -> ::std::vec::Vec<u8> {
+        self.pseudo_out_alpha.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes spend_enc = 6;
+    // optional bytes spend_key = 6;
 
-    pub fn spend_enc(&self) -> &[u8] {
-        match self.spend_enc.as_ref() {
+    pub fn spend_key(&self) -> &[u8] {
+        match self.spend_key.as_ref() {
             Some(v) => v,
             None => &[],
         }
     }
 
-    pub fn clear_spend_enc(&mut self) {
-        self.spend_enc = ::std::option::Option::None;
+    pub fn clear_spend_key(&mut self) {
+        self.spend_key = ::std::option::Option::None;
     }
 
-    pub fn has_spend_enc(&self) -> bool {
-        self.spend_enc.is_some()
+    pub fn has_spend_key(&self) -> bool {
+        self.spend_key.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_spend_enc(&mut self, v: ::std::vec::Vec<u8>) {
-        self.spend_enc = ::std::option::Option::Some(v);
+    pub fn set_spend_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.spend_key = ::std::option::Option::Some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_spend_enc(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.spend_enc.is_none() {
-            self.spend_enc = ::std::option::Option::Some(::std::vec::Vec::new());
+    pub fn mut_spend_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.spend_key.is_none() {
+            self.spend_key = ::std::option::Option::Some(::std::vec::Vec::new());
         }
-        self.spend_enc.as_mut().unwrap()
+        self.spend_key.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_spend_enc(&mut self) -> ::std::vec::Vec<u8> {
-        self.spend_enc.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    pub fn take_spend_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.spend_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
@@ -4528,14 +4342,14 @@ impl MoneroTransactionSetInputAck {
             |m: &mut MoneroTransactionSetInputAck| { &mut m.pseudo_out_hmac },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "alpha_enc",
-            |m: &MoneroTransactionSetInputAck| { &m.alpha_enc },
-            |m: &mut MoneroTransactionSetInputAck| { &mut m.alpha_enc },
+            "pseudo_out_alpha",
+            |m: &MoneroTransactionSetInputAck| { &m.pseudo_out_alpha },
+            |m: &mut MoneroTransactionSetInputAck| { &mut m.pseudo_out_alpha },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "spend_enc",
-            |m: &MoneroTransactionSetInputAck| { &m.spend_enc },
-            |m: &mut MoneroTransactionSetInputAck| { &mut m.spend_enc },
+            "spend_key",
+            |m: &MoneroTransactionSetInputAck| { &m.spend_key },
+            |m: &mut MoneroTransactionSetInputAck| { &mut m.spend_key },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionSetInputAck>(
             "MoneroTransactionSetInputAck",
@@ -4568,10 +4382,10 @@ impl ::protobuf::Message for MoneroTransactionSetInputAck {
                     self.pseudo_out_hmac = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 42 => {
-                    self.alpha_enc = ::std::option::Option::Some(is.read_bytes()?);
+                    self.pseudo_out_alpha = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 50 => {
-                    self.spend_enc = ::std::option::Option::Some(is.read_bytes()?);
+                    self.spend_key = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -4597,10 +4411,10 @@ impl ::protobuf::Message for MoneroTransactionSetInputAck {
         if let Some(v) = self.pseudo_out_hmac.as_ref() {
             my_size += ::protobuf::rt::bytes_size(4, &v);
         }
-        if let Some(v) = self.alpha_enc.as_ref() {
+        if let Some(v) = self.pseudo_out_alpha.as_ref() {
             my_size += ::protobuf::rt::bytes_size(5, &v);
         }
-        if let Some(v) = self.spend_enc.as_ref() {
+        if let Some(v) = self.spend_key.as_ref() {
             my_size += ::protobuf::rt::bytes_size(6, &v);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
@@ -4621,10 +4435,10 @@ impl ::protobuf::Message for MoneroTransactionSetInputAck {
         if let Some(v) = self.pseudo_out_hmac.as_ref() {
             os.write_bytes(4, v)?;
         }
-        if let Some(v) = self.alpha_enc.as_ref() {
+        if let Some(v) = self.pseudo_out_alpha.as_ref() {
             os.write_bytes(5, v)?;
         }
-        if let Some(v) = self.spend_enc.as_ref() {
+        if let Some(v) = self.spend_key.as_ref() {
             os.write_bytes(6, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
@@ -4648,8 +4462,8 @@ impl ::protobuf::Message for MoneroTransactionSetInputAck {
         self.vini_hmac = ::std::option::Option::None;
         self.pseudo_out = ::std::option::Option::None;
         self.pseudo_out_hmac = ::std::option::Option::None;
-        self.alpha_enc = ::std::option::Option::None;
-        self.spend_enc = ::std::option::Option::None;
+        self.pseudo_out_alpha = ::std::option::Option::None;
+        self.spend_key = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -4659,8 +4473,8 @@ impl ::protobuf::Message for MoneroTransactionSetInputAck {
             vini_hmac: ::std::option::Option::None,
             pseudo_out: ::std::option::Option::None,
             pseudo_out_hmac: ::std::option::Option::None,
-            alpha_enc: ::std::option::Option::None,
-            spend_enc: ::std::option::Option::None,
+            pseudo_out_alpha: ::std::option::Option::None,
+            spend_key: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -4685,240 +4499,6 @@ impl ::protobuf::reflect::ProtobufValue for MoneroTransactionSetInputAck {
 }
 
 /// *
-///  Request: Sub request of MoneroTransactionSign. Permutation on key images.
-///  @next MoneroTransactionInputsPermutationAck
-#[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionInputsPermutationRequest)
-pub struct MoneroTransactionInputsPermutationRequest {
-    // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInputsPermutationRequest.perm)
-    pub perm: ::std::vec::Vec<u32>,
-    // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionInputsPermutationRequest.special_fields)
-    pub special_fields: ::protobuf::SpecialFields,
-}
-
-impl<'a> ::std::default::Default for &'a MoneroTransactionInputsPermutationRequest {
-    fn default() -> &'a MoneroTransactionInputsPermutationRequest {
-        <MoneroTransactionInputsPermutationRequest as ::protobuf::Message>::default_instance()
-    }
-}
-
-impl MoneroTransactionInputsPermutationRequest {
-    pub fn new() -> MoneroTransactionInputsPermutationRequest {
-        ::std::default::Default::default()
-    }
-
-    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(1);
-        let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
-            "perm",
-            |m: &MoneroTransactionInputsPermutationRequest| { &m.perm },
-            |m: &mut MoneroTransactionInputsPermutationRequest| { &mut m.perm },
-        ));
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionInputsPermutationRequest>(
-            "MoneroTransactionInputsPermutationRequest",
-            fields,
-            oneofs,
-        )
-    }
-}
-
-impl ::protobuf::Message for MoneroTransactionInputsPermutationRequest {
-    const NAME: &'static str = "MoneroTransactionInputsPermutationRequest";
-
-    fn is_initialized(&self) -> bool {
-        true
-    }
-
-    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
-        while let Some(tag) = is.read_raw_tag_or_eof()? {
-            match tag {
-                10 => {
-                    is.read_repeated_packed_uint32_into(&mut self.perm)?;
-                },
-                8 => {
-                    self.perm.push(is.read_uint32()?);
-                },
-                tag => {
-                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
-                },
-            };
-        }
-        ::std::result::Result::Ok(())
-    }
-
-    // Compute sizes of nested messages
-    #[allow(unused_variables)]
-    fn compute_size(&self) -> u64 {
-        let mut my_size = 0;
-        for value in &self.perm {
-            my_size += ::protobuf::rt::uint32_size(1, *value);
-        };
-        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
-        self.special_fields.cached_size().set(my_size as u32);
-        my_size
-    }
-
-    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        for v in &self.perm {
-            os.write_uint32(1, *v)?;
-        };
-        os.write_unknown_fields(self.special_fields.unknown_fields())?;
-        ::std::result::Result::Ok(())
-    }
-
-    fn special_fields(&self) -> &::protobuf::SpecialFields {
-        &self.special_fields
-    }
-
-    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
-        &mut self.special_fields
-    }
-
-    fn new() -> MoneroTransactionInputsPermutationRequest {
-        MoneroTransactionInputsPermutationRequest::new()
-    }
-
-    fn clear(&mut self) {
-        self.perm.clear();
-        self.special_fields.clear();
-    }
-
-    fn default_instance() -> &'static MoneroTransactionInputsPermutationRequest {
-        static instance: MoneroTransactionInputsPermutationRequest = MoneroTransactionInputsPermutationRequest {
-            perm: ::std::vec::Vec::new(),
-            special_fields: ::protobuf::SpecialFields::new(),
-        };
-        &instance
-    }
-}
-
-impl ::protobuf::MessageFull for MoneroTransactionInputsPermutationRequest {
-    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
-        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroTransactionInputsPermutationRequest").unwrap()).clone()
-    }
-}
-
-impl ::std::fmt::Display for MoneroTransactionInputsPermutationRequest {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
-        ::protobuf::text_format::fmt(self, f)
-    }
-}
-
-impl ::protobuf::reflect::ProtobufValue for MoneroTransactionInputsPermutationRequest {
-    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
-}
-
-/// *
-///  Response: Response to setting permutation on key images
-///  @next MoneroTransactionInputViniRequest
-#[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionInputsPermutationAck)
-pub struct MoneroTransactionInputsPermutationAck {
-    // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionInputsPermutationAck.special_fields)
-    pub special_fields: ::protobuf::SpecialFields,
-}
-
-impl<'a> ::std::default::Default for &'a MoneroTransactionInputsPermutationAck {
-    fn default() -> &'a MoneroTransactionInputsPermutationAck {
-        <MoneroTransactionInputsPermutationAck as ::protobuf::Message>::default_instance()
-    }
-}
-
-impl MoneroTransactionInputsPermutationAck {
-    pub fn new() -> MoneroTransactionInputsPermutationAck {
-        ::std::default::Default::default()
-    }
-
-    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(0);
-        let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionInputsPermutationAck>(
-            "MoneroTransactionInputsPermutationAck",
-            fields,
-            oneofs,
-        )
-    }
-}
-
-impl ::protobuf::Message for MoneroTransactionInputsPermutationAck {
-    const NAME: &'static str = "MoneroTransactionInputsPermutationAck";
-
-    fn is_initialized(&self) -> bool {
-        true
-    }
-
-    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
-        while let Some(tag) = is.read_raw_tag_or_eof()? {
-            match tag {
-                tag => {
-                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
-                },
-            };
-        }
-        ::std::result::Result::Ok(())
-    }
-
-    // Compute sizes of nested messages
-    #[allow(unused_variables)]
-    fn compute_size(&self) -> u64 {
-        let mut my_size = 0;
-        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
-        self.special_fields.cached_size().set(my_size as u32);
-        my_size
-    }
-
-    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        os.write_unknown_fields(self.special_fields.unknown_fields())?;
-        ::std::result::Result::Ok(())
-    }
-
-    fn special_fields(&self) -> &::protobuf::SpecialFields {
-        &self.special_fields
-    }
-
-    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
-        &mut self.special_fields
-    }
-
-    fn new() -> MoneroTransactionInputsPermutationAck {
-        MoneroTransactionInputsPermutationAck::new()
-    }
-
-    fn clear(&mut self) {
-        self.special_fields.clear();
-    }
-
-    fn default_instance() -> &'static MoneroTransactionInputsPermutationAck {
-        static instance: MoneroTransactionInputsPermutationAck = MoneroTransactionInputsPermutationAck {
-            special_fields: ::protobuf::SpecialFields::new(),
-        };
-        &instance
-    }
-}
-
-impl ::protobuf::MessageFull for MoneroTransactionInputsPermutationAck {
-    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
-        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroTransactionInputsPermutationAck").unwrap()).clone()
-    }
-}
-
-impl ::std::fmt::Display for MoneroTransactionInputsPermutationAck {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
-        ::protobuf::text_format::fmt(self, f)
-    }
-}
-
-impl ::protobuf::reflect::ProtobufValue for MoneroTransactionInputsPermutationAck {
-    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
-}
-
-/// *
 ///  Request: Sub request of MoneroTransactionSign. Sends one UTXO to device together with sealed values.
 ///  @next MoneroTransactionInputViniAck
 #[derive(PartialEq,Clone,Default,Debug)]
@@ -4935,6 +4515,8 @@ pub struct MoneroTransactionInputViniRequest {
     pub pseudo_out: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInputViniRequest.pseudo_out_hmac)
     pub pseudo_out_hmac: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionInputViniRequest.orig_idx)
+    pub orig_idx: ::std::option::Option<u32>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionInputViniRequest.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -5095,8 +4677,27 @@ impl MoneroTransactionInputViniRequest {
         self.pseudo_out_hmac.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
+    // optional uint32 orig_idx = 6;
+
+    pub fn orig_idx(&self) -> u32 {
+        self.orig_idx.unwrap_or(0)
+    }
+
+    pub fn clear_orig_idx(&mut self) {
+        self.orig_idx = ::std::option::Option::None;
+    }
+
+    pub fn has_orig_idx(&self) -> bool {
+        self.orig_idx.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_orig_idx(&mut self, v: u32) {
+        self.orig_idx = ::std::option::Option::Some(v);
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(5);
+        let mut fields = ::std::vec::Vec::with_capacity(6);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, MoneroTransactionSourceEntry>(
             "src_entr",
@@ -5123,6 +4724,11 @@ impl MoneroTransactionInputViniRequest {
             |m: &MoneroTransactionInputViniRequest| { &m.pseudo_out_hmac },
             |m: &mut MoneroTransactionInputViniRequest| { &mut m.pseudo_out_hmac },
         ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "orig_idx",
+            |m: &MoneroTransactionInputViniRequest| { &m.orig_idx },
+            |m: &mut MoneroTransactionInputViniRequest| { &mut m.orig_idx },
+        ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionInputViniRequest>(
             "MoneroTransactionInputViniRequest",
             fields,
@@ -5135,6 +4741,11 @@ impl ::protobuf::Message for MoneroTransactionInputViniRequest {
     const NAME: &'static str = "MoneroTransactionInputViniRequest";
 
     fn is_initialized(&self) -> bool {
+        for v in &self.src_entr {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -5155,6 +4766,9 @@ impl ::protobuf::Message for MoneroTransactionInputViniRequest {
                 },
                 42 => {
                     self.pseudo_out_hmac = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                48 => {
+                    self.orig_idx = ::std::option::Option::Some(is.read_uint32()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -5184,6 +4798,9 @@ impl ::protobuf::Message for MoneroTransactionInputViniRequest {
         if let Some(v) = self.pseudo_out_hmac.as_ref() {
             my_size += ::protobuf::rt::bytes_size(5, &v);
         }
+        if let Some(v) = self.orig_idx {
+            my_size += ::protobuf::rt::uint32_size(6, v);
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -5204,6 +4821,9 @@ impl ::protobuf::Message for MoneroTransactionInputViniRequest {
         }
         if let Some(v) = self.pseudo_out_hmac.as_ref() {
             os.write_bytes(5, v)?;
+        }
+        if let Some(v) = self.orig_idx {
+            os.write_uint32(6, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -5227,6 +4847,7 @@ impl ::protobuf::Message for MoneroTransactionInputViniRequest {
         self.vini_hmac = ::std::option::Option::None;
         self.pseudo_out = ::std::option::Option::None;
         self.pseudo_out_hmac = ::std::option::Option::None;
+        self.orig_idx = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -5237,6 +4858,7 @@ impl ::protobuf::Message for MoneroTransactionInputViniRequest {
             vini_hmac: ::std::option::Option::None,
             pseudo_out: ::std::option::Option::None,
             pseudo_out_hmac: ::std::option::Option::None,
+            orig_idx: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -5373,9 +4995,6 @@ impl ::protobuf::reflect::ProtobufValue for MoneroTransactionInputViniAck {
 #[derive(PartialEq,Clone,Default,Debug)]
 // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionAllInputsSetRequest)
 pub struct MoneroTransactionAllInputsSetRequest {
-    // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionAllInputsSetRequest.rsig_data)
-    pub rsig_data: ::protobuf::MessageField<MoneroTransactionRsigData>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionAllInputsSetRequest.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -5393,13 +5012,8 @@ impl MoneroTransactionAllInputsSetRequest {
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(1);
+        let mut fields = ::std::vec::Vec::with_capacity(0);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, MoneroTransactionRsigData>(
-            "rsig_data",
-            |m: &MoneroTransactionAllInputsSetRequest| { &m.rsig_data },
-            |m: &mut MoneroTransactionAllInputsSetRequest| { &mut m.rsig_data },
-        ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionAllInputsSetRequest>(
             "MoneroTransactionAllInputsSetRequest",
             fields,
@@ -5418,9 +5032,6 @@ impl ::protobuf::Message for MoneroTransactionAllInputsSetRequest {
     fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
         while let Some(tag) = is.read_raw_tag_or_eof()? {
             match tag {
-                10 => {
-                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.rsig_data)?;
-                },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
                 },
@@ -5433,19 +5044,12 @@ impl ::protobuf::Message for MoneroTransactionAllInputsSetRequest {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u64 {
         let mut my_size = 0;
-        if let Some(v) = self.rsig_data.as_ref() {
-            let len = v.compute_size();
-            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
-        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        if let Some(v) = self.rsig_data.as_ref() {
-            ::protobuf::rt::write_message_field_with_cached_size(1, v, os)?;
-        }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
     }
@@ -5463,13 +5067,11 @@ impl ::protobuf::Message for MoneroTransactionAllInputsSetRequest {
     }
 
     fn clear(&mut self) {
-        self.rsig_data.clear();
         self.special_fields.clear();
     }
 
     fn default_instance() -> &'static MoneroTransactionAllInputsSetRequest {
         static instance: MoneroTransactionAllInputsSetRequest = MoneroTransactionAllInputsSetRequest {
-            rsig_data: ::protobuf::MessageField::none(),
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -5632,6 +5234,8 @@ pub struct MoneroTransactionSetOutputRequest {
     pub dst_entr_hmac: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetOutputRequest.rsig_data)
     pub rsig_data: ::protobuf::MessageField<MoneroTransactionRsigData>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSetOutputRequest.is_offloaded_bp)
+    pub is_offloaded_bp: ::std::option::Option<bool>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSetOutputRequest.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -5684,8 +5288,27 @@ impl MoneroTransactionSetOutputRequest {
         self.dst_entr_hmac.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
+    // optional bool is_offloaded_bp = 4;
+
+    pub fn is_offloaded_bp(&self) -> bool {
+        self.is_offloaded_bp.unwrap_or(false)
+    }
+
+    pub fn clear_is_offloaded_bp(&mut self) {
+        self.is_offloaded_bp = ::std::option::Option::None;
+    }
+
+    pub fn has_is_offloaded_bp(&self) -> bool {
+        self.is_offloaded_bp.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_is_offloaded_bp(&mut self, v: bool) {
+        self.is_offloaded_bp = ::std::option::Option::Some(v);
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(3);
+        let mut fields = ::std::vec::Vec::with_capacity(4);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, MoneroTransactionDestinationEntry>(
             "dst_entr",
@@ -5701,6 +5324,11 @@ impl MoneroTransactionSetOutputRequest {
             "rsig_data",
             |m: &MoneroTransactionSetOutputRequest| { &m.rsig_data },
             |m: &mut MoneroTransactionSetOutputRequest| { &mut m.rsig_data },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "is_offloaded_bp",
+            |m: &MoneroTransactionSetOutputRequest| { &m.is_offloaded_bp },
+            |m: &mut MoneroTransactionSetOutputRequest| { &mut m.is_offloaded_bp },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionSetOutputRequest>(
             "MoneroTransactionSetOutputRequest",
@@ -5729,6 +5357,9 @@ impl ::protobuf::Message for MoneroTransactionSetOutputRequest {
                 26 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.rsig_data)?;
                 },
+                32 => {
+                    self.is_offloaded_bp = ::std::option::Option::Some(is.read_bool()?);
+                },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
                 },
@@ -5752,6 +5383,9 @@ impl ::protobuf::Message for MoneroTransactionSetOutputRequest {
             let len = v.compute_size();
             my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
         }
+        if let Some(v) = self.is_offloaded_bp {
+            my_size += 1 + 1;
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -5766,6 +5400,9 @@ impl ::protobuf::Message for MoneroTransactionSetOutputRequest {
         }
         if let Some(v) = self.rsig_data.as_ref() {
             ::protobuf::rt::write_message_field_with_cached_size(3, v, os)?;
+        }
+        if let Some(v) = self.is_offloaded_bp {
+            os.write_bool(4, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -5787,6 +5424,7 @@ impl ::protobuf::Message for MoneroTransactionSetOutputRequest {
         self.dst_entr.clear();
         self.dst_entr_hmac = ::std::option::Option::None;
         self.rsig_data.clear();
+        self.is_offloaded_bp = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -5795,6 +5433,7 @@ impl ::protobuf::Message for MoneroTransactionSetOutputRequest {
             dst_entr: ::protobuf::MessageField::none(),
             dst_entr_hmac: ::std::option::Option::None,
             rsig_data: ::protobuf::MessageField::none(),
+            is_offloaded_bp: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -6289,7 +5928,7 @@ impl ::protobuf::reflect::ProtobufValue for MoneroTransactionAllOutSetRequest {
 
 /// *
 ///  Response: After all outputs are sent the initial RCT signature fields are sent.
-///  @next MoneroTransactionMlsagDoneRequest
+///  @next MoneroTransactionSignInputRequest
 #[derive(PartialEq,Clone,Default,Debug)]
 // @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionAllOutSetAck)
 pub struct MoneroTransactionAllOutSetAck {
@@ -6298,10 +5937,10 @@ pub struct MoneroTransactionAllOutSetAck {
     pub extra: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionAllOutSetAck.tx_prefix_hash)
     pub tx_prefix_hash: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionAllOutSetAck.rsig_data)
-    pub rsig_data: ::protobuf::MessageField<MoneroTransactionRsigData>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionAllOutSetAck.rv)
     pub rv: ::protobuf::MessageField<monero_transaction_all_out_set_ack::MoneroRingCtSig>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionAllOutSetAck.full_message_hash)
+    pub full_message_hash: ::std::option::Option<::std::vec::Vec<u8>>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionAllOutSetAck.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -6390,6 +6029,42 @@ impl MoneroTransactionAllOutSetAck {
         self.tx_prefix_hash.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
+    // optional bytes full_message_hash = 5;
+
+    pub fn full_message_hash(&self) -> &[u8] {
+        match self.full_message_hash.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_full_message_hash(&mut self) {
+        self.full_message_hash = ::std::option::Option::None;
+    }
+
+    pub fn has_full_message_hash(&self) -> bool {
+        self.full_message_hash.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_full_message_hash(&mut self, v: ::std::vec::Vec<u8>) {
+        self.full_message_hash = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_full_message_hash(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.full_message_hash.is_none() {
+            self.full_message_hash = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.full_message_hash.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_full_message_hash(&mut self) -> ::std::vec::Vec<u8> {
+        self.full_message_hash.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
         let mut fields = ::std::vec::Vec::with_capacity(4);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
@@ -6403,15 +6078,15 @@ impl MoneroTransactionAllOutSetAck {
             |m: &MoneroTransactionAllOutSetAck| { &m.tx_prefix_hash },
             |m: &mut MoneroTransactionAllOutSetAck| { &mut m.tx_prefix_hash },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, MoneroTransactionRsigData>(
-            "rsig_data",
-            |m: &MoneroTransactionAllOutSetAck| { &m.rsig_data },
-            |m: &mut MoneroTransactionAllOutSetAck| { &mut m.rsig_data },
-        ));
         fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, monero_transaction_all_out_set_ack::MoneroRingCtSig>(
             "rv",
             |m: &MoneroTransactionAllOutSetAck| { &m.rv },
             |m: &mut MoneroTransactionAllOutSetAck| { &mut m.rv },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "full_message_hash",
+            |m: &MoneroTransactionAllOutSetAck| { &m.full_message_hash },
+            |m: &mut MoneroTransactionAllOutSetAck| { &mut m.full_message_hash },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionAllOutSetAck>(
             "MoneroTransactionAllOutSetAck",
@@ -6437,11 +6112,11 @@ impl ::protobuf::Message for MoneroTransactionAllOutSetAck {
                 18 => {
                     self.tx_prefix_hash = ::std::option::Option::Some(is.read_bytes()?);
                 },
-                26 => {
-                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.rsig_data)?;
-                },
                 34 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.rv)?;
+                },
+                42 => {
+                    self.full_message_hash = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -6461,13 +6136,12 @@ impl ::protobuf::Message for MoneroTransactionAllOutSetAck {
         if let Some(v) = self.tx_prefix_hash.as_ref() {
             my_size += ::protobuf::rt::bytes_size(2, &v);
         }
-        if let Some(v) = self.rsig_data.as_ref() {
-            let len = v.compute_size();
-            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
-        }
         if let Some(v) = self.rv.as_ref() {
             let len = v.compute_size();
             my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
+        if let Some(v) = self.full_message_hash.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(5, &v);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
@@ -6481,11 +6155,11 @@ impl ::protobuf::Message for MoneroTransactionAllOutSetAck {
         if let Some(v) = self.tx_prefix_hash.as_ref() {
             os.write_bytes(2, v)?;
         }
-        if let Some(v) = self.rsig_data.as_ref() {
-            ::protobuf::rt::write_message_field_with_cached_size(3, v, os)?;
-        }
         if let Some(v) = self.rv.as_ref() {
             ::protobuf::rt::write_message_field_with_cached_size(4, v, os)?;
+        }
+        if let Some(v) = self.full_message_hash.as_ref() {
+            os.write_bytes(5, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -6506,8 +6180,8 @@ impl ::protobuf::Message for MoneroTransactionAllOutSetAck {
     fn clear(&mut self) {
         self.extra = ::std::option::Option::None;
         self.tx_prefix_hash = ::std::option::Option::None;
-        self.rsig_data.clear();
         self.rv.clear();
+        self.full_message_hash = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -6515,8 +6189,8 @@ impl ::protobuf::Message for MoneroTransactionAllOutSetAck {
         static instance: MoneroTransactionAllOutSetAck = MoneroTransactionAllOutSetAck {
             extra: ::std::option::Option::None,
             tx_prefix_hash: ::std::option::Option::None,
-            rsig_data: ::protobuf::MessageField::none(),
             rv: ::protobuf::MessageField::none(),
+            full_message_hash: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -6778,273 +6452,6 @@ pub mod monero_transaction_all_out_set_ack {
 }
 
 /// *
-///  Request: Sub request of MoneroTransactionSign.
-///  @next MoneroTransactionMlsagDoneAck
-#[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionMlsagDoneRequest)
-pub struct MoneroTransactionMlsagDoneRequest {
-    // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionMlsagDoneRequest.special_fields)
-    pub special_fields: ::protobuf::SpecialFields,
-}
-
-impl<'a> ::std::default::Default for &'a MoneroTransactionMlsagDoneRequest {
-    fn default() -> &'a MoneroTransactionMlsagDoneRequest {
-        <MoneroTransactionMlsagDoneRequest as ::protobuf::Message>::default_instance()
-    }
-}
-
-impl MoneroTransactionMlsagDoneRequest {
-    pub fn new() -> MoneroTransactionMlsagDoneRequest {
-        ::std::default::Default::default()
-    }
-
-    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(0);
-        let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionMlsagDoneRequest>(
-            "MoneroTransactionMlsagDoneRequest",
-            fields,
-            oneofs,
-        )
-    }
-}
-
-impl ::protobuf::Message for MoneroTransactionMlsagDoneRequest {
-    const NAME: &'static str = "MoneroTransactionMlsagDoneRequest";
-
-    fn is_initialized(&self) -> bool {
-        true
-    }
-
-    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
-        while let Some(tag) = is.read_raw_tag_or_eof()? {
-            match tag {
-                tag => {
-                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
-                },
-            };
-        }
-        ::std::result::Result::Ok(())
-    }
-
-    // Compute sizes of nested messages
-    #[allow(unused_variables)]
-    fn compute_size(&self) -> u64 {
-        let mut my_size = 0;
-        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
-        self.special_fields.cached_size().set(my_size as u32);
-        my_size
-    }
-
-    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        os.write_unknown_fields(self.special_fields.unknown_fields())?;
-        ::std::result::Result::Ok(())
-    }
-
-    fn special_fields(&self) -> &::protobuf::SpecialFields {
-        &self.special_fields
-    }
-
-    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
-        &mut self.special_fields
-    }
-
-    fn new() -> MoneroTransactionMlsagDoneRequest {
-        MoneroTransactionMlsagDoneRequest::new()
-    }
-
-    fn clear(&mut self) {
-        self.special_fields.clear();
-    }
-
-    fn default_instance() -> &'static MoneroTransactionMlsagDoneRequest {
-        static instance: MoneroTransactionMlsagDoneRequest = MoneroTransactionMlsagDoneRequest {
-            special_fields: ::protobuf::SpecialFields::new(),
-        };
-        &instance
-    }
-}
-
-impl ::protobuf::MessageFull for MoneroTransactionMlsagDoneRequest {
-    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
-        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroTransactionMlsagDoneRequest").unwrap()).clone()
-    }
-}
-
-impl ::std::fmt::Display for MoneroTransactionMlsagDoneRequest {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
-        ::protobuf::text_format::fmt(self, f)
-    }
-}
-
-impl ::protobuf::reflect::ProtobufValue for MoneroTransactionMlsagDoneRequest {
-    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
-}
-
-/// *
-///  Response: Contains full message hash needed for the signature
-///  @next MoneroTransactionSignInputRequest
-#[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroTransactionMlsagDoneAck)
-pub struct MoneroTransactionMlsagDoneAck {
-    // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionMlsagDoneAck.full_message_hash)
-    pub full_message_hash: ::std::option::Option<::std::vec::Vec<u8>>,
-    // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionMlsagDoneAck.special_fields)
-    pub special_fields: ::protobuf::SpecialFields,
-}
-
-impl<'a> ::std::default::Default for &'a MoneroTransactionMlsagDoneAck {
-    fn default() -> &'a MoneroTransactionMlsagDoneAck {
-        <MoneroTransactionMlsagDoneAck as ::protobuf::Message>::default_instance()
-    }
-}
-
-impl MoneroTransactionMlsagDoneAck {
-    pub fn new() -> MoneroTransactionMlsagDoneAck {
-        ::std::default::Default::default()
-    }
-
-    // optional bytes full_message_hash = 1;
-
-    pub fn full_message_hash(&self) -> &[u8] {
-        match self.full_message_hash.as_ref() {
-            Some(v) => v,
-            None => &[],
-        }
-    }
-
-    pub fn clear_full_message_hash(&mut self) {
-        self.full_message_hash = ::std::option::Option::None;
-    }
-
-    pub fn has_full_message_hash(&self) -> bool {
-        self.full_message_hash.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_full_message_hash(&mut self, v: ::std::vec::Vec<u8>) {
-        self.full_message_hash = ::std::option::Option::Some(v);
-    }
-
-    // Mutable pointer to the field.
-    // If field is not initialized, it is initialized with default value first.
-    pub fn mut_full_message_hash(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.full_message_hash.is_none() {
-            self.full_message_hash = ::std::option::Option::Some(::std::vec::Vec::new());
-        }
-        self.full_message_hash.as_mut().unwrap()
-    }
-
-    // Take field
-    pub fn take_full_message_hash(&mut self) -> ::std::vec::Vec<u8> {
-        self.full_message_hash.take().unwrap_or_else(|| ::std::vec::Vec::new())
-    }
-
-    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(1);
-        let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "full_message_hash",
-            |m: &MoneroTransactionMlsagDoneAck| { &m.full_message_hash },
-            |m: &mut MoneroTransactionMlsagDoneAck| { &mut m.full_message_hash },
-        ));
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionMlsagDoneAck>(
-            "MoneroTransactionMlsagDoneAck",
-            fields,
-            oneofs,
-        )
-    }
-}
-
-impl ::protobuf::Message for MoneroTransactionMlsagDoneAck {
-    const NAME: &'static str = "MoneroTransactionMlsagDoneAck";
-
-    fn is_initialized(&self) -> bool {
-        true
-    }
-
-    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
-        while let Some(tag) = is.read_raw_tag_or_eof()? {
-            match tag {
-                10 => {
-                    self.full_message_hash = ::std::option::Option::Some(is.read_bytes()?);
-                },
-                tag => {
-                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
-                },
-            };
-        }
-        ::std::result::Result::Ok(())
-    }
-
-    // Compute sizes of nested messages
-    #[allow(unused_variables)]
-    fn compute_size(&self) -> u64 {
-        let mut my_size = 0;
-        if let Some(v) = self.full_message_hash.as_ref() {
-            my_size += ::protobuf::rt::bytes_size(1, &v);
-        }
-        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
-        self.special_fields.cached_size().set(my_size as u32);
-        my_size
-    }
-
-    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        if let Some(v) = self.full_message_hash.as_ref() {
-            os.write_bytes(1, v)?;
-        }
-        os.write_unknown_fields(self.special_fields.unknown_fields())?;
-        ::std::result::Result::Ok(())
-    }
-
-    fn special_fields(&self) -> &::protobuf::SpecialFields {
-        &self.special_fields
-    }
-
-    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
-        &mut self.special_fields
-    }
-
-    fn new() -> MoneroTransactionMlsagDoneAck {
-        MoneroTransactionMlsagDoneAck::new()
-    }
-
-    fn clear(&mut self) {
-        self.full_message_hash = ::std::option::Option::None;
-        self.special_fields.clear();
-    }
-
-    fn default_instance() -> &'static MoneroTransactionMlsagDoneAck {
-        static instance: MoneroTransactionMlsagDoneAck = MoneroTransactionMlsagDoneAck {
-            full_message_hash: ::std::option::Option::None,
-            special_fields: ::protobuf::SpecialFields::new(),
-        };
-        &instance
-    }
-}
-
-impl ::protobuf::MessageFull for MoneroTransactionMlsagDoneAck {
-    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
-        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroTransactionMlsagDoneAck").unwrap()).clone()
-    }
-}
-
-impl ::std::fmt::Display for MoneroTransactionMlsagDoneAck {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
-        ::protobuf::text_format::fmt(self, f)
-    }
-}
-
-impl ::protobuf::reflect::ProtobufValue for MoneroTransactionMlsagDoneAck {
-    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
-}
-
-/// *
 ///  Request: Sub request of MoneroTransactionSign. Sends UTXO for the signing.
 ///  @next MoneroTransactionSignInputAck
 #[derive(PartialEq,Clone,Default,Debug)]
@@ -7061,10 +6468,12 @@ pub struct MoneroTransactionSignInputRequest {
     pub pseudo_out: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputRequest.pseudo_out_hmac)
     pub pseudo_out_hmac: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputRequest.alpha_enc)
-    pub alpha_enc: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputRequest.spend_enc)
-    pub spend_enc: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputRequest.pseudo_out_alpha)
+    pub pseudo_out_alpha: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputRequest.spend_key)
+    pub spend_key: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputRequest.orig_idx)
+    pub orig_idx: ::std::option::Option<u32>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSignInputRequest.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -7225,80 +6634,99 @@ impl MoneroTransactionSignInputRequest {
         self.pseudo_out_hmac.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes alpha_enc = 6;
+    // optional bytes pseudo_out_alpha = 6;
 
-    pub fn alpha_enc(&self) -> &[u8] {
-        match self.alpha_enc.as_ref() {
+    pub fn pseudo_out_alpha(&self) -> &[u8] {
+        match self.pseudo_out_alpha.as_ref() {
             Some(v) => v,
             None => &[],
         }
     }
 
-    pub fn clear_alpha_enc(&mut self) {
-        self.alpha_enc = ::std::option::Option::None;
+    pub fn clear_pseudo_out_alpha(&mut self) {
+        self.pseudo_out_alpha = ::std::option::Option::None;
     }
 
-    pub fn has_alpha_enc(&self) -> bool {
-        self.alpha_enc.is_some()
+    pub fn has_pseudo_out_alpha(&self) -> bool {
+        self.pseudo_out_alpha.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_alpha_enc(&mut self, v: ::std::vec::Vec<u8>) {
-        self.alpha_enc = ::std::option::Option::Some(v);
+    pub fn set_pseudo_out_alpha(&mut self, v: ::std::vec::Vec<u8>) {
+        self.pseudo_out_alpha = ::std::option::Option::Some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_alpha_enc(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.alpha_enc.is_none() {
-            self.alpha_enc = ::std::option::Option::Some(::std::vec::Vec::new());
+    pub fn mut_pseudo_out_alpha(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.pseudo_out_alpha.is_none() {
+            self.pseudo_out_alpha = ::std::option::Option::Some(::std::vec::Vec::new());
         }
-        self.alpha_enc.as_mut().unwrap()
+        self.pseudo_out_alpha.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_alpha_enc(&mut self) -> ::std::vec::Vec<u8> {
-        self.alpha_enc.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    pub fn take_pseudo_out_alpha(&mut self) -> ::std::vec::Vec<u8> {
+        self.pseudo_out_alpha.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes spend_enc = 7;
+    // optional bytes spend_key = 7;
 
-    pub fn spend_enc(&self) -> &[u8] {
-        match self.spend_enc.as_ref() {
+    pub fn spend_key(&self) -> &[u8] {
+        match self.spend_key.as_ref() {
             Some(v) => v,
             None => &[],
         }
     }
 
-    pub fn clear_spend_enc(&mut self) {
-        self.spend_enc = ::std::option::Option::None;
+    pub fn clear_spend_key(&mut self) {
+        self.spend_key = ::std::option::Option::None;
     }
 
-    pub fn has_spend_enc(&self) -> bool {
-        self.spend_enc.is_some()
+    pub fn has_spend_key(&self) -> bool {
+        self.spend_key.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_spend_enc(&mut self, v: ::std::vec::Vec<u8>) {
-        self.spend_enc = ::std::option::Option::Some(v);
+    pub fn set_spend_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.spend_key = ::std::option::Option::Some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_spend_enc(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.spend_enc.is_none() {
-            self.spend_enc = ::std::option::Option::Some(::std::vec::Vec::new());
+    pub fn mut_spend_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.spend_key.is_none() {
+            self.spend_key = ::std::option::Option::Some(::std::vec::Vec::new());
         }
-        self.spend_enc.as_mut().unwrap()
+        self.spend_key.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_spend_enc(&mut self) -> ::std::vec::Vec<u8> {
-        self.spend_enc.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    pub fn take_spend_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.spend_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // optional uint32 orig_idx = 8;
+
+    pub fn orig_idx(&self) -> u32 {
+        self.orig_idx.unwrap_or(0)
+    }
+
+    pub fn clear_orig_idx(&mut self) {
+        self.orig_idx = ::std::option::Option::None;
+    }
+
+    pub fn has_orig_idx(&self) -> bool {
+        self.orig_idx.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_orig_idx(&mut self, v: u32) {
+        self.orig_idx = ::std::option::Option::Some(v);
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(7);
+        let mut fields = ::std::vec::Vec::with_capacity(8);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, MoneroTransactionSourceEntry>(
             "src_entr",
@@ -7326,14 +6754,19 @@ impl MoneroTransactionSignInputRequest {
             |m: &mut MoneroTransactionSignInputRequest| { &mut m.pseudo_out_hmac },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "alpha_enc",
-            |m: &MoneroTransactionSignInputRequest| { &m.alpha_enc },
-            |m: &mut MoneroTransactionSignInputRequest| { &mut m.alpha_enc },
+            "pseudo_out_alpha",
+            |m: &MoneroTransactionSignInputRequest| { &m.pseudo_out_alpha },
+            |m: &mut MoneroTransactionSignInputRequest| { &mut m.pseudo_out_alpha },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "spend_enc",
-            |m: &MoneroTransactionSignInputRequest| { &m.spend_enc },
-            |m: &mut MoneroTransactionSignInputRequest| { &mut m.spend_enc },
+            "spend_key",
+            |m: &MoneroTransactionSignInputRequest| { &m.spend_key },
+            |m: &mut MoneroTransactionSignInputRequest| { &mut m.spend_key },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "orig_idx",
+            |m: &MoneroTransactionSignInputRequest| { &m.orig_idx },
+            |m: &mut MoneroTransactionSignInputRequest| { &mut m.orig_idx },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionSignInputRequest>(
             "MoneroTransactionSignInputRequest",
@@ -7347,6 +6780,11 @@ impl ::protobuf::Message for MoneroTransactionSignInputRequest {
     const NAME: &'static str = "MoneroTransactionSignInputRequest";
 
     fn is_initialized(&self) -> bool {
+        for v in &self.src_entr {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -7369,10 +6807,13 @@ impl ::protobuf::Message for MoneroTransactionSignInputRequest {
                     self.pseudo_out_hmac = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 50 => {
-                    self.alpha_enc = ::std::option::Option::Some(is.read_bytes()?);
+                    self.pseudo_out_alpha = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 58 => {
-                    self.spend_enc = ::std::option::Option::Some(is.read_bytes()?);
+                    self.spend_key = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                64 => {
+                    self.orig_idx = ::std::option::Option::Some(is.read_uint32()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -7402,11 +6843,14 @@ impl ::protobuf::Message for MoneroTransactionSignInputRequest {
         if let Some(v) = self.pseudo_out_hmac.as_ref() {
             my_size += ::protobuf::rt::bytes_size(5, &v);
         }
-        if let Some(v) = self.alpha_enc.as_ref() {
+        if let Some(v) = self.pseudo_out_alpha.as_ref() {
             my_size += ::protobuf::rt::bytes_size(6, &v);
         }
-        if let Some(v) = self.spend_enc.as_ref() {
+        if let Some(v) = self.spend_key.as_ref() {
             my_size += ::protobuf::rt::bytes_size(7, &v);
+        }
+        if let Some(v) = self.orig_idx {
+            my_size += ::protobuf::rt::uint32_size(8, v);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
@@ -7429,11 +6873,14 @@ impl ::protobuf::Message for MoneroTransactionSignInputRequest {
         if let Some(v) = self.pseudo_out_hmac.as_ref() {
             os.write_bytes(5, v)?;
         }
-        if let Some(v) = self.alpha_enc.as_ref() {
+        if let Some(v) = self.pseudo_out_alpha.as_ref() {
             os.write_bytes(6, v)?;
         }
-        if let Some(v) = self.spend_enc.as_ref() {
+        if let Some(v) = self.spend_key.as_ref() {
             os.write_bytes(7, v)?;
+        }
+        if let Some(v) = self.orig_idx {
+            os.write_uint32(8, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -7457,8 +6904,9 @@ impl ::protobuf::Message for MoneroTransactionSignInputRequest {
         self.vini_hmac = ::std::option::Option::None;
         self.pseudo_out = ::std::option::Option::None;
         self.pseudo_out_hmac = ::std::option::Option::None;
-        self.alpha_enc = ::std::option::Option::None;
-        self.spend_enc = ::std::option::Option::None;
+        self.pseudo_out_alpha = ::std::option::Option::None;
+        self.spend_key = ::std::option::Option::None;
+        self.orig_idx = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -7469,8 +6917,9 @@ impl ::protobuf::Message for MoneroTransactionSignInputRequest {
             vini_hmac: ::std::option::Option::None,
             pseudo_out: ::std::option::Option::None,
             pseudo_out_hmac: ::std::option::Option::None,
-            alpha_enc: ::std::option::Option::None,
-            spend_enc: ::std::option::Option::None,
+            pseudo_out_alpha: ::std::option::Option::None,
+            spend_key: ::std::option::Option::None,
+            orig_idx: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -7504,8 +6953,8 @@ pub struct MoneroTransactionSignInputAck {
     // message fields
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputAck.signature)
     pub signature: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputAck.cout)
-    pub cout: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionSignInputAck.pseudo_out)
+    pub pseudo_out: ::std::option::Option<::std::vec::Vec<u8>>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionSignInputAck.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -7558,40 +7007,40 @@ impl MoneroTransactionSignInputAck {
         self.signature.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes cout = 2;
+    // optional bytes pseudo_out = 2;
 
-    pub fn cout(&self) -> &[u8] {
-        match self.cout.as_ref() {
+    pub fn pseudo_out(&self) -> &[u8] {
+        match self.pseudo_out.as_ref() {
             Some(v) => v,
             None => &[],
         }
     }
 
-    pub fn clear_cout(&mut self) {
-        self.cout = ::std::option::Option::None;
+    pub fn clear_pseudo_out(&mut self) {
+        self.pseudo_out = ::std::option::Option::None;
     }
 
-    pub fn has_cout(&self) -> bool {
-        self.cout.is_some()
+    pub fn has_pseudo_out(&self) -> bool {
+        self.pseudo_out.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_cout(&mut self, v: ::std::vec::Vec<u8>) {
-        self.cout = ::std::option::Option::Some(v);
+    pub fn set_pseudo_out(&mut self, v: ::std::vec::Vec<u8>) {
+        self.pseudo_out = ::std::option::Option::Some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_cout(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.cout.is_none() {
-            self.cout = ::std::option::Option::Some(::std::vec::Vec::new());
+    pub fn mut_pseudo_out(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.pseudo_out.is_none() {
+            self.pseudo_out = ::std::option::Option::Some(::std::vec::Vec::new());
         }
-        self.cout.as_mut().unwrap()
+        self.pseudo_out.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_cout(&mut self) -> ::std::vec::Vec<u8> {
-        self.cout.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    pub fn take_pseudo_out(&mut self) -> ::std::vec::Vec<u8> {
+        self.pseudo_out.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
@@ -7603,9 +7052,9 @@ impl MoneroTransactionSignInputAck {
             |m: &mut MoneroTransactionSignInputAck| { &mut m.signature },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "cout",
-            |m: &MoneroTransactionSignInputAck| { &m.cout },
-            |m: &mut MoneroTransactionSignInputAck| { &mut m.cout },
+            "pseudo_out",
+            |m: &MoneroTransactionSignInputAck| { &m.pseudo_out },
+            |m: &mut MoneroTransactionSignInputAck| { &mut m.pseudo_out },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionSignInputAck>(
             "MoneroTransactionSignInputAck",
@@ -7629,7 +7078,7 @@ impl ::protobuf::Message for MoneroTransactionSignInputAck {
                     self.signature = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 18 => {
-                    self.cout = ::std::option::Option::Some(is.read_bytes()?);
+                    self.pseudo_out = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -7646,7 +7095,7 @@ impl ::protobuf::Message for MoneroTransactionSignInputAck {
         if let Some(v) = self.signature.as_ref() {
             my_size += ::protobuf::rt::bytes_size(1, &v);
         }
-        if let Some(v) = self.cout.as_ref() {
+        if let Some(v) = self.pseudo_out.as_ref() {
             my_size += ::protobuf::rt::bytes_size(2, &v);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
@@ -7658,7 +7107,7 @@ impl ::protobuf::Message for MoneroTransactionSignInputAck {
         if let Some(v) = self.signature.as_ref() {
             os.write_bytes(1, v)?;
         }
-        if let Some(v) = self.cout.as_ref() {
+        if let Some(v) = self.pseudo_out.as_ref() {
             os.write_bytes(2, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
@@ -7679,14 +7128,14 @@ impl ::protobuf::Message for MoneroTransactionSignInputAck {
 
     fn clear(&mut self) {
         self.signature = ::std::option::Option::None;
-        self.cout = ::std::option::Option::None;
+        self.pseudo_out = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
     fn default_instance() -> &'static MoneroTransactionSignInputAck {
         static instance: MoneroTransactionSignInputAck = MoneroTransactionSignInputAck {
             signature: ::std::option::Option::None,
-            cout: ::std::option::Option::None,
+            pseudo_out: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -7831,6 +7280,8 @@ pub struct MoneroTransactionFinalAck {
     pub rand_mult: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionFinalAck.tx_enc_keys)
     pub tx_enc_keys: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroTransactionFinalAck.opening_key)
+    pub opening_key: ::std::option::Option<::std::vec::Vec<u8>>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroTransactionFinalAck.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -7991,8 +7442,44 @@ impl MoneroTransactionFinalAck {
         self.tx_enc_keys.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
+    // optional bytes opening_key = 5;
+
+    pub fn opening_key(&self) -> &[u8] {
+        match self.opening_key.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_opening_key(&mut self) {
+        self.opening_key = ::std::option::Option::None;
+    }
+
+    pub fn has_opening_key(&self) -> bool {
+        self.opening_key.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_opening_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.opening_key = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_opening_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.opening_key.is_none() {
+            self.opening_key = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.opening_key.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_opening_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.opening_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(4);
+        let mut fields = ::std::vec::Vec::with_capacity(5);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "cout_key",
@@ -8013,6 +7500,11 @@ impl MoneroTransactionFinalAck {
             "tx_enc_keys",
             |m: &MoneroTransactionFinalAck| { &m.tx_enc_keys },
             |m: &mut MoneroTransactionFinalAck| { &mut m.tx_enc_keys },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "opening_key",
+            |m: &MoneroTransactionFinalAck| { &m.opening_key },
+            |m: &mut MoneroTransactionFinalAck| { &mut m.opening_key },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransactionFinalAck>(
             "MoneroTransactionFinalAck",
@@ -8044,6 +7536,9 @@ impl ::protobuf::Message for MoneroTransactionFinalAck {
                 34 => {
                     self.tx_enc_keys = ::std::option::Option::Some(is.read_bytes()?);
                 },
+                42 => {
+                    self.opening_key = ::std::option::Option::Some(is.read_bytes()?);
+                },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
                 },
@@ -8068,6 +7563,9 @@ impl ::protobuf::Message for MoneroTransactionFinalAck {
         if let Some(v) = self.tx_enc_keys.as_ref() {
             my_size += ::protobuf::rt::bytes_size(4, &v);
         }
+        if let Some(v) = self.opening_key.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(5, &v);
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -8085,6 +7583,9 @@ impl ::protobuf::Message for MoneroTransactionFinalAck {
         }
         if let Some(v) = self.tx_enc_keys.as_ref() {
             os.write_bytes(4, v)?;
+        }
+        if let Some(v) = self.opening_key.as_ref() {
+            os.write_bytes(5, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -8107,6 +7608,7 @@ impl ::protobuf::Message for MoneroTransactionFinalAck {
         self.salt = ::std::option::Option::None;
         self.rand_mult = ::std::option::Option::None;
         self.tx_enc_keys = ::std::option::Option::None;
+        self.opening_key = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
@@ -8116,6 +7618,7 @@ impl ::protobuf::Message for MoneroTransactionFinalAck {
             salt: ::std::option::Option::None,
             rand_mult: ::std::option::Option::None,
             tx_enc_keys: ::std::option::Option::None,
+            opening_key: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -8154,7 +7657,7 @@ pub struct MoneroKeyImageExportInitRequest {
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageExportInitRequest.address_n)
     pub address_n: ::std::vec::Vec<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageExportInitRequest.network_type)
-    pub network_type: ::std::option::Option<u32>,
+    pub network_type: ::std::option::Option<::protobuf::EnumOrUnknown<MoneroNetworkType>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageExportInitRequest.subs)
     pub subs: ::std::vec::Vec<monero_key_image_export_init_request::MoneroSubAddressIndicesList>,
     // special fields
@@ -8173,7 +7676,7 @@ impl MoneroKeyImageExportInitRequest {
         ::std::default::Default::default()
     }
 
-    // optional uint64 num = 1;
+    // required uint64 num = 1;
 
     pub fn num(&self) -> u64 {
         self.num.unwrap_or(0)
@@ -8192,7 +7695,7 @@ impl MoneroKeyImageExportInitRequest {
         self.num = ::std::option::Option::Some(v);
     }
 
-    // optional bytes hash = 2;
+    // required bytes hash = 2;
 
     pub fn hash(&self) -> &[u8] {
         match self.hash.as_ref() {
@@ -8228,10 +7731,13 @@ impl MoneroKeyImageExportInitRequest {
         self.hash.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional uint32 network_type = 4;
+    // optional .hw.trezor.messages.monero.MoneroNetworkType network_type = 4;
 
-    pub fn network_type(&self) -> u32 {
-        self.network_type.unwrap_or(0)
+    pub fn network_type(&self) -> MoneroNetworkType {
+        match self.network_type {
+            Some(e) => e.enum_value_or(MoneroNetworkType::MAINNET),
+            None => MoneroNetworkType::MAINNET,
+        }
     }
 
     pub fn clear_network_type(&mut self) {
@@ -8243,8 +7749,8 @@ impl MoneroKeyImageExportInitRequest {
     }
 
     // Param is passed by value, moved
-    pub fn set_network_type(&mut self, v: u32) {
-        self.network_type = ::std::option::Option::Some(v);
+    pub fn set_network_type(&mut self, v: MoneroNetworkType) {
+        self.network_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
@@ -8287,6 +7793,17 @@ impl ::protobuf::Message for MoneroKeyImageExportInitRequest {
     const NAME: &'static str = "MoneroKeyImageExportInitRequest";
 
     fn is_initialized(&self) -> bool {
+        if self.num.is_none() {
+            return false;
+        }
+        if self.hash.is_none() {
+            return false;
+        }
+        for v in &self.subs {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -8306,7 +7823,7 @@ impl ::protobuf::Message for MoneroKeyImageExportInitRequest {
                     self.address_n.push(is.read_uint32()?);
                 },
                 32 => {
-                    self.network_type = ::std::option::Option::Some(is.read_uint32()?);
+                    self.network_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 42 => {
                     self.subs.push(is.read_message()?);
@@ -8333,7 +7850,7 @@ impl ::protobuf::Message for MoneroKeyImageExportInitRequest {
             my_size += ::protobuf::rt::uint32_size(3, *value);
         };
         if let Some(v) = self.network_type {
-            my_size += ::protobuf::rt::uint32_size(4, v);
+            my_size += ::protobuf::rt::int32_size(4, v.value());
         }
         for value in &self.subs {
             let len = value.compute_size();
@@ -8355,7 +7872,7 @@ impl ::protobuf::Message for MoneroKeyImageExportInitRequest {
             os.write_uint32(3, *v)?;
         };
         if let Some(v) = self.network_type {
-            os.write_uint32(4, v)?;
+            os.write_enum(4, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         for v in &self.subs {
             ::protobuf::rt::write_message_field_with_cached_size(5, v, os)?;
@@ -8443,7 +7960,7 @@ pub mod monero_key_image_export_init_request {
             ::std::default::Default::default()
         }
 
-        // optional uint32 account = 1;
+        // required uint32 account = 1;
 
         pub fn account(&self) -> u32 {
             self.account.unwrap_or(0)
@@ -8487,6 +8004,9 @@ pub mod monero_key_image_export_init_request {
         const NAME: &'static str = "MoneroSubAddressIndicesList";
 
         fn is_initialized(&self) -> bool {
+            if self.account.is_none() {
+                return false;
+            }
             true
         }
 
@@ -8733,6 +8253,11 @@ impl ::protobuf::Message for MoneroKeyImageSyncStepRequest {
     const NAME: &'static str = "MoneroKeyImageSyncStepRequest";
 
     fn is_initialized(&self) -> bool {
+        for v in &self.tdis {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -8830,6 +8355,10 @@ pub mod monero_key_image_sync_step_request {
         pub additional_tx_pub_keys: ::std::vec::Vec<::std::vec::Vec<u8>>,
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageSyncStepRequest.MoneroTransferDetails.internal_output_index)
         pub internal_output_index: ::std::option::Option<u64>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageSyncStepRequest.MoneroTransferDetails.sub_addr_major)
+        pub sub_addr_major: ::std::option::Option<u32>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageSyncStepRequest.MoneroTransferDetails.sub_addr_minor)
+        pub sub_addr_minor: ::std::option::Option<u32>,
         // special fields
         // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroKeyImageSyncStepRequest.MoneroTransferDetails.special_fields)
         pub special_fields: ::protobuf::SpecialFields,
@@ -8846,7 +8375,7 @@ pub mod monero_key_image_sync_step_request {
             ::std::default::Default::default()
         }
 
-        // optional bytes out_key = 1;
+        // required bytes out_key = 1;
 
         pub fn out_key(&self) -> &[u8] {
             match self.out_key.as_ref() {
@@ -8882,7 +8411,7 @@ pub mod monero_key_image_sync_step_request {
             self.out_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
         }
 
-        // optional bytes tx_pub_key = 2;
+        // required bytes tx_pub_key = 2;
 
         pub fn tx_pub_key(&self) -> &[u8] {
             match self.tx_pub_key.as_ref() {
@@ -8918,7 +8447,7 @@ pub mod monero_key_image_sync_step_request {
             self.tx_pub_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
         }
 
-        // optional uint64 internal_output_index = 4;
+        // required uint64 internal_output_index = 4;
 
         pub fn internal_output_index(&self) -> u64 {
             self.internal_output_index.unwrap_or(0)
@@ -8937,8 +8466,46 @@ pub mod monero_key_image_sync_step_request {
             self.internal_output_index = ::std::option::Option::Some(v);
         }
 
+        // optional uint32 sub_addr_major = 5;
+
+        pub fn sub_addr_major(&self) -> u32 {
+            self.sub_addr_major.unwrap_or(0)
+        }
+
+        pub fn clear_sub_addr_major(&mut self) {
+            self.sub_addr_major = ::std::option::Option::None;
+        }
+
+        pub fn has_sub_addr_major(&self) -> bool {
+            self.sub_addr_major.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_sub_addr_major(&mut self, v: u32) {
+            self.sub_addr_major = ::std::option::Option::Some(v);
+        }
+
+        // optional uint32 sub_addr_minor = 6;
+
+        pub fn sub_addr_minor(&self) -> u32 {
+            self.sub_addr_minor.unwrap_or(0)
+        }
+
+        pub fn clear_sub_addr_minor(&mut self) {
+            self.sub_addr_minor = ::std::option::Option::None;
+        }
+
+        pub fn has_sub_addr_minor(&self) -> bool {
+            self.sub_addr_minor.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_sub_addr_minor(&mut self, v: u32) {
+            self.sub_addr_minor = ::std::option::Option::Some(v);
+        }
+
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-            let mut fields = ::std::vec::Vec::with_capacity(4);
+            let mut fields = ::std::vec::Vec::with_capacity(6);
             let mut oneofs = ::std::vec::Vec::with_capacity(0);
             fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "out_key",
@@ -8960,6 +8527,16 @@ pub mod monero_key_image_sync_step_request {
                 |m: &MoneroTransferDetails| { &m.internal_output_index },
                 |m: &mut MoneroTransferDetails| { &mut m.internal_output_index },
             ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "sub_addr_major",
+                |m: &MoneroTransferDetails| { &m.sub_addr_major },
+                |m: &mut MoneroTransferDetails| { &mut m.sub_addr_major },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "sub_addr_minor",
+                |m: &MoneroTransferDetails| { &m.sub_addr_minor },
+                |m: &mut MoneroTransferDetails| { &mut m.sub_addr_minor },
+            ));
             ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroTransferDetails>(
                 "MoneroKeyImageSyncStepRequest.MoneroTransferDetails",
                 fields,
@@ -8972,6 +8549,15 @@ pub mod monero_key_image_sync_step_request {
         const NAME: &'static str = "MoneroTransferDetails";
 
         fn is_initialized(&self) -> bool {
+            if self.out_key.is_none() {
+                return false;
+            }
+            if self.tx_pub_key.is_none() {
+                return false;
+            }
+            if self.internal_output_index.is_none() {
+                return false;
+            }
             true
         }
 
@@ -8989,6 +8575,12 @@ pub mod monero_key_image_sync_step_request {
                     },
                     32 => {
                         self.internal_output_index = ::std::option::Option::Some(is.read_uint64()?);
+                    },
+                    40 => {
+                        self.sub_addr_major = ::std::option::Option::Some(is.read_uint32()?);
+                    },
+                    48 => {
+                        self.sub_addr_minor = ::std::option::Option::Some(is.read_uint32()?);
                     },
                     tag => {
                         ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -9014,6 +8606,12 @@ pub mod monero_key_image_sync_step_request {
             if let Some(v) = self.internal_output_index {
                 my_size += ::protobuf::rt::uint64_size(4, v);
             }
+            if let Some(v) = self.sub_addr_major {
+                my_size += ::protobuf::rt::uint32_size(5, v);
+            }
+            if let Some(v) = self.sub_addr_minor {
+                my_size += ::protobuf::rt::uint32_size(6, v);
+            }
             my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
             self.special_fields.cached_size().set(my_size as u32);
             my_size
@@ -9031,6 +8629,12 @@ pub mod monero_key_image_sync_step_request {
             };
             if let Some(v) = self.internal_output_index {
                 os.write_uint64(4, v)?;
+            }
+            if let Some(v) = self.sub_addr_major {
+                os.write_uint32(5, v)?;
+            }
+            if let Some(v) = self.sub_addr_minor {
+                os.write_uint32(6, v)?;
             }
             os.write_unknown_fields(self.special_fields.unknown_fields())?;
             ::std::result::Result::Ok(())
@@ -9053,6 +8657,8 @@ pub mod monero_key_image_sync_step_request {
             self.tx_pub_key = ::std::option::Option::None;
             self.additional_tx_pub_keys.clear();
             self.internal_output_index = ::std::option::Option::None;
+            self.sub_addr_major = ::std::option::Option::None;
+            self.sub_addr_minor = ::std::option::Option::None;
             self.special_fields.clear();
         }
 
@@ -9062,6 +8668,8 @@ pub mod monero_key_image_sync_step_request {
                 tx_pub_key: ::std::option::Option::None,
                 additional_tx_pub_keys: ::std::vec::Vec::new(),
                 internal_output_index: ::std::option::Option::None,
+                sub_addr_major: ::std::option::Option::None,
+                sub_addr_minor: ::std::option::Option::None,
                 special_fields: ::protobuf::SpecialFields::new(),
             };
             &instance
@@ -9223,8 +8831,6 @@ pub mod monero_key_image_sync_step_ack {
         // message fields
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageSyncStepAck.MoneroExportedKeyImage.iv)
         pub iv: ::std::option::Option<::std::vec::Vec<u8>>,
-        // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageSyncStepAck.MoneroExportedKeyImage.tag)
-        pub tag: ::std::option::Option<::std::vec::Vec<u8>>,
         // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroKeyImageSyncStepAck.MoneroExportedKeyImage.blob)
         pub blob: ::std::option::Option<::std::vec::Vec<u8>>,
         // special fields
@@ -9279,42 +8885,6 @@ pub mod monero_key_image_sync_step_ack {
             self.iv.take().unwrap_or_else(|| ::std::vec::Vec::new())
         }
 
-        // optional bytes tag = 2;
-
-        pub fn tag(&self) -> &[u8] {
-            match self.tag.as_ref() {
-                Some(v) => v,
-                None => &[],
-            }
-        }
-
-        pub fn clear_tag(&mut self) {
-            self.tag = ::std::option::Option::None;
-        }
-
-        pub fn has_tag(&self) -> bool {
-            self.tag.is_some()
-        }
-
-        // Param is passed by value, moved
-        pub fn set_tag(&mut self, v: ::std::vec::Vec<u8>) {
-            self.tag = ::std::option::Option::Some(v);
-        }
-
-        // Mutable pointer to the field.
-        // If field is not initialized, it is initialized with default value first.
-        pub fn mut_tag(&mut self) -> &mut ::std::vec::Vec<u8> {
-            if self.tag.is_none() {
-                self.tag = ::std::option::Option::Some(::std::vec::Vec::new());
-            }
-            self.tag.as_mut().unwrap()
-        }
-
-        // Take field
-        pub fn take_tag(&mut self) -> ::std::vec::Vec<u8> {
-            self.tag.take().unwrap_or_else(|| ::std::vec::Vec::new())
-        }
-
         // optional bytes blob = 3;
 
         pub fn blob(&self) -> &[u8] {
@@ -9352,17 +8922,12 @@ pub mod monero_key_image_sync_step_ack {
         }
 
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-            let mut fields = ::std::vec::Vec::with_capacity(3);
+            let mut fields = ::std::vec::Vec::with_capacity(2);
             let mut oneofs = ::std::vec::Vec::with_capacity(0);
             fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "iv",
                 |m: &MoneroExportedKeyImage| { &m.iv },
                 |m: &mut MoneroExportedKeyImage| { &mut m.iv },
-            ));
-            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-                "tag",
-                |m: &MoneroExportedKeyImage| { &m.tag },
-                |m: &mut MoneroExportedKeyImage| { &mut m.tag },
             ));
             fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "blob",
@@ -9390,9 +8955,6 @@ pub mod monero_key_image_sync_step_ack {
                     10 => {
                         self.iv = ::std::option::Option::Some(is.read_bytes()?);
                     },
-                    18 => {
-                        self.tag = ::std::option::Option::Some(is.read_bytes()?);
-                    },
                     26 => {
                         self.blob = ::std::option::Option::Some(is.read_bytes()?);
                     },
@@ -9411,9 +8973,6 @@ pub mod monero_key_image_sync_step_ack {
             if let Some(v) = self.iv.as_ref() {
                 my_size += ::protobuf::rt::bytes_size(1, &v);
             }
-            if let Some(v) = self.tag.as_ref() {
-                my_size += ::protobuf::rt::bytes_size(2, &v);
-            }
             if let Some(v) = self.blob.as_ref() {
                 my_size += ::protobuf::rt::bytes_size(3, &v);
             }
@@ -9425,9 +8984,6 @@ pub mod monero_key_image_sync_step_ack {
         fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
             if let Some(v) = self.iv.as_ref() {
                 os.write_bytes(1, v)?;
-            }
-            if let Some(v) = self.tag.as_ref() {
-                os.write_bytes(2, v)?;
             }
             if let Some(v) = self.blob.as_ref() {
                 os.write_bytes(3, v)?;
@@ -9450,7 +9006,6 @@ pub mod monero_key_image_sync_step_ack {
 
         fn clear(&mut self) {
             self.iv = ::std::option::Option::None;
-            self.tag = ::std::option::Option::None;
             self.blob = ::std::option::Option::None;
             self.special_fields.clear();
         }
@@ -9458,7 +9013,6 @@ pub mod monero_key_image_sync_step_ack {
         fn default_instance() -> &'static MoneroExportedKeyImage {
             static instance: MoneroExportedKeyImage = MoneroExportedKeyImage {
                 iv: ::std::option::Option::None,
-                tag: ::std::option::Option::None,
                 blob: ::std::option::Option::None,
                 special_fields: ::protobuf::SpecialFields::new(),
             };
@@ -9748,6 +9302,1806 @@ impl ::std::fmt::Display for MoneroKeyImageSyncFinalAck {
 }
 
 impl ::protobuf::reflect::ProtobufValue for MoneroKeyImageSyncFinalAck {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Decrypt tx private keys blob
+///  @next MoneroGetTxKeyAck
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroGetTxKeyRequest)
+pub struct MoneroGetTxKeyRequest {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.address_n)
+    pub address_n: ::std::vec::Vec<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.network_type)
+    pub network_type: ::std::option::Option<::protobuf::EnumOrUnknown<MoneroNetworkType>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.salt1)
+    pub salt1: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.salt2)
+    pub salt2: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.tx_enc_keys)
+    pub tx_enc_keys: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.tx_prefix_hash)
+    pub tx_prefix_hash: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.reason)
+    pub reason: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.view_public_key)
+    pub view_public_key: ::std::option::Option<::std::vec::Vec<u8>>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroGetTxKeyRequest.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroGetTxKeyRequest {
+    fn default() -> &'a MoneroGetTxKeyRequest {
+        <MoneroGetTxKeyRequest as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroGetTxKeyRequest {
+    pub fn new() -> MoneroGetTxKeyRequest {
+        ::std::default::Default::default()
+    }
+
+    // optional .hw.trezor.messages.monero.MoneroNetworkType network_type = 2;
+
+    pub fn network_type(&self) -> MoneroNetworkType {
+        match self.network_type {
+            Some(e) => e.enum_value_or(MoneroNetworkType::MAINNET),
+            None => MoneroNetworkType::MAINNET,
+        }
+    }
+
+    pub fn clear_network_type(&mut self) {
+        self.network_type = ::std::option::Option::None;
+    }
+
+    pub fn has_network_type(&self) -> bool {
+        self.network_type.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_network_type(&mut self, v: MoneroNetworkType) {
+        self.network_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
+    }
+
+    // required bytes salt1 = 3;
+
+    pub fn salt1(&self) -> &[u8] {
+        match self.salt1.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_salt1(&mut self) {
+        self.salt1 = ::std::option::Option::None;
+    }
+
+    pub fn has_salt1(&self) -> bool {
+        self.salt1.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_salt1(&mut self, v: ::std::vec::Vec<u8>) {
+        self.salt1 = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_salt1(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.salt1.is_none() {
+            self.salt1 = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.salt1.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_salt1(&mut self) -> ::std::vec::Vec<u8> {
+        self.salt1.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // required bytes salt2 = 4;
+
+    pub fn salt2(&self) -> &[u8] {
+        match self.salt2.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_salt2(&mut self) {
+        self.salt2 = ::std::option::Option::None;
+    }
+
+    pub fn has_salt2(&self) -> bool {
+        self.salt2.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_salt2(&mut self, v: ::std::vec::Vec<u8>) {
+        self.salt2 = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_salt2(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.salt2.is_none() {
+            self.salt2 = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.salt2.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_salt2(&mut self) -> ::std::vec::Vec<u8> {
+        self.salt2.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // required bytes tx_enc_keys = 5;
+
+    pub fn tx_enc_keys(&self) -> &[u8] {
+        match self.tx_enc_keys.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_tx_enc_keys(&mut self) {
+        self.tx_enc_keys = ::std::option::Option::None;
+    }
+
+    pub fn has_tx_enc_keys(&self) -> bool {
+        self.tx_enc_keys.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_tx_enc_keys(&mut self, v: ::std::vec::Vec<u8>) {
+        self.tx_enc_keys = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_tx_enc_keys(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.tx_enc_keys.is_none() {
+            self.tx_enc_keys = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.tx_enc_keys.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_tx_enc_keys(&mut self) -> ::std::vec::Vec<u8> {
+        self.tx_enc_keys.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // required bytes tx_prefix_hash = 6;
+
+    pub fn tx_prefix_hash(&self) -> &[u8] {
+        match self.tx_prefix_hash.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_tx_prefix_hash(&mut self) {
+        self.tx_prefix_hash = ::std::option::Option::None;
+    }
+
+    pub fn has_tx_prefix_hash(&self) -> bool {
+        self.tx_prefix_hash.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_tx_prefix_hash(&mut self, v: ::std::vec::Vec<u8>) {
+        self.tx_prefix_hash = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_tx_prefix_hash(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.tx_prefix_hash.is_none() {
+            self.tx_prefix_hash = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.tx_prefix_hash.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_tx_prefix_hash(&mut self) -> ::std::vec::Vec<u8> {
+        self.tx_prefix_hash.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // optional uint32 reason = 7;
+
+    pub fn reason(&self) -> u32 {
+        self.reason.unwrap_or(0)
+    }
+
+    pub fn clear_reason(&mut self) {
+        self.reason = ::std::option::Option::None;
+    }
+
+    pub fn has_reason(&self) -> bool {
+        self.reason.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_reason(&mut self, v: u32) {
+        self.reason = ::std::option::Option::Some(v);
+    }
+
+    // optional bytes view_public_key = 8;
+
+    pub fn view_public_key(&self) -> &[u8] {
+        match self.view_public_key.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_view_public_key(&mut self) {
+        self.view_public_key = ::std::option::Option::None;
+    }
+
+    pub fn has_view_public_key(&self) -> bool {
+        self.view_public_key.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_view_public_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.view_public_key = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_view_public_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.view_public_key.is_none() {
+            self.view_public_key = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.view_public_key.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_view_public_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.view_public_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(8);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
+            "address_n",
+            |m: &MoneroGetTxKeyRequest| { &m.address_n },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.address_n },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "network_type",
+            |m: &MoneroGetTxKeyRequest| { &m.network_type },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.network_type },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "salt1",
+            |m: &MoneroGetTxKeyRequest| { &m.salt1 },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.salt1 },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "salt2",
+            |m: &MoneroGetTxKeyRequest| { &m.salt2 },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.salt2 },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "tx_enc_keys",
+            |m: &MoneroGetTxKeyRequest| { &m.tx_enc_keys },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.tx_enc_keys },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "tx_prefix_hash",
+            |m: &MoneroGetTxKeyRequest| { &m.tx_prefix_hash },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.tx_prefix_hash },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "reason",
+            |m: &MoneroGetTxKeyRequest| { &m.reason },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.reason },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "view_public_key",
+            |m: &MoneroGetTxKeyRequest| { &m.view_public_key },
+            |m: &mut MoneroGetTxKeyRequest| { &mut m.view_public_key },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroGetTxKeyRequest>(
+            "MoneroGetTxKeyRequest",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroGetTxKeyRequest {
+    const NAME: &'static str = "MoneroGetTxKeyRequest";
+
+    fn is_initialized(&self) -> bool {
+        if self.salt1.is_none() {
+            return false;
+        }
+        if self.salt2.is_none() {
+            return false;
+        }
+        if self.tx_enc_keys.is_none() {
+            return false;
+        }
+        if self.tx_prefix_hash.is_none() {
+            return false;
+        }
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    is.read_repeated_packed_uint32_into(&mut self.address_n)?;
+                },
+                8 => {
+                    self.address_n.push(is.read_uint32()?);
+                },
+                16 => {
+                    self.network_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
+                },
+                26 => {
+                    self.salt1 = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                34 => {
+                    self.salt2 = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                42 => {
+                    self.tx_enc_keys = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                50 => {
+                    self.tx_prefix_hash = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                56 => {
+                    self.reason = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                66 => {
+                    self.view_public_key = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        for value in &self.address_n {
+            my_size += ::protobuf::rt::uint32_size(1, *value);
+        };
+        if let Some(v) = self.network_type {
+            my_size += ::protobuf::rt::int32_size(2, v.value());
+        }
+        if let Some(v) = self.salt1.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(3, &v);
+        }
+        if let Some(v) = self.salt2.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(4, &v);
+        }
+        if let Some(v) = self.tx_enc_keys.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(5, &v);
+        }
+        if let Some(v) = self.tx_prefix_hash.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(6, &v);
+        }
+        if let Some(v) = self.reason {
+            my_size += ::protobuf::rt::uint32_size(7, v);
+        }
+        if let Some(v) = self.view_public_key.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(8, &v);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        for v in &self.address_n {
+            os.write_uint32(1, *v)?;
+        };
+        if let Some(v) = self.network_type {
+            os.write_enum(2, ::protobuf::EnumOrUnknown::value(&v))?;
+        }
+        if let Some(v) = self.salt1.as_ref() {
+            os.write_bytes(3, v)?;
+        }
+        if let Some(v) = self.salt2.as_ref() {
+            os.write_bytes(4, v)?;
+        }
+        if let Some(v) = self.tx_enc_keys.as_ref() {
+            os.write_bytes(5, v)?;
+        }
+        if let Some(v) = self.tx_prefix_hash.as_ref() {
+            os.write_bytes(6, v)?;
+        }
+        if let Some(v) = self.reason {
+            os.write_uint32(7, v)?;
+        }
+        if let Some(v) = self.view_public_key.as_ref() {
+            os.write_bytes(8, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroGetTxKeyRequest {
+        MoneroGetTxKeyRequest::new()
+    }
+
+    fn clear(&mut self) {
+        self.address_n.clear();
+        self.network_type = ::std::option::Option::None;
+        self.salt1 = ::std::option::Option::None;
+        self.salt2 = ::std::option::Option::None;
+        self.tx_enc_keys = ::std::option::Option::None;
+        self.tx_prefix_hash = ::std::option::Option::None;
+        self.reason = ::std::option::Option::None;
+        self.view_public_key = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroGetTxKeyRequest {
+        static instance: MoneroGetTxKeyRequest = MoneroGetTxKeyRequest {
+            address_n: ::std::vec::Vec::new(),
+            network_type: ::std::option::Option::None,
+            salt1: ::std::option::Option::None,
+            salt2: ::std::option::Option::None,
+            tx_enc_keys: ::std::option::Option::None,
+            tx_prefix_hash: ::std::option::Option::None,
+            reason: ::std::option::Option::None,
+            view_public_key: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroGetTxKeyRequest {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroGetTxKeyRequest").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroGetTxKeyRequest {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroGetTxKeyRequest {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Response: Response with the re-encrypted private keys and derivations blob under view key
+///  @end
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroGetTxKeyAck)
+pub struct MoneroGetTxKeyAck {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyAck.salt)
+    pub salt: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyAck.tx_keys)
+    pub tx_keys: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroGetTxKeyAck.tx_derivations)
+    pub tx_derivations: ::std::option::Option<::std::vec::Vec<u8>>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroGetTxKeyAck.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroGetTxKeyAck {
+    fn default() -> &'a MoneroGetTxKeyAck {
+        <MoneroGetTxKeyAck as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroGetTxKeyAck {
+    pub fn new() -> MoneroGetTxKeyAck {
+        ::std::default::Default::default()
+    }
+
+    // optional bytes salt = 1;
+
+    pub fn salt(&self) -> &[u8] {
+        match self.salt.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_salt(&mut self) {
+        self.salt = ::std::option::Option::None;
+    }
+
+    pub fn has_salt(&self) -> bool {
+        self.salt.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_salt(&mut self, v: ::std::vec::Vec<u8>) {
+        self.salt = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_salt(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.salt.is_none() {
+            self.salt = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.salt.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_salt(&mut self) -> ::std::vec::Vec<u8> {
+        self.salt.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // optional bytes tx_keys = 2;
+
+    pub fn tx_keys(&self) -> &[u8] {
+        match self.tx_keys.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_tx_keys(&mut self) {
+        self.tx_keys = ::std::option::Option::None;
+    }
+
+    pub fn has_tx_keys(&self) -> bool {
+        self.tx_keys.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_tx_keys(&mut self, v: ::std::vec::Vec<u8>) {
+        self.tx_keys = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_tx_keys(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.tx_keys.is_none() {
+            self.tx_keys = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.tx_keys.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_tx_keys(&mut self) -> ::std::vec::Vec<u8> {
+        self.tx_keys.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // optional bytes tx_derivations = 3;
+
+    pub fn tx_derivations(&self) -> &[u8] {
+        match self.tx_derivations.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_tx_derivations(&mut self) {
+        self.tx_derivations = ::std::option::Option::None;
+    }
+
+    pub fn has_tx_derivations(&self) -> bool {
+        self.tx_derivations.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_tx_derivations(&mut self, v: ::std::vec::Vec<u8>) {
+        self.tx_derivations = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_tx_derivations(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.tx_derivations.is_none() {
+            self.tx_derivations = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.tx_derivations.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_tx_derivations(&mut self) -> ::std::vec::Vec<u8> {
+        self.tx_derivations.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(3);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "salt",
+            |m: &MoneroGetTxKeyAck| { &m.salt },
+            |m: &mut MoneroGetTxKeyAck| { &mut m.salt },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "tx_keys",
+            |m: &MoneroGetTxKeyAck| { &m.tx_keys },
+            |m: &mut MoneroGetTxKeyAck| { &mut m.tx_keys },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "tx_derivations",
+            |m: &MoneroGetTxKeyAck| { &m.tx_derivations },
+            |m: &mut MoneroGetTxKeyAck| { &mut m.tx_derivations },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroGetTxKeyAck>(
+            "MoneroGetTxKeyAck",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroGetTxKeyAck {
+    const NAME: &'static str = "MoneroGetTxKeyAck";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    self.salt = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                18 => {
+                    self.tx_keys = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                26 => {
+                    self.tx_derivations = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.salt.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(1, &v);
+        }
+        if let Some(v) = self.tx_keys.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(2, &v);
+        }
+        if let Some(v) = self.tx_derivations.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(3, &v);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.salt.as_ref() {
+            os.write_bytes(1, v)?;
+        }
+        if let Some(v) = self.tx_keys.as_ref() {
+            os.write_bytes(2, v)?;
+        }
+        if let Some(v) = self.tx_derivations.as_ref() {
+            os.write_bytes(3, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroGetTxKeyAck {
+        MoneroGetTxKeyAck::new()
+    }
+
+    fn clear(&mut self) {
+        self.salt = ::std::option::Option::None;
+        self.tx_keys = ::std::option::Option::None;
+        self.tx_derivations = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroGetTxKeyAck {
+        static instance: MoneroGetTxKeyAck = MoneroGetTxKeyAck {
+            salt: ::std::option::Option::None,
+            tx_keys: ::std::option::Option::None,
+            tx_derivations: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroGetTxKeyAck {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroGetTxKeyAck").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroGetTxKeyAck {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroGetTxKeyAck {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Starts live refresh flow. Asks user permission, switches state
+///  @next MoneroLiveRefreshStartAck
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroLiveRefreshStartRequest)
+pub struct MoneroLiveRefreshStartRequest {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStartRequest.address_n)
+    pub address_n: ::std::vec::Vec<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStartRequest.network_type)
+    pub network_type: ::std::option::Option<::protobuf::EnumOrUnknown<MoneroNetworkType>>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroLiveRefreshStartRequest.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroLiveRefreshStartRequest {
+    fn default() -> &'a MoneroLiveRefreshStartRequest {
+        <MoneroLiveRefreshStartRequest as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroLiveRefreshStartRequest {
+    pub fn new() -> MoneroLiveRefreshStartRequest {
+        ::std::default::Default::default()
+    }
+
+    // optional .hw.trezor.messages.monero.MoneroNetworkType network_type = 2;
+
+    pub fn network_type(&self) -> MoneroNetworkType {
+        match self.network_type {
+            Some(e) => e.enum_value_or(MoneroNetworkType::MAINNET),
+            None => MoneroNetworkType::MAINNET,
+        }
+    }
+
+    pub fn clear_network_type(&mut self) {
+        self.network_type = ::std::option::Option::None;
+    }
+
+    pub fn has_network_type(&self) -> bool {
+        self.network_type.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_network_type(&mut self, v: MoneroNetworkType) {
+        self.network_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(2);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
+            "address_n",
+            |m: &MoneroLiveRefreshStartRequest| { &m.address_n },
+            |m: &mut MoneroLiveRefreshStartRequest| { &mut m.address_n },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "network_type",
+            |m: &MoneroLiveRefreshStartRequest| { &m.network_type },
+            |m: &mut MoneroLiveRefreshStartRequest| { &mut m.network_type },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroLiveRefreshStartRequest>(
+            "MoneroLiveRefreshStartRequest",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroLiveRefreshStartRequest {
+    const NAME: &'static str = "MoneroLiveRefreshStartRequest";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    is.read_repeated_packed_uint32_into(&mut self.address_n)?;
+                },
+                8 => {
+                    self.address_n.push(is.read_uint32()?);
+                },
+                16 => {
+                    self.network_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        for value in &self.address_n {
+            my_size += ::protobuf::rt::uint32_size(1, *value);
+        };
+        if let Some(v) = self.network_type {
+            my_size += ::protobuf::rt::int32_size(2, v.value());
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        for v in &self.address_n {
+            os.write_uint32(1, *v)?;
+        };
+        if let Some(v) = self.network_type {
+            os.write_enum(2, ::protobuf::EnumOrUnknown::value(&v))?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroLiveRefreshStartRequest {
+        MoneroLiveRefreshStartRequest::new()
+    }
+
+    fn clear(&mut self) {
+        self.address_n.clear();
+        self.network_type = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroLiveRefreshStartRequest {
+        static instance: MoneroLiveRefreshStartRequest = MoneroLiveRefreshStartRequest {
+            address_n: ::std::vec::Vec::new(),
+            network_type: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroLiveRefreshStartRequest {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroLiveRefreshStartRequest").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroLiveRefreshStartRequest {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroLiveRefreshStartRequest {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Response after user gave permission
+///  @next MoneroLiveRefreshStepRequest
+///  @next MoneroLiveRefreshFinalRequest
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroLiveRefreshStartAck)
+pub struct MoneroLiveRefreshStartAck {
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroLiveRefreshStartAck.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroLiveRefreshStartAck {
+    fn default() -> &'a MoneroLiveRefreshStartAck {
+        <MoneroLiveRefreshStartAck as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroLiveRefreshStartAck {
+    pub fn new() -> MoneroLiveRefreshStartAck {
+        ::std::default::Default::default()
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(0);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroLiveRefreshStartAck>(
+            "MoneroLiveRefreshStartAck",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroLiveRefreshStartAck {
+    const NAME: &'static str = "MoneroLiveRefreshStartAck";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroLiveRefreshStartAck {
+        MoneroLiveRefreshStartAck::new()
+    }
+
+    fn clear(&mut self) {
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroLiveRefreshStartAck {
+        static instance: MoneroLiveRefreshStartAck = MoneroLiveRefreshStartAck {
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroLiveRefreshStartAck {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroLiveRefreshStartAck").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroLiveRefreshStartAck {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroLiveRefreshStartAck {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Request to compute a single key image during live sync
+///  @next MoneroLiveRefreshStepAck
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroLiveRefreshStepRequest)
+pub struct MoneroLiveRefreshStepRequest {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStepRequest.out_key)
+    pub out_key: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStepRequest.recv_deriv)
+    pub recv_deriv: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStepRequest.real_out_idx)
+    pub real_out_idx: ::std::option::Option<u64>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStepRequest.sub_addr_major)
+    pub sub_addr_major: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStepRequest.sub_addr_minor)
+    pub sub_addr_minor: ::std::option::Option<u32>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroLiveRefreshStepRequest.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroLiveRefreshStepRequest {
+    fn default() -> &'a MoneroLiveRefreshStepRequest {
+        <MoneroLiveRefreshStepRequest as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroLiveRefreshStepRequest {
+    pub fn new() -> MoneroLiveRefreshStepRequest {
+        ::std::default::Default::default()
+    }
+
+    // required bytes out_key = 1;
+
+    pub fn out_key(&self) -> &[u8] {
+        match self.out_key.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_out_key(&mut self) {
+        self.out_key = ::std::option::Option::None;
+    }
+
+    pub fn has_out_key(&self) -> bool {
+        self.out_key.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_out_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.out_key = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_out_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.out_key.is_none() {
+            self.out_key = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.out_key.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_out_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.out_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // required bytes recv_deriv = 2;
+
+    pub fn recv_deriv(&self) -> &[u8] {
+        match self.recv_deriv.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_recv_deriv(&mut self) {
+        self.recv_deriv = ::std::option::Option::None;
+    }
+
+    pub fn has_recv_deriv(&self) -> bool {
+        self.recv_deriv.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_recv_deriv(&mut self, v: ::std::vec::Vec<u8>) {
+        self.recv_deriv = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_recv_deriv(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.recv_deriv.is_none() {
+            self.recv_deriv = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.recv_deriv.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_recv_deriv(&mut self) -> ::std::vec::Vec<u8> {
+        self.recv_deriv.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // required uint64 real_out_idx = 3;
+
+    pub fn real_out_idx(&self) -> u64 {
+        self.real_out_idx.unwrap_or(0)
+    }
+
+    pub fn clear_real_out_idx(&mut self) {
+        self.real_out_idx = ::std::option::Option::None;
+    }
+
+    pub fn has_real_out_idx(&self) -> bool {
+        self.real_out_idx.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_real_out_idx(&mut self, v: u64) {
+        self.real_out_idx = ::std::option::Option::Some(v);
+    }
+
+    // required uint32 sub_addr_major = 4;
+
+    pub fn sub_addr_major(&self) -> u32 {
+        self.sub_addr_major.unwrap_or(0)
+    }
+
+    pub fn clear_sub_addr_major(&mut self) {
+        self.sub_addr_major = ::std::option::Option::None;
+    }
+
+    pub fn has_sub_addr_major(&self) -> bool {
+        self.sub_addr_major.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_sub_addr_major(&mut self, v: u32) {
+        self.sub_addr_major = ::std::option::Option::Some(v);
+    }
+
+    // required uint32 sub_addr_minor = 5;
+
+    pub fn sub_addr_minor(&self) -> u32 {
+        self.sub_addr_minor.unwrap_or(0)
+    }
+
+    pub fn clear_sub_addr_minor(&mut self) {
+        self.sub_addr_minor = ::std::option::Option::None;
+    }
+
+    pub fn has_sub_addr_minor(&self) -> bool {
+        self.sub_addr_minor.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_sub_addr_minor(&mut self, v: u32) {
+        self.sub_addr_minor = ::std::option::Option::Some(v);
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(5);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "out_key",
+            |m: &MoneroLiveRefreshStepRequest| { &m.out_key },
+            |m: &mut MoneroLiveRefreshStepRequest| { &mut m.out_key },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "recv_deriv",
+            |m: &MoneroLiveRefreshStepRequest| { &m.recv_deriv },
+            |m: &mut MoneroLiveRefreshStepRequest| { &mut m.recv_deriv },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "real_out_idx",
+            |m: &MoneroLiveRefreshStepRequest| { &m.real_out_idx },
+            |m: &mut MoneroLiveRefreshStepRequest| { &mut m.real_out_idx },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "sub_addr_major",
+            |m: &MoneroLiveRefreshStepRequest| { &m.sub_addr_major },
+            |m: &mut MoneroLiveRefreshStepRequest| { &mut m.sub_addr_major },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "sub_addr_minor",
+            |m: &MoneroLiveRefreshStepRequest| { &m.sub_addr_minor },
+            |m: &mut MoneroLiveRefreshStepRequest| { &mut m.sub_addr_minor },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroLiveRefreshStepRequest>(
+            "MoneroLiveRefreshStepRequest",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroLiveRefreshStepRequest {
+    const NAME: &'static str = "MoneroLiveRefreshStepRequest";
+
+    fn is_initialized(&self) -> bool {
+        if self.out_key.is_none() {
+            return false;
+        }
+        if self.recv_deriv.is_none() {
+            return false;
+        }
+        if self.real_out_idx.is_none() {
+            return false;
+        }
+        if self.sub_addr_major.is_none() {
+            return false;
+        }
+        if self.sub_addr_minor.is_none() {
+            return false;
+        }
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    self.out_key = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                18 => {
+                    self.recv_deriv = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                24 => {
+                    self.real_out_idx = ::std::option::Option::Some(is.read_uint64()?);
+                },
+                32 => {
+                    self.sub_addr_major = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                40 => {
+                    self.sub_addr_minor = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.out_key.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(1, &v);
+        }
+        if let Some(v) = self.recv_deriv.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(2, &v);
+        }
+        if let Some(v) = self.real_out_idx {
+            my_size += ::protobuf::rt::uint64_size(3, v);
+        }
+        if let Some(v) = self.sub_addr_major {
+            my_size += ::protobuf::rt::uint32_size(4, v);
+        }
+        if let Some(v) = self.sub_addr_minor {
+            my_size += ::protobuf::rt::uint32_size(5, v);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.out_key.as_ref() {
+            os.write_bytes(1, v)?;
+        }
+        if let Some(v) = self.recv_deriv.as_ref() {
+            os.write_bytes(2, v)?;
+        }
+        if let Some(v) = self.real_out_idx {
+            os.write_uint64(3, v)?;
+        }
+        if let Some(v) = self.sub_addr_major {
+            os.write_uint32(4, v)?;
+        }
+        if let Some(v) = self.sub_addr_minor {
+            os.write_uint32(5, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroLiveRefreshStepRequest {
+        MoneroLiveRefreshStepRequest::new()
+    }
+
+    fn clear(&mut self) {
+        self.out_key = ::std::option::Option::None;
+        self.recv_deriv = ::std::option::Option::None;
+        self.real_out_idx = ::std::option::Option::None;
+        self.sub_addr_major = ::std::option::Option::None;
+        self.sub_addr_minor = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroLiveRefreshStepRequest {
+        static instance: MoneroLiveRefreshStepRequest = MoneroLiveRefreshStepRequest {
+            out_key: ::std::option::Option::None,
+            recv_deriv: ::std::option::Option::None,
+            real_out_idx: ::std::option::Option::None,
+            sub_addr_major: ::std::option::Option::None,
+            sub_addr_minor: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroLiveRefreshStepRequest {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroLiveRefreshStepRequest").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroLiveRefreshStepRequest {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroLiveRefreshStepRequest {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Response: Response with the encrypted key image + signature
+///  @next MoneroLiveRefreshStepRequest
+///  @next MoneroLiveRefreshFinishedRequest
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroLiveRefreshStepAck)
+pub struct MoneroLiveRefreshStepAck {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStepAck.salt)
+    pub salt: ::std::option::Option<::std::vec::Vec<u8>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.monero.MoneroLiveRefreshStepAck.key_image)
+    pub key_image: ::std::option::Option<::std::vec::Vec<u8>>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroLiveRefreshStepAck.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroLiveRefreshStepAck {
+    fn default() -> &'a MoneroLiveRefreshStepAck {
+        <MoneroLiveRefreshStepAck as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroLiveRefreshStepAck {
+    pub fn new() -> MoneroLiveRefreshStepAck {
+        ::std::default::Default::default()
+    }
+
+    // optional bytes salt = 1;
+
+    pub fn salt(&self) -> &[u8] {
+        match self.salt.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_salt(&mut self) {
+        self.salt = ::std::option::Option::None;
+    }
+
+    pub fn has_salt(&self) -> bool {
+        self.salt.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_salt(&mut self, v: ::std::vec::Vec<u8>) {
+        self.salt = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_salt(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.salt.is_none() {
+            self.salt = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.salt.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_salt(&mut self) -> ::std::vec::Vec<u8> {
+        self.salt.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    // optional bytes key_image = 2;
+
+    pub fn key_image(&self) -> &[u8] {
+        match self.key_image.as_ref() {
+            Some(v) => v,
+            None => &[],
+        }
+    }
+
+    pub fn clear_key_image(&mut self) {
+        self.key_image = ::std::option::Option::None;
+    }
+
+    pub fn has_key_image(&self) -> bool {
+        self.key_image.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_key_image(&mut self, v: ::std::vec::Vec<u8>) {
+        self.key_image = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_key_image(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.key_image.is_none() {
+            self.key_image = ::std::option::Option::Some(::std::vec::Vec::new());
+        }
+        self.key_image.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_key_image(&mut self) -> ::std::vec::Vec<u8> {
+        self.key_image.take().unwrap_or_else(|| ::std::vec::Vec::new())
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(2);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "salt",
+            |m: &MoneroLiveRefreshStepAck| { &m.salt },
+            |m: &mut MoneroLiveRefreshStepAck| { &mut m.salt },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "key_image",
+            |m: &MoneroLiveRefreshStepAck| { &m.key_image },
+            |m: &mut MoneroLiveRefreshStepAck| { &mut m.key_image },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroLiveRefreshStepAck>(
+            "MoneroLiveRefreshStepAck",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroLiveRefreshStepAck {
+    const NAME: &'static str = "MoneroLiveRefreshStepAck";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    self.salt = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                18 => {
+                    self.key_image = ::std::option::Option::Some(is.read_bytes()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.salt.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(1, &v);
+        }
+        if let Some(v) = self.key_image.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(2, &v);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.salt.as_ref() {
+            os.write_bytes(1, v)?;
+        }
+        if let Some(v) = self.key_image.as_ref() {
+            os.write_bytes(2, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroLiveRefreshStepAck {
+        MoneroLiveRefreshStepAck::new()
+    }
+
+    fn clear(&mut self) {
+        self.salt = ::std::option::Option::None;
+        self.key_image = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroLiveRefreshStepAck {
+        static instance: MoneroLiveRefreshStepAck = MoneroLiveRefreshStepAck {
+            salt: ::std::option::Option::None,
+            key_image: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroLiveRefreshStepAck {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroLiveRefreshStepAck").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroLiveRefreshStepAck {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroLiveRefreshStepAck {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Request terminating live refresh mode.
+///  @next MoneroLiveRefreshFinishedAck
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroLiveRefreshFinalRequest)
+pub struct MoneroLiveRefreshFinalRequest {
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroLiveRefreshFinalRequest.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroLiveRefreshFinalRequest {
+    fn default() -> &'a MoneroLiveRefreshFinalRequest {
+        <MoneroLiveRefreshFinalRequest as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroLiveRefreshFinalRequest {
+    pub fn new() -> MoneroLiveRefreshFinalRequest {
+        ::std::default::Default::default()
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(0);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroLiveRefreshFinalRequest>(
+            "MoneroLiveRefreshFinalRequest",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroLiveRefreshFinalRequest {
+    const NAME: &'static str = "MoneroLiveRefreshFinalRequest";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroLiveRefreshFinalRequest {
+        MoneroLiveRefreshFinalRequest::new()
+    }
+
+    fn clear(&mut self) {
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroLiveRefreshFinalRequest {
+        static instance: MoneroLiveRefreshFinalRequest = MoneroLiveRefreshFinalRequest {
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroLiveRefreshFinalRequest {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroLiveRefreshFinalRequest").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroLiveRefreshFinalRequest {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroLiveRefreshFinalRequest {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Response: Response on termination of live refresh mode.
+///  @end
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.monero.MoneroLiveRefreshFinalAck)
+pub struct MoneroLiveRefreshFinalAck {
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.monero.MoneroLiveRefreshFinalAck.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a MoneroLiveRefreshFinalAck {
+    fn default() -> &'a MoneroLiveRefreshFinalAck {
+        <MoneroLiveRefreshFinalAck as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl MoneroLiveRefreshFinalAck {
+    pub fn new() -> MoneroLiveRefreshFinalAck {
+        ::std::default::Default::default()
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(0);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<MoneroLiveRefreshFinalAck>(
+            "MoneroLiveRefreshFinalAck",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for MoneroLiveRefreshFinalAck {
+    const NAME: &'static str = "MoneroLiveRefreshFinalAck";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> MoneroLiveRefreshFinalAck {
+        MoneroLiveRefreshFinalAck::new()
+    }
+
+    fn clear(&mut self) {
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static MoneroLiveRefreshFinalAck {
+        static instance: MoneroLiveRefreshFinalAck = MoneroLiveRefreshFinalAck {
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for MoneroLiveRefreshFinalAck {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("MoneroLiveRefreshFinalAck").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for MoneroLiveRefreshFinalAck {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for MoneroLiveRefreshFinalAck {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
@@ -10446,8 +11800,70 @@ impl ::protobuf::reflect::ProtobufValue for DebugMoneroDiagAck {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
+#[derive(Clone,Copy,PartialEq,Eq,Debug,Hash)]
+// @@protoc_insertion_point(enum:hw.trezor.messages.monero.MoneroNetworkType)
+pub enum MoneroNetworkType {
+    // @@protoc_insertion_point(enum_value:hw.trezor.messages.monero.MoneroNetworkType.MAINNET)
+    MAINNET = 0,
+    // @@protoc_insertion_point(enum_value:hw.trezor.messages.monero.MoneroNetworkType.TESTNET)
+    TESTNET = 1,
+    // @@protoc_insertion_point(enum_value:hw.trezor.messages.monero.MoneroNetworkType.STAGENET)
+    STAGENET = 2,
+    // @@protoc_insertion_point(enum_value:hw.trezor.messages.monero.MoneroNetworkType.FAKECHAIN)
+    FAKECHAIN = 3,
+}
+
+impl ::protobuf::Enum for MoneroNetworkType {
+    const NAME: &'static str = "MoneroNetworkType";
+
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<MoneroNetworkType> {
+        match value {
+            0 => ::std::option::Option::Some(MoneroNetworkType::MAINNET),
+            1 => ::std::option::Option::Some(MoneroNetworkType::TESTNET),
+            2 => ::std::option::Option::Some(MoneroNetworkType::STAGENET),
+            3 => ::std::option::Option::Some(MoneroNetworkType::FAKECHAIN),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    const VALUES: &'static [MoneroNetworkType] = &[
+        MoneroNetworkType::MAINNET,
+        MoneroNetworkType::TESTNET,
+        MoneroNetworkType::STAGENET,
+        MoneroNetworkType::FAKECHAIN,
+    ];
+}
+
+impl ::protobuf::EnumFull for MoneroNetworkType {
+    fn enum_descriptor() -> ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().enum_by_package_relative_name("MoneroNetworkType").unwrap()).clone()
+    }
+
+    fn descriptor(&self) -> ::protobuf::reflect::EnumValueDescriptor {
+        let index = *self as usize;
+        Self::enum_descriptor().value_by_index(index)
+    }
+}
+
+impl ::std::default::Default for MoneroNetworkType {
+    fn default() -> Self {
+        MoneroNetworkType::MAINNET
+    }
+}
+
+impl MoneroNetworkType {
+    fn generated_enum_descriptor_data() -> ::protobuf::reflect::GeneratedEnumDescriptorData {
+        ::protobuf::reflect::GeneratedEnumDescriptorData::new::<MoneroNetworkType>("MoneroNetworkType")
+    }
+}
+
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n\x15messages-monero.proto\x12\x19hw.trezor.messages.monero\"\x8c\x06\n\
+    \n\x15messages-monero.proto\x12\x19hw.trezor.messages.monero\"\xc9\x06\n\
     \x1cMoneroTransactionSourceEntry\x12c\n\x07outputs\x18\x01\x20\x03(\x0b2\
     I.hw.trezor.messages.monero.MoneroTransactionSourceEntry.MoneroOutputEnt\
     ryR\x07outputs\x12\x1f\n\x0breal_output\x18\x02\x20\x01(\x04R\nrealOutpu\
@@ -10458,838 +11874,962 @@ static file_descriptor_proto_data: &'static [u8] = b"\
     \x10\n\x03rct\x18\x07\x20\x01(\x08R\x03rct\x12\x12\n\x04mask\x18\x08\x20\
     \x01(\x0cR\x04mask\x12r\n\x0emultisig_kLRki\x18\t\x20\x01(\x0b2K.hw.trez\
     or.messages.monero.MoneroTransactionSourceEntry.MoneroMultisigKLRkiR\rmu\
-    ltisigKLRki\x1a\xc7\x01\n\x11MoneroOutputEntry\x12\x10\n\x03idx\x18\x01\
-    \x20\x01(\x04R\x03idx\x12h\n\x03key\x18\x02\x20\x01(\x0b2V.hw.trezor.mes\
-    sages.monero.MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKey\
-    R\x03key\x1a6\n\x0cMoneroRctKey\x12\x12\n\x04dest\x18\x01\x20\x01(\x0cR\
-    \x04dest\x12\x12\n\x04mask\x18\x02\x20\x01(\x0cR\x04mask\x1aO\n\x13Moner\
-    oMultisigKLRki\x12\x0c\n\x01K\x18\x01\x20\x01(\x0cR\x01K\x12\x0c\n\x01L\
-    \x18\x02\x20\x01(\x0cR\x01L\x12\x0c\n\x01R\x18\x03\x20\x01(\x0cR\x01R\
-    \x12\x0e\n\x02ki\x18\x04\x20\x01(\x0cR\x02ki\"\xbd\x02\n!MoneroTransacti\
-    onDestinationEntry\x12\x16\n\x06amount\x18\x01\x20\x01(\x04R\x06amount\
-    \x12k\n\x04addr\x18\x02\x20\x01(\x0b2W.hw.trezor.messages.monero.MoneroT\
-    ransactionDestinationEntry.MoneroAccountPublicAddressR\x04addr\x12#\n\ri\
-    s_subaddress\x18\x03\x20\x01(\x08R\x0cisSubaddress\x1an\n\x1aMoneroAccou\
-    ntPublicAddress\x12(\n\x10spend_public_key\x18\x01\x20\x01(\x0cR\x0espen\
-    dPublicKey\x12&\n\x0fview_public_key\x18\x02\x20\x01(\x0cR\rviewPublicKe\
-    y\"\x8e\x03\n\x19MoneroTransactionRsigData\x12\x18\n\x07version\x18\x01\
-    \x20\x01(\rR\x07version\x12\x1b\n\trsig_type\x18\x02\x20\x01(\rR\x08rsig\
-    Type\x12!\n\x0coffload_type\x18\x03\x20\x01(\rR\x0boffloadType\x12\x1a\n\
-    \x08grouping\x18\x04\x20\x03(\x04R\x08grouping\x12\x12\n\x04step\x18\x05\
-    \x20\x01(\rR\x04step\x12\x1c\n\toperation\x18\x06\x20\x01(\x04R\toperati\
-    on\x12\x12\n\x04seed\x18\x07\x20\x01(\x0cR\x04seed\x12\x12\n\x04mask\x18\
-    \x08\x20\x01(\x0cR\x04mask\x12\x16\n\x06amount\x18\t\x20\x01(\x0cR\x06am\
-    ount\x12\x12\n\x04rsig\x18\n\x20\x01(\x0cR\x04rsig\x12\x1d\n\nrsig_parts\
-    \x18\x0b\x20\x03(\x0cR\trsigParts\x12V\n\x07outputs\x18\x0c\x20\x03(\x0b\
-    2<.hw.trezor.messages.monero.MoneroTransactionDestinationEntryR\x07outpu\
-    ts\"\xa5\x01\n\x10MoneroGetAddress\x12\x1b\n\taddress_n\x18\x01\x20\x03(\
-    \rR\x08addressN\x12!\n\x0cshow_display\x18\x02\x20\x01(\x08R\x0bshowDisp\
-    lay\x12!\n\x0cnetwork_type\x18\x03\x20\x01(\rR\x0bnetworkType\x12\x18\n\
-    \x07account\x18\x04\x20\x01(\rR\x07account\x12\x14\n\x05minor\x18\x05\
-    \x20\x01(\rR\x05minor\")\n\rMoneroAddress\x12\x18\n\x07address\x18\x01\
-    \x20\x01(\x0cR\x07address\"S\n\x11MoneroGetWatchKey\x12\x1b\n\taddress_n\
-    \x18\x01\x20\x03(\rR\x08addressN\x12!\n\x0cnetwork_type\x18\x02\x20\x01(\
-    \rR\x0bnetworkType\"G\n\x0eMoneroWatchKey\x12\x1b\n\twatch_key\x18\x01\
-    \x20\x01(\x0cR\x08watchKey\x12\x18\n\x07address\x18\x02\x20\x01(\x0cR\
-    \x07address\"\x81\x07\n\x1cMoneroTransactionInitRequest\x12\x18\n\x07ver\
-    sion\x18\x01\x20\x01(\rR\x07version\x12\x1b\n\taddress_n\x18\x02\x20\x03\
-    (\rR\x08addressN\x12!\n\x0cnetwork_type\x18\x03\x20\x01(\rR\x0bnetworkTy\
-    pe\x12h\n\x08tsx_data\x18\x04\x20\x01(\x0b2M.hw.trezor.messages.monero.M\
-    oneroTransactionInitRequest.MoneroTransactionDataR\x07tsxData\x1a\x9c\
-    \x05\n\x15MoneroTransactionData\x12\x18\n\x07version\x18\x01\x20\x01(\rR\
-    \x07version\x12\x1d\n\npayment_id\x18\x02\x20\x01(\x0cR\tpaymentId\x12\
-    \x1f\n\x0bunlock_time\x18\x03\x20\x01(\x04R\nunlockTime\x12V\n\x07output\
-    s\x18\x04\x20\x03(\x0b2<.hw.trezor.messages.monero.MoneroTransactionDest\
-    inationEntryR\x07outputs\x12[\n\nchange_dts\x18\x05\x20\x01(\x0b2<.hw.tr\
-    ezor.messages.monero.MoneroTransactionDestinationEntryR\tchangeDts\x12\
-    \x1d\n\nnum_inputs\x18\x06\x20\x01(\rR\tnumInputs\x12\x14\n\x05mixin\x18\
-    \x07\x20\x01(\rR\x05mixin\x12\x10\n\x03fee\x18\x08\x20\x01(\x04R\x03fee\
-    \x12\x18\n\x07account\x18\t\x20\x01(\rR\x07account\x12#\n\rminor_indices\
-    \x18\n\x20\x03(\rR\x0cminorIndices\x12\x1f\n\x0bis_multisig\x18\x0b\x20\
-    \x01(\x08R\nisMultisig\x12+\n\x12exp_tx_prefix_hash\x18\x0c\x20\x01(\x0c\
-    R\x0fexpTxPrefixHash\x12\x1e\n\x0buse_tx_keys\x18\r\x20\x03(\x0cR\tuseTx\
-    Keys\x12Q\n\trsig_data\x18\x0e\x20\x01(\x0b24.hw.trezor.messages.monero.\
-    MoneroTransactionRsigDataR\x08rsigData\x12-\n\x12integrated_indices\x18\
-    \x0f\x20\x03(\rR\x11integratedIndices\"\x96\x02\n\x18MoneroTransactionIn\
-    itAck\x12\x18\n\x07version\x18\x01\x20\x01(\rR\x07version\x12\x16\n\x06s\
-    tatus\x18\x02\x20\x01(\rR\x06status\x12\x1b\n\tin_memory\x18\x03\x20\x01\
-    (\x08R\x08inMemory\x12\x14\n\x05hmacs\x18\x04\x20\x03(\x0cR\x05hmacs\x12\
-    \x1f\n\x0bmany_inputs\x18\x05\x20\x01(\x08R\nmanyInputs\x12!\n\x0cmany_o\
-    utputs\x18\x06\x20\x01(\x08R\x0bmanyOutputs\x12Q\n\trsig_data\x18\x07\
+    ltisigKLRki\x12#\n\rsubaddr_minor\x18\n\x20\x01(\rR\x0csubaddrMinor\x1a\
+    \xdf\x01\n\x11MoneroOutputEntry\x12\x10\n\x03idx\x18\x01\x20\x01(\x04R\
+    \x03idx\x12n\n\x03key\x18\x02\x20\x01(\x0b2\\.hw.trezor.messages.monero.\
+    MoneroTransactionSourceEntry.MoneroOutputEntry.MoneroRctKeyPublicR\x03ke\
+    y\x1aH\n\x12MoneroRctKeyPublic\x12\x12\n\x04dest\x18\x01\x20\x02(\x0cR\
+    \x04dest\x12\x1e\n\ncommitment\x18\x02\x20\x02(\x0cR\ncommitment\x1aO\n\
+    \x13MoneroMultisigKLRki\x12\x0c\n\x01K\x18\x01\x20\x01(\x0cR\x01K\x12\
+    \x0c\n\x01L\x18\x02\x20\x01(\x0cR\x01L\x12\x0c\n\x01R\x18\x03\x20\x01(\
+    \x0cR\x01R\x12\x0e\n\x02ki\x18\x04\x20\x01(\x0cR\x02ki\"\xfe\x02\n!Moner\
+    oTransactionDestinationEntry\x12\x16\n\x06amount\x18\x01\x20\x01(\x04R\
+    \x06amount\x12k\n\x04addr\x18\x02\x20\x01(\x0b2W.hw.trezor.messages.mone\
+    ro.MoneroTransactionDestinationEntry.MoneroAccountPublicAddressR\x04addr\
+    \x12#\n\ris_subaddress\x18\x03\x20\x01(\x08R\x0cisSubaddress\x12\x1a\n\
+    \x08original\x18\x04\x20\x01(\x0cR\x08original\x12#\n\ris_integrated\x18\
+    \x05\x20\x01(\x08R\x0cisIntegrated\x1an\n\x1aMoneroAccountPublicAddress\
+    \x12(\n\x10spend_public_key\x18\x01\x20\x01(\x0cR\x0espendPublicKey\x12&\
+    \n\x0fview_public_key\x18\x02\x20\x01(\x0cR\rviewPublicKey\"\xdd\x01\n\
+    \x19MoneroTransactionRsigData\x12\x1b\n\trsig_type\x18\x01\x20\x01(\rR\
+    \x08rsigType\x12!\n\x0coffload_type\x18\x02\x20\x01(\rR\x0boffloadType\
+    \x12\x1a\n\x08grouping\x18\x03\x20\x03(\x04R\x08grouping\x12\x12\n\x04ma\
+    sk\x18\x04\x20\x01(\x0cR\x04mask\x12\x12\n\x04rsig\x18\x05\x20\x01(\x0cR\
+    \x04rsig\x12\x1d\n\nrsig_parts\x18\x06\x20\x03(\x0cR\trsigParts\x12\x1d\
+    \n\nbp_version\x18\x07\x20\x01(\rR\tbpVersion\"\xfb\x01\n\x10MoneroGetAd\
+    dress\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12!\n\x0csho\
+    w_display\x18\x02\x20\x01(\x08R\x0bshowDisplay\x12X\n\x0cnetwork_type\
+    \x18\x03\x20\x01(\x0e2,.hw.trezor.messages.monero.MoneroNetworkType:\x07\
+    MAINNETR\x0bnetworkType\x12\x18\n\x07account\x18\x04\x20\x01(\rR\x07acco\
+    unt\x12\x14\n\x05minor\x18\x05\x20\x01(\rR\x05minor\x12\x1d\n\npayment_i\
+    d\x18\x06\x20\x01(\x0cR\tpaymentId\")\n\rMoneroAddress\x12\x18\n\x07addr\
+    ess\x18\x01\x20\x01(\x0cR\x07address\"\x8a\x01\n\x11MoneroGetWatchKey\
+    \x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12X\n\x0cnetwork_\
+    type\x18\x02\x20\x01(\x0e2,.hw.trezor.messages.monero.MoneroNetworkType:\
+    \x07MAINNETR\x0bnetworkType\"G\n\x0eMoneroWatchKey\x12\x1b\n\twatch_key\
+    \x18\x01\x20\x01(\x0cR\x08watchKey\x12\x18\n\x07address\x18\x02\x20\x01(\
+    \x0cR\x07address\"\xb5\x07\n\x1cMoneroTransactionInitRequest\x12\x18\n\
+    \x07version\x18\x01\x20\x01(\rR\x07version\x12\x1b\n\taddress_n\x18\x02\
+    \x20\x03(\rR\x08addressN\x12X\n\x0cnetwork_type\x18\x03\x20\x01(\x0e2,.h\
+    w.trezor.messages.monero.MoneroNetworkType:\x07MAINNETR\x0bnetworkType\
+    \x12h\n\x08tsx_data\x18\x04\x20\x01(\x0b2M.hw.trezor.messages.monero.Mon\
+    eroTransactionInitRequest.MoneroTransactionDataR\x07tsxData\x1a\x99\x05\
+    \n\x15MoneroTransactionData\x12\x18\n\x07version\x18\x01\x20\x01(\rR\x07\
+    version\x12\x1d\n\npayment_id\x18\x02\x20\x01(\x0cR\tpaymentId\x12\x1f\n\
+    \x0bunlock_time\x18\x03\x20\x01(\x04R\nunlockTime\x12V\n\x07outputs\x18\
+    \x04\x20\x03(\x0b2<.hw.trezor.messages.monero.MoneroTransactionDestinati\
+    onEntryR\x07outputs\x12[\n\nchange_dts\x18\x05\x20\x01(\x0b2<.hw.trezor.\
+    messages.monero.MoneroTransactionDestinationEntryR\tchangeDts\x12\x1d\n\
+    \nnum_inputs\x18\x06\x20\x01(\rR\tnumInputs\x12\x14\n\x05mixin\x18\x07\
+    \x20\x01(\rR\x05mixin\x12\x10\n\x03fee\x18\x08\x20\x01(\x04R\x03fee\x12\
+    \x18\n\x07account\x18\t\x20\x01(\rR\x07account\x12#\n\rminor_indices\x18\
+    \n\x20\x03(\rR\x0cminorIndices\x12Q\n\trsig_data\x18\x0b\x20\x01(\x0b24.\
+    hw.trezor.messages.monero.MoneroTransactionRsigDataR\x08rsigData\x12-\n\
+    \x12integrated_indices\x18\x0c\x20\x03(\rR\x11integratedIndices\x12%\n\
+    \x0eclient_version\x18\r\x20\x01(\rR\rclientVersion\x12\x1b\n\thard_fork\
+    \x18\x0e\x20\x01(\rR\x08hardFork\x12%\n\x0emonero_version\x18\x0f\x20\
+    \x01(\x0cR\rmoneroVersion\"\x83\x01\n\x18MoneroTransactionInitAck\x12\
+    \x14\n\x05hmacs\x18\x01\x20\x03(\x0cR\x05hmacs\x12Q\n\trsig_data\x18\x02\
     \x20\x01(\x0b24.hw.trezor.messages.monero.MoneroTransactionRsigDataR\x08\
-    rsigData\"\x90\x01\n\x20MoneroTransactionSetInputRequest\x12\x18\n\x07ve\
-    rsion\x18\x01\x20\x01(\rR\x07version\x12R\n\x08src_entr\x18\x02\x20\x01(\
-    \x0b27.hw.trezor.messages.monero.MoneroTransactionSourceEntryR\x07srcEnt\
-    r\"\xd0\x01\n\x1cMoneroTransactionSetInputAck\x12\x12\n\x04vini\x18\x01\
-    \x20\x01(\x0cR\x04vini\x12\x1b\n\tvini_hmac\x18\x02\x20\x01(\x0cR\x08vin\
-    iHmac\x12\x1d\n\npseudo_out\x18\x03\x20\x01(\x0cR\tpseudoOut\x12&\n\x0fp\
-    seudo_out_hmac\x18\x04\x20\x01(\x0cR\rpseudoOutHmac\x12\x1b\n\talpha_enc\
-    \x18\x05\x20\x01(\x0cR\x08alphaEnc\x12\x1b\n\tspend_enc\x18\x06\x20\x01(\
-    \x0cR\x08spendEnc\"?\n)MoneroTransactionInputsPermutationRequest\x12\x12\
-    \n\x04perm\x18\x01\x20\x03(\rR\x04perm\"'\n%MoneroTransactionInputsPermu\
-    tationAck\"\xef\x01\n!MoneroTransactionInputViniRequest\x12R\n\x08src_en\
-    tr\x18\x01\x20\x01(\x0b27.hw.trezor.messages.monero.MoneroTransactionSou\
-    rceEntryR\x07srcEntr\x12\x12\n\x04vini\x18\x02\x20\x01(\x0cR\x04vini\x12\
-    \x1b\n\tvini_hmac\x18\x03\x20\x01(\x0cR\x08viniHmac\x12\x1d\n\npseudo_ou\
-    t\x18\x04\x20\x01(\x0cR\tpseudoOut\x12&\n\x0fpseudo_out_hmac\x18\x05\x20\
-    \x01(\x0cR\rpseudoOutHmac\"\x1f\n\x1dMoneroTransactionInputViniAck\"y\n$\
-    MoneroTransactionAllInputsSetRequest\x12Q\n\trsig_data\x18\x01\x20\x01(\
-    \x0b24.hw.trezor.messages.monero.MoneroTransactionRsigDataR\x08rsigData\
-    \"u\n\x20MoneroTransactionAllInputsSetAck\x12Q\n\trsig_data\x18\x01\x20\
-    \x01(\x0b24.hw.trezor.messages.monero.MoneroTransactionRsigDataR\x08rsig\
-    Data\"\xf3\x01\n!MoneroTransactionSetOutputRequest\x12W\n\x08dst_entr\
-    \x18\x01\x20\x01(\x0b2<.hw.trezor.messages.monero.MoneroTransactionDesti\
-    nationEntryR\x07dstEntr\x12\"\n\rdst_entr_hmac\x18\x02\x20\x01(\x0cR\x0b\
-    dstEntrHmac\x12Q\n\trsig_data\x18\x03\x20\x01(\x0b24.hw.trezor.messages.\
-    monero.MoneroTransactionRsigDataR\x08rsigData\"\xdc\x01\n\x1dMoneroTrans\
-    actionSetOutputAck\x12\x15\n\x06tx_out\x18\x01\x20\x01(\x0cR\x05txOut\
-    \x12\x1d\n\nvouti_hmac\x18\x02\x20\x01(\x0cR\tvoutiHmac\x12Q\n\trsig_dat\
-    a\x18\x03\x20\x01(\x0b24.hw.trezor.messages.monero.MoneroTransactionRsig\
-    DataR\x08rsigData\x12\x15\n\x06out_pk\x18\x04\x20\x01(\x0cR\x05outPk\x12\
-    \x1b\n\tecdh_info\x18\x05\x20\x01(\x0cR\x08ecdhInfo\"v\n!MoneroTransacti\
-    onAllOutSetRequest\x12Q\n\trsig_data\x18\x01\x20\x01(\x0b24.hw.trezor.me\
-    ssages.monero.MoneroTransactionRsigDataR\x08rsigData\"\xe7\x02\n\x1dMone\
-    roTransactionAllOutSetAck\x12\x14\n\x05extra\x18\x01\x20\x01(\x0cR\x05ex\
-    tra\x12$\n\x0etx_prefix_hash\x18\x02\x20\x01(\x0cR\x0ctxPrefixHash\x12Q\
-    \n\trsig_data\x18\x03\x20\x01(\x0b24.hw.trezor.messages.monero.MoneroTra\
-    nsactionRsigDataR\x08rsigData\x12X\n\x02rv\x18\x04\x20\x01(\x0b2H.hw.tre\
-    zor.messages.monero.MoneroTransactionAllOutSetAck.MoneroRingCtSigR\x02rv\
-    \x1a]\n\x0fMoneroRingCtSig\x12\x17\n\x07txn_fee\x18\x01\x20\x01(\x04R\
-    \x06txnFee\x12\x18\n\x07message\x18\x02\x20\x01(\x0cR\x07message\x12\x17\
-    \n\x07rv_type\x18\x03\x20\x01(\rR\x06rvType\"#\n!MoneroTransactionMlsagD\
-    oneRequest\"K\n\x1dMoneroTransactionMlsagDoneAck\x12*\n\x11full_message_\
-    hash\x18\x01\x20\x01(\x0cR\x0ffullMessageHash\"\xa9\x02\n!MoneroTransact\
-    ionSignInputRequest\x12R\n\x08src_entr\x18\x01\x20\x01(\x0b27.hw.trezor.\
-    messages.monero.MoneroTransactionSourceEntryR\x07srcEntr\x12\x12\n\x04vi\
-    ni\x18\x02\x20\x01(\x0cR\x04vini\x12\x1b\n\tvini_hmac\x18\x03\x20\x01(\
-    \x0cR\x08viniHmac\x12\x1d\n\npseudo_out\x18\x04\x20\x01(\x0cR\tpseudoOut\
-    \x12&\n\x0fpseudo_out_hmac\x18\x05\x20\x01(\x0cR\rpseudoOutHmac\x12\x1b\
-    \n\talpha_enc\x18\x06\x20\x01(\x0cR\x08alphaEnc\x12\x1b\n\tspend_enc\x18\
-    \x07\x20\x01(\x0cR\x08spendEnc\"Q\n\x1dMoneroTransactionSignInputAck\x12\
-    \x1c\n\tsignature\x18\x01\x20\x01(\x0cR\tsignature\x12\x12\n\x04cout\x18\
-    \x02\x20\x01(\x0cR\x04cout\"\x1f\n\x1dMoneroTransactionFinalRequest\"\
-    \x87\x01\n\x19MoneroTransactionFinalAck\x12\x19\n\x08cout_key\x18\x01\
-    \x20\x01(\x0cR\x07coutKey\x12\x12\n\x04salt\x18\x02\x20\x01(\x0cR\x04sal\
-    t\x12\x1b\n\trand_mult\x18\x03\x20\x01(\x0cR\x08randMult\x12\x1e\n\x0btx\
-    _enc_keys\x18\x04\x20\x01(\x0cR\ttxEncKeys\"\xd1\x02\n\x1fMoneroKeyImage\
-    ExportInitRequest\x12\x10\n\x03num\x18\x01\x20\x01(\x04R\x03num\x12\x12\
-    \n\x04hash\x18\x02\x20\x01(\x0cR\x04hash\x12\x1b\n\taddress_n\x18\x03\
-    \x20\x03(\rR\x08addressN\x12!\n\x0cnetwork_type\x18\x04\x20\x01(\rR\x0bn\
-    etworkType\x12j\n\x04subs\x18\x05\x20\x03(\x0b2V.hw.trezor.messages.mone\
-    ro.MoneroKeyImageExportInitRequest.MoneroSubAddressIndicesListR\x04subs\
-    \x1a\\\n\x1bMoneroSubAddressIndicesList\x12\x18\n\x07account\x18\x01\x20\
-    \x01(\rR\x07account\x12#\n\rminor_indices\x18\x02\x20\x03(\rR\x0cminorIn\
-    dices\"\x1d\n\x1bMoneroKeyImageExportInitAck\"\xbd\x02\n\x1dMoneroKeyIma\
-    geSyncStepRequest\x12b\n\x04tdis\x18\x01\x20\x03(\x0b2N.hw.trezor.messag\
-    es.monero.MoneroKeyImageSyncStepRequest.MoneroTransferDetailsR\x04tdis\
-    \x1a\xb7\x01\n\x15MoneroTransferDetails\x12\x17\n\x07out_key\x18\x01\x20\
-    \x01(\x0cR\x06outKey\x12\x1c\n\ntx_pub_key\x18\x02\x20\x01(\x0cR\x08txPu\
-    bKey\x123\n\x16additional_tx_pub_keys\x18\x03\x20\x03(\x0cR\x13additiona\
-    lTxPubKeys\x122\n\x15internal_output_index\x18\x04\x20\x01(\x04R\x13inte\
-    rnalOutputIndex\"\xca\x01\n\x19MoneroKeyImageSyncStepAck\x12]\n\x03kis\
-    \x18\x01\x20\x03(\x0b2K.hw.trezor.messages.monero.MoneroKeyImageSyncStep\
-    Ack.MoneroExportedKeyImageR\x03kis\x1aN\n\x16MoneroExportedKeyImage\x12\
-    \x0e\n\x02iv\x18\x01\x20\x01(\x0cR\x02iv\x12\x10\n\x03tag\x18\x02\x20\
-    \x01(\x0cR\x03tag\x12\x12\n\x04blob\x18\x03\x20\x01(\x0cR\x04blob\"\x20\
-    \n\x1eMoneroKeyImageSyncFinalRequest\"5\n\x1aMoneroKeyImageSyncFinalAck\
-    \x12\x17\n\x07enc_key\x18\x01\x20\x01(\x0cR\x06encKey\"\x86\x01\n\x16Deb\
-    ugMoneroDiagRequest\x12\x10\n\x03ins\x18\x01\x20\x01(\x04R\x03ins\x12\
-    \x0e\n\x02p1\x18\x02\x20\x01(\x04R\x02p1\x12\x0e\n\x02p2\x18\x03\x20\x01\
-    (\x04R\x02p2\x12\x0e\n\x02pd\x18\x04\x20\x03(\x04R\x02pd\x12\x14\n\x05da\
-    ta1\x18\x05\x20\x01(\x0cR\x05data1\x12\x14\n\x05data2\x18\x06\x20\x01(\
-    \x0cR\x05data2\"\x82\x01\n\x12DebugMoneroDiagAck\x12\x10\n\x03ins\x18\
-    \x01\x20\x01(\x04R\x03ins\x12\x0e\n\x02p1\x18\x02\x20\x01(\x04R\x02p1\
-    \x12\x0e\n\x02p2\x18\x03\x20\x01(\x04R\x02p2\x12\x0e\n\x02pd\x18\x04\x20\
-    \x03(\x04R\x02pd\x12\x14\n\x05data1\x18\x05\x20\x01(\x0cR\x05data1\x12\
-    \x14\n\x05data2\x18\x06\x20\x01(\x0cR\x05data2B:\n#com.satoshilabs.trezo\
-    r.lib.protobufB\x13TrezorMessageMoneroJ\xa8\x87\x01\n\x07\x12\x05\0\0\
-    \xbb\x03\x01\n\x08\n\x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\x01\
-    \0\"\n\x08\n\x01\x08\x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\x1a#\
-    \x20Sugar\x20for\x20easier\x20handling\x20in\x20Java\n\n\x08\n\x01\x08\
-    \x12\x03\x05\04\n\t\n\x02\x08\x08\x12\x03\x05\04\nT\n\x02\x04\0\x12\x04\
-    \x0b\0#\x01\x1aH*\n\x20Structure\x20representing\x20Monero\x20transactio\
-    n\x20source\x20entry,\x20UTXO\n\x20@embed\n\n\n\n\x03\x04\0\x01\x12\x03\
-    \x0b\x08$\n\x0b\n\x04\x04\0\x02\0\x12\x03\x0c\x04+\n\x0c\n\x05\x04\0\x02\
-    \0\x04\x12\x03\x0c\x04\x0c\n\x0c\n\x05\x04\0\x02\0\x06\x12\x03\x0c\r\x1e\
-    \n\x0c\n\x05\x04\0\x02\0\x01\x12\x03\x0c\x1f&\n\x0c\n\x05\x04\0\x02\0\
-    \x03\x12\x03\x0c)*\n\x0b\n\x04\x04\0\x02\x01\x12\x03\r\x04$\n\x0c\n\x05\
-    \x04\0\x02\x01\x04\x12\x03\r\x04\x0c\n\x0c\n\x05\x04\0\x02\x01\x05\x12\
-    \x03\r\r\x13\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\r\x14\x1f\n\x0c\n\x05\
-    \x04\0\x02\x01\x03\x12\x03\r\"#\n\x0b\n\x04\x04\0\x02\x02\x12\x03\x0e\
-    \x04'\n\x0c\n\x05\x04\0\x02\x02\x04\x12\x03\x0e\x04\x0c\n\x0c\n\x05\x04\
-    \0\x02\x02\x05\x12\x03\x0e\r\x12\n\x0c\n\x05\x04\0\x02\x02\x01\x12\x03\
-    \x0e\x13\"\n\x0c\n\x05\x04\0\x02\x02\x03\x12\x03\x0e%&\n\x0b\n\x04\x04\0\
-    \x02\x03\x12\x03\x0f\x043\n\x0c\n\x05\x04\0\x02\x03\x04\x12\x03\x0f\x04\
-    \x0c\n\x0c\n\x05\x04\0\x02\x03\x05\x12\x03\x0f\r\x12\n\x0c\n\x05\x04\0\
-    \x02\x03\x01\x12\x03\x0f\x13.\n\x0c\n\x05\x04\0\x02\x03\x03\x12\x03\x0f1\
-    2\n\x0b\n\x04\x04\0\x02\x04\x12\x03\x10\x040\n\x0c\n\x05\x04\0\x02\x04\
-    \x04\x12\x03\x10\x04\x0c\n\x0c\n\x05\x04\0\x02\x04\x05\x12\x03\x10\r\x13\
-    \n\x0c\n\x05\x04\0\x02\x04\x01\x12\x03\x10\x14+\n\x0c\n\x05\x04\0\x02\
-    \x04\x03\x12\x03\x10./\n\x0b\n\x04\x04\0\x02\x05\x12\x03\x11\x04\x1f\n\
-    \x0c\n\x05\x04\0\x02\x05\x04\x12\x03\x11\x04\x0c\n\x0c\n\x05\x04\0\x02\
-    \x05\x05\x12\x03\x11\r\x13\n\x0c\n\x05\x04\0\x02\x05\x01\x12\x03\x11\x14\
-    \x1a\n\x0c\n\x05\x04\0\x02\x05\x03\x12\x03\x11\x1d\x1e\n\x0b\n\x04\x04\0\
-    \x02\x06\x12\x03\x12\x04\x1a\n\x0c\n\x05\x04\0\x02\x06\x04\x12\x03\x12\
-    \x04\x0c\n\x0c\n\x05\x04\0\x02\x06\x05\x12\x03\x12\r\x11\n\x0c\n\x05\x04\
-    \0\x02\x06\x01\x12\x03\x12\x12\x15\n\x0c\n\x05\x04\0\x02\x06\x03\x12\x03\
-    \x12\x18\x19\n\x0b\n\x04\x04\0\x02\x07\x12\x03\x13\x04\x1c\n\x0c\n\x05\
-    \x04\0\x02\x07\x04\x12\x03\x13\x04\x0c\n\x0c\n\x05\x04\0\x02\x07\x05\x12\
-    \x03\x13\r\x12\n\x0c\n\x05\x04\0\x02\x07\x01\x12\x03\x13\x13\x17\n\x0c\n\
-    \x05\x04\0\x02\x07\x03\x12\x03\x13\x1a\x1b\n\x0b\n\x04\x04\0\x02\x08\x12\
-    \x03\x14\x044\n\x0c\n\x05\x04\0\x02\x08\x04\x12\x03\x14\x04\x0c\n\x0c\n\
-    \x05\x04\0\x02\x08\x06\x12\x03\x14\r\x20\n\x0c\n\x05\x04\0\x02\x08\x01\
-    \x12\x03\x14!/\n\x0c\n\x05\x04\0\x02\x08\x03\x12\x03\x1423\n\x0c\n\x04\
-    \x04\0\x03\0\x12\x04\x15\x04\x1c\x05\n\x0c\n\x05\x04\0\x03\0\x01\x12\x03\
-    \x15\x0c\x1d\n\r\n\x06\x04\0\x03\0\x02\0\x12\x03\x16\x08\x20\n\x0e\n\x07\
-    \x04\0\x03\0\x02\0\x04\x12\x03\x16\x08\x10\n\x0e\n\x07\x04\0\x03\0\x02\0\
-    \x05\x12\x03\x16\x11\x17\n\x0e\n\x07\x04\0\x03\0\x02\0\x01\x12\x03\x16\
-    \x18\x1b\n\x0e\n\x07\x04\0\x03\0\x02\0\x03\x12\x03\x16\x1e\x1f\n\r\n\x06\
-    \x04\0\x03\0\x02\x01\x12\x03\x17\x08&\n\x0e\n\x07\x04\0\x03\0\x02\x01\
-    \x04\x12\x03\x17\x08\x10\n\x0e\n\x07\x04\0\x03\0\x02\x01\x06\x12\x03\x17\
-    \x11\x1d\n\x0e\n\x07\x04\0\x03\0\x02\x01\x01\x12\x03\x17\x1e!\n\x0e\n\
-    \x07\x04\0\x03\0\x02\x01\x03\x12\x03\x17$%\n\x0e\n\x06\x04\0\x03\0\x03\0\
-    \x12\x04\x18\x08\x1b\t\n\x0e\n\x07\x04\0\x03\0\x03\0\x01\x12\x03\x18\x10\
-    \x1c\n\x0f\n\x08\x04\0\x03\0\x03\0\x02\0\x12\x03\x19\x0c$\n\x10\n\t\x04\
-    \0\x03\0\x03\0\x02\0\x04\x12\x03\x19\x0c\x14\n\x10\n\t\x04\0\x03\0\x03\0\
-    \x02\0\x05\x12\x03\x19\x15\x1a\n\x10\n\t\x04\0\x03\0\x03\0\x02\0\x01\x12\
-    \x03\x19\x1b\x1f\n\x10\n\t\x04\0\x03\0\x03\0\x02\0\x03\x12\x03\x19\"#\n\
-    \x0f\n\x08\x04\0\x03\0\x03\0\x02\x01\x12\x03\x1a\x0c$\n\x10\n\t\x04\0\
-    \x03\0\x03\0\x02\x01\x04\x12\x03\x1a\x0c\x14\n\x10\n\t\x04\0\x03\0\x03\0\
-    \x02\x01\x05\x12\x03\x1a\x15\x1a\n\x10\n\t\x04\0\x03\0\x03\0\x02\x01\x01\
-    \x12\x03\x1a\x1b\x1f\n\x10\n\t\x04\0\x03\0\x03\0\x02\x01\x03\x12\x03\x1a\
-    \"#\n\x0c\n\x04\x04\0\x03\x01\x12\x04\x1d\x04\"\x05\n\x0c\n\x05\x04\0\
-    \x03\x01\x01\x12\x03\x1d\x0c\x1f\n\r\n\x06\x04\0\x03\x01\x02\0\x12\x03\
-    \x1e\x08\x1d\n\x0e\n\x07\x04\0\x03\x01\x02\0\x04\x12\x03\x1e\x08\x10\n\
-    \x0e\n\x07\x04\0\x03\x01\x02\0\x05\x12\x03\x1e\x11\x16\n\x0e\n\x07\x04\0\
-    \x03\x01\x02\0\x01\x12\x03\x1e\x17\x18\n\x0e\n\x07\x04\0\x03\x01\x02\0\
-    \x03\x12\x03\x1e\x1b\x1c\n\r\n\x06\x04\0\x03\x01\x02\x01\x12\x03\x1f\x08\
-    \x1d\n\x0e\n\x07\x04\0\x03\x01\x02\x01\x04\x12\x03\x1f\x08\x10\n\x0e\n\
-    \x07\x04\0\x03\x01\x02\x01\x05\x12\x03\x1f\x11\x16\n\x0e\n\x07\x04\0\x03\
-    \x01\x02\x01\x01\x12\x03\x1f\x17\x18\n\x0e\n\x07\x04\0\x03\x01\x02\x01\
-    \x03\x12\x03\x1f\x1b\x1c\n\r\n\x06\x04\0\x03\x01\x02\x02\x12\x03\x20\x08\
-    \x1d\n\x0e\n\x07\x04\0\x03\x01\x02\x02\x04\x12\x03\x20\x08\x10\n\x0e\n\
-    \x07\x04\0\x03\x01\x02\x02\x05\x12\x03\x20\x11\x16\n\x0e\n\x07\x04\0\x03\
-    \x01\x02\x02\x01\x12\x03\x20\x17\x18\n\x0e\n\x07\x04\0\x03\x01\x02\x02\
-    \x03\x12\x03\x20\x1b\x1c\n\r\n\x06\x04\0\x03\x01\x02\x03\x12\x03!\x08\
-    \x1e\n\x0e\n\x07\x04\0\x03\x01\x02\x03\x04\x12\x03!\x08\x10\n\x0e\n\x07\
-    \x04\0\x03\x01\x02\x03\x05\x12\x03!\x11\x16\n\x0e\n\x07\x04\0\x03\x01\
-    \x02\x03\x01\x12\x03!\x17\x19\n\x0e\n\x07\x04\0\x03\x01\x02\x03\x03\x12\
-    \x03!\x1c\x1d\nS\n\x02\x04\x01\x12\x04)\04\x01\x1aG*\n\x20Structure\x20r\
-    epresenting\x20Monero\x20transaction\x20destination\x20entry\n\x20@embed\
-    \n\n\n\n\x03\x04\x01\x01\x12\x03)\x08)\n\x0b\n\x04\x04\x01\x02\0\x12\x03\
-    *\x04\x1f\n\x0c\n\x05\x04\x01\x02\0\x04\x12\x03*\x04\x0c\n\x0c\n\x05\x04\
-    \x01\x02\0\x05\x12\x03*\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x03*\x14\
-    \x1a\n\x0c\n\x05\x04\x01\x02\0\x03\x12\x03*\x1d\x1e\n\x0b\n\x04\x04\x01\
-    \x02\x01\x12\x03+\x041\n\x0c\n\x05\x04\x01\x02\x01\x04\x12\x03+\x04\x0c\
-    \n\x0c\n\x05\x04\x01\x02\x01\x06\x12\x03+\r'\n\x0c\n\x05\x04\x01\x02\x01\
-    \x01\x12\x03+(,\n\x0c\n\x05\x04\x01\x02\x01\x03\x12\x03+/0\n\x0b\n\x04\
-    \x04\x01\x02\x02\x12\x03,\x04$\n\x0c\n\x05\x04\x01\x02\x02\x04\x12\x03,\
-    \x04\x0c\n\x0c\n\x05\x04\x01\x02\x02\x05\x12\x03,\r\x11\n\x0c\n\x05\x04\
-    \x01\x02\x02\x01\x12\x03,\x12\x1f\n\x0c\n\x05\x04\x01\x02\x02\x03\x12\
-    \x03,\"#\n>\n\x04\x04\x01\x03\0\x12\x040\x043\x05\x1a0*\n\x20Structure\
-    \x20representing\x20Monero\x20public\x20address\n\n\x0c\n\x05\x04\x01\
-    \x03\0\x01\x12\x030\x0c&\n\r\n\x06\x04\x01\x03\0\x02\0\x12\x031\x08,\n\
-    \x0e\n\x07\x04\x01\x03\0\x02\0\x04\x12\x031\x08\x10\n\x0e\n\x07\x04\x01\
-    \x03\0\x02\0\x05\x12\x031\x11\x16\n\x0e\n\x07\x04\x01\x03\0\x02\0\x01\
-    \x12\x031\x17'\n\x0e\n\x07\x04\x01\x03\0\x02\0\x03\x12\x031*+\n\r\n\x06\
-    \x04\x01\x03\0\x02\x01\x12\x032\x08+\n\x0e\n\x07\x04\x01\x03\0\x02\x01\
-    \x04\x12\x032\x08\x10\n\x0e\n\x07\x04\x01\x03\0\x02\x01\x05\x12\x032\x11\
-    \x16\n\x0e\n\x07\x04\x01\x03\0\x02\x01\x01\x12\x032\x17&\n\x0e\n\x07\x04\
-    \x01\x03\0\x02\x01\x03\x12\x032)*\n,\n\x02\x04\x02\x12\x049\0G\x01\x1a\
-    \x20*\n\x20Range\x20sig\x20parameters\x20/\x20data.\n\n\n\n\x03\x04\x02\
-    \x01\x12\x039\x08!\n\x0b\n\x04\x04\x02\x02\0\x12\x03:\x04\x20\n\x0c\n\
-    \x05\x04\x02\x02\0\x04\x12\x03:\x04\x0c\n\x0c\n\x05\x04\x02\x02\0\x05\
-    \x12\x03:\r\x13\n\x0c\n\x05\x04\x02\x02\0\x01\x12\x03:\x14\x1b\n\x0c\n\
-    \x05\x04\x02\x02\0\x03\x12\x03:\x1e\x1f\n\x0b\n\x04\x04\x02\x02\x01\x12\
-    \x03;\x04\"\n\x0c\n\x05\x04\x02\x02\x01\x04\x12\x03;\x04\x0c\n\x0c\n\x05\
-    \x04\x02\x02\x01\x05\x12\x03;\r\x13\n\x0c\n\x05\x04\x02\x02\x01\x01\x12\
-    \x03;\x14\x1d\n\x0c\n\x05\x04\x02\x02\x01\x03\x12\x03;\x20!\n\x0b\n\x04\
-    \x04\x02\x02\x02\x12\x03<\x04%\n\x0c\n\x05\x04\x02\x02\x02\x04\x12\x03<\
-    \x04\x0c\n\x0c\n\x05\x04\x02\x02\x02\x05\x12\x03<\r\x13\n\x0c\n\x05\x04\
-    \x02\x02\x02\x01\x12\x03<\x14\x20\n\x0c\n\x05\x04\x02\x02\x02\x03\x12\
-    \x03<#$\n(\n\x04\x04\x02\x02\x03\x12\x03=\x04!\"\x1b\x20aggregation\x20s\
-    cheme\x20for\x20BP\n\n\x0c\n\x05\x04\x02\x02\x03\x04\x12\x03=\x04\x0c\n\
-    \x0c\n\x05\x04\x02\x02\x03\x05\x12\x03=\r\x13\n\x0c\n\x05\x04\x02\x02\
-    \x03\x01\x12\x03=\x14\x1c\n\x0c\n\x05\x04\x02\x02\x03\x03\x12\x03=\x1f\
-    \x20\n\x0b\n\x04\x04\x02\x02\x04\x12\x03?\x04\x1d\n\x0c\n\x05\x04\x02\
-    \x02\x04\x04\x12\x03?\x04\x0c\n\x0c\n\x05\x04\x02\x02\x04\x05\x12\x03?\r\
-    \x13\n\x0c\n\x05\x04\x02\x02\x04\x01\x12\x03?\x14\x18\n\x0c\n\x05\x04\
-    \x02\x02\x04\x03\x12\x03?\x1b\x1c\n\x0b\n\x04\x04\x02\x02\x05\x12\x03@\
-    \x04\"\n\x0c\n\x05\x04\x02\x02\x05\x04\x12\x03@\x04\x0c\n\x0c\n\x05\x04\
-    \x02\x02\x05\x05\x12\x03@\r\x13\n\x0c\n\x05\x04\x02\x02\x05\x01\x12\x03@\
-    \x14\x1d\n\x0c\n\x05\x04\x02\x02\x05\x03\x12\x03@\x20!\n\x20\n\x04\x04\
-    \x02\x02\x06\x12\x03A\x04\x1c\"\x13\x20determ.\x20mask\x20seed\n\n\x0c\n\
-    \x05\x04\x02\x02\x06\x04\x12\x03A\x04\x0c\n\x0c\n\x05\x04\x02\x02\x06\
-    \x05\x12\x03A\r\x12\n\x0c\n\x05\x04\x02\x02\x06\x01\x12\x03A\x13\x17\n\
-    \x0c\n\x05\x04\x02\x02\x06\x03\x12\x03A\x1a\x1b\n\x1a\n\x04\x04\x02\x02\
-    \x07\x12\x03B\x04\x1c\"\r\x20mask\x20vector\n\n\x0c\n\x05\x04\x02\x02\
-    \x07\x04\x12\x03B\x04\x0c\n\x0c\n\x05\x04\x02\x02\x07\x05\x12\x03B\r\x12\
-    \n\x0c\n\x05\x04\x02\x02\x07\x01\x12\x03B\x13\x17\n\x0c\n\x05\x04\x02\
-    \x02\x07\x03\x12\x03B\x1a\x1b\n\x1c\n\x04\x04\x02\x02\x08\x12\x03C\x04\
-    \x1e\"\x0f\x20amount\x20vector\n\n\x0c\n\x05\x04\x02\x02\x08\x04\x12\x03\
-    C\x04\x0c\n\x0c\n\x05\x04\x02\x02\x08\x05\x12\x03C\r\x12\n\x0c\n\x05\x04\
-    \x02\x02\x08\x01\x12\x03C\x13\x19\n\x0c\n\x05\x04\x02\x02\x08\x03\x12\
-    \x03C\x1c\x1d\n)\n\x04\x04\x02\x02\t\x12\x03D\x04\x1d\"\x1c\x20range\x20\
-    sig,\x20full\x20or\x20partial\n\n\x0c\n\x05\x04\x02\x02\t\x04\x12\x03D\
-    \x04\x0c\n\x0c\n\x05\x04\x02\x02\t\x05\x12\x03D\r\x12\n\x0c\n\x05\x04\
-    \x02\x02\t\x01\x12\x03D\x13\x17\n\x0c\n\x05\x04\x02\x02\t\x03\x12\x03D\
-    \x1a\x1c\n\x0b\n\x04\x04\x02\x02\n\x12\x03E\x04#\n\x0c\n\x05\x04\x02\x02\
-    \n\x04\x12\x03E\x04\x0c\n\x0c\n\x05\x04\x02\x02\n\x05\x12\x03E\r\x12\n\
-    \x0c\n\x05\x04\x02\x02\n\x01\x12\x03E\x13\x1d\n\x0c\n\x05\x04\x02\x02\n\
-    \x03\x12\x03E\x20\"\n\x0b\n\x04\x04\x02\x02\x0b\x12\x03F\x04<\n\x0c\n\
-    \x05\x04\x02\x02\x0b\x04\x12\x03F\x04\x0c\n\x0c\n\x05\x04\x02\x02\x0b\
-    \x06\x12\x03F\r.\n\x0c\n\x05\x04\x02\x02\x0b\x01\x12\x03F/6\n\x0c\n\x05\
-    \x04\x02\x02\x0b\x03\x12\x03F9;\n\x82\x01\n\x02\x04\x03\x12\x04O\0U\x01\
-    \x1av*\n\x20Request:\x20Ask\x20device\x20for\x20public\x20address\x20der\
-    ived\x20from\x20seed\x20and\x20address_n\n\x20@start\n\x20@next\x20Moner\
-    oAddress\n\x20@next\x20Failure\n\n\n\n\x03\x04\x03\x01\x12\x03O\x08\x18\
-    \n=\n\x04\x04\x03\x02\0\x12\x03P\x04\"\"0\x20BIP-32\x20path\x20to\x20der\
-    ive\x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\x05\x04\x03\x02\0\
-    \x04\x12\x03P\x04\x0c\n\x0c\n\x05\x04\x03\x02\0\x05\x12\x03P\r\x13\n\x0c\
-    \n\x05\x04\x03\x02\0\x01\x12\x03P\x14\x1d\n\x0c\n\x05\x04\x03\x02\0\x03\
-    \x12\x03P\x20!\nC\n\x04\x04\x03\x02\x01\x12\x03Q\x04#\"6\x20Optionally\
-    \x20show\x20on\x20display\x20before\x20sending\x20the\x20result\n\n\x0c\
-    \n\x05\x04\x03\x02\x01\x04\x12\x03Q\x04\x0c\n\x0c\n\x05\x04\x03\x02\x01\
-    \x05\x12\x03Q\r\x11\n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x03Q\x12\x1e\n\
-    \x0c\n\x05\x04\x03\x02\x01\x03\x12\x03Q!\"\n,\n\x04\x04\x03\x02\x02\x12\
-    \x03R\x04%\"\x1f\x20Main-net\x20/\x20testnet\x20/\x20stagenet\n\n\x0c\n\
-    \x05\x04\x03\x02\x02\x04\x12\x03R\x04\x0c\n\x0c\n\x05\x04\x03\x02\x02\
-    \x05\x12\x03R\r\x13\n\x0c\n\x05\x04\x03\x02\x02\x01\x12\x03R\x14\x20\n\
-    \x0c\n\x05\x04\x03\x02\x02\x03\x12\x03R#$\n\"\n\x04\x04\x03\x02\x03\x12\
-    \x03S\x04\x20\"\x15\x20Major\x20subaddr\x20index\n\n\x0c\n\x05\x04\x03\
-    \x02\x03\x04\x12\x03S\x04\x0c\n\x0c\n\x05\x04\x03\x02\x03\x05\x12\x03S\r\
-    \x13\n\x0c\n\x05\x04\x03\x02\x03\x01\x12\x03S\x14\x1b\n\x0c\n\x05\x04\
-    \x03\x02\x03\x03\x12\x03S\x1e\x1f\n\"\n\x04\x04\x03\x02\x04\x12\x03T\x04\
-    \x1e\"\x15\x20Minor\x20subaddr\x20index\n\n\x0c\n\x05\x04\x03\x02\x04\
-    \x04\x12\x03T\x04\x0c\n\x0c\n\x05\x04\x03\x02\x04\x05\x12\x03T\r\x13\n\
-    \x0c\n\x05\x04\x03\x02\x04\x01\x12\x03T\x14\x19\n\x0c\n\x05\x04\x03\x02\
-    \x04\x03\x12\x03T\x1c\x1d\ng\n\x02\x04\x04\x12\x04[\0]\x01\x1a[*\n\x20Re\
-    sponse:\x20Contains\x20Monero\x20watch-only\x20credentials\x20derived\
-    \x20from\x20device\x20private\x20seed\n\x20@end\n\n\n\n\x03\x04\x04\x01\
-    \x12\x03[\x08\x15\n\x0b\n\x04\x04\x04\x02\0\x12\x03\\\x04\x1f\n\x0c\n\
-    \x05\x04\x04\x02\0\x04\x12\x03\\\x04\x0c\n\x0c\n\x05\x04\x04\x02\0\x05\
-    \x12\x03\\\r\x12\n\x0c\n\x05\x04\x04\x02\0\x01\x12\x03\\\x13\x1a\n\x0c\n\
-    \x05\x04\x04\x02\0\x03\x12\x03\\\x1d\x1e\nk\n\x02\x04\x05\x12\x04e\0h\
-    \x01\x1a_*\n\x20Request:\x20Ask\x20device\x20for\x20watch\x20only\x20cre\
-    dentials\n\x20@start\n\x20@next\x20MoneroWatchKey\n\x20@next\x20Failure\
-    \n\n\n\n\x03\x04\x05\x01\x12\x03e\x08\x19\n=\n\x04\x04\x05\x02\0\x12\x03\
-    f\x04\"\"0\x20BIP-32\x20path\x20to\x20derive\x20the\x20key\x20from\x20ma\
-    ster\x20node\n\n\x0c\n\x05\x04\x05\x02\0\x04\x12\x03f\x04\x0c\n\x0c\n\
-    \x05\x04\x05\x02\0\x05\x12\x03f\r\x13\n\x0c\n\x05\x04\x05\x02\0\x01\x12\
-    \x03f\x14\x1d\n\x0c\n\x05\x04\x05\x02\0\x03\x12\x03f\x20!\n,\n\x04\x04\
-    \x05\x02\x01\x12\x03g\x04%\"\x1f\x20Main-net\x20/\x20testnet\x20/\x20sta\
-    genet\n\n\x0c\n\x05\x04\x05\x02\x01\x04\x12\x03g\x04\x0c\n\x0c\n\x05\x04\
-    \x05\x02\x01\x05\x12\x03g\r\x13\n\x0c\n\x05\x04\x05\x02\x01\x01\x12\x03g\
-    \x14\x20\n\x0c\n\x05\x04\x05\x02\x01\x03\x12\x03g#$\ng\n\x02\x04\x06\x12\
-    \x04n\0q\x01\x1a[*\n\x20Response:\x20Contains\x20Monero\x20watch-only\
-    \x20credentials\x20derived\x20from\x20device\x20private\x20seed\n\x20@en\
-    d\n\n\n\n\x03\x04\x06\x01\x12\x03n\x08\x16\n\x0b\n\x04\x04\x06\x02\0\x12\
-    \x03o\x04!\n\x0c\n\x05\x04\x06\x02\0\x04\x12\x03o\x04\x0c\n\x0c\n\x05\
-    \x04\x06\x02\0\x05\x12\x03o\r\x12\n\x0c\n\x05\x04\x06\x02\0\x01\x12\x03o\
-    \x13\x1c\n\x0c\n\x05\x04\x06\x02\0\x03\x12\x03o\x1f\x20\n\x0b\n\x04\x04\
-    \x06\x02\x01\x12\x03p\x04\x1f\n\x0c\n\x05\x04\x06\x02\x01\x04\x12\x03p\
-    \x04\x0c\n\x0c\n\x05\x04\x06\x02\x01\x05\x12\x03p\r\x12\n\x0c\n\x05\x04\
-    \x06\x02\x01\x01\x12\x03p\x13\x1a\n\x0c\n\x05\x04\x06\x02\x01\x03\x12\
-    \x03p\x1d\x1e\n\x88\x01\n\x02\x04\x07\x12\x05x\0\x91\x01\x01\x1a{*\n\x20\
-    Request:\x20Sub\x20request\x20of\x20MoneroTransactionSign.\x20Initialize\
-    s\x20transaction\x20signing.\n\x20@start\n\x20@next\x20MoneroTransaction\
-    InitAck\n\n\n\n\x03\x04\x07\x01\x12\x03x\x08$\n\x0b\n\x04\x04\x07\x02\0\
-    \x12\x03y\x04\x20\n\x0c\n\x05\x04\x07\x02\0\x04\x12\x03y\x04\x0c\n\x0c\n\
-    \x05\x04\x07\x02\0\x05\x12\x03y\r\x13\n\x0c\n\x05\x04\x07\x02\0\x01\x12\
-    \x03y\x14\x1b\n\x0c\n\x05\x04\x07\x02\0\x03\x12\x03y\x1e\x1f\n\x0b\n\x04\
-    \x04\x07\x02\x01\x12\x03z\x04\"\n\x0c\n\x05\x04\x07\x02\x01\x04\x12\x03z\
-    \x04\x0c\n\x0c\n\x05\x04\x07\x02\x01\x05\x12\x03z\r\x13\n\x0c\n\x05\x04\
-    \x07\x02\x01\x01\x12\x03z\x14\x1d\n\x0c\n\x05\x04\x07\x02\x01\x03\x12\
-    \x03z\x20!\n,\n\x04\x04\x07\x02\x02\x12\x03{\x04%\"\x1f\x20Main-net\x20/\
-    \x20testnet\x20/\x20stagenet\n\n\x0c\n\x05\x04\x07\x02\x02\x04\x12\x03{\
-    \x04\x0c\n\x0c\n\x05\x04\x07\x02\x02\x05\x12\x03{\r\x13\n\x0c\n\x05\x04\
-    \x07\x02\x02\x01\x12\x03{\x14\x20\n\x0c\n\x05\x04\x07\x02\x02\x03\x12\
-    \x03{#$\n\x0b\n\x04\x04\x07\x02\x03\x12\x03|\x040\n\x0c\n\x05\x04\x07\
-    \x02\x03\x04\x12\x03|\x04\x0c\n\x0c\n\x05\x04\x07\x02\x03\x06\x12\x03|\r\
-    \"\n\x0c\n\x05\x04\x07\x02\x03\x01\x12\x03|#+\n\x0c\n\x05\x04\x07\x02\
-    \x03\x03\x12\x03|./\nQ\n\x04\x04\x07\x03\0\x12\x06\x80\x01\x04\x90\x01\
-    \x05\x1aA*\n\x20Structure\x20representing\x20Monero\x20initial\x20transa\
-    ction\x20information\n\n\r\n\x05\x04\x07\x03\0\x01\x12\x04\x80\x01\x0c!\
-    \n\x0e\n\x06\x04\x07\x03\0\x02\0\x12\x04\x81\x01\x08$\n\x0f\n\x07\x04\
-    \x07\x03\0\x02\0\x04\x12\x04\x81\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\
-    \x02\0\x05\x12\x04\x81\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\0\x01\
-    \x12\x04\x81\x01\x18\x1f\n\x0f\n\x07\x04\x07\x03\0\x02\0\x03\x12\x04\x81\
-    \x01\"#\n\x0e\n\x06\x04\x07\x03\0\x02\x01\x12\x04\x82\x01\x08&\n\x0f\n\
-    \x07\x04\x07\x03\0\x02\x01\x04\x12\x04\x82\x01\x08\x10\n\x0f\n\x07\x04\
-    \x07\x03\0\x02\x01\x05\x12\x04\x82\x01\x11\x16\n\x0f\n\x07\x04\x07\x03\0\
-    \x02\x01\x01\x12\x04\x82\x01\x17!\n\x0f\n\x07\x04\x07\x03\0\x02\x01\x03\
-    \x12\x04\x82\x01$%\n\x0e\n\x06\x04\x07\x03\0\x02\x02\x12\x04\x83\x01\x08\
-    (\n\x0f\n\x07\x04\x07\x03\0\x02\x02\x04\x12\x04\x83\x01\x08\x10\n\x0f\n\
-    \x07\x04\x07\x03\0\x02\x02\x05\x12\x04\x83\x01\x11\x17\n\x0f\n\x07\x04\
-    \x07\x03\0\x02\x02\x01\x12\x04\x83\x01\x18#\n\x0f\n\x07\x04\x07\x03\0\
-    \x02\x02\x03\x12\x04\x83\x01&'\n\x0e\n\x06\x04\x07\x03\0\x02\x03\x12\x04\
-    \x84\x01\x08?\n\x0f\n\x07\x04\x07\x03\0\x02\x03\x04\x12\x04\x84\x01\x08\
-    \x10\n\x0f\n\x07\x04\x07\x03\0\x02\x03\x06\x12\x04\x84\x01\x112\n\x0f\n\
-    \x07\x04\x07\x03\0\x02\x03\x01\x12\x04\x84\x013:\n\x0f\n\x07\x04\x07\x03\
-    \0\x02\x03\x03\x12\x04\x84\x01=>\n\x0e\n\x06\x04\x07\x03\0\x02\x04\x12\
-    \x04\x85\x01\x08B\n\x0f\n\x07\x04\x07\x03\0\x02\x04\x04\x12\x04\x85\x01\
-    \x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x04\x06\x12\x04\x85\x01\x112\n\
-    \x0f\n\x07\x04\x07\x03\0\x02\x04\x01\x12\x04\x85\x013=\n\x0f\n\x07\x04\
-    \x07\x03\0\x02\x04\x03\x12\x04\x85\x01@A\n\x0e\n\x06\x04\x07\x03\0\x02\
-    \x05\x12\x04\x86\x01\x08'\n\x0f\n\x07\x04\x07\x03\0\x02\x05\x04\x12\x04\
-    \x86\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x05\x05\x12\x04\x86\x01\
-    \x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x05\x01\x12\x04\x86\x01\x18\"\n\
-    \x0f\n\x07\x04\x07\x03\0\x02\x05\x03\x12\x04\x86\x01%&\n\x0e\n\x06\x04\
-    \x07\x03\0\x02\x06\x12\x04\x87\x01\x08\"\n\x0f\n\x07\x04\x07\x03\0\x02\
-    \x06\x04\x12\x04\x87\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x06\x05\
-    \x12\x04\x87\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x06\x01\x12\x04\
-    \x87\x01\x18\x1d\n\x0f\n\x07\x04\x07\x03\0\x02\x06\x03\x12\x04\x87\x01\
-    \x20!\n\x0e\n\x06\x04\x07\x03\0\x02\x07\x12\x04\x88\x01\x08\x20\n\x0f\n\
-    \x07\x04\x07\x03\0\x02\x07\x04\x12\x04\x88\x01\x08\x10\n\x0f\n\x07\x04\
-    \x07\x03\0\x02\x07\x05\x12\x04\x88\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\
-    \x02\x07\x01\x12\x04\x88\x01\x18\x1b\n\x0f\n\x07\x04\x07\x03\0\x02\x07\
-    \x03\x12\x04\x88\x01\x1e\x1f\n\x0e\n\x06\x04\x07\x03\0\x02\x08\x12\x04\
-    \x89\x01\x08$\n\x0f\n\x07\x04\x07\x03\0\x02\x08\x04\x12\x04\x89\x01\x08\
-    \x10\n\x0f\n\x07\x04\x07\x03\0\x02\x08\x05\x12\x04\x89\x01\x11\x17\n\x0f\
-    \n\x07\x04\x07\x03\0\x02\x08\x01\x12\x04\x89\x01\x18\x1f\n\x0f\n\x07\x04\
-    \x07\x03\0\x02\x08\x03\x12\x04\x89\x01\"#\n\x0e\n\x06\x04\x07\x03\0\x02\
-    \t\x12\x04\x8a\x01\x08+\n\x0f\n\x07\x04\x07\x03\0\x02\t\x04\x12\x04\x8a\
-    \x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\t\x05\x12\x04\x8a\x01\x11\x17\
-    \n\x0f\n\x07\x04\x07\x03\0\x02\t\x01\x12\x04\x8a\x01\x18%\n\x0f\n\x07\
-    \x04\x07\x03\0\x02\t\x03\x12\x04\x8a\x01(*\n\x0e\n\x06\x04\x07\x03\0\x02\
-    \n\x12\x04\x8b\x01\x08'\n\x0f\n\x07\x04\x07\x03\0\x02\n\x04\x12\x04\x8b\
-    \x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\n\x05\x12\x04\x8b\x01\x11\x15\
-    \n\x0f\n\x07\x04\x07\x03\0\x02\n\x01\x12\x04\x8b\x01\x16!\n\x0f\n\x07\
-    \x04\x07\x03\0\x02\n\x03\x12\x04\x8b\x01$&\n\x0e\n\x06\x04\x07\x03\0\x02\
-    \x0b\x12\x04\x8c\x01\x08/\n\x0f\n\x07\x04\x07\x03\0\x02\x0b\x04\x12\x04\
-    \x8c\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x0b\x05\x12\x04\x8c\x01\
-    \x11\x16\n\x0f\n\x07\x04\x07\x03\0\x02\x0b\x01\x12\x04\x8c\x01\x17)\n\
-    \x0f\n\x07\x04\x07\x03\0\x02\x0b\x03\x12\x04\x8c\x01,.\n\x0e\n\x06\x04\
-    \x07\x03\0\x02\x0c\x12\x04\x8d\x01\x08(\n\x0f\n\x07\x04\x07\x03\0\x02\
-    \x0c\x04\x12\x04\x8d\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x0c\x05\
-    \x12\x04\x8d\x01\x11\x16\n\x0f\n\x07\x04\x07\x03\0\x02\x0c\x01\x12\x04\
-    \x8d\x01\x17\"\n\x0f\n\x07\x04\x07\x03\0\x02\x0c\x03\x12\x04\x8d\x01%'\n\
-    \x0e\n\x06\x04\x07\x03\0\x02\r\x12\x04\x8e\x01\x08:\n\x0f\n\x07\x04\x07\
-    \x03\0\x02\r\x04\x12\x04\x8e\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\r\
-    \x06\x12\x04\x8e\x01\x11*\n\x0f\n\x07\x04\x07\x03\0\x02\r\x01\x12\x04\
-    \x8e\x01+4\n\x0f\n\x07\x04\x07\x03\0\x02\r\x03\x12\x04\x8e\x0179\n\x0e\n\
-    \x06\x04\x07\x03\0\x02\x0e\x12\x04\x8f\x01\x080\n\x0f\n\x07\x04\x07\x03\
-    \0\x02\x0e\x04\x12\x04\x8f\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x0e\
-    \x05\x12\x04\x8f\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x0e\x01\x12\
-    \x04\x8f\x01\x18*\n\x0f\n\x07\x04\x07\x03\0\x02\x0e\x03\x12\x04\x8f\x01-\
-    /\ns\n\x02\x04\x08\x12\x06\x97\x01\0\x9f\x01\x01\x1ae*\n\x20Response:\
-    \x20Response\x20to\x20transaction\x20signing\x20initialization.\n\x20@ne\
-    xt\x20MoneroTransactionSetInputRequest\n\n\x0b\n\x03\x04\x08\x01\x12\x04\
-    \x97\x01\x08\x20\n\x0c\n\x04\x04\x08\x02\0\x12\x04\x98\x01\x04\x20\n\r\n\
-    \x05\x04\x08\x02\0\x04\x12\x04\x98\x01\x04\x0c\n\r\n\x05\x04\x08\x02\0\
-    \x05\x12\x04\x98\x01\r\x13\n\r\n\x05\x04\x08\x02\0\x01\x12\x04\x98\x01\
-    \x14\x1b\n\r\n\x05\x04\x08\x02\0\x03\x12\x04\x98\x01\x1e\x1f\n\x0c\n\x04\
-    \x04\x08\x02\x01\x12\x04\x99\x01\x04\x1f\n\r\n\x05\x04\x08\x02\x01\x04\
-    \x12\x04\x99\x01\x04\x0c\n\r\n\x05\x04\x08\x02\x01\x05\x12\x04\x99\x01\r\
-    \x13\n\r\n\x05\x04\x08\x02\x01\x01\x12\x04\x99\x01\x14\x1a\n\r\n\x05\x04\
-    \x08\x02\x01\x03\x12\x04\x99\x01\x1d\x1e\n\x0c\n\x04\x04\x08\x02\x02\x12\
-    \x04\x9a\x01\x04\x20\n\r\n\x05\x04\x08\x02\x02\x04\x12\x04\x9a\x01\x04\
-    \x0c\n\r\n\x05\x04\x08\x02\x02\x05\x12\x04\x9a\x01\r\x11\n\r\n\x05\x04\
-    \x08\x02\x02\x01\x12\x04\x9a\x01\x12\x1b\n\r\n\x05\x04\x08\x02\x02\x03\
-    \x12\x04\x9a\x01\x1e\x1f\n\x0c\n\x04\x04\x08\x02\x03\x12\x04\x9b\x01\x04\
-    \x1d\n\r\n\x05\x04\x08\x02\x03\x04\x12\x04\x9b\x01\x04\x0c\n\r\n\x05\x04\
-    \x08\x02\x03\x05\x12\x04\x9b\x01\r\x12\n\r\n\x05\x04\x08\x02\x03\x01\x12\
-    \x04\x9b\x01\x13\x18\n\r\n\x05\x04\x08\x02\x03\x03\x12\x04\x9b\x01\x1b\
-    \x1c\n\x0c\n\x04\x04\x08\x02\x04\x12\x04\x9c\x01\x04\"\n\r\n\x05\x04\x08\
-    \x02\x04\x04\x12\x04\x9c\x01\x04\x0c\n\r\n\x05\x04\x08\x02\x04\x05\x12\
-    \x04\x9c\x01\r\x11\n\r\n\x05\x04\x08\x02\x04\x01\x12\x04\x9c\x01\x12\x1d\
-    \n\r\n\x05\x04\x08\x02\x04\x03\x12\x04\x9c\x01\x20!\n\x0c\n\x04\x04\x08\
-    \x02\x05\x12\x04\x9d\x01\x04#\n\r\n\x05\x04\x08\x02\x05\x04\x12\x04\x9d\
-    \x01\x04\x0c\n\r\n\x05\x04\x08\x02\x05\x05\x12\x04\x9d\x01\r\x11\n\r\n\
-    \x05\x04\x08\x02\x05\x01\x12\x04\x9d\x01\x12\x1e\n\r\n\x05\x04\x08\x02\
-    \x05\x03\x12\x04\x9d\x01!\"\n\x0c\n\x04\x04\x08\x02\x06\x12\x04\x9e\x01\
-    \x045\n\r\n\x05\x04\x08\x02\x06\x04\x12\x04\x9e\x01\x04\x0c\n\r\n\x05\
-    \x04\x08\x02\x06\x06\x12\x04\x9e\x01\r&\n\r\n\x05\x04\x08\x02\x06\x01\
-    \x12\x04\x9e\x01'0\n\r\n\x05\x04\x08\x02\x06\x03\x12\x04\x9e\x0134\n}\n\
-    \x02\x04\t\x12\x06\xa5\x01\0\xa8\x01\x01\x1ao*\n\x20Request:\x20Sub\x20r\
-    equest\x20of\x20MoneroTransactionSign.\x20Sends\x20one\x20UTXO\x20to\x20\
-    device\n\x20@next\x20MoneroTransactionSetInputAck\n\n\x0b\n\x03\x04\t\
-    \x01\x12\x04\xa5\x01\x08(\n\x0c\n\x04\x04\t\x02\0\x12\x04\xa6\x01\x04\
-    \x20\n\r\n\x05\x04\t\x02\0\x04\x12\x04\xa6\x01\x04\x0c\n\r\n\x05\x04\t\
-    \x02\0\x05\x12\x04\xa6\x01\r\x13\n\r\n\x05\x04\t\x02\0\x01\x12\x04\xa6\
-    \x01\x14\x1b\n\r\n\x05\x04\t\x02\0\x03\x12\x04\xa6\x01\x1e\x1f\n\x0c\n\
-    \x04\x04\t\x02\x01\x12\x04\xa7\x01\x047\n\r\n\x05\x04\t\x02\x01\x04\x12\
-    \x04\xa7\x01\x04\x0c\n\r\n\x05\x04\t\x02\x01\x06\x12\x04\xa7\x01\r)\n\r\
-    \n\x05\x04\t\x02\x01\x01\x12\x04\xa7\x01*2\n\r\n\x05\x04\t\x02\x01\x03\
-    \x12\x04\xa7\x0156\n\xd3\x01\n\x02\x04\n\x12\x06\xaf\x01\0\xb6\x01\x01\
-    \x1a\xc4\x01*\n\x20Response:\x20Response\x20to\x20setting\x20UTXO\x20for\
-    \x20signature.\x20Contains\x20sealed\x20values\x20needed\x20for\x20furth\
-    er\x20protocol\x20steps.\n\x20@next\x20MoneroTransactionSetInputAck\n\
-    \x20@next\x20MoneroTransactionInputsPermutationRequest\n\n\x0b\n\x03\x04\
-    \n\x01\x12\x04\xaf\x01\x08$\n\"\n\x04\x04\n\x02\0\x12\x04\xb0\x01\x04\
-    \x1c\"\x14\x20xmrtypes.TxinToKey\n\n\r\n\x05\x04\n\x02\0\x04\x12\x04\xb0\
-    \x01\x04\x0c\n\r\n\x05\x04\n\x02\0\x05\x12\x04\xb0\x01\r\x12\n\r\n\x05\
-    \x04\n\x02\0\x01\x12\x04\xb0\x01\x13\x17\n\r\n\x05\x04\n\x02\0\x03\x12\
-    \x04\xb0\x01\x1a\x1b\n\x0c\n\x04\x04\n\x02\x01\x12\x04\xb1\x01\x04!\n\r\
-    \n\x05\x04\n\x02\x01\x04\x12\x04\xb1\x01\x04\x0c\n\r\n\x05\x04\n\x02\x01\
-    \x05\x12\x04\xb1\x01\r\x12\n\r\n\x05\x04\n\x02\x01\x01\x12\x04\xb1\x01\
-    \x13\x1c\n\r\n\x05\x04\n\x02\x01\x03\x12\x04\xb1\x01\x1f\x20\n\x0c\n\x04\
-    \x04\n\x02\x02\x12\x04\xb2\x01\x04\"\n\r\n\x05\x04\n\x02\x02\x04\x12\x04\
-    \xb2\x01\x04\x0c\n\r\n\x05\x04\n\x02\x02\x05\x12\x04\xb2\x01\r\x12\n\r\n\
-    \x05\x04\n\x02\x02\x01\x12\x04\xb2\x01\x13\x1d\n\r\n\x05\x04\n\x02\x02\
-    \x03\x12\x04\xb2\x01\x20!\n\x0c\n\x04\x04\n\x02\x03\x12\x04\xb3\x01\x04'\
-    \n\r\n\x05\x04\n\x02\x03\x04\x12\x04\xb3\x01\x04\x0c\n\r\n\x05\x04\n\x02\
-    \x03\x05\x12\x04\xb3\x01\r\x12\n\r\n\x05\x04\n\x02\x03\x01\x12\x04\xb3\
-    \x01\x13\"\n\r\n\x05\x04\n\x02\x03\x03\x12\x04\xb3\x01%&\n\x0c\n\x04\x04\
-    \n\x02\x04\x12\x04\xb4\x01\x04!\n\r\n\x05\x04\n\x02\x04\x04\x12\x04\xb4\
-    \x01\x04\x0c\n\r\n\x05\x04\n\x02\x04\x05\x12\x04\xb4\x01\r\x12\n\r\n\x05\
-    \x04\n\x02\x04\x01\x12\x04\xb4\x01\x13\x1c\n\r\n\x05\x04\n\x02\x04\x03\
-    \x12\x04\xb4\x01\x1f\x20\n\x0c\n\x04\x04\n\x02\x05\x12\x04\xb5\x01\x04!\
-    \n\r\n\x05\x04\n\x02\x05\x04\x12\x04\xb5\x01\x04\x0c\n\r\n\x05\x04\n\x02\
-    \x05\x05\x12\x04\xb5\x01\r\x12\n\r\n\x05\x04\n\x02\x05\x01\x12\x04\xb5\
-    \x01\x13\x1c\n\r\n\x05\x04\n\x02\x05\x03\x12\x04\xb5\x01\x1f\x20\n\x88\
-    \x01\n\x02\x04\x0b\x12\x06\xbc\x01\0\xbe\x01\x01\x1az*\n\x20Request:\x20\
-    Sub\x20request\x20of\x20MoneroTransactionSign.\x20Permutation\x20on\x20k\
-    ey\x20images.\n\x20@next\x20MoneroTransactionInputsPermutationAck\n\n\
-    \x0b\n\x03\x04\x0b\x01\x12\x04\xbc\x01\x081\n\x0c\n\x04\x04\x0b\x02\0\
-    \x12\x04\xbd\x01\x04\x1d\n\r\n\x05\x04\x0b\x02\0\x04\x12\x04\xbd\x01\x04\
-    \x0c\n\r\n\x05\x04\x0b\x02\0\x05\x12\x04\xbd\x01\r\x13\n\r\n\x05\x04\x0b\
-    \x02\0\x01\x12\x04\xbd\x01\x14\x18\n\r\n\x05\x04\x0b\x02\0\x03\x12\x04\
-    \xbd\x01\x1b\x1c\nr\n\x02\x04\x0c\x12\x06\xc4\x01\0\xc5\x01\x01\x1ad*\n\
-    \x20Response:\x20Response\x20to\x20setting\x20permutation\x20on\x20key\
-    \x20images\n\x20@next\x20MoneroTransactionInputViniRequest\n\n\x0b\n\x03\
-    \x04\x0c\x01\x12\x04\xc4\x01\x08-\n\x9c\x01\n\x02\x04\r\x12\x06\xcb\x01\
-    \0\xd1\x01\x01\x1a\x8d\x01*\n\x20Request:\x20Sub\x20request\x20of\x20Mon\
-    eroTransactionSign.\x20Sends\x20one\x20UTXO\x20to\x20device\x20together\
-    \x20with\x20sealed\x20values.\n\x20@next\x20MoneroTransactionInputViniAc\
-    k\n\n\x0b\n\x03\x04\r\x01\x12\x04\xcb\x01\x08)\n\x0c\n\x04\x04\r\x02\0\
-    \x12\x04\xcc\x01\x047\n\r\n\x05\x04\r\x02\0\x04\x12\x04\xcc\x01\x04\x0c\
-    \n\r\n\x05\x04\r\x02\0\x06\x12\x04\xcc\x01\r)\n\r\n\x05\x04\r\x02\0\x01\
-    \x12\x04\xcc\x01*2\n\r\n\x05\x04\r\x02\0\x03\x12\x04\xcc\x0156\n\"\n\x04\
-    \x04\r\x02\x01\x12\x04\xcd\x01\x04\x1c\"\x14\x20xmrtypes.TxinToKey\n\n\r\
-    \n\x05\x04\r\x02\x01\x04\x12\x04\xcd\x01\x04\x0c\n\r\n\x05\x04\r\x02\x01\
-    \x05\x12\x04\xcd\x01\r\x12\n\r\n\x05\x04\r\x02\x01\x01\x12\x04\xcd\x01\
-    \x13\x17\n\r\n\x05\x04\r\x02\x01\x03\x12\x04\xcd\x01\x1a\x1b\n\x0c\n\x04\
-    \x04\r\x02\x02\x12\x04\xce\x01\x04!\n\r\n\x05\x04\r\x02\x02\x04\x12\x04\
-    \xce\x01\x04\x0c\n\r\n\x05\x04\r\x02\x02\x05\x12\x04\xce\x01\r\x12\n\r\n\
-    \x05\x04\r\x02\x02\x01\x12\x04\xce\x01\x13\x1c\n\r\n\x05\x04\r\x02\x02\
-    \x03\x12\x04\xce\x01\x1f\x20\n\x0c\n\x04\x04\r\x02\x03\x12\x04\xcf\x01\
-    \x04\"\n\r\n\x05\x04\r\x02\x03\x04\x12\x04\xcf\x01\x04\x0c\n\r\n\x05\x04\
-    \r\x02\x03\x05\x12\x04\xcf\x01\r\x12\n\r\n\x05\x04\r\x02\x03\x01\x12\x04\
-    \xcf\x01\x13\x1d\n\r\n\x05\x04\r\x02\x03\x03\x12\x04\xcf\x01\x20!\n\x0c\
-    \n\x04\x04\r\x02\x04\x12\x04\xd0\x01\x04'\n\r\n\x05\x04\r\x02\x04\x04\
-    \x12\x04\xd0\x01\x04\x0c\n\r\n\x05\x04\r\x02\x04\x05\x12\x04\xd0\x01\r\
-    \x12\n\r\n\x05\x04\r\x02\x04\x01\x12\x04\xd0\x01\x13\"\n\r\n\x05\x04\r\
-    \x02\x04\x03\x12\x04\xd0\x01%&\n\x98\x01\n\x02\x04\x0e\x12\x06\xd8\x01\0\
-    \xd9\x01\x01\x1a\x89\x01*\n\x20Response:\x20Response\x20to\x20setting\
-    \x20UTXO\x20to\x20the\x20device\n\x20@next\x20MoneroTransactionInputVini\
-    Request\n\x20@next\x20MoneroTransactionAllInputsSetRequest\n\n\x0b\n\x03\
-    \x04\x0e\x01\x12\x04\xd8\x01\x08%\n\xaf\x01\n\x02\x04\x0f\x12\x06\xdf\
-    \x01\0\xe1\x01\x01\x1a\xa0\x01*\n\x20Request:\x20Sub\x20request\x20of\
-    \x20MoneroTransactionSign.\x20Sent\x20after\x20all\x20inputs\x20have\x20\
-    been\x20sent.\x20Useful\x20for\x20rangeisg\x20offloading.\n\x20@next\x20\
-    MoneroTransactionAllInputsSetAck\n\n\x0b\n\x03\x04\x0f\x01\x12\x04\xdf\
-    \x01\x08,\n\x0c\n\x04\x04\x0f\x02\0\x12\x04\xe0\x01\x045\n\r\n\x05\x04\
-    \x0f\x02\0\x04\x12\x04\xe0\x01\x04\x0c\n\r\n\x05\x04\x0f\x02\0\x06\x12\
-    \x04\xe0\x01\r&\n\r\n\x05\x04\x0f\x02\0\x01\x12\x04\xe0\x01'0\n\r\n\x05\
-    \x04\x0f\x02\0\x03\x12\x04\xe0\x0134\np\n\x02\x04\x10\x12\x06\xe7\x01\0\
-    \xe9\x01\x01\x1ab*\n\x20Response:\x20Response\x20to\x20after\x20all\x20i\
-    nputs\x20have\x20been\x20set.\n\x20@next\x20MoneroTransactionSetOutputRe\
-    quest\n\n\x0b\n\x03\x04\x10\x01\x12\x04\xe7\x01\x08(\n\x0c\n\x04\x04\x10\
-    \x02\0\x12\x04\xe8\x01\x045\n\r\n\x05\x04\x10\x02\0\x04\x12\x04\xe8\x01\
-    \x04\x0c\n\r\n\x05\x04\x10\x02\0\x06\x12\x04\xe8\x01\r&\n\r\n\x05\x04\
-    \x10\x02\0\x01\x12\x04\xe8\x01'0\n\r\n\x05\x04\x10\x02\0\x03\x12\x04\xe8\
-    \x0134\n\x9b\x01\n\x02\x04\x11\x12\x06\xef\x01\0\xf3\x01\x01\x1a\x8c\x01\
+    rsigData\"v\n\x20MoneroTransactionSetInputRequest\x12R\n\x08src_entr\x18\
+    \x01\x20\x01(\x0b27.hw.trezor.messages.monero.MoneroTransactionSourceEnt\
+    ryR\x07srcEntr\"\xdd\x01\n\x1cMoneroTransactionSetInputAck\x12\x12\n\x04\
+    vini\x18\x01\x20\x01(\x0cR\x04vini\x12\x1b\n\tvini_hmac\x18\x02\x20\x01(\
+    \x0cR\x08viniHmac\x12\x1d\n\npseudo_out\x18\x03\x20\x01(\x0cR\tpseudoOut\
+    \x12&\n\x0fpseudo_out_hmac\x18\x04\x20\x01(\x0cR\rpseudoOutHmac\x12(\n\
+    \x10pseudo_out_alpha\x18\x05\x20\x01(\x0cR\x0epseudoOutAlpha\x12\x1b\n\t\
+    spend_key\x18\x06\x20\x01(\x0cR\x08spendKey\"\x8a\x02\n!MoneroTransactio\
+    nInputViniRequest\x12R\n\x08src_entr\x18\x01\x20\x01(\x0b27.hw.trezor.me\
+    ssages.monero.MoneroTransactionSourceEntryR\x07srcEntr\x12\x12\n\x04vini\
+    \x18\x02\x20\x01(\x0cR\x04vini\x12\x1b\n\tvini_hmac\x18\x03\x20\x01(\x0c\
+    R\x08viniHmac\x12\x1d\n\npseudo_out\x18\x04\x20\x01(\x0cR\tpseudoOut\x12\
+    &\n\x0fpseudo_out_hmac\x18\x05\x20\x01(\x0cR\rpseudoOutHmac\x12\x19\n\
+    \x08orig_idx\x18\x06\x20\x01(\rR\x07origIdx\"\x1f\n\x1dMoneroTransaction\
+    InputViniAck\"&\n$MoneroTransactionAllInputsSetRequest\"u\n\x20MoneroTra\
+    nsactionAllInputsSetAck\x12Q\n\trsig_data\x18\x01\x20\x01(\x0b24.hw.trez\
+    or.messages.monero.MoneroTransactionRsigDataR\x08rsigData\"\x9b\x02\n!Mo\
+    neroTransactionSetOutputRequest\x12W\n\x08dst_entr\x18\x01\x20\x01(\x0b2\
+    <.hw.trezor.messages.monero.MoneroTransactionDestinationEntryR\x07dstEnt\
+    r\x12\"\n\rdst_entr_hmac\x18\x02\x20\x01(\x0cR\x0bdstEntrHmac\x12Q\n\trs\
+    ig_data\x18\x03\x20\x01(\x0b24.hw.trezor.messages.monero.MoneroTransacti\
+    onRsigDataR\x08rsigData\x12&\n\x0fis_offloaded_bp\x18\x04\x20\x01(\x08R\
+    \risOffloadedBp\"\xdc\x01\n\x1dMoneroTransactionSetOutputAck\x12\x15\n\
+    \x06tx_out\x18\x01\x20\x01(\x0cR\x05txOut\x12\x1d\n\nvouti_hmac\x18\x02\
+    \x20\x01(\x0cR\tvoutiHmac\x12Q\n\trsig_data\x18\x03\x20\x01(\x0b24.hw.tr\
+    ezor.messages.monero.MoneroTransactionRsigDataR\x08rsigData\x12\x15\n\
+    \x06out_pk\x18\x04\x20\x01(\x0cR\x05outPk\x12\x1b\n\tecdh_info\x18\x05\
+    \x20\x01(\x0cR\x08ecdhInfo\"v\n!MoneroTransactionAllOutSetRequest\x12Q\n\
+    \trsig_data\x18\x01\x20\x01(\x0b24.hw.trezor.messages.monero.MoneroTrans\
+    actionRsigDataR\x08rsigData\"\xc0\x02\n\x1dMoneroTransactionAllOutSetAck\
+    \x12\x14\n\x05extra\x18\x01\x20\x01(\x0cR\x05extra\x12$\n\x0etx_prefix_h\
+    ash\x18\x02\x20\x01(\x0cR\x0ctxPrefixHash\x12X\n\x02rv\x18\x04\x20\x01(\
+    \x0b2H.hw.trezor.messages.monero.MoneroTransactionAllOutSetAck.MoneroRin\
+    gCtSigR\x02rv\x12*\n\x11full_message_hash\x18\x05\x20\x01(\x0cR\x0ffullM\
+    essageHash\x1a]\n\x0fMoneroRingCtSig\x12\x17\n\x07txn_fee\x18\x01\x20\
+    \x01(\x04R\x06txnFee\x12\x18\n\x07message\x18\x02\x20\x01(\x0cR\x07messa\
+    ge\x12\x17\n\x07rv_type\x18\x03\x20\x01(\rR\x06rvType\"\xd1\x02\n!Monero\
+    TransactionSignInputRequest\x12R\n\x08src_entr\x18\x01\x20\x01(\x0b27.hw\
+    .trezor.messages.monero.MoneroTransactionSourceEntryR\x07srcEntr\x12\x12\
+    \n\x04vini\x18\x02\x20\x01(\x0cR\x04vini\x12\x1b\n\tvini_hmac\x18\x03\
+    \x20\x01(\x0cR\x08viniHmac\x12\x1d\n\npseudo_out\x18\x04\x20\x01(\x0cR\t\
+    pseudoOut\x12&\n\x0fpseudo_out_hmac\x18\x05\x20\x01(\x0cR\rpseudoOutHmac\
+    \x12(\n\x10pseudo_out_alpha\x18\x06\x20\x01(\x0cR\x0epseudoOutAlpha\x12\
+    \x1b\n\tspend_key\x18\x07\x20\x01(\x0cR\x08spendKey\x12\x19\n\x08orig_id\
+    x\x18\x08\x20\x01(\rR\x07origIdx\"\\\n\x1dMoneroTransactionSignInputAck\
+    \x12\x1c\n\tsignature\x18\x01\x20\x01(\x0cR\tsignature\x12\x1d\n\npseudo\
+    _out\x18\x02\x20\x01(\x0cR\tpseudoOut\"\x1f\n\x1dMoneroTransactionFinalR\
+    equest\"\xa8\x01\n\x19MoneroTransactionFinalAck\x12\x19\n\x08cout_key\
+    \x18\x01\x20\x01(\x0cR\x07coutKey\x12\x12\n\x04salt\x18\x02\x20\x01(\x0c\
+    R\x04salt\x12\x1b\n\trand_mult\x18\x03\x20\x01(\x0cR\x08randMult\x12\x1e\
+    \n\x0btx_enc_keys\x18\x04\x20\x01(\x0cR\ttxEncKeys\x12\x1f\n\x0bopening_\
+    key\x18\x05\x20\x01(\x0cR\nopeningKey\"\x88\x03\n\x1fMoneroKeyImageExpor\
+    tInitRequest\x12\x10\n\x03num\x18\x01\x20\x02(\x04R\x03num\x12\x12\n\x04\
+    hash\x18\x02\x20\x02(\x0cR\x04hash\x12\x1b\n\taddress_n\x18\x03\x20\x03(\
+    \rR\x08addressN\x12X\n\x0cnetwork_type\x18\x04\x20\x01(\x0e2,.hw.trezor.\
+    messages.monero.MoneroNetworkType:\x07MAINNETR\x0bnetworkType\x12j\n\x04\
+    subs\x18\x05\x20\x03(\x0b2V.hw.trezor.messages.monero.MoneroKeyImageExpo\
+    rtInitRequest.MoneroSubAddressIndicesListR\x04subs\x1a\\\n\x1bMoneroSubA\
+    ddressIndicesList\x12\x18\n\x07account\x18\x01\x20\x02(\rR\x07account\
+    \x12#\n\rminor_indices\x18\x02\x20\x03(\rR\x0cminorIndices\"\x1d\n\x1bMo\
+    neroKeyImageExportInitAck\"\x89\x03\n\x1dMoneroKeyImageSyncStepRequest\
+    \x12b\n\x04tdis\x18\x01\x20\x03(\x0b2N.hw.trezor.messages.monero.MoneroK\
+    eyImageSyncStepRequest.MoneroTransferDetailsR\x04tdis\x1a\x83\x02\n\x15M\
+    oneroTransferDetails\x12\x17\n\x07out_key\x18\x01\x20\x02(\x0cR\x06outKe\
+    y\x12\x1c\n\ntx_pub_key\x18\x02\x20\x02(\x0cR\x08txPubKey\x123\n\x16addi\
+    tional_tx_pub_keys\x18\x03\x20\x03(\x0cR\x13additionalTxPubKeys\x122\n\
+    \x15internal_output_index\x18\x04\x20\x02(\x04R\x13internalOutputIndex\
+    \x12$\n\x0esub_addr_major\x18\x05\x20\x01(\rR\x0csubAddrMajor\x12$\n\x0e\
+    sub_addr_minor\x18\x06\x20\x01(\rR\x0csubAddrMinor\"\xb8\x01\n\x19Monero\
+    KeyImageSyncStepAck\x12]\n\x03kis\x18\x01\x20\x03(\x0b2K.hw.trezor.messa\
+    ges.monero.MoneroKeyImageSyncStepAck.MoneroExportedKeyImageR\x03kis\x1a<\
+    \n\x16MoneroExportedKeyImage\x12\x0e\n\x02iv\x18\x01\x20\x01(\x0cR\x02iv\
+    \x12\x12\n\x04blob\x18\x03\x20\x01(\x0cR\x04blob\"\x20\n\x1eMoneroKeyIma\
+    geSyncFinalRequest\"5\n\x1aMoneroKeyImageSyncFinalAck\x12\x17\n\x07enc_k\
+    ey\x18\x01\x20\x01(\x0cR\x06encKey\"\xc0\x02\n\x15MoneroGetTxKeyRequest\
+    \x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12X\n\x0cnetwork_\
+    type\x18\x02\x20\x01(\x0e2,.hw.trezor.messages.monero.MoneroNetworkType:\
+    \x07MAINNETR\x0bnetworkType\x12\x14\n\x05salt1\x18\x03\x20\x02(\x0cR\x05\
+    salt1\x12\x14\n\x05salt2\x18\x04\x20\x02(\x0cR\x05salt2\x12\x1e\n\x0btx_\
+    enc_keys\x18\x05\x20\x02(\x0cR\ttxEncKeys\x12$\n\x0etx_prefix_hash\x18\
+    \x06\x20\x02(\x0cR\x0ctxPrefixHash\x12\x16\n\x06reason\x18\x07\x20\x01(\
+    \rR\x06reason\x12&\n\x0fview_public_key\x18\x08\x20\x01(\x0cR\rviewPubli\
+    cKey\"g\n\x11MoneroGetTxKeyAck\x12\x12\n\x04salt\x18\x01\x20\x01(\x0cR\
+    \x04salt\x12\x17\n\x07tx_keys\x18\x02\x20\x01(\x0cR\x06txKeys\x12%\n\x0e\
+    tx_derivations\x18\x03\x20\x01(\x0cR\rtxDerivations\"\x96\x01\n\x1dMoner\
+    oLiveRefreshStartRequest\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08add\
+    ressN\x12X\n\x0cnetwork_type\x18\x02\x20\x01(\x0e2,.hw.trezor.messages.m\
+    onero.MoneroNetworkType:\x07MAINNETR\x0bnetworkType\"\x1b\n\x19MoneroLiv\
+    eRefreshStartAck\"\xc4\x01\n\x1cMoneroLiveRefreshStepRequest\x12\x17\n\
+    \x07out_key\x18\x01\x20\x02(\x0cR\x06outKey\x12\x1d\n\nrecv_deriv\x18\
+    \x02\x20\x02(\x0cR\trecvDeriv\x12\x20\n\x0creal_out_idx\x18\x03\x20\x02(\
+    \x04R\nrealOutIdx\x12$\n\x0esub_addr_major\x18\x04\x20\x02(\rR\x0csubAdd\
+    rMajor\x12$\n\x0esub_addr_minor\x18\x05\x20\x02(\rR\x0csubAddrMinor\"K\n\
+    \x18MoneroLiveRefreshStepAck\x12\x12\n\x04salt\x18\x01\x20\x01(\x0cR\x04\
+    salt\x12\x1b\n\tkey_image\x18\x02\x20\x01(\x0cR\x08keyImage\"\x1f\n\x1dM\
+    oneroLiveRefreshFinalRequest\"\x1b\n\x19MoneroLiveRefreshFinalAck\"\x86\
+    \x01\n\x16DebugMoneroDiagRequest\x12\x10\n\x03ins\x18\x01\x20\x01(\x04R\
+    \x03ins\x12\x0e\n\x02p1\x18\x02\x20\x01(\x04R\x02p1\x12\x0e\n\x02p2\x18\
+    \x03\x20\x01(\x04R\x02p2\x12\x0e\n\x02pd\x18\x04\x20\x03(\x04R\x02pd\x12\
+    \x14\n\x05data1\x18\x05\x20\x01(\x0cR\x05data1\x12\x14\n\x05data2\x18\
+    \x06\x20\x01(\x0cR\x05data2\"\x82\x01\n\x12DebugMoneroDiagAck\x12\x10\n\
+    \x03ins\x18\x01\x20\x01(\x04R\x03ins\x12\x0e\n\x02p1\x18\x02\x20\x01(\
+    \x04R\x02p1\x12\x0e\n\x02p2\x18\x03\x20\x01(\x04R\x02p2\x12\x0e\n\x02pd\
+    \x18\x04\x20\x03(\x04R\x02pd\x12\x14\n\x05data1\x18\x05\x20\x01(\x0cR\
+    \x05data1\x12\x14\n\x05data2\x18\x06\x20\x01(\x0cR\x05data2*J\n\x11Moner\
+    oNetworkType\x12\x0b\n\x07MAINNET\x10\0\x12\x0b\n\x07TESTNET\x10\x01\x12\
+    \x0c\n\x08STAGENET\x10\x02\x12\r\n\tFAKECHAIN\x10\x03B:\n#com.satoshilab\
+    s.trezor.lib.protobufB\x13TrezorMessageMoneroJ\x8f\x9e\x01\n\x07\x12\x05\
+    \0\0\xf5\x03\x01\n\x08\n\x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\
+    \x01\0\"\n\x08\n\x01\x08\x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\
+    \x1a#\x20Sugar\x20for\x20easier\x20handling\x20in\x20Java\n\n\x08\n\x01\
+    \x08\x12\x03\x05\04\n\t\n\x02\x08\x08\x12\x03\x05\04\n\n\n\x02\x05\0\x12\
+    \x04\x07\0\x0c\x01\n\n\n\x03\x05\0\x01\x12\x03\x07\x05\x16\n\x0b\n\x04\
+    \x05\0\x02\0\x12\x03\x08\x04\x10\n\x0c\n\x05\x05\0\x02\0\x01\x12\x03\x08\
+    \x04\x0b\n\x0c\n\x05\x05\0\x02\0\x02\x12\x03\x08\x0e\x0f\n\x0b\n\x04\x05\
+    \0\x02\x01\x12\x03\t\x04\x10\n\x0c\n\x05\x05\0\x02\x01\x01\x12\x03\t\x04\
+    \x0b\n\x0c\n\x05\x05\0\x02\x01\x02\x12\x03\t\x0e\x0f\n\x0b\n\x04\x05\0\
+    \x02\x02\x12\x03\n\x04\x11\n\x0c\n\x05\x05\0\x02\x02\x01\x12\x03\n\x04\
+    \x0c\n\x0c\n\x05\x05\0\x02\x02\x02\x12\x03\n\x0f\x10\n\x0b\n\x04\x05\0\
+    \x02\x03\x12\x03\x0b\x04\x12\n\x0c\n\x05\x05\0\x02\x03\x01\x12\x03\x0b\
+    \x04\r\n\x0c\n\x05\x05\0\x02\x03\x02\x12\x03\x0b\x10\x11\nT\n\x02\x04\0\
+    \x12\x04\x12\0+\x01\x1aH*\n\x20Structure\x20representing\x20Monero\x20tr\
+    ansaction\x20source\x20entry,\x20UTXO\n\x20@embed\n\n\n\n\x03\x04\0\x01\
+    \x12\x03\x12\x08$\n<\n\x04\x04\0\x02\0\x12\x03\x13\x04+\"/\x20all\x20out\
+    puts\x20including\x20decoys\x20(forms\x20the\x20ring)\n\n\x0c\n\x05\x04\
+    \0\x02\0\x04\x12\x03\x13\x04\x0c\n\x0c\n\x05\x04\0\x02\0\x06\x12\x03\x13\
+    \r\x1e\n\x0c\n\x05\x04\0\x02\0\x01\x12\x03\x13\x1f&\n\x0c\n\x05\x04\0\
+    \x02\0\x03\x12\x03\x13)*\nV\n\x04\x04\0\x02\x01\x12\x03\x14\x04$\"I\x20i\
+    ndex\x20denoting\x20which\x20item\x20in\x20`outputs`\x20is\x20our\x20rea\
+    l\x20output\x20(not\x20a\x20decoy)\n\n\x0c\n\x05\x04\0\x02\x01\x04\x12\
+    \x03\x14\x04\x0c\n\x0c\n\x05\x04\0\x02\x01\x05\x12\x03\x14\r\x13\n\x0c\n\
+    \x05\x04\0\x02\x01\x01\x12\x03\x14\x14\x1f\n\x0c\n\x05\x04\0\x02\x01\x03\
+    \x12\x03\x14\"#\n5\n\x04\x04\0\x02\x02\x12\x03\x15\x04'\"(\x20tx\x20key\
+    \x20located\x20in\x20the\x20real\x20output's\x20tx\n\n\x0c\n\x05\x04\0\
+    \x02\x02\x04\x12\x03\x15\x04\x0c\n\x0c\n\x05\x04\0\x02\x02\x05\x12\x03\
+    \x15\r\x12\n\x0c\n\x05\x04\0\x02\x02\x01\x12\x03\x15\x13\"\n\x0c\n\x05\
+    \x04\0\x02\x02\x03\x12\x03\x15%&\n/\n\x04\x04\0\x02\x03\x12\x03\x16\x043\
+    \"\"\x20additional\x20tx\x20keys\x20if\x20applicable\n\n\x0c\n\x05\x04\0\
+    \x02\x03\x04\x12\x03\x16\x04\x0c\n\x0c\n\x05\x04\0\x02\x03\x05\x12\x03\
+    \x16\r\x12\n\x0c\n\x05\x04\0\x02\x03\x01\x12\x03\x16\x13.\n\x0c\n\x05\
+    \x04\0\x02\x03\x03\x12\x03\x1612\n^\n\x04\x04\0\x02\x04\x12\x03\x17\x040\
+    \"Q\x20index\x20of\x20our\x20real\x20output\x20in\x20the\x20tx\x20(aka\
+    \x20which\x20output\x20was\x20it\x20in\x20the\x20transaction)\n\n\x0c\n\
+    \x05\x04\0\x02\x04\x04\x12\x03\x17\x04\x0c\n\x0c\n\x05\x04\0\x02\x04\x05\
+    \x12\x03\x17\r\x13\n\x0c\n\x05\x04\0\x02\x04\x01\x12\x03\x17\x14+\n\x0c\
+    \n\x05\x04\0\x02\x04\x03\x12\x03\x17./\n\x0b\n\x04\x04\0\x02\x05\x12\x03\
+    \x18\x04\x1f\n\x0c\n\x05\x04\0\x02\x05\x04\x12\x03\x18\x04\x0c\n\x0c\n\
+    \x05\x04\0\x02\x05\x05\x12\x03\x18\r\x13\n\x0c\n\x05\x04\0\x02\x05\x01\
+    \x12\x03\x18\x14\x1a\n\x0c\n\x05\x04\0\x02\x05\x03\x12\x03\x18\x1d\x1e\n\
+    4\n\x04\x04\0\x02\x06\x12\x03\x19\x04\x1a\"'\x20is\x20RingCT\x20used\x20\
+    (true\x20for\x20newer\x20UTXOs)\n\n\x0c\n\x05\x04\0\x02\x06\x04\x12\x03\
+    \x19\x04\x0c\n\x0c\n\x05\x04\0\x02\x06\x05\x12\x03\x19\r\x11\n\x0c\n\x05\
+    \x04\0\x02\x06\x01\x12\x03\x19\x12\x15\n\x0c\n\x05\x04\0\x02\x06\x03\x12\
+    \x03\x19\x18\x19\n\x0b\n\x04\x04\0\x02\x07\x12\x03\x1a\x04\x1c\n\x0c\n\
+    \x05\x04\0\x02\x07\x04\x12\x03\x1a\x04\x0c\n\x0c\n\x05\x04\0\x02\x07\x05\
+    \x12\x03\x1a\r\x12\n\x0c\n\x05\x04\0\x02\x07\x01\x12\x03\x1a\x13\x17\n\
+    \x0c\n\x05\x04\0\x02\x07\x03\x12\x03\x1a\x1a\x1b\n\x0b\n\x04\x04\0\x02\
+    \x08\x12\x03\x1b\x044\n\x0c\n\x05\x04\0\x02\x08\x04\x12\x03\x1b\x04\x0c\
+    \n\x0c\n\x05\x04\0\x02\x08\x06\x12\x03\x1b\r\x20\n\x0c\n\x05\x04\0\x02\
+    \x08\x01\x12\x03\x1b!/\n\x0c\n\x05\x04\0\x02\x08\x03\x12\x03\x1b23\n3\n\
+    \x04\x04\0\x02\t\x12\x03\x1c\x04'\"&\x20minor\x20subaddr\x20index\x20UTX\
+    O\x20was\x20sent\x20to\n\n\x0c\n\x05\x04\0\x02\t\x04\x12\x03\x1c\x04\x0c\
+    \n\x0c\n\x05\x04\0\x02\t\x05\x12\x03\x1c\r\x13\n\x0c\n\x05\x04\0\x02\t\
+    \x01\x12\x03\x1c\x14!\n\x0c\n\x05\x04\0\x02\t\x03\x12\x03\x1c$&\n\x0c\n\
+    \x04\x04\0\x03\0\x12\x04\x1d\x04$\x05\n\x0c\n\x05\x04\0\x03\0\x01\x12\
+    \x03\x1d\x0c\x1d\n\r\n\x06\x04\0\x03\0\x02\0\x12\x03\x1e\x08\x20\n\x0e\n\
+    \x07\x04\0\x03\0\x02\0\x04\x12\x03\x1e\x08\x10\n\x0e\n\x07\x04\0\x03\0\
+    \x02\0\x05\x12\x03\x1e\x11\x17\n\x0e\n\x07\x04\0\x03\0\x02\0\x01\x12\x03\
+    \x1e\x18\x1b\n\x0e\n\x07\x04\0\x03\0\x02\0\x03\x12\x03\x1e\x1e\x1f\n\r\n\
+    \x06\x04\0\x03\0\x02\x01\x12\x03\x1f\x08,\n\x0e\n\x07\x04\0\x03\0\x02\
+    \x01\x04\x12\x03\x1f\x08\x10\n\x0e\n\x07\x04\0\x03\0\x02\x01\x06\x12\x03\
+    \x1f\x11#\n\x0e\n\x07\x04\0\x03\0\x02\x01\x01\x12\x03\x1f$'\n\x0e\n\x07\
+    \x04\0\x03\0\x02\x01\x03\x12\x03\x1f*+\n\x0e\n\x06\x04\0\x03\0\x03\0\x12\
+    \x04\x20\x08#\t\n\x0e\n\x07\x04\0\x03\0\x03\0\x01\x12\x03\x20\x10\"\n\
+    \x0f\n\x08\x04\0\x03\0\x03\0\x02\0\x12\x03!\x0c$\n\x10\n\t\x04\0\x03\0\
+    \x03\0\x02\0\x04\x12\x03!\x0c\x14\n\x10\n\t\x04\0\x03\0\x03\0\x02\0\x05\
+    \x12\x03!\x15\x1a\n\x10\n\t\x04\0\x03\0\x03\0\x02\0\x01\x12\x03!\x1b\x1f\
+    \n\x10\n\t\x04\0\x03\0\x03\0\x02\0\x03\x12\x03!\"#\n\x0f\n\x08\x04\0\x03\
+    \0\x03\0\x02\x01\x12\x03\"\x0c*\n\x10\n\t\x04\0\x03\0\x03\0\x02\x01\x04\
+    \x12\x03\"\x0c\x14\n\x10\n\t\x04\0\x03\0\x03\0\x02\x01\x05\x12\x03\"\x15\
+    \x1a\n\x10\n\t\x04\0\x03\0\x03\0\x02\x01\x01\x12\x03\"\x1b%\n\x10\n\t\
+    \x04\0\x03\0\x03\0\x02\x01\x03\x12\x03\"()\n\x0c\n\x04\x04\0\x03\x01\x12\
+    \x04%\x04*\x05\n\x0c\n\x05\x04\0\x03\x01\x01\x12\x03%\x0c\x1f\n\r\n\x06\
+    \x04\0\x03\x01\x02\0\x12\x03&\x08\x1d\n\x0e\n\x07\x04\0\x03\x01\x02\0\
+    \x04\x12\x03&\x08\x10\n\x0e\n\x07\x04\0\x03\x01\x02\0\x05\x12\x03&\x11\
+    \x16\n\x0e\n\x07\x04\0\x03\x01\x02\0\x01\x12\x03&\x17\x18\n\x0e\n\x07\
+    \x04\0\x03\x01\x02\0\x03\x12\x03&\x1b\x1c\n\r\n\x06\x04\0\x03\x01\x02\
+    \x01\x12\x03'\x08\x1d\n\x0e\n\x07\x04\0\x03\x01\x02\x01\x04\x12\x03'\x08\
+    \x10\n\x0e\n\x07\x04\0\x03\x01\x02\x01\x05\x12\x03'\x11\x16\n\x0e\n\x07\
+    \x04\0\x03\x01\x02\x01\x01\x12\x03'\x17\x18\n\x0e\n\x07\x04\0\x03\x01\
+    \x02\x01\x03\x12\x03'\x1b\x1c\n\r\n\x06\x04\0\x03\x01\x02\x02\x12\x03(\
+    \x08\x1d\n\x0e\n\x07\x04\0\x03\x01\x02\x02\x04\x12\x03(\x08\x10\n\x0e\n\
+    \x07\x04\0\x03\x01\x02\x02\x05\x12\x03(\x11\x16\n\x0e\n\x07\x04\0\x03\
+    \x01\x02\x02\x01\x12\x03(\x17\x18\n\x0e\n\x07\x04\0\x03\x01\x02\x02\x03\
+    \x12\x03(\x1b\x1c\n\r\n\x06\x04\0\x03\x01\x02\x03\x12\x03)\x08\x1e\n\x0e\
+    \n\x07\x04\0\x03\x01\x02\x03\x04\x12\x03)\x08\x10\n\x0e\n\x07\x04\0\x03\
+    \x01\x02\x03\x05\x12\x03)\x11\x16\n\x0e\n\x07\x04\0\x03\x01\x02\x03\x01\
+    \x12\x03)\x17\x19\n\x0e\n\x07\x04\0\x03\x01\x02\x03\x03\x12\x03)\x1c\x1d\
+    \nS\n\x02\x04\x01\x12\x041\0>\x01\x1aG*\n\x20Structure\x20representing\
+    \x20Monero\x20transaction\x20destination\x20entry\n\x20@embed\n\n\n\n\
+    \x03\x04\x01\x01\x12\x031\x08)\n\x0b\n\x04\x04\x01\x02\0\x12\x032\x04\
+    \x1f\n\x0c\n\x05\x04\x01\x02\0\x04\x12\x032\x04\x0c\n\x0c\n\x05\x04\x01\
+    \x02\0\x05\x12\x032\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x032\x14\x1a\
+    \n\x0c\n\x05\x04\x01\x02\0\x03\x12\x032\x1d\x1e\n\x0b\n\x04\x04\x01\x02\
+    \x01\x12\x033\x041\n\x0c\n\x05\x04\x01\x02\x01\x04\x12\x033\x04\x0c\n\
+    \x0c\n\x05\x04\x01\x02\x01\x06\x12\x033\r'\n\x0c\n\x05\x04\x01\x02\x01\
+    \x01\x12\x033(,\n\x0c\n\x05\x04\x01\x02\x01\x03\x12\x033/0\n\x0b\n\x04\
+    \x04\x01\x02\x02\x12\x034\x04$\n\x0c\n\x05\x04\x01\x02\x02\x04\x12\x034\
+    \x04\x0c\n\x0c\n\x05\x04\x01\x02\x02\x05\x12\x034\r\x11\n\x0c\n\x05\x04\
+    \x01\x02\x02\x01\x12\x034\x12\x1f\n\x0c\n\x05\x04\x01\x02\x02\x03\x12\
+    \x034\"#\n\x0b\n\x04\x04\x01\x02\x03\x12\x035\x04\x20\n\x0c\n\x05\x04\
+    \x01\x02\x03\x04\x12\x035\x04\x0c\n\x0c\n\x05\x04\x01\x02\x03\x05\x12\
+    \x035\r\x12\n\x0c\n\x05\x04\x01\x02\x03\x01\x12\x035\x13\x1b\n\x0c\n\x05\
+    \x04\x01\x02\x03\x03\x12\x035\x1e\x1f\n\x0b\n\x04\x04\x01\x02\x04\x12\
+    \x036\x04$\n\x0c\n\x05\x04\x01\x02\x04\x04\x12\x036\x04\x0c\n\x0c\n\x05\
+    \x04\x01\x02\x04\x05\x12\x036\r\x11\n\x0c\n\x05\x04\x01\x02\x04\x01\x12\
+    \x036\x12\x1f\n\x0c\n\x05\x04\x01\x02\x04\x03\x12\x036\"#\n>\n\x04\x04\
+    \x01\x03\0\x12\x04:\x04=\x05\x1a0*\n\x20Structure\x20representing\x20Mon\
+    ero\x20public\x20address\n\n\x0c\n\x05\x04\x01\x03\0\x01\x12\x03:\x0c&\n\
+    \r\n\x06\x04\x01\x03\0\x02\0\x12\x03;\x08,\n\x0e\n\x07\x04\x01\x03\0\x02\
+    \0\x04\x12\x03;\x08\x10\n\x0e\n\x07\x04\x01\x03\0\x02\0\x05\x12\x03;\x11\
+    \x16\n\x0e\n\x07\x04\x01\x03\0\x02\0\x01\x12\x03;\x17'\n\x0e\n\x07\x04\
+    \x01\x03\0\x02\0\x03\x12\x03;*+\n\r\n\x06\x04\x01\x03\0\x02\x01\x12\x03<\
+    \x08+\n\x0e\n\x07\x04\x01\x03\0\x02\x01\x04\x12\x03<\x08\x10\n\x0e\n\x07\
+    \x04\x01\x03\0\x02\x01\x05\x12\x03<\x11\x16\n\x0e\n\x07\x04\x01\x03\0\
+    \x02\x01\x01\x12\x03<\x17&\n\x0e\n\x07\x04\x01\x03\0\x02\x01\x03\x12\x03\
+    <)*\n4\n\x02\x04\x02\x12\x04D\0M\x01\x1a(*\n\x20Range\x20sig\x20paramete\
+    rs\x20/\x20data.\n\x20@embed\n\n\n\n\x03\x04\x02\x01\x12\x03D\x08!\n/\n\
+    \x04\x04\x02\x02\0\x12\x03E\x04\"\"\"\x20range\x20signature\x20(aka\x20p\
+    roof)\x20type\n\n\x0c\n\x05\x04\x02\x02\0\x04\x12\x03E\x04\x0c\n\x0c\n\
+    \x05\x04\x02\x02\0\x05\x12\x03E\r\x13\n\x0c\n\x05\x04\x02\x02\0\x01\x12\
+    \x03E\x14\x1d\n\x0c\n\x05\x04\x02\x02\0\x03\x12\x03E\x20!\n\x0b\n\x04\
+    \x04\x02\x02\x01\x12\x03F\x04%\n\x0c\n\x05\x04\x02\x02\x01\x04\x12\x03F\
+    \x04\x0c\n\x0c\n\x05\x04\x02\x02\x01\x05\x12\x03F\r\x13\n\x0c\n\x05\x04\
+    \x02\x02\x01\x01\x12\x03F\x14\x20\n\x0c\n\x05\x04\x02\x02\x01\x03\x12\
+    \x03F#$\n(\n\x04\x04\x02\x02\x02\x12\x03G\x04!\"\x1b\x20aggregation\x20s\
+    cheme\x20for\x20BP\n\n\x0c\n\x05\x04\x02\x02\x02\x04\x12\x03G\x04\x0c\n\
+    \x0c\n\x05\x04\x02\x02\x02\x05\x12\x03G\r\x13\n\x0c\n\x05\x04\x02\x02\
+    \x02\x01\x12\x03G\x14\x1c\n\x0c\n\x05\x04\x02\x02\x02\x03\x12\x03G\x1f\
+    \x20\n\x1a\n\x04\x04\x02\x02\x03\x12\x03I\x04\x1c\"\r\x20mask\x20vector\
+    \n\n\x0c\n\x05\x04\x02\x02\x03\x04\x12\x03I\x04\x0c\n\x0c\n\x05\x04\x02\
+    \x02\x03\x05\x12\x03I\r\x12\n\x0c\n\x05\x04\x02\x02\x03\x01\x12\x03I\x13\
+    \x17\n\x0c\n\x05\x04\x02\x02\x03\x03\x12\x03I\x1a\x1b\nI\n\x04\x04\x02\
+    \x02\x04\x12\x03J\x04\x1c\"<\x20range\x20sig\x20data,\x20all\x20of\x20it\
+    \x20or\x20partial\x20(based\x20on\x20rsig_parts)\n\n\x0c\n\x05\x04\x02\
+    \x02\x04\x04\x12\x03J\x04\x0c\n\x0c\n\x05\x04\x02\x02\x04\x05\x12\x03J\r\
+    \x12\n\x0c\n\x05\x04\x02\x02\x04\x01\x12\x03J\x13\x17\n\x0c\n\x05\x04\
+    \x02\x02\x04\x03\x12\x03J\x1a\x1b\n\x0b\n\x04\x04\x02\x02\x05\x12\x03K\
+    \x04\"\n\x0c\n\x05\x04\x02\x02\x05\x04\x12\x03K\x04\x0c\n\x0c\n\x05\x04\
+    \x02\x02\x05\x05\x12\x03K\r\x12\n\x0c\n\x05\x04\x02\x02\x05\x01\x12\x03K\
+    \x13\x1d\n\x0c\n\x05\x04\x02\x02\x05\x03\x12\x03K\x20!\n\"\n\x04\x04\x02\
+    \x02\x06\x12\x03L\x04#\"\x15\x20Bulletproof\x20version\n\n\x0c\n\x05\x04\
+    \x02\x02\x06\x04\x12\x03L\x04\x0c\n\x0c\n\x05\x04\x02\x02\x06\x05\x12\
+    \x03L\r\x13\n\x0c\n\x05\x04\x02\x02\x06\x01\x12\x03L\x14\x1e\n\x0c\n\x05\
+    \x04\x02\x02\x06\x03\x12\x03L!\"\n\x82\x01\n\x02\x04\x03\x12\x04U\0\\\
+    \x01\x1av*\n\x20Request:\x20Ask\x20device\x20for\x20public\x20address\
+    \x20derived\x20from\x20seed\x20and\x20address_n\n\x20@start\n\x20@next\
+    \x20MoneroAddress\n\x20@next\x20Failure\n\n\n\n\x03\x04\x03\x01\x12\x03U\
+    \x08\x18\n=\n\x04\x04\x03\x02\0\x12\x03V\x04\"\"0\x20BIP-32\x20path\x20t\
+    o\x20derive\x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\x05\x04\
+    \x03\x02\0\x04\x12\x03V\x04\x0c\n\x0c\n\x05\x04\x03\x02\0\x05\x12\x03V\r\
+    \x13\n\x0c\n\x05\x04\x03\x02\0\x01\x12\x03V\x14\x1d\n\x0c\n\x05\x04\x03\
+    \x02\0\x03\x12\x03V\x20!\nC\n\x04\x04\x03\x02\x01\x12\x03W\x04#\"6\x20Op\
+    tionally\x20show\x20on\x20display\x20before\x20sending\x20the\x20result\
+    \n\n\x0c\n\x05\x04\x03\x02\x01\x04\x12\x03W\x04\x0c\n\x0c\n\x05\x04\x03\
+    \x02\x01\x05\x12\x03W\r\x11\n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x03W\x12\
+    \x1e\n\x0c\n\x05\x04\x03\x02\x01\x03\x12\x03W!\"\n\x1b\n\x04\x04\x03\x02\
+    \x02\x12\x03X\x04B\"\x0e\x20Network\x20type\n\n\x0c\n\x05\x04\x03\x02\
+    \x02\x04\x12\x03X\x04\x0c\n\x0c\n\x05\x04\x03\x02\x02\x06\x12\x03X\r\x1e\
+    \n\x0c\n\x05\x04\x03\x02\x02\x01\x12\x03X\x1f+\n\x0c\n\x05\x04\x03\x02\
+    \x02\x03\x12\x03X./\n\x0c\n\x05\x04\x03\x02\x02\x08\x12\x03X0A\n\x0c\n\
+    \x05\x04\x03\x02\x02\x07\x12\x03X9@\n\"\n\x04\x04\x03\x02\x03\x12\x03Y\
+    \x04\x20\"\x15\x20Major\x20subaddr\x20index\n\n\x0c\n\x05\x04\x03\x02\
+    \x03\x04\x12\x03Y\x04\x0c\n\x0c\n\x05\x04\x03\x02\x03\x05\x12\x03Y\r\x13\
+    \n\x0c\n\x05\x04\x03\x02\x03\x01\x12\x03Y\x14\x1b\n\x0c\n\x05\x04\x03\
+    \x02\x03\x03\x12\x03Y\x1e\x1f\n\"\n\x04\x04\x03\x02\x04\x12\x03Z\x04\x1e\
+    \"\x15\x20Minor\x20subaddr\x20index\n\n\x0c\n\x05\x04\x03\x02\x04\x04\
+    \x12\x03Z\x04\x0c\n\x0c\n\x05\x04\x03\x02\x04\x05\x12\x03Z\r\x13\n\x0c\n\
+    \x05\x04\x03\x02\x04\x01\x12\x03Z\x14\x19\n\x0c\n\x05\x04\x03\x02\x04\
+    \x03\x12\x03Z\x1c\x1d\n0\n\x04\x04\x03\x02\x05\x12\x03[\x04\"\"#\x20Paym\
+    ent\x20ID\x20for\x20integrated\x20address\n\n\x0c\n\x05\x04\x03\x02\x05\
+    \x04\x12\x03[\x04\x0c\n\x0c\n\x05\x04\x03\x02\x05\x05\x12\x03[\r\x12\n\
+    \x0c\n\x05\x04\x03\x02\x05\x01\x12\x03[\x13\x1d\n\x0c\n\x05\x04\x03\x02\
+    \x05\x03\x12\x03[\x20!\ng\n\x02\x04\x04\x12\x04b\0d\x01\x1a[*\n\x20Respo\
+    nse:\x20Contains\x20Monero\x20watch-only\x20credentials\x20derived\x20fr\
+    om\x20device\x20private\x20seed\n\x20@end\n\n\n\n\x03\x04\x04\x01\x12\
+    \x03b\x08\x15\n\x0b\n\x04\x04\x04\x02\0\x12\x03c\x04\x1f\n\x0c\n\x05\x04\
+    \x04\x02\0\x04\x12\x03c\x04\x0c\n\x0c\n\x05\x04\x04\x02\0\x05\x12\x03c\r\
+    \x12\n\x0c\n\x05\x04\x04\x02\0\x01\x12\x03c\x13\x1a\n\x0c\n\x05\x04\x04\
+    \x02\0\x03\x12\x03c\x1d\x1e\nk\n\x02\x04\x05\x12\x04l\0o\x01\x1a_*\n\x20\
+    Request:\x20Ask\x20device\x20for\x20watch\x20only\x20credentials\n\x20@s\
+    tart\n\x20@next\x20MoneroWatchKey\n\x20@next\x20Failure\n\n\n\n\x03\x04\
+    \x05\x01\x12\x03l\x08\x19\n=\n\x04\x04\x05\x02\0\x12\x03m\x04\"\"0\x20BI\
+    P-32\x20path\x20to\x20derive\x20the\x20key\x20from\x20master\x20node\n\n\
+    \x0c\n\x05\x04\x05\x02\0\x04\x12\x03m\x04\x0c\n\x0c\n\x05\x04\x05\x02\0\
+    \x05\x12\x03m\r\x13\n\x0c\n\x05\x04\x05\x02\0\x01\x12\x03m\x14\x1d\n\x0c\
+    \n\x05\x04\x05\x02\0\x03\x12\x03m\x20!\n\x1b\n\x04\x04\x05\x02\x01\x12\
+    \x03n\x04B\"\x0e\x20Network\x20type\n\n\x0c\n\x05\x04\x05\x02\x01\x04\
+    \x12\x03n\x04\x0c\n\x0c\n\x05\x04\x05\x02\x01\x06\x12\x03n\r\x1e\n\x0c\n\
+    \x05\x04\x05\x02\x01\x01\x12\x03n\x1f+\n\x0c\n\x05\x04\x05\x02\x01\x03\
+    \x12\x03n./\n\x0c\n\x05\x04\x05\x02\x01\x08\x12\x03n0A\n\x0c\n\x05\x04\
+    \x05\x02\x01\x07\x12\x03n9@\ng\n\x02\x04\x06\x12\x04u\0x\x01\x1a[*\n\x20\
+    Response:\x20Contains\x20Monero\x20watch-only\x20credentials\x20derived\
+    \x20from\x20device\x20private\x20seed\n\x20@end\n\n\n\n\x03\x04\x06\x01\
+    \x12\x03u\x08\x16\n\x0b\n\x04\x04\x06\x02\0\x12\x03v\x04!\n\x0c\n\x05\
+    \x04\x06\x02\0\x04\x12\x03v\x04\x0c\n\x0c\n\x05\x04\x06\x02\0\x05\x12\
+    \x03v\r\x12\n\x0c\n\x05\x04\x06\x02\0\x01\x12\x03v\x13\x1c\n\x0c\n\x05\
+    \x04\x06\x02\0\x03\x12\x03v\x1f\x20\n\x0b\n\x04\x04\x06\x02\x01\x12\x03w\
+    \x04\x1f\n\x0c\n\x05\x04\x06\x02\x01\x04\x12\x03w\x04\x0c\n\x0c\n\x05\
+    \x04\x06\x02\x01\x05\x12\x03w\r\x12\n\x0c\n\x05\x04\x06\x02\x01\x01\x12\
+    \x03w\x13\x1a\n\x0c\n\x05\x04\x06\x02\x01\x03\x12\x03w\x1d\x1e\n\x88\x01\
+    \n\x02\x04\x07\x12\x05\x7f\0\x98\x01\x01\x1a{*\n\x20Request:\x20Sub\x20r\
+    equest\x20of\x20MoneroTransactionSign.\x20Initializes\x20transaction\x20\
+    signing.\n\x20@start\n\x20@next\x20MoneroTransactionInitAck\n\n\n\n\x03\
+    \x04\x07\x01\x12\x03\x7f\x08$\n\x0c\n\x04\x04\x07\x02\0\x12\x04\x80\x01\
+    \x04\x20\n\r\n\x05\x04\x07\x02\0\x04\x12\x04\x80\x01\x04\x0c\n\r\n\x05\
+    \x04\x07\x02\0\x05\x12\x04\x80\x01\r\x13\n\r\n\x05\x04\x07\x02\0\x01\x12\
+    \x04\x80\x01\x14\x1b\n\r\n\x05\x04\x07\x02\0\x03\x12\x04\x80\x01\x1e\x1f\
+    \n\x0c\n\x04\x04\x07\x02\x01\x12\x04\x81\x01\x04\"\n\r\n\x05\x04\x07\x02\
+    \x01\x04\x12\x04\x81\x01\x04\x0c\n\r\n\x05\x04\x07\x02\x01\x05\x12\x04\
+    \x81\x01\r\x13\n\r\n\x05\x04\x07\x02\x01\x01\x12\x04\x81\x01\x14\x1d\n\r\
+    \n\x05\x04\x07\x02\x01\x03\x12\x04\x81\x01\x20!\n\x1c\n\x04\x04\x07\x02\
+    \x02\x12\x04\x82\x01\x04B\"\x0e\x20Network\x20type\n\n\r\n\x05\x04\x07\
+    \x02\x02\x04\x12\x04\x82\x01\x04\x0c\n\r\n\x05\x04\x07\x02\x02\x06\x12\
+    \x04\x82\x01\r\x1e\n\r\n\x05\x04\x07\x02\x02\x01\x12\x04\x82\x01\x1f+\n\
+    \r\n\x05\x04\x07\x02\x02\x03\x12\x04\x82\x01./\n\r\n\x05\x04\x07\x02\x02\
+    \x08\x12\x04\x82\x010A\n\r\n\x05\x04\x07\x02\x02\x07\x12\x04\x82\x019@\n\
+    \x0c\n\x04\x04\x07\x02\x03\x12\x04\x83\x01\x040\n\r\n\x05\x04\x07\x02\
+    \x03\x04\x12\x04\x83\x01\x04\x0c\n\r\n\x05\x04\x07\x02\x03\x06\x12\x04\
+    \x83\x01\r\"\n\r\n\x05\x04\x07\x02\x03\x01\x12\x04\x83\x01#+\n\r\n\x05\
+    \x04\x07\x02\x03\x03\x12\x04\x83\x01./\nQ\n\x04\x04\x07\x03\0\x12\x06\
+    \x87\x01\x04\x97\x01\x05\x1aA*\n\x20Structure\x20representing\x20Monero\
+    \x20initial\x20transaction\x20information\n\n\r\n\x05\x04\x07\x03\0\x01\
+    \x12\x04\x87\x01\x0c!\n\x0e\n\x06\x04\x07\x03\0\x02\0\x12\x04\x88\x01\
+    \x08$\n\x0f\n\x07\x04\x07\x03\0\x02\0\x04\x12\x04\x88\x01\x08\x10\n\x0f\
+    \n\x07\x04\x07\x03\0\x02\0\x05\x12\x04\x88\x01\x11\x17\n\x0f\n\x07\x04\
+    \x07\x03\0\x02\0\x01\x12\x04\x88\x01\x18\x1f\n\x0f\n\x07\x04\x07\x03\0\
+    \x02\0\x03\x12\x04\x88\x01\"#\n\x0e\n\x06\x04\x07\x03\0\x02\x01\x12\x04\
+    \x89\x01\x08&\n\x0f\n\x07\x04\x07\x03\0\x02\x01\x04\x12\x04\x89\x01\x08\
+    \x10\n\x0f\n\x07\x04\x07\x03\0\x02\x01\x05\x12\x04\x89\x01\x11\x16\n\x0f\
+    \n\x07\x04\x07\x03\0\x02\x01\x01\x12\x04\x89\x01\x17!\n\x0f\n\x07\x04\
+    \x07\x03\0\x02\x01\x03\x12\x04\x89\x01$%\n\x0e\n\x06\x04\x07\x03\0\x02\
+    \x02\x12\x04\x8a\x01\x08(\n\x0f\n\x07\x04\x07\x03\0\x02\x02\x04\x12\x04\
+    \x8a\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x02\x05\x12\x04\x8a\x01\
+    \x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x02\x01\x12\x04\x8a\x01\x18#\n\
+    \x0f\n\x07\x04\x07\x03\0\x02\x02\x03\x12\x04\x8a\x01&'\n\x0e\n\x06\x04\
+    \x07\x03\0\x02\x03\x12\x04\x8b\x01\x08?\n\x0f\n\x07\x04\x07\x03\0\x02\
+    \x03\x04\x12\x04\x8b\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x03\x06\
+    \x12\x04\x8b\x01\x112\n\x0f\n\x07\x04\x07\x03\0\x02\x03\x01\x12\x04\x8b\
+    \x013:\n\x0f\n\x07\x04\x07\x03\0\x02\x03\x03\x12\x04\x8b\x01=>\n\x0e\n\
+    \x06\x04\x07\x03\0\x02\x04\x12\x04\x8c\x01\x08B\n\x0f\n\x07\x04\x07\x03\
+    \0\x02\x04\x04\x12\x04\x8c\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x04\
+    \x06\x12\x04\x8c\x01\x112\n\x0f\n\x07\x04\x07\x03\0\x02\x04\x01\x12\x04\
+    \x8c\x013=\n\x0f\n\x07\x04\x07\x03\0\x02\x04\x03\x12\x04\x8c\x01@A\n\x0e\
+    \n\x06\x04\x07\x03\0\x02\x05\x12\x04\x8d\x01\x08'\n\x0f\n\x07\x04\x07\
+    \x03\0\x02\x05\x04\x12\x04\x8d\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\
+    \x05\x05\x12\x04\x8d\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x05\x01\
+    \x12\x04\x8d\x01\x18\"\n\x0f\n\x07\x04\x07\x03\0\x02\x05\x03\x12\x04\x8d\
+    \x01%&\n\x0e\n\x06\x04\x07\x03\0\x02\x06\x12\x04\x8e\x01\x08\"\n\x0f\n\
+    \x07\x04\x07\x03\0\x02\x06\x04\x12\x04\x8e\x01\x08\x10\n\x0f\n\x07\x04\
+    \x07\x03\0\x02\x06\x05\x12\x04\x8e\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\
+    \x02\x06\x01\x12\x04\x8e\x01\x18\x1d\n\x0f\n\x07\x04\x07\x03\0\x02\x06\
+    \x03\x12\x04\x8e\x01\x20!\n\x0e\n\x06\x04\x07\x03\0\x02\x07\x12\x04\x8f\
+    \x01\x08\x20\n\x0f\n\x07\x04\x07\x03\0\x02\x07\x04\x12\x04\x8f\x01\x08\
+    \x10\n\x0f\n\x07\x04\x07\x03\0\x02\x07\x05\x12\x04\x8f\x01\x11\x17\n\x0f\
+    \n\x07\x04\x07\x03\0\x02\x07\x01\x12\x04\x8f\x01\x18\x1b\n\x0f\n\x07\x04\
+    \x07\x03\0\x02\x07\x03\x12\x04\x8f\x01\x1e\x1f\n\x0e\n\x06\x04\x07\x03\0\
+    \x02\x08\x12\x04\x90\x01\x08$\n\x0f\n\x07\x04\x07\x03\0\x02\x08\x04\x12\
+    \x04\x90\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x08\x05\x12\x04\x90\
+    \x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x08\x01\x12\x04\x90\x01\x18\
+    \x1f\n\x0f\n\x07\x04\x07\x03\0\x02\x08\x03\x12\x04\x90\x01\"#\n\x0e\n\
+    \x06\x04\x07\x03\0\x02\t\x12\x04\x91\x01\x08+\n\x0f\n\x07\x04\x07\x03\0\
+    \x02\t\x04\x12\x04\x91\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\t\x05\
+    \x12\x04\x91\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\t\x01\x12\x04\x91\
+    \x01\x18%\n\x0f\n\x07\x04\x07\x03\0\x02\t\x03\x12\x04\x91\x01(*\n\x0e\n\
+    \x06\x04\x07\x03\0\x02\n\x12\x04\x92\x01\x08:\n\x0f\n\x07\x04\x07\x03\0\
+    \x02\n\x04\x12\x04\x92\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\n\x06\
+    \x12\x04\x92\x01\x11*\n\x0f\n\x07\x04\x07\x03\0\x02\n\x01\x12\x04\x92\
+    \x01+4\n\x0f\n\x07\x04\x07\x03\0\x02\n\x03\x12\x04\x92\x0179\n\x0e\n\x06\
+    \x04\x07\x03\0\x02\x0b\x12\x04\x93\x01\x080\n\x0f\n\x07\x04\x07\x03\0\
+    \x02\x0b\x04\x12\x04\x93\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x0b\
+    \x05\x12\x04\x93\x01\x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x0b\x01\x12\
+    \x04\x93\x01\x18*\n\x0f\n\x07\x04\x07\x03\0\x02\x0b\x03\x12\x04\x93\x01-\
+    /\n*\n\x06\x04\x07\x03\0\x02\x0c\x12\x04\x94\x01\x08,\"\x1a\x20connected\
+    \x20client\x20version\n\n\x0f\n\x07\x04\x07\x03\0\x02\x0c\x04\x12\x04\
+    \x94\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\x0c\x05\x12\x04\x94\x01\
+    \x11\x17\n\x0f\n\x07\x04\x07\x03\0\x02\x0c\x01\x12\x04\x94\x01\x18&\n\
+    \x0f\n\x07\x04\x07\x03\0\x02\x0c\x03\x12\x04\x94\x01)+\n.\n\x06\x04\x07\
+    \x03\0\x02\r\x12\x04\x95\x01\x08'\"\x1e\x20transaction\x20hard\x20fork\
+    \x20number\n\n\x0f\n\x07\x04\x07\x03\0\x02\r\x04\x12\x04\x95\x01\x08\x10\
+    \n\x0f\n\x07\x04\x07\x03\0\x02\r\x05\x12\x04\x95\x01\x11\x17\n\x0f\n\x07\
+    \x04\x07\x03\0\x02\r\x01\x12\x04\x95\x01\x18!\n\x0f\n\x07\x04\x07\x03\0\
+    \x02\r\x03\x12\x04\x95\x01$&\n)\n\x06\x04\x07\x03\0\x02\x0e\x12\x04\x96\
+    \x01\x08+\"\x19\x20monero\x20software\x20version\n\n\x0f\n\x07\x04\x07\
+    \x03\0\x02\x0e\x04\x12\x04\x96\x01\x08\x10\n\x0f\n\x07\x04\x07\x03\0\x02\
+    \x0e\x05\x12\x04\x96\x01\x11\x16\n\x0f\n\x07\x04\x07\x03\0\x02\x0e\x01\
+    \x12\x04\x96\x01\x17%\n\x0f\n\x07\x04\x07\x03\0\x02\x0e\x03\x12\x04\x96\
+    \x01(*\ns\n\x02\x04\x08\x12\x06\x9e\x01\0\xa1\x01\x01\x1ae*\n\x20Respons\
+    e:\x20Response\x20to\x20transaction\x20signing\x20initialization.\n\x20@\
+    next\x20MoneroTransactionSetInputRequest\n\n\x0b\n\x03\x04\x08\x01\x12\
+    \x04\x9e\x01\x08\x20\n\x0c\n\x04\x04\x08\x02\0\x12\x04\x9f\x01\x04\x1d\n\
+    \r\n\x05\x04\x08\x02\0\x04\x12\x04\x9f\x01\x04\x0c\n\r\n\x05\x04\x08\x02\
+    \0\x05\x12\x04\x9f\x01\r\x12\n\r\n\x05\x04\x08\x02\0\x01\x12\x04\x9f\x01\
+    \x13\x18\n\r\n\x05\x04\x08\x02\0\x03\x12\x04\x9f\x01\x1b\x1c\n\x0c\n\x04\
+    \x04\x08\x02\x01\x12\x04\xa0\x01\x045\n\r\n\x05\x04\x08\x02\x01\x04\x12\
+    \x04\xa0\x01\x04\x0c\n\r\n\x05\x04\x08\x02\x01\x06\x12\x04\xa0\x01\r&\n\
+    \r\n\x05\x04\x08\x02\x01\x01\x12\x04\xa0\x01'0\n\r\n\x05\x04\x08\x02\x01\
+    \x03\x12\x04\xa0\x0134\n}\n\x02\x04\t\x12\x06\xa7\x01\0\xa9\x01\x01\x1ao\
     *\n\x20Request:\x20Sub\x20request\x20of\x20MoneroTransactionSign.\x20Sen\
-    ds\x20one\x20transaction\x20destination\x20to\x20device\x20(HMACed)\n\
-    \x20@next\x20MoneroTransactionSetOutputAck\n\n\x0b\n\x03\x04\x11\x01\x12\
-    \x04\xef\x01\x08)\n\x0c\n\x04\x04\x11\x02\0\x12\x04\xf0\x01\x04<\n\r\n\
-    \x05\x04\x11\x02\0\x04\x12\x04\xf0\x01\x04\x0c\n\r\n\x05\x04\x11\x02\0\
-    \x06\x12\x04\xf0\x01\r.\n\r\n\x05\x04\x11\x02\0\x01\x12\x04\xf0\x01/7\n\
-    \r\n\x05\x04\x11\x02\0\x03\x12\x04\xf0\x01:;\n\x0c\n\x04\x04\x11\x02\x01\
-    \x12\x04\xf1\x01\x04%\n\r\n\x05\x04\x11\x02\x01\x04\x12\x04\xf1\x01\x04\
-    \x0c\n\r\n\x05\x04\x11\x02\x01\x05\x12\x04\xf1\x01\r\x12\n\r\n\x05\x04\
-    \x11\x02\x01\x01\x12\x04\xf1\x01\x13\x20\n\r\n\x05\x04\x11\x02\x01\x03\
-    \x12\x04\xf1\x01#$\n\x0c\n\x04\x04\x11\x02\x02\x12\x04\xf2\x01\x045\n\r\
-    \n\x05\x04\x11\x02\x02\x04\x12\x04\xf2\x01\x04\x0c\n\r\n\x05\x04\x11\x02\
-    \x02\x06\x12\x04\xf2\x01\r&\n\r\n\x05\x04\x11\x02\x02\x01\x12\x04\xf2\
-    \x01'0\n\r\n\x05\x04\x11\x02\x02\x03\x12\x04\xf2\x0134\n\xd5\x01\n\x02\
-    \x04\x12\x12\x06\xfa\x01\0\x80\x02\x01\x1a\xc6\x01*\n\x20Response:\x20Re\
-    sponse\x20to\x20setting\x20transaction\x20destination.\x20Contains\x20se\
-    aled\x20values\x20needed\x20for\x20further\x20protocol\x20steps.\n\x20@n\
-    ext\x20MoneroTransactionSetOutputRequest\n\x20@next\x20MoneroTransaction\
-    AllOutSetRequest\n\n\x0b\n\x03\x04\x12\x01\x12\x04\xfa\x01\x08%\n\x1e\n\
-    \x04\x04\x12\x02\0\x12\x04\xfb\x01\x04\x1e\"\x10\x20xmrtypes.TxOut\n\n\r\
-    \n\x05\x04\x12\x02\0\x04\x12\x04\xfb\x01\x04\x0c\n\r\n\x05\x04\x12\x02\0\
-    \x05\x12\x04\xfb\x01\r\x12\n\r\n\x05\x04\x12\x02\0\x01\x12\x04\xfb\x01\
-    \x13\x19\n\r\n\x05\x04\x12\x02\0\x03\x12\x04\xfb\x01\x1c\x1d\n\x0c\n\x04\
-    \x04\x12\x02\x01\x12\x04\xfc\x01\x04\"\n\r\n\x05\x04\x12\x02\x01\x04\x12\
-    \x04\xfc\x01\x04\x0c\n\r\n\x05\x04\x12\x02\x01\x05\x12\x04\xfc\x01\r\x12\
-    \n\r\n\x05\x04\x12\x02\x01\x01\x12\x04\xfc\x01\x13\x1d\n\r\n\x05\x04\x12\
-    \x02\x01\x03\x12\x04\xfc\x01\x20!\n\x0c\n\x04\x04\x12\x02\x02\x12\x04\
-    \xfd\x01\x045\n\r\n\x05\x04\x12\x02\x02\x04\x12\x04\xfd\x01\x04\x0c\n\r\
-    \n\x05\x04\x12\x02\x02\x06\x12\x04\xfd\x01\r&\n\r\n\x05\x04\x12\x02\x02\
-    \x01\x12\x04\xfd\x01'0\n\r\n\x05\x04\x12\x02\x02\x03\x12\x04\xfd\x0134\n\
-    \x0c\n\x04\x04\x12\x02\x03\x12\x04\xfe\x01\x04\x1e\n\r\n\x05\x04\x12\x02\
-    \x03\x04\x12\x04\xfe\x01\x04\x0c\n\r\n\x05\x04\x12\x02\x03\x05\x12\x04\
-    \xfe\x01\r\x12\n\r\n\x05\x04\x12\x02\x03\x01\x12\x04\xfe\x01\x13\x19\n\r\
-    \n\x05\x04\x12\x02\x03\x03\x12\x04\xfe\x01\x1c\x1d\n\x0c\n\x04\x04\x12\
-    \x02\x04\x12\x04\xff\x01\x04!\n\r\n\x05\x04\x12\x02\x04\x04\x12\x04\xff\
-    \x01\x04\x0c\n\r\n\x05\x04\x12\x02\x04\x05\x12\x04\xff\x01\r\x12\n\r\n\
-    \x05\x04\x12\x02\x04\x01\x12\x04\xff\x01\x13\x1c\n\r\n\x05\x04\x12\x02\
-    \x04\x03\x12\x04\xff\x01\x1f\x20\n\x86\x01\n\x02\x04\x13\x12\x06\x86\x02\
-    \0\x88\x02\x01\x1ax*\n\x20Request:\x20Sub\x20request\x20of\x20MoneroTran\
-    sactionSign.\x20Sent\x20after\x20all\x20outputs\x20are\x20sent.\n\x20@ne\
-    xt\x20MoneroTransactionAllOutSetAck\n\n\x0b\n\x03\x04\x13\x01\x12\x04\
-    \x86\x02\x08)\n\x0c\n\x04\x04\x13\x02\0\x12\x04\x87\x02\x045\n\r\n\x05\
-    \x04\x13\x02\0\x04\x12\x04\x87\x02\x04\x0c\n\r\n\x05\x04\x13\x02\0\x06\
-    \x12\x04\x87\x02\r&\n\r\n\x05\x04\x13\x02\0\x01\x12\x04\x87\x02'0\n\r\n\
-    \x05\x04\x13\x02\0\x03\x12\x04\x87\x0234\n\x8a\x01\n\x02\x04\x14\x12\x06\
-    \x8e\x02\0\x9b\x02\x01\x1a|*\n\x20Response:\x20After\x20all\x20outputs\
-    \x20are\x20sent\x20the\x20initial\x20RCT\x20signature\x20fields\x20are\
-    \x20sent.\n\x20@next\x20MoneroTransactionMlsagDoneRequest\n\n\x0b\n\x03\
-    \x04\x14\x01\x12\x04\x8e\x02\x08%\n\x0c\n\x04\x04\x14\x02\0\x12\x04\x8f\
-    \x02\x04\x1d\n\r\n\x05\x04\x14\x02\0\x04\x12\x04\x8f\x02\x04\x0c\n\r\n\
-    \x05\x04\x14\x02\0\x05\x12\x04\x8f\x02\r\x12\n\r\n\x05\x04\x14\x02\0\x01\
-    \x12\x04\x8f\x02\x13\x18\n\r\n\x05\x04\x14\x02\0\x03\x12\x04\x8f\x02\x1b\
-    \x1c\n\x0c\n\x04\x04\x14\x02\x01\x12\x04\x90\x02\x04&\n\r\n\x05\x04\x14\
-    \x02\x01\x04\x12\x04\x90\x02\x04\x0c\n\r\n\x05\x04\x14\x02\x01\x05\x12\
-    \x04\x90\x02\r\x12\n\r\n\x05\x04\x14\x02\x01\x01\x12\x04\x90\x02\x13!\n\
-    \r\n\x05\x04\x14\x02\x01\x03\x12\x04\x90\x02$%\n\x0c\n\x04\x04\x14\x02\
-    \x02\x12\x04\x91\x02\x045\n\r\n\x05\x04\x14\x02\x02\x04\x12\x04\x91\x02\
-    \x04\x0c\n\r\n\x05\x04\x14\x02\x02\x06\x12\x04\x91\x02\r&\n\r\n\x05\x04\
-    \x14\x02\x02\x01\x12\x04\x91\x02'0\n\r\n\x05\x04\x14\x02\x02\x03\x12\x04\
-    \x91\x0234\n\x1f\n\x04\x04\x14\x02\x03\x12\x04\x92\x02\x04$\"\x11\x20xmr\
-    types.RctSig\n\n\r\n\x05\x04\x14\x02\x03\x04\x12\x04\x92\x02\x04\x0c\n\r\
-    \n\x05\x04\x14\x02\x03\x06\x12\x04\x92\x02\r\x1c\n\r\n\x05\x04\x14\x02\
-    \x03\x01\x12\x04\x92\x02\x1d\x1f\n\r\n\x05\x04\x14\x02\x03\x03\x12\x04\
-    \x92\x02\"#\nR\n\x04\x04\x14\x03\0\x12\x06\x96\x02\x04\x9a\x02\x05\x1aB\
-    \n\x20Structure\x20represents\x20initial\x20fields\x20of\x20the\x20Moner\
-    o\x20RCT\x20signature\n\n\r\n\x05\x04\x14\x03\0\x01\x12\x04\x96\x02\x0c\
-    \x1b\n\x0e\n\x06\x04\x14\x03\0\x02\0\x12\x04\x97\x02\x08$\n\x0f\n\x07\
-    \x04\x14\x03\0\x02\0\x04\x12\x04\x97\x02\x08\x10\n\x0f\n\x07\x04\x14\x03\
-    \0\x02\0\x05\x12\x04\x97\x02\x11\x17\n\x0f\n\x07\x04\x14\x03\0\x02\0\x01\
-    \x12\x04\x97\x02\x18\x1f\n\x0f\n\x07\x04\x14\x03\0\x02\0\x03\x12\x04\x97\
-    \x02\"#\n\x0e\n\x06\x04\x14\x03\0\x02\x01\x12\x04\x98\x02\x08#\n\x0f\n\
-    \x07\x04\x14\x03\0\x02\x01\x04\x12\x04\x98\x02\x08\x10\n\x0f\n\x07\x04\
-    \x14\x03\0\x02\x01\x05\x12\x04\x98\x02\x11\x16\n\x0f\n\x07\x04\x14\x03\0\
-    \x02\x01\x01\x12\x04\x98\x02\x17\x1e\n\x0f\n\x07\x04\x14\x03\0\x02\x01\
-    \x03\x12\x04\x98\x02!\"\n\x0e\n\x06\x04\x14\x03\0\x02\x02\x12\x04\x99\
-    \x02\x08$\n\x0f\n\x07\x04\x14\x03\0\x02\x02\x04\x12\x04\x99\x02\x08\x10\
-    \n\x0f\n\x07\x04\x14\x03\0\x02\x02\x05\x12\x04\x99\x02\x11\x17\n\x0f\n\
-    \x07\x04\x14\x03\0\x02\x02\x01\x12\x04\x99\x02\x18\x1f\n\x0f\n\x07\x04\
-    \x14\x03\0\x02\x02\x03\x12\x04\x99\x02\"#\ne\n\x02\x04\x15\x12\x06\xa1\
-    \x02\0\xa2\x02\x01\x1aW*\n\x20Request:\x20Sub\x20request\x20of\x20Monero\
-    TransactionSign.\n\x20@next\x20MoneroTransactionMlsagDoneAck\n\n\x0b\n\
-    \x03\x04\x15\x01\x12\x04\xa1\x02\x08)\nx\n\x02\x04\x16\x12\x06\xa8\x02\0\
-    \xaa\x02\x01\x1aj*\n\x20Response:\x20Contains\x20full\x20message\x20hash\
-    \x20needed\x20for\x20the\x20signature\n\x20@next\x20MoneroTransactionSig\
-    nInputRequest\n\n\x0b\n\x03\x04\x16\x01\x12\x04\xa8\x02\x08%\n\x0c\n\x04\
-    \x04\x16\x02\0\x12\x04\xa9\x02\x04)\n\r\n\x05\x04\x16\x02\0\x04\x12\x04\
-    \xa9\x02\x04\x0c\n\r\n\x05\x04\x16\x02\0\x05\x12\x04\xa9\x02\r\x12\n\r\n\
-    \x05\x04\x16\x02\0\x01\x12\x04\xa9\x02\x13$\n\r\n\x05\x04\x16\x02\0\x03\
-    \x12\x04\xa9\x02'(\n\x81\x01\n\x02\x04\x17\x12\x06\xb0\x02\0\xb8\x02\x01\
-    \x1as*\n\x20Request:\x20Sub\x20request\x20of\x20MoneroTransactionSign.\
-    \x20Sends\x20UTXO\x20for\x20the\x20signing.\n\x20@next\x20MoneroTransact\
-    ionSignInputAck\n\n\x0b\n\x03\x04\x17\x01\x12\x04\xb0\x02\x08)\n\x0c\n\
-    \x04\x04\x17\x02\0\x12\x04\xb1\x02\x047\n\r\n\x05\x04\x17\x02\0\x04\x12\
-    \x04\xb1\x02\x04\x0c\n\r\n\x05\x04\x17\x02\0\x06\x12\x04\xb1\x02\r)\n\r\
-    \n\x05\x04\x17\x02\0\x01\x12\x04\xb1\x02*2\n\r\n\x05\x04\x17\x02\0\x03\
-    \x12\x04\xb1\x0256\n\"\n\x04\x04\x17\x02\x01\x12\x04\xb2\x02\x04\x1c\"\
-    \x14\x20xmrtypes.TxinToKey\n\n\r\n\x05\x04\x17\x02\x01\x04\x12\x04\xb2\
-    \x02\x04\x0c\n\r\n\x05\x04\x17\x02\x01\x05\x12\x04\xb2\x02\r\x12\n\r\n\
-    \x05\x04\x17\x02\x01\x01\x12\x04\xb2\x02\x13\x17\n\r\n\x05\x04\x17\x02\
-    \x01\x03\x12\x04\xb2\x02\x1a\x1b\n\x0c\n\x04\x04\x17\x02\x02\x12\x04\xb3\
-    \x02\x04!\n\r\n\x05\x04\x17\x02\x02\x04\x12\x04\xb3\x02\x04\x0c\n\r\n\
-    \x05\x04\x17\x02\x02\x05\x12\x04\xb3\x02\r\x12\n\r\n\x05\x04\x17\x02\x02\
-    \x01\x12\x04\xb3\x02\x13\x1c\n\r\n\x05\x04\x17\x02\x02\x03\x12\x04\xb3\
-    \x02\x1f\x20\n\x0c\n\x04\x04\x17\x02\x03\x12\x04\xb4\x02\x04\"\n\r\n\x05\
-    \x04\x17\x02\x03\x04\x12\x04\xb4\x02\x04\x0c\n\r\n\x05\x04\x17\x02\x03\
-    \x05\x12\x04\xb4\x02\r\x12\n\r\n\x05\x04\x17\x02\x03\x01\x12\x04\xb4\x02\
-    \x13\x1d\n\r\n\x05\x04\x17\x02\x03\x03\x12\x04\xb4\x02\x20!\n\x0c\n\x04\
-    \x04\x17\x02\x04\x12\x04\xb5\x02\x04'\n\r\n\x05\x04\x17\x02\x04\x04\x12\
-    \x04\xb5\x02\x04\x0c\n\r\n\x05\x04\x17\x02\x04\x05\x12\x04\xb5\x02\r\x12\
-    \n\r\n\x05\x04\x17\x02\x04\x01\x12\x04\xb5\x02\x13\"\n\r\n\x05\x04\x17\
-    \x02\x04\x03\x12\x04\xb5\x02%&\n\x0c\n\x04\x04\x17\x02\x05\x12\x04\xb6\
-    \x02\x04!\n\r\n\x05\x04\x17\x02\x05\x04\x12\x04\xb6\x02\x04\x0c\n\r\n\
-    \x05\x04\x17\x02\x05\x05\x12\x04\xb6\x02\r\x12\n\r\n\x05\x04\x17\x02\x05\
-    \x01\x12\x04\xb6\x02\x13\x1c\n\r\n\x05\x04\x17\x02\x05\x03\x12\x04\xb6\
-    \x02\x1f\x20\n\x0c\n\x04\x04\x17\x02\x06\x12\x04\xb7\x02\x04!\n\r\n\x05\
-    \x04\x17\x02\x06\x04\x12\x04\xb7\x02\x04\x0c\n\r\n\x05\x04\x17\x02\x06\
-    \x05\x12\x04\xb7\x02\r\x12\n\r\n\x05\x04\x17\x02\x06\x01\x12\x04\xb7\x02\
-    \x13\x1c\n\r\n\x05\x04\x17\x02\x06\x03\x12\x04\xb7\x02\x1f\x20\n\xb0\x01\
-    \n\x02\x04\x18\x12\x06\xbf\x02\0\xc2\x02\x01\x1a\xa1\x01*\n\x20Response:\
-    \x20Contains\x20full\x20MG\x20signature\x20of\x20the\x20UTXO\x20+\x20mul\
-    tisig\x20data\x20if\x20applicable.\n\x20@next\x20MoneroTransactionSignIn\
-    putRequest\n\x20@next\x20MoneroTransactionFinalRequest\n\n\x0b\n\x03\x04\
-    \x18\x01\x12\x04\xbf\x02\x08%\n\x0c\n\x04\x04\x18\x02\0\x12\x04\xc0\x02\
-    \x04!\n\r\n\x05\x04\x18\x02\0\x04\x12\x04\xc0\x02\x04\x0c\n\r\n\x05\x04\
-    \x18\x02\0\x05\x12\x04\xc0\x02\r\x12\n\r\n\x05\x04\x18\x02\0\x01\x12\x04\
-    \xc0\x02\x13\x1c\n\r\n\x05\x04\x18\x02\0\x03\x12\x04\xc0\x02\x1f\x20\n\
-    \x0c\n\x04\x04\x18\x02\x01\x12\x04\xc1\x02\x04\x1c\n\r\n\x05\x04\x18\x02\
-    \x01\x04\x12\x04\xc1\x02\x04\x0c\n\r\n\x05\x04\x18\x02\x01\x05\x12\x04\
-    \xc1\x02\r\x12\n\r\n\x05\x04\x18\x02\x01\x01\x12\x04\xc1\x02\x13\x17\n\r\
-    \n\x05\x04\x18\x02\x01\x03\x12\x04\xc1\x02\x1a\x1b\n\x99\x01\n\x02\x04\
-    \x19\x12\x06\xc8\x02\0\xc9\x02\x01\x1a\x8a\x01*\n\x20Request:\x20Sub\x20\
-    request\x20of\x20MoneroTransactionSign.\x20Final\x20message\x20of\x20the\
-    \x20procol\x20after\x20all\x20UTXOs\x20are\x20signed\n\x20@next\x20Moner\
-    oTransactionFinalAck\n\n\x0b\n\x03\x04\x19\x01\x12\x04\xc8\x02\x08%\n\
-    \x9b\x01\n\x02\x04\x1a\x12\x06\xcf\x02\0\xd4\x02\x01\x1a\x8c\x01*\n\x20R\
-    esponse:\x20Contains\x20transaction\x20metadata\x20and\x20encryption\x20\
-    keys\x20needed\x20for\x20further\x20transaction\x20operations\x20(e.g.\
-    \x20multisig,\x20send\x20proof).\n\x20@end\n\n\x0b\n\x03\x04\x1a\x01\x12\
-    \x04\xcf\x02\x08!\n\x0c\n\x04\x04\x1a\x02\0\x12\x04\xd0\x02\x04\x20\n\r\
-    \n\x05\x04\x1a\x02\0\x04\x12\x04\xd0\x02\x04\x0c\n\r\n\x05\x04\x1a\x02\0\
-    \x05\x12\x04\xd0\x02\r\x12\n\r\n\x05\x04\x1a\x02\0\x01\x12\x04\xd0\x02\
-    \x13\x1b\n\r\n\x05\x04\x1a\x02\0\x03\x12\x04\xd0\x02\x1e\x1f\n\x0c\n\x04\
-    \x04\x1a\x02\x01\x12\x04\xd1\x02\x04\x1c\n\r\n\x05\x04\x1a\x02\x01\x04\
-    \x12\x04\xd1\x02\x04\x0c\n\r\n\x05\x04\x1a\x02\x01\x05\x12\x04\xd1\x02\r\
-    \x12\n\r\n\x05\x04\x1a\x02\x01\x01\x12\x04\xd1\x02\x13\x17\n\r\n\x05\x04\
-    \x1a\x02\x01\x03\x12\x04\xd1\x02\x1a\x1b\n\x0c\n\x04\x04\x1a\x02\x02\x12\
-    \x04\xd2\x02\x04!\n\r\n\x05\x04\x1a\x02\x02\x04\x12\x04\xd2\x02\x04\x0c\
-    \n\r\n\x05\x04\x1a\x02\x02\x05\x12\x04\xd2\x02\r\x12\n\r\n\x05\x04\x1a\
-    \x02\x02\x01\x12\x04\xd2\x02\x13\x1c\n\r\n\x05\x04\x1a\x02\x02\x03\x12\
-    \x04\xd2\x02\x1f\x20\n\x0c\n\x04\x04\x1a\x02\x03\x12\x04\xd3\x02\x04#\n\
-    \r\n\x05\x04\x1a\x02\x03\x04\x12\x04\xd3\x02\x04\x0c\n\r\n\x05\x04\x1a\
-    \x02\x03\x05\x12\x04\xd3\x02\r\x12\n\r\n\x05\x04\x1a\x02\x03\x01\x12\x04\
-    \xd3\x02\x13\x1e\n\r\n\x05\x04\x1a\x02\x03\x03\x12\x04\xd3\x02!\"\n\x85\
-    \x01\n\x02\x04\x1b\x12\x06\xdb\x02\0\xe8\x02\x01\x1aw*\n\x20Request:\x20\
-    Sub\x20request\x20of\x20MoneroKeyImageSync.\x20Initializing\x20key\x20im\
-    age\x20sync.\n\x20@start\n\x20@next\x20MoneroKeyImageExportInitAck\n\n\
-    \x0b\n\x03\x04\x1b\x01\x12\x04\xdb\x02\x08'\n\x0c\n\x04\x04\x1b\x02\0\
-    \x12\x04\xdc\x02\x04\x1c\n\r\n\x05\x04\x1b\x02\0\x04\x12\x04\xdc\x02\x04\
-    \x0c\n\r\n\x05\x04\x1b\x02\0\x05\x12\x04\xdc\x02\r\x13\n\r\n\x05\x04\x1b\
-    \x02\0\x01\x12\x04\xdc\x02\x14\x17\n\r\n\x05\x04\x1b\x02\0\x03\x12\x04\
-    \xdc\x02\x1a\x1b\n\x0c\n\x04\x04\x1b\x02\x01\x12\x04\xdd\x02\x04\x1c\n\r\
-    \n\x05\x04\x1b\x02\x01\x04\x12\x04\xdd\x02\x04\x0c\n\r\n\x05\x04\x1b\x02\
-    \x01\x05\x12\x04\xdd\x02\r\x12\n\r\n\x05\x04\x1b\x02\x01\x01\x12\x04\xdd\
-    \x02\x13\x17\n\r\n\x05\x04\x1b\x02\x01\x03\x12\x04\xdd\x02\x1a\x1b\n>\n\
-    \x04\x04\x1b\x02\x02\x12\x04\xde\x02\x04\"\"0\x20BIP-32\x20path\x20to\
-    \x20derive\x20the\x20key\x20from\x20master\x20node\n\n\r\n\x05\x04\x1b\
-    \x02\x02\x04\x12\x04\xde\x02\x04\x0c\n\r\n\x05\x04\x1b\x02\x02\x05\x12\
-    \x04\xde\x02\r\x13\n\r\n\x05\x04\x1b\x02\x02\x01\x12\x04\xde\x02\x14\x1d\
-    \n\r\n\x05\x04\x1b\x02\x02\x03\x12\x04\xde\x02\x20!\n-\n\x04\x04\x1b\x02\
-    \x03\x12\x04\xdf\x02\x04%\"\x1f\x20Main-net\x20/\x20testnet\x20/\x20stag\
-    enet\n\n\r\n\x05\x04\x1b\x02\x03\x04\x12\x04\xdf\x02\x04\x0c\n\r\n\x05\
-    \x04\x1b\x02\x03\x05\x12\x04\xdf\x02\r\x13\n\r\n\x05\x04\x1b\x02\x03\x01\
-    \x12\x04\xdf\x02\x14\x20\n\r\n\x05\x04\x1b\x02\x03\x03\x12\x04\xdf\x02#$\
-    \n\x0c\n\x04\x04\x1b\x02\x04\x12\x04\xe0\x02\x042\n\r\n\x05\x04\x1b\x02\
-    \x04\x04\x12\x04\xe0\x02\x04\x0c\n\r\n\x05\x04\x1b\x02\x04\x06\x12\x04\
-    \xe0\x02\r(\n\r\n\x05\x04\x1b\x02\x04\x01\x12\x04\xe0\x02)-\n\r\n\x05\
-    \x04\x1b\x02\x04\x03\x12\x04\xe0\x0201\nG\n\x04\x04\x1b\x03\0\x12\x06\
-    \xe4\x02\x04\xe7\x02\x05\x1a7*\n\x20Structure\x20representing\x20Monero\
-    \x20list\x20of\x20sub-addresses\n\n\r\n\x05\x04\x1b\x03\0\x01\x12\x04\
-    \xe4\x02\x0c'\n\x0e\n\x06\x04\x1b\x03\0\x02\0\x12\x04\xe5\x02\x08$\n\x0f\
-    \n\x07\x04\x1b\x03\0\x02\0\x04\x12\x04\xe5\x02\x08\x10\n\x0f\n\x07\x04\
-    \x1b\x03\0\x02\0\x05\x12\x04\xe5\x02\x11\x17\n\x0f\n\x07\x04\x1b\x03\0\
-    \x02\0\x01\x12\x04\xe5\x02\x18\x1f\n\x0f\n\x07\x04\x1b\x03\0\x02\0\x03\
-    \x12\x04\xe5\x02\"#\n\x0e\n\x06\x04\x1b\x03\0\x02\x01\x12\x04\xe6\x02\
-    \x08*\n\x0f\n\x07\x04\x1b\x03\0\x02\x01\x04\x12\x04\xe6\x02\x08\x10\n\
-    \x0f\n\x07\x04\x1b\x03\0\x02\x01\x05\x12\x04\xe6\x02\x11\x17\n\x0f\n\x07\
-    \x04\x1b\x03\0\x02\x01\x01\x12\x04\xe6\x02\x18%\n\x0f\n\x07\x04\x1b\x03\
-    \0\x02\x01\x03\x12\x04\xe6\x02()\nk\n\x02\x04\x1c\x12\x06\xee\x02\0\xef\
-    \x02\x01\x1a]*\n\x20Response:\x20Response\x20to\x20key\x20image\x20sync\
-    \x20initialization.\n\x20@next\x20MoneroKeyImageSyncStepRequest\n\n\x0b\
-    \n\x03\x04\x1c\x01\x12\x04\xee\x02\x08#\n\x93\x01\n\x02\x04\x1d\x12\x06\
-    \xf5\x02\0\x80\x03\x01\x1a\x84\x01*\n\x20Request:\x20Sub\x20request\x20o\
-    f\x20MoneroKeyImageSync.\x20Contains\x20batch\x20of\x20the\x20UTXO\x20to\
-    \x20export\x20key\x20image\x20for.\n\x20@next\x20MoneroKeyImageSyncStepA\
-    ck\n\n\x0b\n\x03\x04\x1d\x01\x12\x04\xf5\x02\x08%\n\x0c\n\x04\x04\x1d\
-    \x02\0\x12\x04\xf6\x02\x04,\n\r\n\x05\x04\x1d\x02\0\x04\x12\x04\xf6\x02\
-    \x04\x0c\n\r\n\x05\x04\x1d\x02\0\x06\x12\x04\xf6\x02\r\"\n\r\n\x05\x04\
-    \x1d\x02\0\x01\x12\x04\xf6\x02#'\n\r\n\x05\x04\x1d\x02\0\x03\x12\x04\xf6\
-    \x02*+\nI\n\x04\x04\x1d\x03\0\x12\x06\xfa\x02\x04\xff\x02\x05\x1a9*\n\
-    \x20Structure\x20representing\x20Monero\x20UTXO\x20for\x20key\x20image\
-    \x20sync\n\n\r\n\x05\x04\x1d\x03\0\x01\x12\x04\xfa\x02\x0c!\n\x0e\n\x06\
-    \x04\x1d\x03\0\x02\0\x12\x04\xfb\x02\x08#\n\x0f\n\x07\x04\x1d\x03\0\x02\
-    \0\x04\x12\x04\xfb\x02\x08\x10\n\x0f\n\x07\x04\x1d\x03\0\x02\0\x05\x12\
-    \x04\xfb\x02\x11\x16\n\x0f\n\x07\x04\x1d\x03\0\x02\0\x01\x12\x04\xfb\x02\
-    \x17\x1e\n\x0f\n\x07\x04\x1d\x03\0\x02\0\x03\x12\x04\xfb\x02!\"\n\x0e\n\
-    \x06\x04\x1d\x03\0\x02\x01\x12\x04\xfc\x02\x08&\n\x0f\n\x07\x04\x1d\x03\
-    \0\x02\x01\x04\x12\x04\xfc\x02\x08\x10\n\x0f\n\x07\x04\x1d\x03\0\x02\x01\
-    \x05\x12\x04\xfc\x02\x11\x16\n\x0f\n\x07\x04\x1d\x03\0\x02\x01\x01\x12\
-    \x04\xfc\x02\x17!\n\x0f\n\x07\x04\x1d\x03\0\x02\x01\x03\x12\x04\xfc\x02$\
-    %\n\x0e\n\x06\x04\x1d\x03\0\x02\x02\x12\x04\xfd\x02\x082\n\x0f\n\x07\x04\
-    \x1d\x03\0\x02\x02\x04\x12\x04\xfd\x02\x08\x10\n\x0f\n\x07\x04\x1d\x03\0\
-    \x02\x02\x05\x12\x04\xfd\x02\x11\x16\n\x0f\n\x07\x04\x1d\x03\0\x02\x02\
-    \x01\x12\x04\xfd\x02\x17-\n\x0f\n\x07\x04\x1d\x03\0\x02\x02\x03\x12\x04\
-    \xfd\x0201\n\x0e\n\x06\x04\x1d\x03\0\x02\x03\x12\x04\xfe\x02\x082\n\x0f\
-    \n\x07\x04\x1d\x03\0\x02\x03\x04\x12\x04\xfe\x02\x08\x10\n\x0f\n\x07\x04\
-    \x1d\x03\0\x02\x03\x05\x12\x04\xfe\x02\x11\x17\n\x0f\n\x07\x04\x1d\x03\0\
-    \x02\x03\x01\x12\x04\xfe\x02\x18-\n\x0f\n\x07\x04\x1d\x03\0\x02\x03\x03\
-    \x12\x04\xfe\x0201\n\xaf\x01\n\x02\x04\x1e\x12\x06\x87\x03\0\x91\x03\x01\
+    ds\x20one\x20UTXO\x20to\x20device\n\x20@next\x20MoneroTransactionSetInpu\
+    tAck\n\n\x0b\n\x03\x04\t\x01\x12\x04\xa7\x01\x08(\n\x0c\n\x04\x04\t\x02\
+    \0\x12\x04\xa8\x01\x047\n\r\n\x05\x04\t\x02\0\x04\x12\x04\xa8\x01\x04\
+    \x0c\n\r\n\x05\x04\t\x02\0\x06\x12\x04\xa8\x01\r)\n\r\n\x05\x04\t\x02\0\
+    \x01\x12\x04\xa8\x01*2\n\r\n\x05\x04\t\x02\0\x03\x12\x04\xa8\x0156\n\xcb\
+    \x01\n\x02\x04\n\x12\x06\xb0\x01\0\xb7\x01\x01\x1a\xbc\x01*\n\x20Respons\
+    e:\x20Response\x20to\x20setting\x20UTXO\x20for\x20signature.\x20Contains\
+    \x20sealed\x20values\x20needed\x20for\x20further\x20protocol\x20steps.\n\
+    \x20@next\x20MoneroTransactionSetInputAck\n\x20@next\x20MoneroTransactio\
+    nInputViniRequest\n\n\x0b\n\x03\x04\n\x01\x12\x04\xb0\x01\x08$\n\"\n\x04\
+    \x04\n\x02\0\x12\x04\xb1\x01\x04\x1c\"\x14\x20xmrtypes.TxinToKey\n\n\r\n\
+    \x05\x04\n\x02\0\x04\x12\x04\xb1\x01\x04\x0c\n\r\n\x05\x04\n\x02\0\x05\
+    \x12\x04\xb1\x01\r\x12\n\r\n\x05\x04\n\x02\0\x01\x12\x04\xb1\x01\x13\x17\
+    \n\r\n\x05\x04\n\x02\0\x03\x12\x04\xb1\x01\x1a\x1b\n\x0c\n\x04\x04\n\x02\
+    \x01\x12\x04\xb2\x01\x04!\n\r\n\x05\x04\n\x02\x01\x04\x12\x04\xb2\x01\
+    \x04\x0c\n\r\n\x05\x04\n\x02\x01\x05\x12\x04\xb2\x01\r\x12\n\r\n\x05\x04\
+    \n\x02\x01\x01\x12\x04\xb2\x01\x13\x1c\n\r\n\x05\x04\n\x02\x01\x03\x12\
+    \x04\xb2\x01\x1f\x20\n\x0c\n\x04\x04\n\x02\x02\x12\x04\xb3\x01\x04\"\n\r\
+    \n\x05\x04\n\x02\x02\x04\x12\x04\xb3\x01\x04\x0c\n\r\n\x05\x04\n\x02\x02\
+    \x05\x12\x04\xb3\x01\r\x12\n\r\n\x05\x04\n\x02\x02\x01\x12\x04\xb3\x01\
+    \x13\x1d\n\r\n\x05\x04\n\x02\x02\x03\x12\x04\xb3\x01\x20!\n\x0c\n\x04\
+    \x04\n\x02\x03\x12\x04\xb4\x01\x04'\n\r\n\x05\x04\n\x02\x03\x04\x12\x04\
+    \xb4\x01\x04\x0c\n\r\n\x05\x04\n\x02\x03\x05\x12\x04\xb4\x01\r\x12\n\r\n\
+    \x05\x04\n\x02\x03\x01\x12\x04\xb4\x01\x13\"\n\r\n\x05\x04\n\x02\x03\x03\
+    \x12\x04\xb4\x01%&\n\x0c\n\x04\x04\n\x02\x04\x12\x04\xb5\x01\x04(\n\r\n\
+    \x05\x04\n\x02\x04\x04\x12\x04\xb5\x01\x04\x0c\n\r\n\x05\x04\n\x02\x04\
+    \x05\x12\x04\xb5\x01\r\x12\n\r\n\x05\x04\n\x02\x04\x01\x12\x04\xb5\x01\
+    \x13#\n\r\n\x05\x04\n\x02\x04\x03\x12\x04\xb5\x01&'\n\x0c\n\x04\x04\n\
+    \x02\x05\x12\x04\xb6\x01\x04!\n\r\n\x05\x04\n\x02\x05\x04\x12\x04\xb6\
+    \x01\x04\x0c\n\r\n\x05\x04\n\x02\x05\x05\x12\x04\xb6\x01\r\x12\n\r\n\x05\
+    \x04\n\x02\x05\x01\x12\x04\xb6\x01\x13\x1c\n\r\n\x05\x04\n\x02\x05\x03\
+    \x12\x04\xb6\x01\x1f\x20\n\x9c\x01\n\x02\x04\x0b\x12\x06\xbd\x01\0\xc4\
+    \x01\x01\x1a\x8d\x01*\n\x20Request:\x20Sub\x20request\x20of\x20MoneroTra\
+    nsactionSign.\x20Sends\x20one\x20UTXO\x20to\x20device\x20together\x20wit\
+    h\x20sealed\x20values.\n\x20@next\x20MoneroTransactionInputViniAck\n\n\
+    \x0b\n\x03\x04\x0b\x01\x12\x04\xbd\x01\x08)\n\x0c\n\x04\x04\x0b\x02\0\
+    \x12\x04\xbe\x01\x047\n\r\n\x05\x04\x0b\x02\0\x04\x12\x04\xbe\x01\x04\
+    \x0c\n\r\n\x05\x04\x0b\x02\0\x06\x12\x04\xbe\x01\r)\n\r\n\x05\x04\x0b\
+    \x02\0\x01\x12\x04\xbe\x01*2\n\r\n\x05\x04\x0b\x02\0\x03\x12\x04\xbe\x01\
+    56\n\"\n\x04\x04\x0b\x02\x01\x12\x04\xbf\x01\x04\x1c\"\x14\x20xmrtypes.T\
+    xinToKey\n\n\r\n\x05\x04\x0b\x02\x01\x04\x12\x04\xbf\x01\x04\x0c\n\r\n\
+    \x05\x04\x0b\x02\x01\x05\x12\x04\xbf\x01\r\x12\n\r\n\x05\x04\x0b\x02\x01\
+    \x01\x12\x04\xbf\x01\x13\x17\n\r\n\x05\x04\x0b\x02\x01\x03\x12\x04\xbf\
+    \x01\x1a\x1b\n\x0c\n\x04\x04\x0b\x02\x02\x12\x04\xc0\x01\x04!\n\r\n\x05\
+    \x04\x0b\x02\x02\x04\x12\x04\xc0\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\x02\
+    \x05\x12\x04\xc0\x01\r\x12\n\r\n\x05\x04\x0b\x02\x02\x01\x12\x04\xc0\x01\
+    \x13\x1c\n\r\n\x05\x04\x0b\x02\x02\x03\x12\x04\xc0\x01\x1f\x20\n\x0c\n\
+    \x04\x04\x0b\x02\x03\x12\x04\xc1\x01\x04\"\n\r\n\x05\x04\x0b\x02\x03\x04\
+    \x12\x04\xc1\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\x03\x05\x12\x04\xc1\x01\r\
+    \x12\n\r\n\x05\x04\x0b\x02\x03\x01\x12\x04\xc1\x01\x13\x1d\n\r\n\x05\x04\
+    \x0b\x02\x03\x03\x12\x04\xc1\x01\x20!\n\x0c\n\x04\x04\x0b\x02\x04\x12\
+    \x04\xc2\x01\x04'\n\r\n\x05\x04\x0b\x02\x04\x04\x12\x04\xc2\x01\x04\x0c\
+    \n\r\n\x05\x04\x0b\x02\x04\x05\x12\x04\xc2\x01\r\x12\n\r\n\x05\x04\x0b\
+    \x02\x04\x01\x12\x04\xc2\x01\x13\"\n\r\n\x05\x04\x0b\x02\x04\x03\x12\x04\
+    \xc2\x01%&\nA\n\x04\x04\x0b\x02\x05\x12\x04\xc3\x01\x04!\"3\x20original\
+    \x20sort\x20index,\x20before\x20sorting\x20by\x20key-images\n\n\r\n\x05\
+    \x04\x0b\x02\x05\x04\x12\x04\xc3\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\x05\
+    \x05\x12\x04\xc3\x01\r\x13\n\r\n\x05\x04\x0b\x02\x05\x01\x12\x04\xc3\x01\
+    \x14\x1c\n\r\n\x05\x04\x0b\x02\x05\x03\x12\x04\xc3\x01\x1f\x20\n\x98\x01\
+    \n\x02\x04\x0c\x12\x06\xcb\x01\0\xcc\x01\x01\x1a\x89\x01*\n\x20Response:\
+    \x20Response\x20to\x20setting\x20UTXO\x20to\x20the\x20device\n\x20@next\
+    \x20MoneroTransactionInputViniRequest\n\x20@next\x20MoneroTransactionAll\
+    InputsSetRequest\n\n\x0b\n\x03\x04\x0c\x01\x12\x04\xcb\x01\x08%\n\xaf\
+    \x01\n\x02\x04\r\x12\x06\xd2\x01\0\xd3\x01\x01\x1a\xa0\x01*\n\x20Request\
+    :\x20Sub\x20request\x20of\x20MoneroTransactionSign.\x20Sent\x20after\x20\
+    all\x20inputs\x20have\x20been\x20sent.\x20Useful\x20for\x20rangeisg\x20o\
+    ffloading.\n\x20@next\x20MoneroTransactionAllInputsSetAck\n\n\x0b\n\x03\
+    \x04\r\x01\x12\x04\xd2\x01\x08,\np\n\x02\x04\x0e\x12\x06\xd9\x01\0\xdb\
+    \x01\x01\x1ab*\n\x20Response:\x20Response\x20to\x20after\x20all\x20input\
+    s\x20have\x20been\x20set.\n\x20@next\x20MoneroTransactionSetOutputReques\
+    t\n\n\x0b\n\x03\x04\x0e\x01\x12\x04\xd9\x01\x08(\n\x0c\n\x04\x04\x0e\x02\
+    \0\x12\x04\xda\x01\x045\n\r\n\x05\x04\x0e\x02\0\x04\x12\x04\xda\x01\x04\
+    \x0c\n\r\n\x05\x04\x0e\x02\0\x06\x12\x04\xda\x01\r&\n\r\n\x05\x04\x0e\
+    \x02\0\x01\x12\x04\xda\x01'0\n\r\n\x05\x04\x0e\x02\0\x03\x12\x04\xda\x01\
+    34\n\x9b\x01\n\x02\x04\x0f\x12\x06\xe1\x01\0\xe6\x01\x01\x1a\x8c\x01*\n\
+    \x20Request:\x20Sub\x20request\x20of\x20MoneroTransactionSign.\x20Sends\
+    \x20one\x20transaction\x20destination\x20to\x20device\x20(HMACed)\n\x20@\
+    next\x20MoneroTransactionSetOutputAck\n\n\x0b\n\x03\x04\x0f\x01\x12\x04\
+    \xe1\x01\x08)\n\x0c\n\x04\x04\x0f\x02\0\x12\x04\xe2\x01\x04<\n\r\n\x05\
+    \x04\x0f\x02\0\x04\x12\x04\xe2\x01\x04\x0c\n\r\n\x05\x04\x0f\x02\0\x06\
+    \x12\x04\xe2\x01\r.\n\r\n\x05\x04\x0f\x02\0\x01\x12\x04\xe2\x01/7\n\r\n\
+    \x05\x04\x0f\x02\0\x03\x12\x04\xe2\x01:;\n\x0c\n\x04\x04\x0f\x02\x01\x12\
+    \x04\xe3\x01\x04%\n\r\n\x05\x04\x0f\x02\x01\x04\x12\x04\xe3\x01\x04\x0c\
+    \n\r\n\x05\x04\x0f\x02\x01\x05\x12\x04\xe3\x01\r\x12\n\r\n\x05\x04\x0f\
+    \x02\x01\x01\x12\x04\xe3\x01\x13\x20\n\r\n\x05\x04\x0f\x02\x01\x03\x12\
+    \x04\xe3\x01#$\n\x0c\n\x04\x04\x0f\x02\x02\x12\x04\xe4\x01\x045\n\r\n\
+    \x05\x04\x0f\x02\x02\x04\x12\x04\xe4\x01\x04\x0c\n\r\n\x05\x04\x0f\x02\
+    \x02\x06\x12\x04\xe4\x01\r&\n\r\n\x05\x04\x0f\x02\x02\x01\x12\x04\xe4\
+    \x01'0\n\r\n\x05\x04\x0f\x02\x02\x03\x12\x04\xe4\x0134\n1\n\x04\x04\x0f\
+    \x02\x03\x12\x04\xe5\x01\x04&\"#\x20Extra\x20message,\x20with\x20offload\
+    ed\x20BP.\n\n\r\n\x05\x04\x0f\x02\x03\x04\x12\x04\xe5\x01\x04\x0c\n\r\n\
+    \x05\x04\x0f\x02\x03\x05\x12\x04\xe5\x01\r\x11\n\r\n\x05\x04\x0f\x02\x03\
+    \x01\x12\x04\xe5\x01\x12!\n\r\n\x05\x04\x0f\x02\x03\x03\x12\x04\xe5\x01$\
+    %\n\xd5\x01\n\x02\x04\x10\x12\x06\xed\x01\0\xf3\x01\x01\x1a\xc6\x01*\n\
+    \x20Response:\x20Response\x20to\x20setting\x20transaction\x20destination\
+    .\x20Contains\x20sealed\x20values\x20needed\x20for\x20further\x20protoco\
+    l\x20steps.\n\x20@next\x20MoneroTransactionSetOutputRequest\n\x20@next\
+    \x20MoneroTransactionAllOutSetRequest\n\n\x0b\n\x03\x04\x10\x01\x12\x04\
+    \xed\x01\x08%\n\x1e\n\x04\x04\x10\x02\0\x12\x04\xee\x01\x04\x1e\"\x10\
+    \x20xmrtypes.TxOut\n\n\r\n\x05\x04\x10\x02\0\x04\x12\x04\xee\x01\x04\x0c\
+    \n\r\n\x05\x04\x10\x02\0\x05\x12\x04\xee\x01\r\x12\n\r\n\x05\x04\x10\x02\
+    \0\x01\x12\x04\xee\x01\x13\x19\n\r\n\x05\x04\x10\x02\0\x03\x12\x04\xee\
+    \x01\x1c\x1d\n\x0c\n\x04\x04\x10\x02\x01\x12\x04\xef\x01\x04\"\n\r\n\x05\
+    \x04\x10\x02\x01\x04\x12\x04\xef\x01\x04\x0c\n\r\n\x05\x04\x10\x02\x01\
+    \x05\x12\x04\xef\x01\r\x12\n\r\n\x05\x04\x10\x02\x01\x01\x12\x04\xef\x01\
+    \x13\x1d\n\r\n\x05\x04\x10\x02\x01\x03\x12\x04\xef\x01\x20!\n\x0c\n\x04\
+    \x04\x10\x02\x02\x12\x04\xf0\x01\x045\n\r\n\x05\x04\x10\x02\x02\x04\x12\
+    \x04\xf0\x01\x04\x0c\n\r\n\x05\x04\x10\x02\x02\x06\x12\x04\xf0\x01\r&\n\
+    \r\n\x05\x04\x10\x02\x02\x01\x12\x04\xf0\x01'0\n\r\n\x05\x04\x10\x02\x02\
+    \x03\x12\x04\xf0\x0134\n\x0c\n\x04\x04\x10\x02\x03\x12\x04\xf1\x01\x04\
+    \x1e\n\r\n\x05\x04\x10\x02\x03\x04\x12\x04\xf1\x01\x04\x0c\n\r\n\x05\x04\
+    \x10\x02\x03\x05\x12\x04\xf1\x01\r\x12\n\r\n\x05\x04\x10\x02\x03\x01\x12\
+    \x04\xf1\x01\x13\x19\n\r\n\x05\x04\x10\x02\x03\x03\x12\x04\xf1\x01\x1c\
+    \x1d\n\x0c\n\x04\x04\x10\x02\x04\x12\x04\xf2\x01\x04!\n\r\n\x05\x04\x10\
+    \x02\x04\x04\x12\x04\xf2\x01\x04\x0c\n\r\n\x05\x04\x10\x02\x04\x05\x12\
+    \x04\xf2\x01\r\x12\n\r\n\x05\x04\x10\x02\x04\x01\x12\x04\xf2\x01\x13\x1c\
+    \n\r\n\x05\x04\x10\x02\x04\x03\x12\x04\xf2\x01\x1f\x20\n\x86\x01\n\x02\
+    \x04\x11\x12\x06\xf9\x01\0\xfb\x01\x01\x1ax*\n\x20Request:\x20Sub\x20req\
+    uest\x20of\x20MoneroTransactionSign.\x20Sent\x20after\x20all\x20outputs\
+    \x20are\x20sent.\n\x20@next\x20MoneroTransactionAllOutSetAck\n\n\x0b\n\
+    \x03\x04\x11\x01\x12\x04\xf9\x01\x08)\n\x0c\n\x04\x04\x11\x02\0\x12\x04\
+    \xfa\x01\x045\n\r\n\x05\x04\x11\x02\0\x04\x12\x04\xfa\x01\x04\x0c\n\r\n\
+    \x05\x04\x11\x02\0\x06\x12\x04\xfa\x01\r&\n\r\n\x05\x04\x11\x02\0\x01\
+    \x12\x04\xfa\x01'0\n\r\n\x05\x04\x11\x02\0\x03\x12\x04\xfa\x0134\n\x8a\
+    \x01\n\x02\x04\x12\x12\x06\x81\x02\0\x8f\x02\x01\x1a|*\n\x20Response:\
+    \x20After\x20all\x20outputs\x20are\x20sent\x20the\x20initial\x20RCT\x20s\
+    ignature\x20fields\x20are\x20sent.\n\x20@next\x20MoneroTransactionSignIn\
+    putRequest\n\n\x0b\n\x03\x04\x12\x01\x12\x04\x81\x02\x08%\n\x0c\n\x04\
+    \x04\x12\x02\0\x12\x04\x82\x02\x04\x1d\n\r\n\x05\x04\x12\x02\0\x04\x12\
+    \x04\x82\x02\x04\x0c\n\r\n\x05\x04\x12\x02\0\x05\x12\x04\x82\x02\r\x12\n\
+    \r\n\x05\x04\x12\x02\0\x01\x12\x04\x82\x02\x13\x18\n\r\n\x05\x04\x12\x02\
+    \0\x03\x12\x04\x82\x02\x1b\x1c\n\x0c\n\x04\x04\x12\x02\x01\x12\x04\x83\
+    \x02\x04&\n\r\n\x05\x04\x12\x02\x01\x04\x12\x04\x83\x02\x04\x0c\n\r\n\
+    \x05\x04\x12\x02\x01\x05\x12\x04\x83\x02\r\x12\n\r\n\x05\x04\x12\x02\x01\
+    \x01\x12\x04\x83\x02\x13!\n\r\n\x05\x04\x12\x02\x01\x03\x12\x04\x83\x02$\
+    %\n\x1f\n\x04\x04\x12\x02\x02\x12\x04\x84\x02\x04$\"\x11\x20xmrtypes.Rct\
+    Sig\n\n\r\n\x05\x04\x12\x02\x02\x04\x12\x04\x84\x02\x04\x0c\n\r\n\x05\
+    \x04\x12\x02\x02\x06\x12\x04\x84\x02\r\x1c\n\r\n\x05\x04\x12\x02\x02\x01\
+    \x12\x04\x84\x02\x1d\x1f\n\r\n\x05\x04\x12\x02\x02\x03\x12\x04\x84\x02\"\
+    #\n\x0c\n\x04\x04\x12\x02\x03\x12\x04\x85\x02\x04)\n\r\n\x05\x04\x12\x02\
+    \x03\x04\x12\x04\x85\x02\x04\x0c\n\r\n\x05\x04\x12\x02\x03\x05\x12\x04\
+    \x85\x02\r\x12\n\r\n\x05\x04\x12\x02\x03\x01\x12\x04\x85\x02\x13$\n\r\n\
+    \x05\x04\x12\x02\x03\x03\x12\x04\x85\x02'(\nR\n\x04\x04\x12\x03\0\x12\
+    \x06\x8a\x02\x04\x8e\x02\x05\x1aB\n\x20Structure\x20represents\x20initia\
+    l\x20fields\x20of\x20the\x20Monero\x20RCT\x20signature\n\n\r\n\x05\x04\
+    \x12\x03\0\x01\x12\x04\x8a\x02\x0c\x1b\n\x0e\n\x06\x04\x12\x03\0\x02\0\
+    \x12\x04\x8b\x02\x08$\n\x0f\n\x07\x04\x12\x03\0\x02\0\x04\x12\x04\x8b\
+    \x02\x08\x10\n\x0f\n\x07\x04\x12\x03\0\x02\0\x05\x12\x04\x8b\x02\x11\x17\
+    \n\x0f\n\x07\x04\x12\x03\0\x02\0\x01\x12\x04\x8b\x02\x18\x1f\n\x0f\n\x07\
+    \x04\x12\x03\0\x02\0\x03\x12\x04\x8b\x02\"#\n\x0e\n\x06\x04\x12\x03\0\
+    \x02\x01\x12\x04\x8c\x02\x08#\n\x0f\n\x07\x04\x12\x03\0\x02\x01\x04\x12\
+    \x04\x8c\x02\x08\x10\n\x0f\n\x07\x04\x12\x03\0\x02\x01\x05\x12\x04\x8c\
+    \x02\x11\x16\n\x0f\n\x07\x04\x12\x03\0\x02\x01\x01\x12\x04\x8c\x02\x17\
+    \x1e\n\x0f\n\x07\x04\x12\x03\0\x02\x01\x03\x12\x04\x8c\x02!\"\n\x0e\n\
+    \x06\x04\x12\x03\0\x02\x02\x12\x04\x8d\x02\x08$\n\x0f\n\x07\x04\x12\x03\
+    \0\x02\x02\x04\x12\x04\x8d\x02\x08\x10\n\x0f\n\x07\x04\x12\x03\0\x02\x02\
+    \x05\x12\x04\x8d\x02\x11\x17\n\x0f\n\x07\x04\x12\x03\0\x02\x02\x01\x12\
+    \x04\x8d\x02\x18\x1f\n\x0f\n\x07\x04\x12\x03\0\x02\x02\x03\x12\x04\x8d\
+    \x02\"#\n\x81\x01\n\x02\x04\x13\x12\x06\x95\x02\0\x9e\x02\x01\x1as*\n\
+    \x20Request:\x20Sub\x20request\x20of\x20MoneroTransactionSign.\x20Sends\
+    \x20UTXO\x20for\x20the\x20signing.\n\x20@next\x20MoneroTransactionSignIn\
+    putAck\n\n\x0b\n\x03\x04\x13\x01\x12\x04\x95\x02\x08)\n\x0c\n\x04\x04\
+    \x13\x02\0\x12\x04\x96\x02\x047\n\r\n\x05\x04\x13\x02\0\x04\x12\x04\x96\
+    \x02\x04\x0c\n\r\n\x05\x04\x13\x02\0\x06\x12\x04\x96\x02\r)\n\r\n\x05\
+    \x04\x13\x02\0\x01\x12\x04\x96\x02*2\n\r\n\x05\x04\x13\x02\0\x03\x12\x04\
+    \x96\x0256\n\"\n\x04\x04\x13\x02\x01\x12\x04\x97\x02\x04\x1c\"\x14\x20xm\
+    rtypes.TxinToKey\n\n\r\n\x05\x04\x13\x02\x01\x04\x12\x04\x97\x02\x04\x0c\
+    \n\r\n\x05\x04\x13\x02\x01\x05\x12\x04\x97\x02\r\x12\n\r\n\x05\x04\x13\
+    \x02\x01\x01\x12\x04\x97\x02\x13\x17\n\r\n\x05\x04\x13\x02\x01\x03\x12\
+    \x04\x97\x02\x1a\x1b\n\x0c\n\x04\x04\x13\x02\x02\x12\x04\x98\x02\x04!\n\
+    \r\n\x05\x04\x13\x02\x02\x04\x12\x04\x98\x02\x04\x0c\n\r\n\x05\x04\x13\
+    \x02\x02\x05\x12\x04\x98\x02\r\x12\n\r\n\x05\x04\x13\x02\x02\x01\x12\x04\
+    \x98\x02\x13\x1c\n\r\n\x05\x04\x13\x02\x02\x03\x12\x04\x98\x02\x1f\x20\n\
+    \x0c\n\x04\x04\x13\x02\x03\x12\x04\x99\x02\x04\"\n\r\n\x05\x04\x13\x02\
+    \x03\x04\x12\x04\x99\x02\x04\x0c\n\r\n\x05\x04\x13\x02\x03\x05\x12\x04\
+    \x99\x02\r\x12\n\r\n\x05\x04\x13\x02\x03\x01\x12\x04\x99\x02\x13\x1d\n\r\
+    \n\x05\x04\x13\x02\x03\x03\x12\x04\x99\x02\x20!\n\x0c\n\x04\x04\x13\x02\
+    \x04\x12\x04\x9a\x02\x04'\n\r\n\x05\x04\x13\x02\x04\x04\x12\x04\x9a\x02\
+    \x04\x0c\n\r\n\x05\x04\x13\x02\x04\x05\x12\x04\x9a\x02\r\x12\n\r\n\x05\
+    \x04\x13\x02\x04\x01\x12\x04\x9a\x02\x13\"\n\r\n\x05\x04\x13\x02\x04\x03\
+    \x12\x04\x9a\x02%&\n\x0c\n\x04\x04\x13\x02\x05\x12\x04\x9b\x02\x04(\n\r\
+    \n\x05\x04\x13\x02\x05\x04\x12\x04\x9b\x02\x04\x0c\n\r\n\x05\x04\x13\x02\
+    \x05\x05\x12\x04\x9b\x02\r\x12\n\r\n\x05\x04\x13\x02\x05\x01\x12\x04\x9b\
+    \x02\x13#\n\r\n\x05\x04\x13\x02\x05\x03\x12\x04\x9b\x02&'\n\x0c\n\x04\
+    \x04\x13\x02\x06\x12\x04\x9c\x02\x04!\n\r\n\x05\x04\x13\x02\x06\x04\x12\
+    \x04\x9c\x02\x04\x0c\n\r\n\x05\x04\x13\x02\x06\x05\x12\x04\x9c\x02\r\x12\
+    \n\r\n\x05\x04\x13\x02\x06\x01\x12\x04\x9c\x02\x13\x1c\n\r\n\x05\x04\x13\
+    \x02\x06\x03\x12\x04\x9c\x02\x1f\x20\nA\n\x04\x04\x13\x02\x07\x12\x04\
+    \x9d\x02\x04!\"3\x20original\x20sort\x20index,\x20before\x20sorting\x20b\
+    y\x20key-images\n\n\r\n\x05\x04\x13\x02\x07\x04\x12\x04\x9d\x02\x04\x0c\
+    \n\r\n\x05\x04\x13\x02\x07\x05\x12\x04\x9d\x02\r\x13\n\r\n\x05\x04\x13\
+    \x02\x07\x01\x12\x04\x9d\x02\x14\x1c\n\r\n\x05\x04\x13\x02\x07\x03\x12\
+    \x04\x9d\x02\x1f\x20\n\xb0\x01\n\x02\x04\x14\x12\x06\xa5\x02\0\xa8\x02\
+    \x01\x1a\xa1\x01*\n\x20Response:\x20Contains\x20full\x20MG\x20signature\
+    \x20of\x20the\x20UTXO\x20+\x20multisig\x20data\x20if\x20applicable.\n\
+    \x20@next\x20MoneroTransactionSignInputRequest\n\x20@next\x20MoneroTrans\
+    actionFinalRequest\n\n\x0b\n\x03\x04\x14\x01\x12\x04\xa5\x02\x08%\n\x0c\
+    \n\x04\x04\x14\x02\0\x12\x04\xa6\x02\x04!\n\r\n\x05\x04\x14\x02\0\x04\
+    \x12\x04\xa6\x02\x04\x0c\n\r\n\x05\x04\x14\x02\0\x05\x12\x04\xa6\x02\r\
+    \x12\n\r\n\x05\x04\x14\x02\0\x01\x12\x04\xa6\x02\x13\x1c\n\r\n\x05\x04\
+    \x14\x02\0\x03\x12\x04\xa6\x02\x1f\x20\n8\n\x04\x04\x14\x02\x01\x12\x04\
+    \xa7\x02\x04\"\"*\x20updated\x20pseudo-out\x20after\x20mask\x20correctio\
+    n\n\n\r\n\x05\x04\x14\x02\x01\x04\x12\x04\xa7\x02\x04\x0c\n\r\n\x05\x04\
+    \x14\x02\x01\x05\x12\x04\xa7\x02\r\x12\n\r\n\x05\x04\x14\x02\x01\x01\x12\
+    \x04\xa7\x02\x13\x1d\n\r\n\x05\x04\x14\x02\x01\x03\x12\x04\xa7\x02\x20!\
+    \n\x99\x01\n\x02\x04\x15\x12\x06\xae\x02\0\xaf\x02\x01\x1a\x8a\x01*\n\
+    \x20Request:\x20Sub\x20request\x20of\x20MoneroTransactionSign.\x20Final\
+    \x20message\x20of\x20the\x20procol\x20after\x20all\x20UTXOs\x20are\x20si\
+    gned\n\x20@next\x20MoneroTransactionFinalAck\n\n\x0b\n\x03\x04\x15\x01\
+    \x12\x04\xae\x02\x08%\n\x9b\x01\n\x02\x04\x16\x12\x06\xb5\x02\0\xbb\x02\
+    \x01\x1a\x8c\x01*\n\x20Response:\x20Contains\x20transaction\x20metadata\
+    \x20and\x20encryption\x20keys\x20needed\x20for\x20further\x20transaction\
+    \x20operations\x20(e.g.\x20multisig,\x20send\x20proof).\n\x20@end\n\n\
+    \x0b\n\x03\x04\x16\x01\x12\x04\xb5\x02\x08!\n\x0c\n\x04\x04\x16\x02\0\
+    \x12\x04\xb6\x02\x04\x20\n\r\n\x05\x04\x16\x02\0\x04\x12\x04\xb6\x02\x04\
+    \x0c\n\r\n\x05\x04\x16\x02\0\x05\x12\x04\xb6\x02\r\x12\n\r\n\x05\x04\x16\
+    \x02\0\x01\x12\x04\xb6\x02\x13\x1b\n\r\n\x05\x04\x16\x02\0\x03\x12\x04\
+    \xb6\x02\x1e\x1f\n\x0c\n\x04\x04\x16\x02\x01\x12\x04\xb7\x02\x04\x1c\n\r\
+    \n\x05\x04\x16\x02\x01\x04\x12\x04\xb7\x02\x04\x0c\n\r\n\x05\x04\x16\x02\
+    \x01\x05\x12\x04\xb7\x02\r\x12\n\r\n\x05\x04\x16\x02\x01\x01\x12\x04\xb7\
+    \x02\x13\x17\n\r\n\x05\x04\x16\x02\x01\x03\x12\x04\xb7\x02\x1a\x1b\n\x0c\
+    \n\x04\x04\x16\x02\x02\x12\x04\xb8\x02\x04!\n\r\n\x05\x04\x16\x02\x02\
+    \x04\x12\x04\xb8\x02\x04\x0c\n\r\n\x05\x04\x16\x02\x02\x05\x12\x04\xb8\
+    \x02\r\x12\n\r\n\x05\x04\x16\x02\x02\x01\x12\x04\xb8\x02\x13\x1c\n\r\n\
+    \x05\x04\x16\x02\x02\x03\x12\x04\xb8\x02\x1f\x20\n\x0c\n\x04\x04\x16\x02\
+    \x03\x12\x04\xb9\x02\x04#\n\r\n\x05\x04\x16\x02\x03\x04\x12\x04\xb9\x02\
+    \x04\x0c\n\r\n\x05\x04\x16\x02\x03\x05\x12\x04\xb9\x02\r\x12\n\r\n\x05\
+    \x04\x16\x02\x03\x01\x12\x04\xb9\x02\x13\x1e\n\r\n\x05\x04\x16\x02\x03\
+    \x03\x12\x04\xb9\x02!\"\nR\n\x04\x04\x16\x02\x04\x12\x04\xba\x02\x04#\"D\
+    \x20enc\x20master\x20key\x20to\x20decrypt\x20CLSAGs\x20after\x20protocol\
+    \x20finishes\x20correctly\n\n\r\n\x05\x04\x16\x02\x04\x04\x12\x04\xba\
+    \x02\x04\x0c\n\r\n\x05\x04\x16\x02\x04\x05\x12\x04\xba\x02\r\x12\n\r\n\
+    \x05\x04\x16\x02\x04\x01\x12\x04\xba\x02\x13\x1e\n\r\n\x05\x04\x16\x02\
+    \x04\x03\x12\x04\xba\x02!\"\n\x85\x01\n\x02\x04\x17\x12\x06\xc2\x02\0\
+    \xcf\x02\x01\x1aw*\n\x20Request:\x20Sub\x20request\x20of\x20MoneroKeyIma\
+    geSync.\x20Initializing\x20key\x20image\x20sync.\n\x20@start\n\x20@next\
+    \x20MoneroKeyImageExportInitAck\n\n\x0b\n\x03\x04\x17\x01\x12\x04\xc2\
+    \x02\x08'\n\x0c\n\x04\x04\x17\x02\0\x12\x04\xc3\x02\x04\x1c\n\r\n\x05\
+    \x04\x17\x02\0\x04\x12\x04\xc3\x02\x04\x0c\n\r\n\x05\x04\x17\x02\0\x05\
+    \x12\x04\xc3\x02\r\x13\n\r\n\x05\x04\x17\x02\0\x01\x12\x04\xc3\x02\x14\
+    \x17\n\r\n\x05\x04\x17\x02\0\x03\x12\x04\xc3\x02\x1a\x1b\n\x0c\n\x04\x04\
+    \x17\x02\x01\x12\x04\xc4\x02\x04\x1c\n\r\n\x05\x04\x17\x02\x01\x04\x12\
+    \x04\xc4\x02\x04\x0c\n\r\n\x05\x04\x17\x02\x01\x05\x12\x04\xc4\x02\r\x12\
+    \n\r\n\x05\x04\x17\x02\x01\x01\x12\x04\xc4\x02\x13\x17\n\r\n\x05\x04\x17\
+    \x02\x01\x03\x12\x04\xc4\x02\x1a\x1b\n>\n\x04\x04\x17\x02\x02\x12\x04\
+    \xc5\x02\x04\"\"0\x20BIP-32\x20path\x20to\x20derive\x20the\x20key\x20fro\
+    m\x20master\x20node\n\n\r\n\x05\x04\x17\x02\x02\x04\x12\x04\xc5\x02\x04\
+    \x0c\n\r\n\x05\x04\x17\x02\x02\x05\x12\x04\xc5\x02\r\x13\n\r\n\x05\x04\
+    \x17\x02\x02\x01\x12\x04\xc5\x02\x14\x1d\n\r\n\x05\x04\x17\x02\x02\x03\
+    \x12\x04\xc5\x02\x20!\n\x1c\n\x04\x04\x17\x02\x03\x12\x04\xc6\x02\x04B\"\
+    \x0e\x20network\x20type\n\n\r\n\x05\x04\x17\x02\x03\x04\x12\x04\xc6\x02\
+    \x04\x0c\n\r\n\x05\x04\x17\x02\x03\x06\x12\x04\xc6\x02\r\x1e\n\r\n\x05\
+    \x04\x17\x02\x03\x01\x12\x04\xc6\x02\x1f+\n\r\n\x05\x04\x17\x02\x03\x03\
+    \x12\x04\xc6\x02./\n\r\n\x05\x04\x17\x02\x03\x08\x12\x04\xc6\x020A\n\r\n\
+    \x05\x04\x17\x02\x03\x07\x12\x04\xc6\x029@\n\x0c\n\x04\x04\x17\x02\x04\
+    \x12\x04\xc7\x02\x042\n\r\n\x05\x04\x17\x02\x04\x04\x12\x04\xc7\x02\x04\
+    \x0c\n\r\n\x05\x04\x17\x02\x04\x06\x12\x04\xc7\x02\r(\n\r\n\x05\x04\x17\
+    \x02\x04\x01\x12\x04\xc7\x02)-\n\r\n\x05\x04\x17\x02\x04\x03\x12\x04\xc7\
+    \x0201\nG\n\x04\x04\x17\x03\0\x12\x06\xcb\x02\x04\xce\x02\x05\x1a7*\n\
+    \x20Structure\x20representing\x20Monero\x20list\x20of\x20sub-addresses\n\
+    \n\r\n\x05\x04\x17\x03\0\x01\x12\x04\xcb\x02\x0c'\n\x0e\n\x06\x04\x17\
+    \x03\0\x02\0\x12\x04\xcc\x02\x08$\n\x0f\n\x07\x04\x17\x03\0\x02\0\x04\
+    \x12\x04\xcc\x02\x08\x10\n\x0f\n\x07\x04\x17\x03\0\x02\0\x05\x12\x04\xcc\
+    \x02\x11\x17\n\x0f\n\x07\x04\x17\x03\0\x02\0\x01\x12\x04\xcc\x02\x18\x1f\
+    \n\x0f\n\x07\x04\x17\x03\0\x02\0\x03\x12\x04\xcc\x02\"#\n\x0e\n\x06\x04\
+    \x17\x03\0\x02\x01\x12\x04\xcd\x02\x08*\n\x0f\n\x07\x04\x17\x03\0\x02\
+    \x01\x04\x12\x04\xcd\x02\x08\x10\n\x0f\n\x07\x04\x17\x03\0\x02\x01\x05\
+    \x12\x04\xcd\x02\x11\x17\n\x0f\n\x07\x04\x17\x03\0\x02\x01\x01\x12\x04\
+    \xcd\x02\x18%\n\x0f\n\x07\x04\x17\x03\0\x02\x01\x03\x12\x04\xcd\x02()\nk\
+    \n\x02\x04\x18\x12\x06\xd5\x02\0\xd6\x02\x01\x1a]*\n\x20Response:\x20Res\
+    ponse\x20to\x20key\x20image\x20sync\x20initialization.\n\x20@next\x20Mon\
+    eroKeyImageSyncStepRequest\n\n\x0b\n\x03\x04\x18\x01\x12\x04\xd5\x02\x08\
+    #\n\x93\x01\n\x02\x04\x19\x12\x06\xdc\x02\0\xe9\x02\x01\x1a\x84\x01*\n\
+    \x20Request:\x20Sub\x20request\x20of\x20MoneroKeyImageSync.\x20Contains\
+    \x20batch\x20of\x20the\x20UTXO\x20to\x20export\x20key\x20image\x20for.\n\
+    \x20@next\x20MoneroKeyImageSyncStepAck\n\n\x0b\n\x03\x04\x19\x01\x12\x04\
+    \xdc\x02\x08%\n\x0c\n\x04\x04\x19\x02\0\x12\x04\xdd\x02\x04,\n\r\n\x05\
+    \x04\x19\x02\0\x04\x12\x04\xdd\x02\x04\x0c\n\r\n\x05\x04\x19\x02\0\x06\
+    \x12\x04\xdd\x02\r\"\n\r\n\x05\x04\x19\x02\0\x01\x12\x04\xdd\x02#'\n\r\n\
+    \x05\x04\x19\x02\0\x03\x12\x04\xdd\x02*+\nI\n\x04\x04\x19\x03\0\x12\x06\
+    \xe1\x02\x04\xe8\x02\x05\x1a9*\n\x20Structure\x20representing\x20Monero\
+    \x20UTXO\x20for\x20key\x20image\x20sync\n\n\r\n\x05\x04\x19\x03\0\x01\
+    \x12\x04\xe1\x02\x0c!\n\x0e\n\x06\x04\x19\x03\0\x02\0\x12\x04\xe2\x02\
+    \x08#\n\x0f\n\x07\x04\x19\x03\0\x02\0\x04\x12\x04\xe2\x02\x08\x10\n\x0f\
+    \n\x07\x04\x19\x03\0\x02\0\x05\x12\x04\xe2\x02\x11\x16\n\x0f\n\x07\x04\
+    \x19\x03\0\x02\0\x01\x12\x04\xe2\x02\x17\x1e\n\x0f\n\x07\x04\x19\x03\0\
+    \x02\0\x03\x12\x04\xe2\x02!\"\n\x0e\n\x06\x04\x19\x03\0\x02\x01\x12\x04\
+    \xe3\x02\x08&\n\x0f\n\x07\x04\x19\x03\0\x02\x01\x04\x12\x04\xe3\x02\x08\
+    \x10\n\x0f\n\x07\x04\x19\x03\0\x02\x01\x05\x12\x04\xe3\x02\x11\x16\n\x0f\
+    \n\x07\x04\x19\x03\0\x02\x01\x01\x12\x04\xe3\x02\x17!\n\x0f\n\x07\x04\
+    \x19\x03\0\x02\x01\x03\x12\x04\xe3\x02$%\n\x0e\n\x06\x04\x19\x03\0\x02\
+    \x02\x12\x04\xe4\x02\x082\n\x0f\n\x07\x04\x19\x03\0\x02\x02\x04\x12\x04\
+    \xe4\x02\x08\x10\n\x0f\n\x07\x04\x19\x03\0\x02\x02\x05\x12\x04\xe4\x02\
+    \x11\x16\n\x0f\n\x07\x04\x19\x03\0\x02\x02\x01\x12\x04\xe4\x02\x17-\n\
+    \x0f\n\x07\x04\x19\x03\0\x02\x02\x03\x12\x04\xe4\x0201\n\x0e\n\x06\x04\
+    \x19\x03\0\x02\x03\x12\x04\xe5\x02\x082\n\x0f\n\x07\x04\x19\x03\0\x02\
+    \x03\x04\x12\x04\xe5\x02\x08\x10\n\x0f\n\x07\x04\x19\x03\0\x02\x03\x05\
+    \x12\x04\xe5\x02\x11\x17\n\x0f\n\x07\x04\x19\x03\0\x02\x03\x01\x12\x04\
+    \xe5\x02\x18-\n\x0f\n\x07\x04\x19\x03\0\x02\x03\x03\x12\x04\xe5\x0201\n\
+    \x0e\n\x06\x04\x19\x03\0\x02\x04\x12\x04\xe6\x02\x08+\n\x0f\n\x07\x04\
+    \x19\x03\0\x02\x04\x04\x12\x04\xe6\x02\x08\x10\n\x0f\n\x07\x04\x19\x03\0\
+    \x02\x04\x05\x12\x04\xe6\x02\x11\x17\n\x0f\n\x07\x04\x19\x03\0\x02\x04\
+    \x01\x12\x04\xe6\x02\x18&\n\x0f\n\x07\x04\x19\x03\0\x02\x04\x03\x12\x04\
+    \xe6\x02)*\n\x0e\n\x06\x04\x19\x03\0\x02\x05\x12\x04\xe7\x02\x08+\n\x0f\
+    \n\x07\x04\x19\x03\0\x02\x05\x04\x12\x04\xe7\x02\x08\x10\n\x0f\n\x07\x04\
+    \x19\x03\0\x02\x05\x05\x12\x04\xe7\x02\x11\x17\n\x0f\n\x07\x04\x19\x03\0\
+    \x02\x05\x01\x12\x04\xe7\x02\x18&\n\x0f\n\x07\x04\x19\x03\0\x02\x05\x03\
+    \x12\x04\xe7\x02)*\n\xaf\x01\n\x02\x04\x1a\x12\x06\xf0\x02\0\xf9\x02\x01\
     \x1a\xa0\x01*\n\x20Response:\x20Response\x20to\x20key\x20image\x20sync\
     \x20step.\x20Contains\x20encrypted\x20exported\x20key\x20image.\n\x20@ne\
     xt\x20MoneroKeyImageSyncStepRequest\n\x20@next\x20MoneroKeyImageSyncFina\
-    lRequest\n\n\x0b\n\x03\x04\x1e\x01\x12\x04\x87\x03\x08!\n\x0c\n\x04\x04\
-    \x1e\x02\0\x12\x04\x88\x03\x04,\n\r\n\x05\x04\x1e\x02\0\x04\x12\x04\x88\
-    \x03\x04\x0c\n\r\n\x05\x04\x1e\x02\0\x06\x12\x04\x88\x03\r#\n\r\n\x05\
-    \x04\x1e\x02\0\x01\x12\x04\x88\x03$'\n\r\n\x05\x04\x1e\x02\0\x03\x12\x04\
-    \x88\x03*+\nN\n\x04\x04\x1e\x03\0\x12\x06\x8c\x03\x04\x90\x03\x05\x1a>*\
+    lRequest\n\n\x0b\n\x03\x04\x1a\x01\x12\x04\xf0\x02\x08!\n\x0c\n\x04\x04\
+    \x1a\x02\0\x12\x04\xf1\x02\x04,\n\r\n\x05\x04\x1a\x02\0\x04\x12\x04\xf1\
+    \x02\x04\x0c\n\r\n\x05\x04\x1a\x02\0\x06\x12\x04\xf1\x02\r#\n\r\n\x05\
+    \x04\x1a\x02\0\x01\x12\x04\xf1\x02$'\n\r\n\x05\x04\x1a\x02\0\x03\x12\x04\
+    \xf1\x02*+\nN\n\x04\x04\x1a\x03\0\x12\x06\xf5\x02\x04\xf8\x02\x05\x1a>*\
     \n\x20Structure\x20representing\x20Monero\x20encrypted\x20exported\x20ke\
-    y\x20image\n\n\r\n\x05\x04\x1e\x03\0\x01\x12\x04\x8c\x03\x0c\"\n\x0e\n\
-    \x06\x04\x1e\x03\0\x02\0\x12\x04\x8d\x03\x08\x1e\n\x0f\n\x07\x04\x1e\x03\
-    \0\x02\0\x04\x12\x04\x8d\x03\x08\x10\n\x0f\n\x07\x04\x1e\x03\0\x02\0\x05\
-    \x12\x04\x8d\x03\x11\x16\n\x0f\n\x07\x04\x1e\x03\0\x02\0\x01\x12\x04\x8d\
-    \x03\x17\x19\n\x0f\n\x07\x04\x1e\x03\0\x02\0\x03\x12\x04\x8d\x03\x1c\x1d\
-    \n\x0e\n\x06\x04\x1e\x03\0\x02\x01\x12\x04\x8e\x03\x08\x1f\n\x0f\n\x07\
-    \x04\x1e\x03\0\x02\x01\x04\x12\x04\x8e\x03\x08\x10\n\x0f\n\x07\x04\x1e\
-    \x03\0\x02\x01\x05\x12\x04\x8e\x03\x11\x16\n\x0f\n\x07\x04\x1e\x03\0\x02\
-    \x01\x01\x12\x04\x8e\x03\x17\x1a\n\x0f\n\x07\x04\x1e\x03\0\x02\x01\x03\
-    \x12\x04\x8e\x03\x1d\x1e\n\x0e\n\x06\x04\x1e\x03\0\x02\x02\x12\x04\x8f\
-    \x03\x08\x20\n\x0f\n\x07\x04\x1e\x03\0\x02\x02\x04\x12\x04\x8f\x03\x08\
-    \x10\n\x0f\n\x07\x04\x1e\x03\0\x02\x02\x05\x12\x04\x8f\x03\x11\x16\n\x0f\
-    \n\x07\x04\x1e\x03\0\x02\x02\x01\x12\x04\x8f\x03\x17\x1b\n\x0f\n\x07\x04\
-    \x1e\x03\0\x02\x02\x03\x12\x04\x8f\x03\x1e\x1f\n\x83\x01\n\x02\x04\x1f\
-    \x12\x06\x97\x03\0\x98\x03\x01\x1au*\n\x20Request:\x20Sub\x20request\x20\
-    of\x20MoneroKeyImageSync.\x20Final\x20message\x20of\x20the\x20sync\x20pr\
-    otocol.\n\x20@next\x20MoneroKeyImageSyncFinalAck\n\n\x0b\n\x03\x04\x1f\
-    \x01\x12\x04\x97\x03\x08&\nt\n\x02\x04\x20\x12\x06\x9e\x03\0\xa0\x03\x01\
-    \x1af*\n\x20Response:\x20Response\x20to\x20key\x20image\x20sync\x20step.\
-    \x20Contains\x20encryption\x20keys\x20for\x20exported\x20key\x20images.\
-    \n\x20@end\n\n\x0b\n\x03\x04\x20\x01\x12\x04\x9e\x03\x08\"\n\x0c\n\x04\
-    \x04\x20\x02\0\x12\x04\x9f\x03\x04\x1f\n\r\n\x05\x04\x20\x02\0\x04\x12\
-    \x04\x9f\x03\x04\x0c\n\r\n\x05\x04\x20\x02\0\x05\x12\x04\x9f\x03\r\x12\n\
-    \r\n\x05\x04\x20\x02\0\x01\x12\x04\x9f\x03\x13\x1a\n\r\n\x05\x04\x20\x02\
-    \0\x03\x12\x04\x9f\x03\x1d\x1e\nx\n\x02\x04!\x12\x06\xa7\x03\0\xae\x03\
-    \x01\x1aj*\n\x20Request:\x20Universal\x20Monero\x20protocol\x20implement\
-    ation\x20diagnosis\x20request.\n\x20@start\n\x20@next\x20DebugMoneroDiag\
-    Ack\n\n\x0b\n\x03\x04!\x01\x12\x04\xa7\x03\x08\x1e\n\x0c\n\x04\x04!\x02\
-    \0\x12\x04\xa8\x03\x04\x1c\n\r\n\x05\x04!\x02\0\x04\x12\x04\xa8\x03\x04\
-    \x0c\n\r\n\x05\x04!\x02\0\x05\x12\x04\xa8\x03\r\x13\n\r\n\x05\x04!\x02\0\
-    \x01\x12\x04\xa8\x03\x14\x17\n\r\n\x05\x04!\x02\0\x03\x12\x04\xa8\x03\
-    \x1a\x1b\n\x0c\n\x04\x04!\x02\x01\x12\x04\xa9\x03\x04\x1b\n\r\n\x05\x04!\
-    \x02\x01\x04\x12\x04\xa9\x03\x04\x0c\n\r\n\x05\x04!\x02\x01\x05\x12\x04\
-    \xa9\x03\r\x13\n\r\n\x05\x04!\x02\x01\x01\x12\x04\xa9\x03\x14\x16\n\r\n\
-    \x05\x04!\x02\x01\x03\x12\x04\xa9\x03\x19\x1a\n\x0c\n\x04\x04!\x02\x02\
-    \x12\x04\xaa\x03\x04\x1b\n\r\n\x05\x04!\x02\x02\x04\x12\x04\xaa\x03\x04\
-    \x0c\n\r\n\x05\x04!\x02\x02\x05\x12\x04\xaa\x03\r\x13\n\r\n\x05\x04!\x02\
-    \x02\x01\x12\x04\xaa\x03\x14\x16\n\r\n\x05\x04!\x02\x02\x03\x12\x04\xaa\
-    \x03\x19\x1a\n\x0c\n\x04\x04!\x02\x03\x12\x04\xab\x03\x04\x1b\n\r\n\x05\
-    \x04!\x02\x03\x04\x12\x04\xab\x03\x04\x0c\n\r\n\x05\x04!\x02\x03\x05\x12\
-    \x04\xab\x03\r\x13\n\r\n\x05\x04!\x02\x03\x01\x12\x04\xab\x03\x14\x16\n\
-    \r\n\x05\x04!\x02\x03\x03\x12\x04\xab\x03\x19\x1a\n\x0c\n\x04\x04!\x02\
-    \x04\x12\x04\xac\x03\x04\x1d\n\r\n\x05\x04!\x02\x04\x04\x12\x04\xac\x03\
-    \x04\x0c\n\r\n\x05\x04!\x02\x04\x05\x12\x04\xac\x03\r\x12\n\r\n\x05\x04!\
-    \x02\x04\x01\x12\x04\xac\x03\x13\x18\n\r\n\x05\x04!\x02\x04\x03\x12\x04\
-    \xac\x03\x1b\x1c\n\x0c\n\x04\x04!\x02\x05\x12\x04\xad\x03\x04\x1d\n\r\n\
-    \x05\x04!\x02\x05\x04\x12\x04\xad\x03\x04\x0c\n\r\n\x05\x04!\x02\x05\x05\
-    \x12\x04\xad\x03\r\x12\n\r\n\x05\x04!\x02\x05\x01\x12\x04\xad\x03\x13\
-    \x18\n\r\n\x05\x04!\x02\x05\x03\x12\x04\xad\x03\x1b\x1c\nH\n\x02\x04\"\
-    \x12\x06\xb4\x03\0\xbb\x03\x01\x1a:*\n\x20Response:\x20Response\x20to\
-    \x20Monero\x20diagnosis\x20protocol.\n\x20@end\n\n\x0b\n\x03\x04\"\x01\
-    \x12\x04\xb4\x03\x08\x1a\n\x0c\n\x04\x04\"\x02\0\x12\x04\xb5\x03\x04\x1c\
-    \n\r\n\x05\x04\"\x02\0\x04\x12\x04\xb5\x03\x04\x0c\n\r\n\x05\x04\"\x02\0\
-    \x05\x12\x04\xb5\x03\r\x13\n\r\n\x05\x04\"\x02\0\x01\x12\x04\xb5\x03\x14\
-    \x17\n\r\n\x05\x04\"\x02\0\x03\x12\x04\xb5\x03\x1a\x1b\n\x0c\n\x04\x04\"\
-    \x02\x01\x12\x04\xb6\x03\x04\x1b\n\r\n\x05\x04\"\x02\x01\x04\x12\x04\xb6\
-    \x03\x04\x0c\n\r\n\x05\x04\"\x02\x01\x05\x12\x04\xb6\x03\r\x13\n\r\n\x05\
-    \x04\"\x02\x01\x01\x12\x04\xb6\x03\x14\x16\n\r\n\x05\x04\"\x02\x01\x03\
-    \x12\x04\xb6\x03\x19\x1a\n\x0c\n\x04\x04\"\x02\x02\x12\x04\xb7\x03\x04\
-    \x1b\n\r\n\x05\x04\"\x02\x02\x04\x12\x04\xb7\x03\x04\x0c\n\r\n\x05\x04\"\
-    \x02\x02\x05\x12\x04\xb7\x03\r\x13\n\r\n\x05\x04\"\x02\x02\x01\x12\x04\
-    \xb7\x03\x14\x16\n\r\n\x05\x04\"\x02\x02\x03\x12\x04\xb7\x03\x19\x1a\n\
-    \x0c\n\x04\x04\"\x02\x03\x12\x04\xb8\x03\x04\x1b\n\r\n\x05\x04\"\x02\x03\
-    \x04\x12\x04\xb8\x03\x04\x0c\n\r\n\x05\x04\"\x02\x03\x05\x12\x04\xb8\x03\
-    \r\x13\n\r\n\x05\x04\"\x02\x03\x01\x12\x04\xb8\x03\x14\x16\n\r\n\x05\x04\
-    \"\x02\x03\x03\x12\x04\xb8\x03\x19\x1a\n\x0c\n\x04\x04\"\x02\x04\x12\x04\
-    \xb9\x03\x04\x1d\n\r\n\x05\x04\"\x02\x04\x04\x12\x04\xb9\x03\x04\x0c\n\r\
-    \n\x05\x04\"\x02\x04\x05\x12\x04\xb9\x03\r\x12\n\r\n\x05\x04\"\x02\x04\
-    \x01\x12\x04\xb9\x03\x13\x18\n\r\n\x05\x04\"\x02\x04\x03\x12\x04\xb9\x03\
-    \x1b\x1c\n\x0c\n\x04\x04\"\x02\x05\x12\x04\xba\x03\x04\x1d\n\r\n\x05\x04\
-    \"\x02\x05\x04\x12\x04\xba\x03\x04\x0c\n\r\n\x05\x04\"\x02\x05\x05\x12\
-    \x04\xba\x03\r\x12\n\r\n\x05\x04\"\x02\x05\x01\x12\x04\xba\x03\x13\x18\n\
-    \r\n\x05\x04\"\x02\x05\x03\x12\x04\xba\x03\x1b\x1c\
+    y\x20image\n\n\r\n\x05\x04\x1a\x03\0\x01\x12\x04\xf5\x02\x0c\"\n\x0e\n\
+    \x06\x04\x1a\x03\0\x02\0\x12\x04\xf6\x02\x08\x1e\n\x0f\n\x07\x04\x1a\x03\
+    \0\x02\0\x04\x12\x04\xf6\x02\x08\x10\n\x0f\n\x07\x04\x1a\x03\0\x02\0\x05\
+    \x12\x04\xf6\x02\x11\x16\n\x0f\n\x07\x04\x1a\x03\0\x02\0\x01\x12\x04\xf6\
+    \x02\x17\x19\n\x0f\n\x07\x04\x1a\x03\0\x02\0\x03\x12\x04\xf6\x02\x1c\x1d\
+    \n\x0e\n\x06\x04\x1a\x03\0\x02\x01\x12\x04\xf7\x02\x08\x20\n\x0f\n\x07\
+    \x04\x1a\x03\0\x02\x01\x04\x12\x04\xf7\x02\x08\x10\n\x0f\n\x07\x04\x1a\
+    \x03\0\x02\x01\x05\x12\x04\xf7\x02\x11\x16\n\x0f\n\x07\x04\x1a\x03\0\x02\
+    \x01\x01\x12\x04\xf7\x02\x17\x1b\n\x0f\n\x07\x04\x1a\x03\0\x02\x01\x03\
+    \x12\x04\xf7\x02\x1e\x1f\n\x83\x01\n\x02\x04\x1b\x12\x06\xff\x02\0\x80\
+    \x03\x01\x1au*\n\x20Request:\x20Sub\x20request\x20of\x20MoneroKeyImageSy\
+    nc.\x20Final\x20message\x20of\x20the\x20sync\x20protocol.\n\x20@next\x20\
+    MoneroKeyImageSyncFinalAck\n\n\x0b\n\x03\x04\x1b\x01\x12\x04\xff\x02\x08\
+    &\nt\n\x02\x04\x1c\x12\x06\x86\x03\0\x88\x03\x01\x1af*\n\x20Response:\
+    \x20Response\x20to\x20key\x20image\x20sync\x20step.\x20Contains\x20encry\
+    ption\x20keys\x20for\x20exported\x20key\x20images.\n\x20@end\n\n\x0b\n\
+    \x03\x04\x1c\x01\x12\x04\x86\x03\x08\"\n\x0c\n\x04\x04\x1c\x02\0\x12\x04\
+    \x87\x03\x04\x1f\n\r\n\x05\x04\x1c\x02\0\x04\x12\x04\x87\x03\x04\x0c\n\r\
+    \n\x05\x04\x1c\x02\0\x05\x12\x04\x87\x03\r\x12\n\r\n\x05\x04\x1c\x02\0\
+    \x01\x12\x04\x87\x03\x13\x1a\n\r\n\x05\x04\x1c\x02\0\x03\x12\x04\x87\x03\
+    \x1d\x1e\nP\n\x02\x04\x1d\x12\x06\x8e\x03\0\x98\x03\x01\x1aB*\n\x20Reque\
+    st:\x20Decrypt\x20tx\x20private\x20keys\x20blob\n\x20@next\x20MoneroGetT\
+    xKeyAck\n\n\x0b\n\x03\x04\x1d\x01\x12\x04\x8e\x03\x08\x1d\n>\n\x04\x04\
+    \x1d\x02\0\x12\x04\x8f\x03\x04\"\"0\x20BIP-32\x20path\x20to\x20derive\
+    \x20the\x20key\x20from\x20master\x20node\n\n\r\n\x05\x04\x1d\x02\0\x04\
+    \x12\x04\x8f\x03\x04\x0c\n\r\n\x05\x04\x1d\x02\0\x05\x12\x04\x8f\x03\r\
+    \x13\n\r\n\x05\x04\x1d\x02\0\x01\x12\x04\x8f\x03\x14\x1d\n\r\n\x05\x04\
+    \x1d\x02\0\x03\x12\x04\x8f\x03\x20!\n\x1c\n\x04\x04\x1d\x02\x01\x12\x04\
+    \x90\x03\x04B\"\x0e\x20network\x20type\n\n\r\n\x05\x04\x1d\x02\x01\x04\
+    \x12\x04\x90\x03\x04\x0c\n\r\n\x05\x04\x1d\x02\x01\x06\x12\x04\x90\x03\r\
+    \x1e\n\r\n\x05\x04\x1d\x02\x01\x01\x12\x04\x90\x03\x1f+\n\r\n\x05\x04\
+    \x1d\x02\x01\x03\x12\x04\x90\x03./\n\r\n\x05\x04\x1d\x02\x01\x08\x12\x04\
+    \x90\x030A\n\r\n\x05\x04\x1d\x02\x01\x07\x12\x04\x90\x039@\n\x0c\n\x04\
+    \x04\x1d\x02\x02\x12\x04\x92\x03\x04\x1d\n\r\n\x05\x04\x1d\x02\x02\x04\
+    \x12\x04\x92\x03\x04\x0c\n\r\n\x05\x04\x1d\x02\x02\x05\x12\x04\x92\x03\r\
+    \x12\n\r\n\x05\x04\x1d\x02\x02\x01\x12\x04\x92\x03\x13\x18\n\r\n\x05\x04\
+    \x1d\x02\x02\x03\x12\x04\x92\x03\x1b\x1c\n\x0c\n\x04\x04\x1d\x02\x03\x12\
+    \x04\x93\x03\x04\x1d\n\r\n\x05\x04\x1d\x02\x03\x04\x12\x04\x93\x03\x04\
+    \x0c\n\r\n\x05\x04\x1d\x02\x03\x05\x12\x04\x93\x03\r\x12\n\r\n\x05\x04\
+    \x1d\x02\x03\x01\x12\x04\x93\x03\x13\x18\n\r\n\x05\x04\x1d\x02\x03\x03\
+    \x12\x04\x93\x03\x1b\x1c\n\x0c\n\x04\x04\x1d\x02\x04\x12\x04\x94\x03\x04\
+    #\n\r\n\x05\x04\x1d\x02\x04\x04\x12\x04\x94\x03\x04\x0c\n\r\n\x05\x04\
+    \x1d\x02\x04\x05\x12\x04\x94\x03\r\x12\n\r\n\x05\x04\x1d\x02\x04\x01\x12\
+    \x04\x94\x03\x13\x1e\n\r\n\x05\x04\x1d\x02\x04\x03\x12\x04\x94\x03!\"\n\
+    \x0c\n\x04\x04\x1d\x02\x05\x12\x04\x95\x03\x04&\n\r\n\x05\x04\x1d\x02\
+    \x05\x04\x12\x04\x95\x03\x04\x0c\n\r\n\x05\x04\x1d\x02\x05\x05\x12\x04\
+    \x95\x03\r\x12\n\r\n\x05\x04\x1d\x02\x05\x01\x12\x04\x95\x03\x13!\n\r\n\
+    \x05\x04\x1d\x02\x05\x03\x12\x04\x95\x03$%\n:\n\x04\x04\x1d\x02\x06\x12\
+    \x04\x96\x03\x04\x1f\",\x20reason\x20to\x20display\x20for\x20user.\x20e.\
+    g.,\x20tx_proof\n\n\r\n\x05\x04\x1d\x02\x06\x04\x12\x04\x96\x03\x04\x0c\
+    \n\r\n\x05\x04\x1d\x02\x06\x05\x12\x04\x96\x03\r\x13\n\r\n\x05\x04\x1d\
+    \x02\x06\x01\x12\x04\x96\x03\x14\x1a\n\r\n\x05\x04\x1d\x02\x06\x03\x12\
+    \x04\x96\x03\x1d\x1e\n#\n\x04\x04\x1d\x02\x07\x12\x04\x97\x03\x04'\"\x15\
+    \x20addr\x20for\x20derivation\n\n\r\n\x05\x04\x1d\x02\x07\x04\x12\x04\
+    \x97\x03\x04\x0c\n\r\n\x05\x04\x1d\x02\x07\x05\x12\x04\x97\x03\r\x12\n\r\
+    \n\x05\x04\x1d\x02\x07\x01\x12\x04\x97\x03\x13\"\n\r\n\x05\x04\x1d\x02\
+    \x07\x03\x12\x04\x97\x03%&\nq\n\x02\x04\x1e\x12\x06\x9e\x03\0\xa2\x03\
+    \x01\x1ac*\n\x20Response:\x20Response\x20with\x20the\x20re-encrypted\x20\
+    private\x20keys\x20and\x20derivations\x20blob\x20under\x20view\x20key\n\
+    \x20@end\n\n\x0b\n\x03\x04\x1e\x01\x12\x04\x9e\x03\x08\x19\n\x0c\n\x04\
+    \x04\x1e\x02\0\x12\x04\x9f\x03\x04\x1c\n\r\n\x05\x04\x1e\x02\0\x04\x12\
+    \x04\x9f\x03\x04\x0c\n\r\n\x05\x04\x1e\x02\0\x05\x12\x04\x9f\x03\r\x12\n\
+    \r\n\x05\x04\x1e\x02\0\x01\x12\x04\x9f\x03\x13\x17\n\r\n\x05\x04\x1e\x02\
+    \0\x03\x12\x04\x9f\x03\x1a\x1b\n\x0c\n\x04\x04\x1e\x02\x01\x12\x04\xa0\
+    \x03\x04\x1f\n\r\n\x05\x04\x1e\x02\x01\x04\x12\x04\xa0\x03\x04\x0c\n\r\n\
+    \x05\x04\x1e\x02\x01\x05\x12\x04\xa0\x03\r\x12\n\r\n\x05\x04\x1e\x02\x01\
+    \x01\x12\x04\xa0\x03\x13\x1a\n\r\n\x05\x04\x1e\x02\x01\x03\x12\x04\xa0\
+    \x03\x1d\x1e\n\x0c\n\x04\x04\x1e\x02\x02\x12\x04\xa1\x03\x04&\n\r\n\x05\
+    \x04\x1e\x02\x02\x04\x12\x04\xa1\x03\x04\x0c\n\r\n\x05\x04\x1e\x02\x02\
+    \x05\x12\x04\xa1\x03\r\x12\n\r\n\x05\x04\x1e\x02\x02\x01\x12\x04\xa1\x03\
+    \x13!\n\r\n\x05\x04\x1e\x02\x02\x03\x12\x04\xa1\x03$%\nz\n\x02\x04\x1f\
+    \x12\x06\xa8\x03\0\xab\x03\x01\x1al*\n\x20Request:\x20Starts\x20live\x20\
+    refresh\x20flow.\x20Asks\x20user\x20permission,\x20switches\x20state\n\
+    \x20@next\x20MoneroLiveRefreshStartAck\n\n\x0b\n\x03\x04\x1f\x01\x12\x04\
+    \xa8\x03\x08%\n>\n\x04\x04\x1f\x02\0\x12\x04\xa9\x03\x04\"\"0\x20BIP-32\
+    \x20path\x20to\x20derive\x20the\x20key\x20from\x20master\x20node\n\n\r\n\
+    \x05\x04\x1f\x02\0\x04\x12\x04\xa9\x03\x04\x0c\n\r\n\x05\x04\x1f\x02\0\
+    \x05\x12\x04\xa9\x03\r\x13\n\r\n\x05\x04\x1f\x02\0\x01\x12\x04\xa9\x03\
+    \x14\x1d\n\r\n\x05\x04\x1f\x02\0\x03\x12\x04\xa9\x03\x20!\n\x1c\n\x04\
+    \x04\x1f\x02\x01\x12\x04\xaa\x03\x04B\"\x0e\x20network\x20type\n\n\r\n\
+    \x05\x04\x1f\x02\x01\x04\x12\x04\xaa\x03\x04\x0c\n\r\n\x05\x04\x1f\x02\
+    \x01\x06\x12\x04\xaa\x03\r\x1e\n\r\n\x05\x04\x1f\x02\x01\x01\x12\x04\xaa\
+    \x03\x1f+\n\r\n\x05\x04\x1f\x02\x01\x03\x12\x04\xaa\x03./\n\r\n\x05\x04\
+    \x1f\x02\x01\x08\x12\x04\xaa\x030A\n\r\n\x05\x04\x1f\x02\x01\x07\x12\x04\
+    \xaa\x039@\n~\n\x02\x04\x20\x12\x06\xb2\x03\0\xb4\x03\x01\x1ap*\n\x20Res\
+    ponse\x20after\x20user\x20gave\x20permission\n\x20@next\x20MoneroLiveRef\
+    reshStepRequest\n\x20@next\x20MoneroLiveRefreshFinalRequest\n\n\x0b\n\
+    \x03\x04\x20\x01\x12\x04\xb2\x03\x08!\nq\n\x02\x04!\x12\x06\xba\x03\0\
+    \xc0\x03\x01\x1ac*\n\x20Request:\x20Request\x20to\x20compute\x20a\x20sin\
+    gle\x20key\x20image\x20during\x20live\x20sync\n\x20@next\x20MoneroLiveRe\
+    freshStepAck\n\n\x0b\n\x03\x04!\x01\x12\x04\xba\x03\x08$\n\x0c\n\x04\x04\
+    !\x02\0\x12\x04\xbb\x03\x04\x1f\n\r\n\x05\x04!\x02\0\x04\x12\x04\xbb\x03\
+    \x04\x0c\n\r\n\x05\x04!\x02\0\x05\x12\x04\xbb\x03\r\x12\n\r\n\x05\x04!\
+    \x02\0\x01\x12\x04\xbb\x03\x13\x1a\n\r\n\x05\x04!\x02\0\x03\x12\x04\xbb\
+    \x03\x1d\x1e\n\x0c\n\x04\x04!\x02\x01\x12\x04\xbc\x03\x04\"\n\r\n\x05\
+    \x04!\x02\x01\x04\x12\x04\xbc\x03\x04\x0c\n\r\n\x05\x04!\x02\x01\x05\x12\
+    \x04\xbc\x03\r\x12\n\r\n\x05\x04!\x02\x01\x01\x12\x04\xbc\x03\x13\x1d\n\
+    \r\n\x05\x04!\x02\x01\x03\x12\x04\xbc\x03\x20!\n\x0c\n\x04\x04!\x02\x02\
+    \x12\x04\xbd\x03\x04%\n\r\n\x05\x04!\x02\x02\x04\x12\x04\xbd\x03\x04\x0c\
+    \n\r\n\x05\x04!\x02\x02\x05\x12\x04\xbd\x03\r\x13\n\r\n\x05\x04!\x02\x02\
+    \x01\x12\x04\xbd\x03\x14\x20\n\r\n\x05\x04!\x02\x02\x03\x12\x04\xbd\x03#\
+    $\n\x0c\n\x04\x04!\x02\x03\x12\x04\xbe\x03\x04'\n\r\n\x05\x04!\x02\x03\
+    \x04\x12\x04\xbe\x03\x04\x0c\n\r\n\x05\x04!\x02\x03\x05\x12\x04\xbe\x03\
+    \r\x13\n\r\n\x05\x04!\x02\x03\x01\x12\x04\xbe\x03\x14\"\n\r\n\x05\x04!\
+    \x02\x03\x03\x12\x04\xbe\x03%&\n\x0c\n\x04\x04!\x02\x04\x12\x04\xbf\x03\
+    \x04'\n\r\n\x05\x04!\x02\x04\x04\x12\x04\xbf\x03\x04\x0c\n\r\n\x05\x04!\
+    \x02\x04\x05\x12\x04\xbf\x03\r\x13\n\r\n\x05\x04!\x02\x04\x01\x12\x04\
+    \xbf\x03\x14\"\n\r\n\x05\x04!\x02\x04\x03\x12\x04\xbf\x03%&\n\x9a\x01\n\
+    \x02\x04\"\x12\x06\xc7\x03\0\xca\x03\x01\x1a\x8b\x01*\n\x20Response:\x20\
+    Response\x20with\x20the\x20encrypted\x20key\x20image\x20+\x20signature\n\
+    \x20@next\x20MoneroLiveRefreshStepRequest\n\x20@next\x20MoneroLiveRefres\
+    hFinishedRequest\n\n\x0b\n\x03\x04\"\x01\x12\x04\xc7\x03\x08\x20\n\x0c\n\
+    \x04\x04\"\x02\0\x12\x04\xc8\x03\x04\x1c\n\r\n\x05\x04\"\x02\0\x04\x12\
+    \x04\xc8\x03\x04\x0c\n\r\n\x05\x04\"\x02\0\x05\x12\x04\xc8\x03\r\x12\n\r\
+    \n\x05\x04\"\x02\0\x01\x12\x04\xc8\x03\x13\x17\n\r\n\x05\x04\"\x02\0\x03\
+    \x12\x04\xc8\x03\x1a\x1b\n\x0c\n\x04\x04\"\x02\x01\x12\x04\xc9\x03\x04!\
+    \n\r\n\x05\x04\"\x02\x01\x04\x12\x04\xc9\x03\x04\x0c\n\r\n\x05\x04\"\x02\
+    \x01\x05\x12\x04\xc9\x03\r\x12\n\r\n\x05\x04\"\x02\x01\x01\x12\x04\xc9\
+    \x03\x13\x1c\n\r\n\x05\x04\"\x02\x01\x03\x12\x04\xc9\x03\x1f\x20\ne\n\
+    \x02\x04#\x12\x06\xd0\x03\0\xd2\x03\x01\x1aW*\n\x20Request:\x20Request\
+    \x20terminating\x20live\x20refresh\x20mode.\n\x20@next\x20MoneroLiveRefr\
+    eshFinishedAck\n\n\x0b\n\x03\x04#\x01\x12\x04\xd0\x03\x08%\nO\n\x02\x04$\
+    \x12\x06\xd8\x03\0\xda\x03\x01\x1aA*\n\x20Response:\x20Response\x20on\
+    \x20termination\x20of\x20live\x20refresh\x20mode.\n\x20@end\n\n\x0b\n\
+    \x03\x04$\x01\x12\x04\xd8\x03\x08!\nx\n\x02\x04%\x12\x06\xe1\x03\0\xe8\
+    \x03\x01\x1aj*\n\x20Request:\x20Universal\x20Monero\x20protocol\x20imple\
+    mentation\x20diagnosis\x20request.\n\x20@start\n\x20@next\x20DebugMonero\
+    DiagAck\n\n\x0b\n\x03\x04%\x01\x12\x04\xe1\x03\x08\x1e\n\x0c\n\x04\x04%\
+    \x02\0\x12\x04\xe2\x03\x04\x1c\n\r\n\x05\x04%\x02\0\x04\x12\x04\xe2\x03\
+    \x04\x0c\n\r\n\x05\x04%\x02\0\x05\x12\x04\xe2\x03\r\x13\n\r\n\x05\x04%\
+    \x02\0\x01\x12\x04\xe2\x03\x14\x17\n\r\n\x05\x04%\x02\0\x03\x12\x04\xe2\
+    \x03\x1a\x1b\n\x0c\n\x04\x04%\x02\x01\x12\x04\xe3\x03\x04\x1b\n\r\n\x05\
+    \x04%\x02\x01\x04\x12\x04\xe3\x03\x04\x0c\n\r\n\x05\x04%\x02\x01\x05\x12\
+    \x04\xe3\x03\r\x13\n\r\n\x05\x04%\x02\x01\x01\x12\x04\xe3\x03\x14\x16\n\
+    \r\n\x05\x04%\x02\x01\x03\x12\x04\xe3\x03\x19\x1a\n\x0c\n\x04\x04%\x02\
+    \x02\x12\x04\xe4\x03\x04\x1b\n\r\n\x05\x04%\x02\x02\x04\x12\x04\xe4\x03\
+    \x04\x0c\n\r\n\x05\x04%\x02\x02\x05\x12\x04\xe4\x03\r\x13\n\r\n\x05\x04%\
+    \x02\x02\x01\x12\x04\xe4\x03\x14\x16\n\r\n\x05\x04%\x02\x02\x03\x12\x04\
+    \xe4\x03\x19\x1a\n\x0c\n\x04\x04%\x02\x03\x12\x04\xe5\x03\x04\x1b\n\r\n\
+    \x05\x04%\x02\x03\x04\x12\x04\xe5\x03\x04\x0c\n\r\n\x05\x04%\x02\x03\x05\
+    \x12\x04\xe5\x03\r\x13\n\r\n\x05\x04%\x02\x03\x01\x12\x04\xe5\x03\x14\
+    \x16\n\r\n\x05\x04%\x02\x03\x03\x12\x04\xe5\x03\x19\x1a\n\x0c\n\x04\x04%\
+    \x02\x04\x12\x04\xe6\x03\x04\x1d\n\r\n\x05\x04%\x02\x04\x04\x12\x04\xe6\
+    \x03\x04\x0c\n\r\n\x05\x04%\x02\x04\x05\x12\x04\xe6\x03\r\x12\n\r\n\x05\
+    \x04%\x02\x04\x01\x12\x04\xe6\x03\x13\x18\n\r\n\x05\x04%\x02\x04\x03\x12\
+    \x04\xe6\x03\x1b\x1c\n\x0c\n\x04\x04%\x02\x05\x12\x04\xe7\x03\x04\x1d\n\
+    \r\n\x05\x04%\x02\x05\x04\x12\x04\xe7\x03\x04\x0c\n\r\n\x05\x04%\x02\x05\
+    \x05\x12\x04\xe7\x03\r\x12\n\r\n\x05\x04%\x02\x05\x01\x12\x04\xe7\x03\
+    \x13\x18\n\r\n\x05\x04%\x02\x05\x03\x12\x04\xe7\x03\x1b\x1c\nH\n\x02\x04\
+    &\x12\x06\xee\x03\0\xf5\x03\x01\x1a:*\n\x20Response:\x20Response\x20to\
+    \x20Monero\x20diagnosis\x20protocol.\n\x20@end\n\n\x0b\n\x03\x04&\x01\
+    \x12\x04\xee\x03\x08\x1a\n\x0c\n\x04\x04&\x02\0\x12\x04\xef\x03\x04\x1c\
+    \n\r\n\x05\x04&\x02\0\x04\x12\x04\xef\x03\x04\x0c\n\r\n\x05\x04&\x02\0\
+    \x05\x12\x04\xef\x03\r\x13\n\r\n\x05\x04&\x02\0\x01\x12\x04\xef\x03\x14\
+    \x17\n\r\n\x05\x04&\x02\0\x03\x12\x04\xef\x03\x1a\x1b\n\x0c\n\x04\x04&\
+    \x02\x01\x12\x04\xf0\x03\x04\x1b\n\r\n\x05\x04&\x02\x01\x04\x12\x04\xf0\
+    \x03\x04\x0c\n\r\n\x05\x04&\x02\x01\x05\x12\x04\xf0\x03\r\x13\n\r\n\x05\
+    \x04&\x02\x01\x01\x12\x04\xf0\x03\x14\x16\n\r\n\x05\x04&\x02\x01\x03\x12\
+    \x04\xf0\x03\x19\x1a\n\x0c\n\x04\x04&\x02\x02\x12\x04\xf1\x03\x04\x1b\n\
+    \r\n\x05\x04&\x02\x02\x04\x12\x04\xf1\x03\x04\x0c\n\r\n\x05\x04&\x02\x02\
+    \x05\x12\x04\xf1\x03\r\x13\n\r\n\x05\x04&\x02\x02\x01\x12\x04\xf1\x03\
+    \x14\x16\n\r\n\x05\x04&\x02\x02\x03\x12\x04\xf1\x03\x19\x1a\n\x0c\n\x04\
+    \x04&\x02\x03\x12\x04\xf2\x03\x04\x1b\n\r\n\x05\x04&\x02\x03\x04\x12\x04\
+    \xf2\x03\x04\x0c\n\r\n\x05\x04&\x02\x03\x05\x12\x04\xf2\x03\r\x13\n\r\n\
+    \x05\x04&\x02\x03\x01\x12\x04\xf2\x03\x14\x16\n\r\n\x05\x04&\x02\x03\x03\
+    \x12\x04\xf2\x03\x19\x1a\n\x0c\n\x04\x04&\x02\x04\x12\x04\xf3\x03\x04\
+    \x1d\n\r\n\x05\x04&\x02\x04\x04\x12\x04\xf3\x03\x04\x0c\n\r\n\x05\x04&\
+    \x02\x04\x05\x12\x04\xf3\x03\r\x12\n\r\n\x05\x04&\x02\x04\x01\x12\x04\
+    \xf3\x03\x13\x18\n\r\n\x05\x04&\x02\x04\x03\x12\x04\xf3\x03\x1b\x1c\n\
+    \x0c\n\x04\x04&\x02\x05\x12\x04\xf4\x03\x04\x1d\n\r\n\x05\x04&\x02\x05\
+    \x04\x12\x04\xf4\x03\x04\x0c\n\r\n\x05\x04&\x02\x05\x05\x12\x04\xf4\x03\
+    \r\x12\n\r\n\x05\x04&\x02\x05\x01\x12\x04\xf4\x03\x13\x18\n\r\n\x05\x04&\
+    \x02\x05\x03\x12\x04\xf4\x03\x1b\x1c\
 ";
 
 /// `FileDescriptorProto` object which was a source for this generated file
@@ -11307,7 +12847,7 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(0);
-            let mut messages = ::std::vec::Vec::with_capacity(44);
+            let mut messages = ::std::vec::Vec::with_capacity(48);
             messages.push(MoneroTransactionSourceEntry::generated_message_descriptor_data());
             messages.push(MoneroTransactionDestinationEntry::generated_message_descriptor_data());
             messages.push(MoneroTransactionRsigData::generated_message_descriptor_data());
@@ -11319,8 +12859,6 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
             messages.push(MoneroTransactionInitAck::generated_message_descriptor_data());
             messages.push(MoneroTransactionSetInputRequest::generated_message_descriptor_data());
             messages.push(MoneroTransactionSetInputAck::generated_message_descriptor_data());
-            messages.push(MoneroTransactionInputsPermutationRequest::generated_message_descriptor_data());
-            messages.push(MoneroTransactionInputsPermutationAck::generated_message_descriptor_data());
             messages.push(MoneroTransactionInputViniRequest::generated_message_descriptor_data());
             messages.push(MoneroTransactionInputViniAck::generated_message_descriptor_data());
             messages.push(MoneroTransactionAllInputsSetRequest::generated_message_descriptor_data());
@@ -11329,8 +12867,6 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
             messages.push(MoneroTransactionSetOutputAck::generated_message_descriptor_data());
             messages.push(MoneroTransactionAllOutSetRequest::generated_message_descriptor_data());
             messages.push(MoneroTransactionAllOutSetAck::generated_message_descriptor_data());
-            messages.push(MoneroTransactionMlsagDoneRequest::generated_message_descriptor_data());
-            messages.push(MoneroTransactionMlsagDoneAck::generated_message_descriptor_data());
             messages.push(MoneroTransactionSignInputRequest::generated_message_descriptor_data());
             messages.push(MoneroTransactionSignInputAck::generated_message_descriptor_data());
             messages.push(MoneroTransactionFinalRequest::generated_message_descriptor_data());
@@ -11341,18 +12877,27 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
             messages.push(MoneroKeyImageSyncStepAck::generated_message_descriptor_data());
             messages.push(MoneroKeyImageSyncFinalRequest::generated_message_descriptor_data());
             messages.push(MoneroKeyImageSyncFinalAck::generated_message_descriptor_data());
+            messages.push(MoneroGetTxKeyRequest::generated_message_descriptor_data());
+            messages.push(MoneroGetTxKeyAck::generated_message_descriptor_data());
+            messages.push(MoneroLiveRefreshStartRequest::generated_message_descriptor_data());
+            messages.push(MoneroLiveRefreshStartAck::generated_message_descriptor_data());
+            messages.push(MoneroLiveRefreshStepRequest::generated_message_descriptor_data());
+            messages.push(MoneroLiveRefreshStepAck::generated_message_descriptor_data());
+            messages.push(MoneroLiveRefreshFinalRequest::generated_message_descriptor_data());
+            messages.push(MoneroLiveRefreshFinalAck::generated_message_descriptor_data());
             messages.push(DebugMoneroDiagRequest::generated_message_descriptor_data());
             messages.push(DebugMoneroDiagAck::generated_message_descriptor_data());
             messages.push(monero_transaction_source_entry::MoneroOutputEntry::generated_message_descriptor_data());
             messages.push(monero_transaction_source_entry::MoneroMultisigKLRki::generated_message_descriptor_data());
-            messages.push(monero_transaction_source_entry::monero_output_entry::MoneroRctKey::generated_message_descriptor_data());
+            messages.push(monero_transaction_source_entry::monero_output_entry::MoneroRctKeyPublic::generated_message_descriptor_data());
             messages.push(monero_transaction_destination_entry::MoneroAccountPublicAddress::generated_message_descriptor_data());
             messages.push(monero_transaction_init_request::MoneroTransactionData::generated_message_descriptor_data());
             messages.push(monero_transaction_all_out_set_ack::MoneroRingCtSig::generated_message_descriptor_data());
             messages.push(monero_key_image_export_init_request::MoneroSubAddressIndicesList::generated_message_descriptor_data());
             messages.push(monero_key_image_sync_step_request::MoneroTransferDetails::generated_message_descriptor_data());
             messages.push(monero_key_image_sync_step_ack::MoneroExportedKeyImage::generated_message_descriptor_data());
-            let mut enums = ::std::vec::Vec::with_capacity(0);
+            let mut enums = ::std::vec::Vec::with_capacity(1);
+            enums.push(MoneroNetworkType::generated_enum_descriptor_data());
             ::protobuf::reflect::GeneratedFileDescriptor::new_generated(
                 file_descriptor_proto(),
                 deps,

@@ -42,6 +42,8 @@ pub struct EthereumSignTypedData {
     pub primary_type: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.ethereum_eip712.EthereumSignTypedData.metamask_v4_compat)
     pub metamask_v4_compat: ::std::option::Option<bool>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.ethereum_eip712.EthereumSignTypedData.definitions)
+    pub definitions: ::protobuf::MessageField<super::messages_ethereum_definitions::EthereumDefinitions>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.ethereum_eip712.EthereumSignTypedData.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -114,7 +116,7 @@ impl EthereumSignTypedData {
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(3);
+        let mut fields = ::std::vec::Vec::with_capacity(4);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
             "address_n",
@@ -131,6 +133,11 @@ impl EthereumSignTypedData {
             |m: &EthereumSignTypedData| { &m.metamask_v4_compat },
             |m: &mut EthereumSignTypedData| { &mut m.metamask_v4_compat },
         ));
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, super::messages_ethereum_definitions::EthereumDefinitions>(
+            "definitions",
+            |m: &EthereumSignTypedData| { &m.definitions },
+            |m: &mut EthereumSignTypedData| { &mut m.definitions },
+        ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<EthereumSignTypedData>(
             "EthereumSignTypedData",
             fields,
@@ -146,6 +153,11 @@ impl ::protobuf::Message for EthereumSignTypedData {
         if self.primary_type.is_none() {
             return false;
         }
+        for v in &self.definitions {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -163,6 +175,9 @@ impl ::protobuf::Message for EthereumSignTypedData {
                 },
                 24 => {
                     self.metamask_v4_compat = ::std::option::Option::Some(is.read_bool()?);
+                },
+                34 => {
+                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.definitions)?;
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -185,6 +200,10 @@ impl ::protobuf::Message for EthereumSignTypedData {
         if let Some(v) = self.metamask_v4_compat {
             my_size += 1 + 1;
         }
+        if let Some(v) = self.definitions.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -199,6 +218,9 @@ impl ::protobuf::Message for EthereumSignTypedData {
         }
         if let Some(v) = self.metamask_v4_compat {
             os.write_bool(3, v)?;
+        }
+        if let Some(v) = self.definitions.as_ref() {
+            ::protobuf::rt::write_message_field_with_cached_size(4, v, os)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -220,6 +242,7 @@ impl ::protobuf::Message for EthereumSignTypedData {
         self.address_n.clear();
         self.primary_type = ::std::option::Option::None;
         self.metamask_v4_compat = ::std::option::Option::None;
+        self.definitions.clear();
         self.special_fields.clear();
     }
 
@@ -228,6 +251,7 @@ impl ::protobuf::Message for EthereumSignTypedData {
             address_n: ::std::vec::Vec::new(),
             primary_type: ::std::option::Option::None,
             metamask_v4_compat: ::std::option::Option::None,
+            definitions: ::protobuf::MessageField::none(),
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -1383,373 +1407,146 @@ impl ::protobuf::reflect::ProtobufValue for EthereumTypedDataValueAck {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
-/// *
-///  Response: Signed typed data
-///  @end
-#[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.ethereum_eip712.EthereumTypedDataSignature)
-pub struct EthereumTypedDataSignature {
-    // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.ethereum_eip712.EthereumTypedDataSignature.signature)
-    pub signature: ::std::option::Option<::std::vec::Vec<u8>>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.ethereum_eip712.EthereumTypedDataSignature.address)
-    pub address: ::std::option::Option<::std::string::String>,
-    // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.ethereum_eip712.EthereumTypedDataSignature.special_fields)
-    pub special_fields: ::protobuf::SpecialFields,
-}
-
-impl<'a> ::std::default::Default for &'a EthereumTypedDataSignature {
-    fn default() -> &'a EthereumTypedDataSignature {
-        <EthereumTypedDataSignature as ::protobuf::Message>::default_instance()
-    }
-}
-
-impl EthereumTypedDataSignature {
-    pub fn new() -> EthereumTypedDataSignature {
-        ::std::default::Default::default()
-    }
-
-    // required bytes signature = 1;
-
-    pub fn signature(&self) -> &[u8] {
-        match self.signature.as_ref() {
-            Some(v) => v,
-            None => &[],
-        }
-    }
-
-    pub fn clear_signature(&mut self) {
-        self.signature = ::std::option::Option::None;
-    }
-
-    pub fn has_signature(&self) -> bool {
-        self.signature.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_signature(&mut self, v: ::std::vec::Vec<u8>) {
-        self.signature = ::std::option::Option::Some(v);
-    }
-
-    // Mutable pointer to the field.
-    // If field is not initialized, it is initialized with default value first.
-    pub fn mut_signature(&mut self) -> &mut ::std::vec::Vec<u8> {
-        if self.signature.is_none() {
-            self.signature = ::std::option::Option::Some(::std::vec::Vec::new());
-        }
-        self.signature.as_mut().unwrap()
-    }
-
-    // Take field
-    pub fn take_signature(&mut self) -> ::std::vec::Vec<u8> {
-        self.signature.take().unwrap_or_else(|| ::std::vec::Vec::new())
-    }
-
-    // required string address = 2;
-
-    pub fn address(&self) -> &str {
-        match self.address.as_ref() {
-            Some(v) => v,
-            None => "",
-        }
-    }
-
-    pub fn clear_address(&mut self) {
-        self.address = ::std::option::Option::None;
-    }
-
-    pub fn has_address(&self) -> bool {
-        self.address.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_address(&mut self, v: ::std::string::String) {
-        self.address = ::std::option::Option::Some(v);
-    }
-
-    // Mutable pointer to the field.
-    // If field is not initialized, it is initialized with default value first.
-    pub fn mut_address(&mut self) -> &mut ::std::string::String {
-        if self.address.is_none() {
-            self.address = ::std::option::Option::Some(::std::string::String::new());
-        }
-        self.address.as_mut().unwrap()
-    }
-
-    // Take field
-    pub fn take_address(&mut self) -> ::std::string::String {
-        self.address.take().unwrap_or_else(|| ::std::string::String::new())
-    }
-
-    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(2);
-        let mut oneofs = ::std::vec::Vec::with_capacity(0);
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "signature",
-            |m: &EthereumTypedDataSignature| { &m.signature },
-            |m: &mut EthereumTypedDataSignature| { &mut m.signature },
-        ));
-        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "address",
-            |m: &EthereumTypedDataSignature| { &m.address },
-            |m: &mut EthereumTypedDataSignature| { &mut m.address },
-        ));
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<EthereumTypedDataSignature>(
-            "EthereumTypedDataSignature",
-            fields,
-            oneofs,
-        )
-    }
-}
-
-impl ::protobuf::Message for EthereumTypedDataSignature {
-    const NAME: &'static str = "EthereumTypedDataSignature";
-
-    fn is_initialized(&self) -> bool {
-        if self.signature.is_none() {
-            return false;
-        }
-        if self.address.is_none() {
-            return false;
-        }
-        true
-    }
-
-    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
-        while let Some(tag) = is.read_raw_tag_or_eof()? {
-            match tag {
-                10 => {
-                    self.signature = ::std::option::Option::Some(is.read_bytes()?);
-                },
-                18 => {
-                    self.address = ::std::option::Option::Some(is.read_string()?);
-                },
-                tag => {
-                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
-                },
-            };
-        }
-        ::std::result::Result::Ok(())
-    }
-
-    // Compute sizes of nested messages
-    #[allow(unused_variables)]
-    fn compute_size(&self) -> u64 {
-        let mut my_size = 0;
-        if let Some(v) = self.signature.as_ref() {
-            my_size += ::protobuf::rt::bytes_size(1, &v);
-        }
-        if let Some(v) = self.address.as_ref() {
-            my_size += ::protobuf::rt::string_size(2, &v);
-        }
-        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
-        self.special_fields.cached_size().set(my_size as u32);
-        my_size
-    }
-
-    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        if let Some(v) = self.signature.as_ref() {
-            os.write_bytes(1, v)?;
-        }
-        if let Some(v) = self.address.as_ref() {
-            os.write_string(2, v)?;
-        }
-        os.write_unknown_fields(self.special_fields.unknown_fields())?;
-        ::std::result::Result::Ok(())
-    }
-
-    fn special_fields(&self) -> &::protobuf::SpecialFields {
-        &self.special_fields
-    }
-
-    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
-        &mut self.special_fields
-    }
-
-    fn new() -> EthereumTypedDataSignature {
-        EthereumTypedDataSignature::new()
-    }
-
-    fn clear(&mut self) {
-        self.signature = ::std::option::Option::None;
-        self.address = ::std::option::Option::None;
-        self.special_fields.clear();
-    }
-
-    fn default_instance() -> &'static EthereumTypedDataSignature {
-        static instance: EthereumTypedDataSignature = EthereumTypedDataSignature {
-            signature: ::std::option::Option::None,
-            address: ::std::option::Option::None,
-            special_fields: ::protobuf::SpecialFields::new(),
-        };
-        &instance
-    }
-}
-
-impl ::protobuf::MessageFull for EthereumTypedDataSignature {
-    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
-        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("EthereumTypedDataSignature").unwrap()).clone()
-    }
-}
-
-impl ::std::fmt::Display for EthereumTypedDataSignature {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
-        ::protobuf::text_format::fmt(self, f)
-    }
-}
-
-impl ::protobuf::reflect::ProtobufValue for EthereumTypedDataSignature {
-    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
-}
-
 static file_descriptor_proto_data: &'static [u8] = b"\
     \n\x1emessages-ethereum-eip712.proto\x12\"hw.trezor.messages.ethereum_ei\
-    p712\"\x8b\x01\n\x15EthereumSignTypedData\x12\x1b\n\taddress_n\x18\x01\
-    \x20\x03(\rR\x08addressN\x12!\n\x0cprimary_type\x18\x02\x20\x02(\tR\x0bp\
-    rimaryType\x122\n\x12metamask_v4_compat\x18\x03\x20\x01(\x08:\x04trueR\
-    \x10metamaskV4Compat\"4\n\x1eEthereumTypedDataStructRequest\x12\x12\n\
-    \x04name\x18\x01\x20\x02(\tR\x04name\"\xb4\x05\n\x1aEthereumTypedDataStr\
-    uctAck\x12m\n\x07members\x18\x01\x20\x03(\x0b2S.hw.trezor.messages.ether\
-    eum_eip712.EthereumTypedDataStructAck.EthereumStructMemberR\x07members\
-    \x1a\x90\x01\n\x14EthereumStructMember\x12d\n\x04type\x18\x01\x20\x02(\
-    \x0b2P.hw.trezor.messages.ethereum_eip712.EthereumTypedDataStructAck.Eth\
-    ereumFieldTypeR\x04type\x12\x12\n\x04name\x18\x02\x20\x02(\tR\x04name\
-    \x1a\xa7\x02\n\x11EthereumFieldType\x12l\n\tdata_type\x18\x01\x20\x02(\
-    \x0e2O.hw.trezor.messages.ethereum_eip712.EthereumTypedDataStructAck.Eth\
-    ereumDataTypeR\x08dataType\x12\x12\n\x04size\x18\x02\x20\x01(\rR\x04size\
-    \x12o\n\nentry_type\x18\x03\x20\x01(\x0b2P.hw.trezor.messages.ethereum_e\
-    ip712.EthereumTypedDataStructAck.EthereumFieldTypeR\tentryType\x12\x1f\n\
-    \x0bstruct_name\x18\x04\x20\x01(\tR\nstructName\"j\n\x10EthereumDataType\
-    \x12\x08\n\x04UINT\x10\x01\x12\x07\n\x03INT\x10\x02\x12\t\n\x05BYTES\x10\
-    \x03\x12\n\n\x06STRING\x10\x04\x12\x08\n\x04BOOL\x10\x05\x12\x0b\n\x07AD\
-    DRESS\x10\x06\x12\t\n\x05ARRAY\x10\x07\x12\n\n\x06STRUCT\x10\x08\"@\n\
-    \x1dEthereumTypedDataValueRequest\x12\x1f\n\x0bmember_path\x18\x01\x20\
-    \x03(\rR\nmemberPath\"1\n\x19EthereumTypedDataValueAck\x12\x14\n\x05valu\
-    e\x18\x01\x20\x02(\x0cR\x05value\"T\n\x1aEthereumTypedDataSignature\x12\
-    \x1c\n\tsignature\x18\x01\x20\x02(\x0cR\tsignature\x12\x18\n\x07address\
-    \x18\x02\x20\x02(\tR\x07addressBB\n#com.satoshilabs.trezor.lib.protobufB\
-    \x1bTrezorMessageEthereumEIP712J\x9b\x1b\n\x06\x12\x04\0\0a\x01\n\x08\n\
-    \x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\x01\0+\n\x08\n\x01\x08\
-    \x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\x1a#\x20Sugar\x20for\x20\
-    easier\x20handling\x20in\x20Java\n\n\x08\n\x01\x08\x12\x03\x05\0<\n\t\n\
-    \x02\x08\x08\x12\x03\x05\0<\n\xf2\x02\n\x02\x04\0\x12\x04\x15\0\x19\x01\
-    \x1a\xae\x01*\n\x20Request:\x20Ask\x20device\x20to\x20sign\x20typed\x20d\
-    ata\n\x20@start\n\x20@next\x20EthereumTypedDataStructRequest\n\x20@next\
-    \x20EthereumTypedDataValueRequest\n\x20@next\x20EthereumTypedDataSignatu\
-    re\n\x20@next\x20Failure\n2\xb4\x01\x20Separated\x20from\x20messages-eth\
-    ereum.proto\x20as\x20it\x20is\x20not\x20implemented\x20on\x20T1\x20side\
-    \n\x20and\x20defining\x20all\x20the\x20messages\x20and\x20fields\x20coul\
-    d\x20be\x20even\x20impossible\x20as\x20recursive\n\x20messages\x20are\
-    \x20used\x20here\n\n\n\n\x03\x04\0\x01\x12\x03\x15\x08\x1d\n=\n\x04\x04\
-    \0\x02\0\x12\x03\x16\x04\"\"0\x20BIP-32\x20path\x20to\x20derive\x20the\
-    \x20key\x20from\x20master\x20node\n\n\x0c\n\x05\x04\0\x02\0\x04\x12\x03\
-    \x16\x04\x0c\n\x0c\n\x05\x04\0\x02\0\x05\x12\x03\x16\r\x13\n\x0c\n\x05\
-    \x04\0\x02\0\x01\x12\x03\x16\x14\x1d\n\x0c\n\x05\x04\0\x02\0\x03\x12\x03\
-    \x16\x20!\n.\n\x04\x04\0\x02\x01\x12\x03\x17\x04%\"!\x20name\x20of\x20th\
-    e\x20root\x20message\x20struct\n\n\x0c\n\x05\x04\0\x02\x01\x04\x12\x03\
-    \x17\x04\x0c\n\x0c\n\x05\x04\0\x02\x01\x05\x12\x03\x17\r\x13\n\x0c\n\x05\
-    \x04\0\x02\x01\x01\x12\x03\x17\x14\x20\n\x0c\n\x05\x04\0\x02\x01\x03\x12\
-    \x03\x17#$\nX\n\x04\x04\0\x02\x02\x12\x03\x18\x048\"K\x20use\x20MetaMask\
-    \x20v4\x20(see\x20https://github.com/MetaMask/eth-sig-util/issues/106)\n\
-    \n\x0c\n\x05\x04\0\x02\x02\x04\x12\x03\x18\x04\x0c\n\x0c\n\x05\x04\0\x02\
-    \x02\x05\x12\x03\x18\r\x11\n\x0c\n\x05\x04\0\x02\x02\x01\x12\x03\x18\x12\
-    $\n\x0c\n\x05\x04\0\x02\x02\x03\x12\x03\x18'(\n\x0c\n\x05\x04\0\x02\x02\
-    \x08\x12\x03\x18)7\n\x0c\n\x05\x04\0\x02\x02\x07\x12\x03\x1826\nl\n\x02\
-    \x04\x01\x12\x04\x1f\0!\x01\x1a`*\n\x20Response:\x20Device\x20asks\x20fo\
-    r\x20type\x20information\x20about\x20a\x20struct.\n\x20@next\x20Ethereum\
-    TypedDataStructAck\n\n\n\n\x03\x04\x01\x01\x12\x03\x1f\x08&\n+\n\x04\x04\
-    \x01\x02\0\x12\x03\x20\x04\x1d\"\x1e\x20name\x20of\x20the\x20requested\
-    \x20struct\n\n\x0c\n\x05\x04\x01\x02\0\x04\x12\x03\x20\x04\x0c\n\x0c\n\
-    \x05\x04\x01\x02\0\x05\x12\x03\x20\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\
-    \x12\x03\x20\x14\x18\n\x0c\n\x05\x04\x01\x02\0\x03\x12\x03\x20\x1b\x1c\n\
-    _\n\x02\x04\x02\x12\x04'\0D\x01\x1aS*\n\x20Request:\x20Type\x20informati\
-    on\x20about\x20a\x20struct.\n\x20@next\x20EthereumTypedDataStructRequest\
-    \n\n\n\n\x03\x04\x02\x01\x12\x03'\x08\"\n\x0b\n\x04\x04\x02\x02\0\x12\
-    \x03(\x04.\n\x0c\n\x05\x04\x02\x02\0\x04\x12\x03(\x04\x0c\n\x0c\n\x05\
-    \x04\x02\x02\0\x06\x12\x03(\r!\n\x0c\n\x05\x04\x02\x02\0\x01\x12\x03(\")\
-    \n\x0c\n\x05\x04\x02\x02\0\x03\x12\x03(,-\n\x0c\n\x04\x04\x02\x03\0\x12\
-    \x04*\x04-\x05\n\x0c\n\x05\x04\x02\x03\0\x01\x12\x03*\x0c\x20\n\r\n\x06\
-    \x04\x02\x03\0\x02\0\x12\x03+\x08,\n\x0e\n\x07\x04\x02\x03\0\x02\0\x04\
-    \x12\x03+\x08\x10\n\x0e\n\x07\x04\x02\x03\0\x02\0\x06\x12\x03+\x11\"\n\
-    \x0e\n\x07\x04\x02\x03\0\x02\0\x01\x12\x03+#'\n\x0e\n\x07\x04\x02\x03\0\
-    \x02\0\x03\x12\x03+*+\n\r\n\x06\x04\x02\x03\0\x02\x01\x12\x03,\x08!\n\
-    \x0e\n\x07\x04\x02\x03\0\x02\x01\x04\x12\x03,\x08\x10\n\x0e\n\x07\x04\
-    \x02\x03\0\x02\x01\x05\x12\x03,\x11\x17\n\x0e\n\x07\x04\x02\x03\0\x02\
-    \x01\x01\x12\x03,\x18\x1c\n\x0e\n\x07\x04\x02\x03\0\x02\x01\x03\x12\x03,\
-    \x1f\x20\n\x0c\n\x04\x04\x02\x03\x01\x12\x04/\x048\x05\n\x0c\n\x05\x04\
-    \x02\x03\x01\x01\x12\x03/\x0c\x1d\n\r\n\x06\x04\x02\x03\x01\x02\0\x12\
-    \x030\x080\n\x0e\n\x07\x04\x02\x03\x01\x02\0\x04\x12\x030\x08\x10\n\x0e\
-    \n\x07\x04\x02\x03\x01\x02\0\x06\x12\x030\x11!\n\x0e\n\x07\x04\x02\x03\
-    \x01\x02\0\x01\x12\x030\"+\n\x0e\n\x07\x04\x02\x03\x01\x02\0\x03\x12\x03\
-    0./\nY\n\x06\x04\x02\x03\x01\x02\x01\x12\x031\x08!\"J\x20for\x20integer\
-    \x20types:\x20size\x20in\x20bytes\x20(uint8\x20has\x20size\x201,\x20uint\
-    256\x20has\x20size\x2032)\n\n\x0e\n\x07\x04\x02\x03\x01\x02\x01\x04\x12\
-    \x031\x08\x10\n\x0e\n\x07\x04\x02\x03\x01\x02\x01\x05\x12\x031\x11\x17\n\
-    \x0e\n\x07\x04\x02\x03\x01\x02\x01\x01\x12\x031\x18\x1c\n\x0e\n\x07\x04\
-    \x02\x03\x01\x02\x01\x03\x12\x031\x1f\x20\n\xe8\x01\n\x06\x04\x02\x03\
-    \x01\x02\x02\x12\x036\x082\x1a\xaf\x01\x20for\x20bytes\x20types:\x20size\
-    \x20in\x20bytes,\x20or\x20unset\x20for\x20dynamic\n\x20for\x20arrays:\
-    \x20size\x20in\x20elements,\x20or\x20unset\x20for\x20dynamic\n\x20for\
-    \x20structs:\x20number\x20of\x20members\n\x20for\x20string,\x20bool\x20a\
-    nd\x20address:\x20unset\n\"'\x20for\x20array\x20types,\x20type\x20of\x20\
-    single\x20entry\n\n\x0e\n\x07\x04\x02\x03\x01\x02\x02\x04\x12\x036\x08\
-    \x10\n\x0e\n\x07\x04\x02\x03\x01\x02\x02\x06\x12\x036\x11\"\n\x0e\n\x07\
-    \x04\x02\x03\x01\x02\x02\x01\x12\x036#-\n\x0e\n\x07\x04\x02\x03\x01\x02\
-    \x02\x03\x12\x03601\n&\n\x06\x04\x02\x03\x01\x02\x03\x12\x037\x08(\"\x17\
-    \x20for\x20structs:\x20its\x20name\n\n\x0e\n\x07\x04\x02\x03\x01\x02\x03\
-    \x04\x12\x037\x08\x10\n\x0e\n\x07\x04\x02\x03\x01\x02\x03\x05\x12\x037\
-    \x11\x17\n\x0e\n\x07\x04\x02\x03\x01\x02\x03\x01\x12\x037\x18#\n\x0e\n\
-    \x07\x04\x02\x03\x01\x02\x03\x03\x12\x037&'\n\x0c\n\x04\x04\x02\x04\0\
-    \x12\x04:\x04C\x05\n\x0c\n\x05\x04\x02\x04\0\x01\x12\x03:\t\x19\n\r\n\
-    \x06\x04\x02\x04\0\x02\0\x12\x03;\x08\x11\n\x0e\n\x07\x04\x02\x04\0\x02\
-    \0\x01\x12\x03;\x08\x0c\n\x0e\n\x07\x04\x02\x04\0\x02\0\x02\x12\x03;\x0f\
-    \x10\n\r\n\x06\x04\x02\x04\0\x02\x01\x12\x03<\x08\x10\n\x0e\n\x07\x04\
-    \x02\x04\0\x02\x01\x01\x12\x03<\x08\x0b\n\x0e\n\x07\x04\x02\x04\0\x02\
-    \x01\x02\x12\x03<\x0e\x0f\n\r\n\x06\x04\x02\x04\0\x02\x02\x12\x03=\x08\
-    \x12\n\x0e\n\x07\x04\x02\x04\0\x02\x02\x01\x12\x03=\x08\r\n\x0e\n\x07\
-    \x04\x02\x04\0\x02\x02\x02\x12\x03=\x10\x11\n\r\n\x06\x04\x02\x04\0\x02\
-    \x03\x12\x03>\x08\x13\n\x0e\n\x07\x04\x02\x04\0\x02\x03\x01\x12\x03>\x08\
-    \x0e\n\x0e\n\x07\x04\x02\x04\0\x02\x03\x02\x12\x03>\x11\x12\n\r\n\x06\
-    \x04\x02\x04\0\x02\x04\x12\x03?\x08\x11\n\x0e\n\x07\x04\x02\x04\0\x02\
-    \x04\x01\x12\x03?\x08\x0c\n\x0e\n\x07\x04\x02\x04\0\x02\x04\x02\x12\x03?\
-    \x0f\x10\n\r\n\x06\x04\x02\x04\0\x02\x05\x12\x03@\x08\x14\n\x0e\n\x07\
-    \x04\x02\x04\0\x02\x05\x01\x12\x03@\x08\x0f\n\x0e\n\x07\x04\x02\x04\0\
-    \x02\x05\x02\x12\x03@\x12\x13\n\r\n\x06\x04\x02\x04\0\x02\x06\x12\x03A\
-    \x08\x12\n\x0e\n\x07\x04\x02\x04\0\x02\x06\x01\x12\x03A\x08\r\n\x0e\n\
-    \x07\x04\x02\x04\0\x02\x06\x02\x12\x03A\x10\x11\n\r\n\x06\x04\x02\x04\0\
-    \x02\x07\x12\x03B\x08\x13\n\x0e\n\x07\x04\x02\x04\0\x02\x07\x01\x12\x03B\
-    \x08\x0e\n\x0e\n\x07\x04\x02\x04\0\x02\x07\x02\x12\x03B\x11\x12\nl\n\x02\
-    \x04\x03\x12\x04J\0L\x01\x1a`*\n\x20Response:\x20Device\x20asks\x20for\
-    \x20data\x20at\x20the\x20specific\x20member\x20path.\n\x20@next\x20Ether\
-    eumTypedDataValueAck\n\n\n\n\x03\x04\x03\x01\x12\x03J\x08%\n.\n\x04\x04\
-    \x03\x02\0\x12\x03K\x04$\"!\x20member\x20path\x20requested\x20by\x20devi\
-    ce\n\n\x0c\n\x05\x04\x03\x02\0\x04\x12\x03K\x04\x0c\n\x0c\n\x05\x04\x03\
-    \x02\0\x05\x12\x03K\r\x13\n\x0c\n\x05\x04\x03\x02\0\x01\x12\x03K\x14\x1f\
-    \n\x0c\n\x05\x04\x03\x02\0\x03\x12\x03K\"#\nf\n\x02\x04\x04\x12\x04R\0X\
-    \x01\x1aZ*\n\x20Request:\x20Single\x20value\x20of\x20a\x20specific\x20at\
-    omic\x20field.\n\x20@next\x20EthereumTypedDataValueRequest\n\n\n\n\x03\
-    \x04\x04\x01\x12\x03R\x08!\n\x8a\x02\n\x04\x04\x04\x02\0\x12\x03S\x04\
-    \x1d\"\xfc\x01\x20*\x20atomic\x20types:\x20value\x20of\x20the\x20member.\
-    \n\x20\x20\x20Length\x20must\x20match\x20the\x20`size`\x20of\x20the\x20c\
-    orresponding\x20field\x20type,\x20unless\x20the\x20size\x20is\x20dynamic\
-    .\n\x20*\x20array\x20types:\x20number\x20of\x20elements,\x20encoded\x20a\
-    s\x20uint16.\n\x20*\x20struct\x20types:\x20undefined,\x20Trezor\x20will\
-    \x20not\x20query\x20a\x20struct\x20field.\n\n\x0c\n\x05\x04\x04\x02\0\
-    \x04\x12\x03S\x04\x0c\n\x0c\n\x05\x04\x04\x02\0\x05\x12\x03S\r\x12\n\x0c\
-    \n\x05\x04\x04\x02\0\x01\x12\x03S\x13\x18\n\x0c\n\x05\x04\x04\x02\0\x03\
-    \x12\x03S\x1b\x1c\n1\n\x02\x04\x05\x12\x04^\0a\x01\x1a%*\n\x20Response:\
-    \x20Signed\x20typed\x20data\n\x20@end\n\n\n\n\x03\x04\x05\x01\x12\x03^\
-    \x08\"\n*\n\x04\x04\x05\x02\0\x12\x03_\x04!\"\x1d\x20signature\x20of\x20\
-    the\x20typed\x20data\n\n\x0c\n\x05\x04\x05\x02\0\x04\x12\x03_\x04\x0c\n\
-    \x0c\n\x05\x04\x05\x02\0\x05\x12\x03_\r\x12\n\x0c\n\x05\x04\x05\x02\0\
-    \x01\x12\x03_\x13\x1c\n\x0c\n\x05\x04\x05\x02\0\x03\x12\x03_\x1f\x20\n2\
-    \n\x04\x04\x05\x02\x01\x12\x03`\x04\x20\"%\x20address\x20used\x20to\x20s\
-    ign\x20the\x20typed\x20data\n\n\x0c\n\x05\x04\x05\x02\x01\x04\x12\x03`\
-    \x04\x0c\n\x0c\n\x05\x04\x05\x02\x01\x05\x12\x03`\r\x13\n\x0c\n\x05\x04\
-    \x05\x02\x01\x01\x12\x03`\x14\x1b\n\x0c\n\x05\x04\x05\x02\x01\x03\x12\
-    \x03`\x1e\x1f\
+    p712\x1a#messages-ethereum-definitions.proto\"\xeb\x01\n\x15EthereumSign\
+    TypedData\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12!\n\
+    \x0cprimary_type\x18\x02\x20\x02(\tR\x0bprimaryType\x122\n\x12metamask_v\
+    4_compat\x18\x03\x20\x01(\x08:\x04trueR\x10metamaskV4Compat\x12^\n\x0bde\
+    finitions\x18\x04\x20\x01(\x0b2<.hw.trezor.messages.ethereum_definitions\
+    .EthereumDefinitionsR\x0bdefinitions\"4\n\x1eEthereumTypedDataStructRequ\
+    est\x12\x12\n\x04name\x18\x01\x20\x02(\tR\x04name\"\xb4\x05\n\x1aEthereu\
+    mTypedDataStructAck\x12m\n\x07members\x18\x01\x20\x03(\x0b2S.hw.trezor.m\
+    essages.ethereum_eip712.EthereumTypedDataStructAck.EthereumStructMemberR\
+    \x07members\x1a\x90\x01\n\x14EthereumStructMember\x12d\n\x04type\x18\x01\
+    \x20\x02(\x0b2P.hw.trezor.messages.ethereum_eip712.EthereumTypedDataStru\
+    ctAck.EthereumFieldTypeR\x04type\x12\x12\n\x04name\x18\x02\x20\x02(\tR\
+    \x04name\x1a\xa7\x02\n\x11EthereumFieldType\x12l\n\tdata_type\x18\x01\
+    \x20\x02(\x0e2O.hw.trezor.messages.ethereum_eip712.EthereumTypedDataStru\
+    ctAck.EthereumDataTypeR\x08dataType\x12\x12\n\x04size\x18\x02\x20\x01(\r\
+    R\x04size\x12o\n\nentry_type\x18\x03\x20\x01(\x0b2P.hw.trezor.messages.e\
+    thereum_eip712.EthereumTypedDataStructAck.EthereumFieldTypeR\tentryType\
+    \x12\x1f\n\x0bstruct_name\x18\x04\x20\x01(\tR\nstructName\"j\n\x10Ethere\
+    umDataType\x12\x08\n\x04UINT\x10\x01\x12\x07\n\x03INT\x10\x02\x12\t\n\
+    \x05BYTES\x10\x03\x12\n\n\x06STRING\x10\x04\x12\x08\n\x04BOOL\x10\x05\
+    \x12\x0b\n\x07ADDRESS\x10\x06\x12\t\n\x05ARRAY\x10\x07\x12\n\n\x06STRUCT\
+    \x10\x08\"@\n\x1dEthereumTypedDataValueRequest\x12\x1f\n\x0bmember_path\
+    \x18\x01\x20\x03(\rR\nmemberPath\"1\n\x19EthereumTypedDataValueAck\x12\
+    \x14\n\x05value\x18\x01\x20\x02(\x0cR\x05valueBB\n#com.satoshilabs.trezo\
+    r.lib.protobufB\x1bTrezorMessageEthereumEIP712J\x80\x1a\n\x06\x12\x04\0\
+    \0[\x01\n\x08\n\x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\x01\0+\n\
+    \x08\n\x01\x08\x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\x1a#\x20Su\
+    gar\x20for\x20easier\x20handling\x20in\x20Java\n\n\x08\n\x01\x08\x12\x03\
+    \x05\0<\n\t\n\x02\x08\x08\x12\x03\x05\0<\n\t\n\x02\x03\0\x12\x03\x07\0-\
+    \n\xf2\x02\n\x02\x04\0\x12\x04\x17\0\x1c\x01\x1a\xae\x01*\n\x20Request:\
+    \x20Ask\x20device\x20to\x20sign\x20typed\x20data\n\x20@start\n\x20@next\
+    \x20EthereumTypedDataStructRequest\n\x20@next\x20EthereumTypedDataValueR\
+    equest\n\x20@next\x20EthereumTypedDataSignature\n\x20@next\x20Failure\n2\
+    \xb4\x01\x20Separated\x20from\x20messages-ethereum.proto\x20as\x20it\x20\
+    is\x20not\x20implemented\x20on\x20T1\x20side\n\x20and\x20defining\x20all\
+    \x20the\x20messages\x20and\x20fields\x20could\x20be\x20even\x20impossibl\
+    e\x20as\x20recursive\n\x20messages\x20are\x20used\x20here\n\n\n\n\x03\
+    \x04\0\x01\x12\x03\x17\x08\x1d\n=\n\x04\x04\0\x02\0\x12\x03\x18\x04\"\"0\
+    \x20BIP-32\x20path\x20to\x20derive\x20the\x20key\x20from\x20master\x20no\
+    de\n\n\x0c\n\x05\x04\0\x02\0\x04\x12\x03\x18\x04\x0c\n\x0c\n\x05\x04\0\
+    \x02\0\x05\x12\x03\x18\r\x13\n\x0c\n\x05\x04\0\x02\0\x01\x12\x03\x18\x14\
+    \x1d\n\x0c\n\x05\x04\0\x02\0\x03\x12\x03\x18\x20!\n.\n\x04\x04\0\x02\x01\
+    \x12\x03\x19\x04%\"!\x20name\x20of\x20the\x20root\x20message\x20struct\n\
+    \n\x0c\n\x05\x04\0\x02\x01\x04\x12\x03\x19\x04\x0c\n\x0c\n\x05\x04\0\x02\
+    \x01\x05\x12\x03\x19\r\x13\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\x19\x14\
+    \x20\n\x0c\n\x05\x04\0\x02\x01\x03\x12\x03\x19#$\nX\n\x04\x04\0\x02\x02\
+    \x12\x03\x1a\x048\"K\x20use\x20MetaMask\x20v4\x20(see\x20https://github.\
+    com/MetaMask/eth-sig-util/issues/106)\n\n\x0c\n\x05\x04\0\x02\x02\x04\
+    \x12\x03\x1a\x04\x0c\n\x0c\n\x05\x04\0\x02\x02\x05\x12\x03\x1a\r\x11\n\
+    \x0c\n\x05\x04\0\x02\x02\x01\x12\x03\x1a\x12$\n\x0c\n\x05\x04\0\x02\x02\
+    \x03\x12\x03\x1a'(\n\x0c\n\x05\x04\0\x02\x02\x08\x12\x03\x1a)7\n\x0c\n\
+    \x05\x04\0\x02\x02\x07\x12\x03\x1a26\n/\n\x04\x04\0\x02\x03\x12\x03\x1b\
+    \x04F\"\"\x20network\x20and/or\x20token\x20definitions\n\n\x0c\n\x05\x04\
+    \0\x02\x03\x04\x12\x03\x1b\x04\x0c\n\x0c\n\x05\x04\0\x02\x03\x06\x12\x03\
+    \x1b\r5\n\x0c\n\x05\x04\0\x02\x03\x01\x12\x03\x1b6A\n\x0c\n\x05\x04\0\
+    \x02\x03\x03\x12\x03\x1bDE\nl\n\x02\x04\x01\x12\x04\"\0$\x01\x1a`*\n\x20\
+    Response:\x20Device\x20asks\x20for\x20type\x20information\x20about\x20a\
+    \x20struct.\n\x20@next\x20EthereumTypedDataStructAck\n\n\n\n\x03\x04\x01\
+    \x01\x12\x03\"\x08&\n+\n\x04\x04\x01\x02\0\x12\x03#\x04\x1d\"\x1e\x20nam\
+    e\x20of\x20the\x20requested\x20struct\n\n\x0c\n\x05\x04\x01\x02\0\x04\
+    \x12\x03#\x04\x0c\n\x0c\n\x05\x04\x01\x02\0\x05\x12\x03#\r\x13\n\x0c\n\
+    \x05\x04\x01\x02\0\x01\x12\x03#\x14\x18\n\x0c\n\x05\x04\x01\x02\0\x03\
+    \x12\x03#\x1b\x1c\n_\n\x02\x04\x02\x12\x04*\0G\x01\x1aS*\n\x20Request:\
+    \x20Type\x20information\x20about\x20a\x20struct.\n\x20@next\x20EthereumT\
+    ypedDataStructRequest\n\n\n\n\x03\x04\x02\x01\x12\x03*\x08\"\n\x0b\n\x04\
+    \x04\x02\x02\0\x12\x03+\x04.\n\x0c\n\x05\x04\x02\x02\0\x04\x12\x03+\x04\
+    \x0c\n\x0c\n\x05\x04\x02\x02\0\x06\x12\x03+\r!\n\x0c\n\x05\x04\x02\x02\0\
+    \x01\x12\x03+\")\n\x0c\n\x05\x04\x02\x02\0\x03\x12\x03+,-\n\x0c\n\x04\
+    \x04\x02\x03\0\x12\x04-\x040\x05\n\x0c\n\x05\x04\x02\x03\0\x01\x12\x03-\
+    \x0c\x20\n\r\n\x06\x04\x02\x03\0\x02\0\x12\x03.\x08,\n\x0e\n\x07\x04\x02\
+    \x03\0\x02\0\x04\x12\x03.\x08\x10\n\x0e\n\x07\x04\x02\x03\0\x02\0\x06\
+    \x12\x03.\x11\"\n\x0e\n\x07\x04\x02\x03\0\x02\0\x01\x12\x03.#'\n\x0e\n\
+    \x07\x04\x02\x03\0\x02\0\x03\x12\x03.*+\n\r\n\x06\x04\x02\x03\0\x02\x01\
+    \x12\x03/\x08!\n\x0e\n\x07\x04\x02\x03\0\x02\x01\x04\x12\x03/\x08\x10\n\
+    \x0e\n\x07\x04\x02\x03\0\x02\x01\x05\x12\x03/\x11\x17\n\x0e\n\x07\x04\
+    \x02\x03\0\x02\x01\x01\x12\x03/\x18\x1c\n\x0e\n\x07\x04\x02\x03\0\x02\
+    \x01\x03\x12\x03/\x1f\x20\n\x0c\n\x04\x04\x02\x03\x01\x12\x042\x04;\x05\
+    \n\x0c\n\x05\x04\x02\x03\x01\x01\x12\x032\x0c\x1d\n\r\n\x06\x04\x02\x03\
+    \x01\x02\0\x12\x033\x080\n\x0e\n\x07\x04\x02\x03\x01\x02\0\x04\x12\x033\
+    \x08\x10\n\x0e\n\x07\x04\x02\x03\x01\x02\0\x06\x12\x033\x11!\n\x0e\n\x07\
+    \x04\x02\x03\x01\x02\0\x01\x12\x033\"+\n\x0e\n\x07\x04\x02\x03\x01\x02\0\
+    \x03\x12\x033./\nY\n\x06\x04\x02\x03\x01\x02\x01\x12\x034\x08!\"J\x20for\
+    \x20integer\x20types:\x20size\x20in\x20bytes\x20(uint8\x20has\x20size\
+    \x201,\x20uint256\x20has\x20size\x2032)\n\n\x0e\n\x07\x04\x02\x03\x01\
+    \x02\x01\x04\x12\x034\x08\x10\n\x0e\n\x07\x04\x02\x03\x01\x02\x01\x05\
+    \x12\x034\x11\x17\n\x0e\n\x07\x04\x02\x03\x01\x02\x01\x01\x12\x034\x18\
+    \x1c\n\x0e\n\x07\x04\x02\x03\x01\x02\x01\x03\x12\x034\x1f\x20\n\xe8\x01\
+    \n\x06\x04\x02\x03\x01\x02\x02\x12\x039\x082\x1a\xaf\x01\x20for\x20bytes\
+    \x20types:\x20size\x20in\x20bytes,\x20or\x20unset\x20for\x20dynamic\n\
+    \x20for\x20arrays:\x20size\x20in\x20elements,\x20or\x20unset\x20for\x20d\
+    ynamic\n\x20for\x20structs:\x20number\x20of\x20members\n\x20for\x20strin\
+    g,\x20bool\x20and\x20address:\x20unset\n\"'\x20for\x20array\x20types,\
+    \x20type\x20of\x20single\x20entry\n\n\x0e\n\x07\x04\x02\x03\x01\x02\x02\
+    \x04\x12\x039\x08\x10\n\x0e\n\x07\x04\x02\x03\x01\x02\x02\x06\x12\x039\
+    \x11\"\n\x0e\n\x07\x04\x02\x03\x01\x02\x02\x01\x12\x039#-\n\x0e\n\x07\
+    \x04\x02\x03\x01\x02\x02\x03\x12\x03901\n&\n\x06\x04\x02\x03\x01\x02\x03\
+    \x12\x03:\x08(\"\x17\x20for\x20structs:\x20its\x20name\n\n\x0e\n\x07\x04\
+    \x02\x03\x01\x02\x03\x04\x12\x03:\x08\x10\n\x0e\n\x07\x04\x02\x03\x01\
+    \x02\x03\x05\x12\x03:\x11\x17\n\x0e\n\x07\x04\x02\x03\x01\x02\x03\x01\
+    \x12\x03:\x18#\n\x0e\n\x07\x04\x02\x03\x01\x02\x03\x03\x12\x03:&'\n\x0c\
+    \n\x04\x04\x02\x04\0\x12\x04=\x04F\x05\n\x0c\n\x05\x04\x02\x04\0\x01\x12\
+    \x03=\t\x19\n\r\n\x06\x04\x02\x04\0\x02\0\x12\x03>\x08\x11\n\x0e\n\x07\
+    \x04\x02\x04\0\x02\0\x01\x12\x03>\x08\x0c\n\x0e\n\x07\x04\x02\x04\0\x02\
+    \0\x02\x12\x03>\x0f\x10\n\r\n\x06\x04\x02\x04\0\x02\x01\x12\x03?\x08\x10\
+    \n\x0e\n\x07\x04\x02\x04\0\x02\x01\x01\x12\x03?\x08\x0b\n\x0e\n\x07\x04\
+    \x02\x04\0\x02\x01\x02\x12\x03?\x0e\x0f\n\r\n\x06\x04\x02\x04\0\x02\x02\
+    \x12\x03@\x08\x12\n\x0e\n\x07\x04\x02\x04\0\x02\x02\x01\x12\x03@\x08\r\n\
+    \x0e\n\x07\x04\x02\x04\0\x02\x02\x02\x12\x03@\x10\x11\n\r\n\x06\x04\x02\
+    \x04\0\x02\x03\x12\x03A\x08\x13\n\x0e\n\x07\x04\x02\x04\0\x02\x03\x01\
+    \x12\x03A\x08\x0e\n\x0e\n\x07\x04\x02\x04\0\x02\x03\x02\x12\x03A\x11\x12\
+    \n\r\n\x06\x04\x02\x04\0\x02\x04\x12\x03B\x08\x11\n\x0e\n\x07\x04\x02\
+    \x04\0\x02\x04\x01\x12\x03B\x08\x0c\n\x0e\n\x07\x04\x02\x04\0\x02\x04\
+    \x02\x12\x03B\x0f\x10\n\r\n\x06\x04\x02\x04\0\x02\x05\x12\x03C\x08\x14\n\
+    \x0e\n\x07\x04\x02\x04\0\x02\x05\x01\x12\x03C\x08\x0f\n\x0e\n\x07\x04\
+    \x02\x04\0\x02\x05\x02\x12\x03C\x12\x13\n\r\n\x06\x04\x02\x04\0\x02\x06\
+    \x12\x03D\x08\x12\n\x0e\n\x07\x04\x02\x04\0\x02\x06\x01\x12\x03D\x08\r\n\
+    \x0e\n\x07\x04\x02\x04\0\x02\x06\x02\x12\x03D\x10\x11\n\r\n\x06\x04\x02\
+    \x04\0\x02\x07\x12\x03E\x08\x13\n\x0e\n\x07\x04\x02\x04\0\x02\x07\x01\
+    \x12\x03E\x08\x0e\n\x0e\n\x07\x04\x02\x04\0\x02\x07\x02\x12\x03E\x11\x12\
+    \nl\n\x02\x04\x03\x12\x04M\0O\x01\x1a`*\n\x20Response:\x20Device\x20asks\
+    \x20for\x20data\x20at\x20the\x20specific\x20member\x20path.\n\x20@next\
+    \x20EthereumTypedDataValueAck\n\n\n\n\x03\x04\x03\x01\x12\x03M\x08%\n.\n\
+    \x04\x04\x03\x02\0\x12\x03N\x04$\"!\x20member\x20path\x20requested\x20by\
+    \x20device\n\n\x0c\n\x05\x04\x03\x02\0\x04\x12\x03N\x04\x0c\n\x0c\n\x05\
+    \x04\x03\x02\0\x05\x12\x03N\r\x13\n\x0c\n\x05\x04\x03\x02\0\x01\x12\x03N\
+    \x14\x1f\n\x0c\n\x05\x04\x03\x02\0\x03\x12\x03N\"#\nf\n\x02\x04\x04\x12\
+    \x04U\0[\x01\x1aZ*\n\x20Request:\x20Single\x20value\x20of\x20a\x20specif\
+    ic\x20atomic\x20field.\n\x20@next\x20EthereumTypedDataValueRequest\n\n\n\
+    \n\x03\x04\x04\x01\x12\x03U\x08!\n\x8a\x02\n\x04\x04\x04\x02\0\x12\x03V\
+    \x04\x1d\"\xfc\x01\x20*\x20atomic\x20types:\x20value\x20of\x20the\x20mem\
+    ber.\n\x20\x20\x20Length\x20must\x20match\x20the\x20`size`\x20of\x20the\
+    \x20corresponding\x20field\x20type,\x20unless\x20the\x20size\x20is\x20dy\
+    namic.\n\x20*\x20array\x20types:\x20number\x20of\x20elements,\x20encoded\
+    \x20as\x20uint16.\n\x20*\x20struct\x20types:\x20undefined,\x20Trezor\x20\
+    will\x20not\x20query\x20a\x20struct\x20field.\n\n\x0c\n\x05\x04\x04\x02\
+    \0\x04\x12\x03V\x04\x0c\n\x0c\n\x05\x04\x04\x02\0\x05\x12\x03V\r\x12\n\
+    \x0c\n\x05\x04\x04\x02\0\x01\x12\x03V\x13\x18\n\x0c\n\x05\x04\x04\x02\0\
+    \x03\x12\x03V\x1b\x1c\
 ";
 
 /// `FileDescriptorProto` object which was a source for this generated file
@@ -1766,14 +1563,14 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     static file_descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::FileDescriptor> = ::protobuf::rt::Lazy::new();
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
-            let mut deps = ::std::vec::Vec::with_capacity(0);
-            let mut messages = ::std::vec::Vec::with_capacity(8);
+            let mut deps = ::std::vec::Vec::with_capacity(1);
+            deps.push(super::messages_ethereum_definitions::file_descriptor().clone());
+            let mut messages = ::std::vec::Vec::with_capacity(7);
             messages.push(EthereumSignTypedData::generated_message_descriptor_data());
             messages.push(EthereumTypedDataStructRequest::generated_message_descriptor_data());
             messages.push(EthereumTypedDataStructAck::generated_message_descriptor_data());
             messages.push(EthereumTypedDataValueRequest::generated_message_descriptor_data());
             messages.push(EthereumTypedDataValueAck::generated_message_descriptor_data());
-            messages.push(EthereumTypedDataSignature::generated_message_descriptor_data());
             messages.push(ethereum_typed_data_struct_ack::EthereumStructMember::generated_message_descriptor_data());
             messages.push(ethereum_typed_data_struct_ack::EthereumFieldType::generated_message_descriptor_data());
             let mut enums = ::std::vec::Vec::with_capacity(1);

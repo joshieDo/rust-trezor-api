@@ -217,7 +217,7 @@ impl TezosAddress {
         ::std::default::Default::default()
     }
 
-    // optional string address = 1;
+    // required string address = 1;
 
     pub fn address(&self) -> &str {
         match self.address.as_ref() {
@@ -273,6 +273,9 @@ impl ::protobuf::Message for TezosAddress {
     const NAME: &'static str = "TezosAddress";
 
     fn is_initialized(&self) -> bool {
+        if self.address.is_none() {
+            return false;
+        }
         true
     }
 
@@ -544,7 +547,7 @@ impl TezosPublicKey {
         ::std::default::Default::default()
     }
 
-    // optional string public_key = 1;
+    // required string public_key = 1;
 
     pub fn public_key(&self) -> &str {
         match self.public_key.as_ref() {
@@ -600,6 +603,9 @@ impl ::protobuf::Message for TezosPublicKey {
     const NAME: &'static str = "TezosPublicKey";
 
     fn is_initialized(&self) -> bool {
+        if self.public_key.is_none() {
+            return false;
+        }
         true
     }
 
@@ -700,6 +706,10 @@ pub struct TezosSignTx {
     pub origination: ::protobuf::MessageField<tezos_sign_tx::TezosOriginationOp>,
     // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.delegation)
     pub delegation: ::protobuf::MessageField<tezos_sign_tx::TezosDelegationOp>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.proposal)
+    pub proposal: ::protobuf::MessageField<tezos_sign_tx::TezosProposalOp>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.ballot)
+    pub ballot: ::protobuf::MessageField<tezos_sign_tx::TezosBallotOp>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.tezos.TezosSignTx.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -716,7 +726,7 @@ impl TezosSignTx {
         ::std::default::Default::default()
     }
 
-    // optional bytes branch = 2;
+    // required bytes branch = 2;
 
     pub fn branch(&self) -> &[u8] {
         match self.branch.as_ref() {
@@ -753,7 +763,7 @@ impl TezosSignTx {
     }
 
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(6);
+        let mut fields = ::std::vec::Vec::with_capacity(8);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
             "address_n",
@@ -785,6 +795,16 @@ impl TezosSignTx {
             |m: &TezosSignTx| { &m.delegation },
             |m: &mut TezosSignTx| { &mut m.delegation },
         ));
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, tezos_sign_tx::TezosProposalOp>(
+            "proposal",
+            |m: &TezosSignTx| { &m.proposal },
+            |m: &mut TezosSignTx| { &mut m.proposal },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, tezos_sign_tx::TezosBallotOp>(
+            "ballot",
+            |m: &TezosSignTx| { &m.ballot },
+            |m: &mut TezosSignTx| { &mut m.ballot },
+        ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<TezosSignTx>(
             "TezosSignTx",
             fields,
@@ -797,6 +817,39 @@ impl ::protobuf::Message for TezosSignTx {
     const NAME: &'static str = "TezosSignTx";
 
     fn is_initialized(&self) -> bool {
+        if self.branch.is_none() {
+            return false;
+        }
+        for v in &self.reveal {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.transaction {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.origination {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.delegation {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.proposal {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.ballot {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -823,6 +876,12 @@ impl ::protobuf::Message for TezosSignTx {
                 },
                 50 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.delegation)?;
+                },
+                58 => {
+                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.proposal)?;
+                },
+                66 => {
+                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.ballot)?;
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -858,6 +917,14 @@ impl ::protobuf::Message for TezosSignTx {
             let len = v.compute_size();
             my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
         }
+        if let Some(v) = self.proposal.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
+        if let Some(v) = self.ballot.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -882,6 +949,12 @@ impl ::protobuf::Message for TezosSignTx {
         if let Some(v) = self.delegation.as_ref() {
             ::protobuf::rt::write_message_field_with_cached_size(6, v, os)?;
         }
+        if let Some(v) = self.proposal.as_ref() {
+            ::protobuf::rt::write_message_field_with_cached_size(7, v, os)?;
+        }
+        if let Some(v) = self.ballot.as_ref() {
+            ::protobuf::rt::write_message_field_with_cached_size(8, v, os)?;
+        }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
     }
@@ -905,6 +978,8 @@ impl ::protobuf::Message for TezosSignTx {
         self.transaction.clear();
         self.origination.clear();
         self.delegation.clear();
+        self.proposal.clear();
+        self.ballot.clear();
         self.special_fields.clear();
     }
 
@@ -916,6 +991,8 @@ impl ::protobuf::Message for TezosSignTx {
             transaction: ::protobuf::MessageField::none(),
             origination: ::protobuf::MessageField::none(),
             delegation: ::protobuf::MessageField::none(),
+            proposal: ::protobuf::MessageField::none(),
+            ballot: ::protobuf::MessageField::none(),
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -967,7 +1044,7 @@ pub mod tezos_sign_tx {
             ::std::default::Default::default()
         }
 
-        // optional .hw.trezor.messages.tezos.TezosSignTx.TezosContractID.TezosContractType tag = 1;
+        // required .hw.trezor.messages.tezos.TezosSignTx.TezosContractID.TezosContractType tag = 1;
 
         pub fn tag(&self) -> tezos_contract_id::TezosContractType {
             match self.tag {
@@ -989,7 +1066,7 @@ pub mod tezos_sign_tx {
             self.tag = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
         }
 
-        // optional bytes hash = 2;
+        // required bytes hash = 2;
 
         pub fn hash(&self) -> &[u8] {
             match self.hash.as_ref() {
@@ -1050,6 +1127,12 @@ pub mod tezos_sign_tx {
         const NAME: &'static str = "TezosContractID";
 
         fn is_initialized(&self) -> bool {
+            if self.tag.is_none() {
+                return false;
+            }
+            if self.hash.is_none() {
+                return false;
+            }
             true
         }
 
@@ -1207,7 +1290,7 @@ pub mod tezos_sign_tx {
     pub struct TezosRevealOp {
         // message fields
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosRevealOp.source)
-        pub source: ::protobuf::MessageField<TezosContractID>,
+        pub source: ::std::option::Option<::std::vec::Vec<u8>>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosRevealOp.fee)
         pub fee: ::std::option::Option<u64>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosRevealOp.counter)
@@ -1234,7 +1317,43 @@ pub mod tezos_sign_tx {
             ::std::default::Default::default()
         }
 
-        // optional uint64 fee = 2;
+        // required bytes source = 7;
+
+        pub fn source(&self) -> &[u8] {
+            match self.source.as_ref() {
+                Some(v) => v,
+                None => &[],
+            }
+        }
+
+        pub fn clear_source(&mut self) {
+            self.source = ::std::option::Option::None;
+        }
+
+        pub fn has_source(&self) -> bool {
+            self.source.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_source(&mut self, v: ::std::vec::Vec<u8>) {
+            self.source = ::std::option::Option::Some(v);
+        }
+
+        // Mutable pointer to the field.
+        // If field is not initialized, it is initialized with default value first.
+        pub fn mut_source(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.source.is_none() {
+                self.source = ::std::option::Option::Some(::std::vec::Vec::new());
+            }
+            self.source.as_mut().unwrap()
+        }
+
+        // Take field
+        pub fn take_source(&mut self) -> ::std::vec::Vec<u8> {
+            self.source.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        }
+
+        // required uint64 fee = 2;
 
         pub fn fee(&self) -> u64 {
             self.fee.unwrap_or(0)
@@ -1253,7 +1372,7 @@ pub mod tezos_sign_tx {
             self.fee = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 counter = 3;
+        // required uint64 counter = 3;
 
         pub fn counter(&self) -> u64 {
             self.counter.unwrap_or(0)
@@ -1272,7 +1391,7 @@ pub mod tezos_sign_tx {
             self.counter = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 gas_limit = 4;
+        // required uint64 gas_limit = 4;
 
         pub fn gas_limit(&self) -> u64 {
             self.gas_limit.unwrap_or(0)
@@ -1291,7 +1410,7 @@ pub mod tezos_sign_tx {
             self.gas_limit = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 storage_limit = 5;
+        // required uint64 storage_limit = 5;
 
         pub fn storage_limit(&self) -> u64 {
             self.storage_limit.unwrap_or(0)
@@ -1310,7 +1429,7 @@ pub mod tezos_sign_tx {
             self.storage_limit = ::std::option::Option::Some(v);
         }
 
-        // optional bytes public_key = 6;
+        // required bytes public_key = 6;
 
         pub fn public_key(&self) -> &[u8] {
             match self.public_key.as_ref() {
@@ -1349,7 +1468,7 @@ pub mod tezos_sign_tx {
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
             let mut fields = ::std::vec::Vec::with_capacity(6);
             let mut oneofs = ::std::vec::Vec::with_capacity(0);
-            fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, TezosContractID>(
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "source",
                 |m: &TezosRevealOp| { &m.source },
                 |m: &mut TezosRevealOp| { &mut m.source },
@@ -1391,14 +1510,32 @@ pub mod tezos_sign_tx {
         const NAME: &'static str = "TezosRevealOp";
 
         fn is_initialized(&self) -> bool {
+            if self.source.is_none() {
+                return false;
+            }
+            if self.fee.is_none() {
+                return false;
+            }
+            if self.counter.is_none() {
+                return false;
+            }
+            if self.gas_limit.is_none() {
+                return false;
+            }
+            if self.storage_limit.is_none() {
+                return false;
+            }
+            if self.public_key.is_none() {
+                return false;
+            }
             true
         }
 
         fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
             while let Some(tag) = is.read_raw_tag_or_eof()? {
                 match tag {
-                    10 => {
-                        ::protobuf::rt::read_singular_message_into_field(is, &mut self.source)?;
+                    58 => {
+                        self.source = ::std::option::Option::Some(is.read_bytes()?);
                     },
                     16 => {
                         self.fee = ::std::option::Option::Some(is.read_uint64()?);
@@ -1428,8 +1565,7 @@ pub mod tezos_sign_tx {
         fn compute_size(&self) -> u64 {
             let mut my_size = 0;
             if let Some(v) = self.source.as_ref() {
-                let len = v.compute_size();
-                my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+                my_size += ::protobuf::rt::bytes_size(7, &v);
             }
             if let Some(v) = self.fee {
                 my_size += ::protobuf::rt::uint64_size(2, v);
@@ -1453,7 +1589,7 @@ pub mod tezos_sign_tx {
 
         fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
             if let Some(v) = self.source.as_ref() {
-                ::protobuf::rt::write_message_field_with_cached_size(1, v, os)?;
+                os.write_bytes(7, v)?;
             }
             if let Some(v) = self.fee {
                 os.write_uint64(2, v)?;
@@ -1487,7 +1623,7 @@ pub mod tezos_sign_tx {
         }
 
         fn clear(&mut self) {
-            self.source.clear();
+            self.source = ::std::option::Option::None;
             self.fee = ::std::option::Option::None;
             self.counter = ::std::option::Option::None;
             self.gas_limit = ::std::option::Option::None;
@@ -1498,7 +1634,7 @@ pub mod tezos_sign_tx {
 
         fn default_instance() -> &'static TezosRevealOp {
             static instance: TezosRevealOp = TezosRevealOp {
-                source: ::protobuf::MessageField::none(),
+                source: ::std::option::Option::None,
                 fee: ::std::option::Option::None,
                 counter: ::std::option::Option::None,
                 gas_limit: ::std::option::Option::None,
@@ -1534,7 +1670,7 @@ pub mod tezos_sign_tx {
     pub struct TezosTransactionOp {
         // message fields
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.source)
-        pub source: ::protobuf::MessageField<TezosContractID>,
+        pub source: ::std::option::Option<::std::vec::Vec<u8>>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.fee)
         pub fee: ::std::option::Option<u64>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.counter)
@@ -1549,6 +1685,8 @@ pub mod tezos_sign_tx {
         pub destination: ::protobuf::MessageField<TezosContractID>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.parameters)
         pub parameters: ::std::option::Option<::std::vec::Vec<u8>>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.parameters_manager)
+        pub parameters_manager: ::protobuf::MessageField<tezos_transaction_op::TezosParametersManager>,
         // special fields
         // @@protoc_insertion_point(special_field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.special_fields)
         pub special_fields: ::protobuf::SpecialFields,
@@ -1565,7 +1703,43 @@ pub mod tezos_sign_tx {
             ::std::default::Default::default()
         }
 
-        // optional uint64 fee = 2;
+        // required bytes source = 9;
+
+        pub fn source(&self) -> &[u8] {
+            match self.source.as_ref() {
+                Some(v) => v,
+                None => &[],
+            }
+        }
+
+        pub fn clear_source(&mut self) {
+            self.source = ::std::option::Option::None;
+        }
+
+        pub fn has_source(&self) -> bool {
+            self.source.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_source(&mut self, v: ::std::vec::Vec<u8>) {
+            self.source = ::std::option::Option::Some(v);
+        }
+
+        // Mutable pointer to the field.
+        // If field is not initialized, it is initialized with default value first.
+        pub fn mut_source(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.source.is_none() {
+                self.source = ::std::option::Option::Some(::std::vec::Vec::new());
+            }
+            self.source.as_mut().unwrap()
+        }
+
+        // Take field
+        pub fn take_source(&mut self) -> ::std::vec::Vec<u8> {
+            self.source.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        }
+
+        // required uint64 fee = 2;
 
         pub fn fee(&self) -> u64 {
             self.fee.unwrap_or(0)
@@ -1584,7 +1758,7 @@ pub mod tezos_sign_tx {
             self.fee = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 counter = 3;
+        // required uint64 counter = 3;
 
         pub fn counter(&self) -> u64 {
             self.counter.unwrap_or(0)
@@ -1603,7 +1777,7 @@ pub mod tezos_sign_tx {
             self.counter = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 gas_limit = 4;
+        // required uint64 gas_limit = 4;
 
         pub fn gas_limit(&self) -> u64 {
             self.gas_limit.unwrap_or(0)
@@ -1622,7 +1796,7 @@ pub mod tezos_sign_tx {
             self.gas_limit = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 storage_limit = 5;
+        // required uint64 storage_limit = 5;
 
         pub fn storage_limit(&self) -> u64 {
             self.storage_limit.unwrap_or(0)
@@ -1641,7 +1815,7 @@ pub mod tezos_sign_tx {
             self.storage_limit = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 amount = 6;
+        // required uint64 amount = 6;
 
         pub fn amount(&self) -> u64 {
             self.amount.unwrap_or(0)
@@ -1697,9 +1871,9 @@ pub mod tezos_sign_tx {
         }
 
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-            let mut fields = ::std::vec::Vec::with_capacity(8);
+            let mut fields = ::std::vec::Vec::with_capacity(9);
             let mut oneofs = ::std::vec::Vec::with_capacity(0);
-            fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, TezosContractID>(
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "source",
                 |m: &TezosTransactionOp| { &m.source },
                 |m: &mut TezosTransactionOp| { &mut m.source },
@@ -1739,6 +1913,11 @@ pub mod tezos_sign_tx {
                 |m: &TezosTransactionOp| { &m.parameters },
                 |m: &mut TezosTransactionOp| { &mut m.parameters },
             ));
+            fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, tezos_transaction_op::TezosParametersManager>(
+                "parameters_manager",
+                |m: &TezosTransactionOp| { &m.parameters_manager },
+                |m: &mut TezosTransactionOp| { &mut m.parameters_manager },
+            ));
             ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<TezosTransactionOp>(
                 "TezosSignTx.TezosTransactionOp",
                 fields,
@@ -1751,14 +1930,45 @@ pub mod tezos_sign_tx {
         const NAME: &'static str = "TezosTransactionOp";
 
         fn is_initialized(&self) -> bool {
+            if self.source.is_none() {
+                return false;
+            }
+            if self.fee.is_none() {
+                return false;
+            }
+            if self.counter.is_none() {
+                return false;
+            }
+            if self.gas_limit.is_none() {
+                return false;
+            }
+            if self.storage_limit.is_none() {
+                return false;
+            }
+            if self.amount.is_none() {
+                return false;
+            }
+            if self.destination.is_none() {
+                return false;
+            }
+            for v in &self.destination {
+                if !v.is_initialized() {
+                    return false;
+                }
+            };
+            for v in &self.parameters_manager {
+                if !v.is_initialized() {
+                    return false;
+                }
+            };
             true
         }
 
         fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
             while let Some(tag) = is.read_raw_tag_or_eof()? {
                 match tag {
-                    10 => {
-                        ::protobuf::rt::read_singular_message_into_field(is, &mut self.source)?;
+                    74 => {
+                        self.source = ::std::option::Option::Some(is.read_bytes()?);
                     },
                     16 => {
                         self.fee = ::std::option::Option::Some(is.read_uint64()?);
@@ -1781,6 +1991,9 @@ pub mod tezos_sign_tx {
                     66 => {
                         self.parameters = ::std::option::Option::Some(is.read_bytes()?);
                     },
+                    82 => {
+                        ::protobuf::rt::read_singular_message_into_field(is, &mut self.parameters_manager)?;
+                    },
                     tag => {
                         ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
                     },
@@ -1794,8 +2007,7 @@ pub mod tezos_sign_tx {
         fn compute_size(&self) -> u64 {
             let mut my_size = 0;
             if let Some(v) = self.source.as_ref() {
-                let len = v.compute_size();
-                my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+                my_size += ::protobuf::rt::bytes_size(9, &v);
             }
             if let Some(v) = self.fee {
                 my_size += ::protobuf::rt::uint64_size(2, v);
@@ -1819,6 +2031,10 @@ pub mod tezos_sign_tx {
             if let Some(v) = self.parameters.as_ref() {
                 my_size += ::protobuf::rt::bytes_size(8, &v);
             }
+            if let Some(v) = self.parameters_manager.as_ref() {
+                let len = v.compute_size();
+                my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+            }
             my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
             self.special_fields.cached_size().set(my_size as u32);
             my_size
@@ -1826,7 +2042,7 @@ pub mod tezos_sign_tx {
 
         fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
             if let Some(v) = self.source.as_ref() {
-                ::protobuf::rt::write_message_field_with_cached_size(1, v, os)?;
+                os.write_bytes(9, v)?;
             }
             if let Some(v) = self.fee {
                 os.write_uint64(2, v)?;
@@ -1849,6 +2065,9 @@ pub mod tezos_sign_tx {
             if let Some(v) = self.parameters.as_ref() {
                 os.write_bytes(8, v)?;
             }
+            if let Some(v) = self.parameters_manager.as_ref() {
+                ::protobuf::rt::write_message_field_with_cached_size(10, v, os)?;
+            }
             os.write_unknown_fields(self.special_fields.unknown_fields())?;
             ::std::result::Result::Ok(())
         }
@@ -1866,7 +2085,7 @@ pub mod tezos_sign_tx {
         }
 
         fn clear(&mut self) {
-            self.source.clear();
+            self.source = ::std::option::Option::None;
             self.fee = ::std::option::Option::None;
             self.counter = ::std::option::Option::None;
             self.gas_limit = ::std::option::Option::None;
@@ -1874,12 +2093,13 @@ pub mod tezos_sign_tx {
             self.amount = ::std::option::Option::None;
             self.destination.clear();
             self.parameters = ::std::option::Option::None;
+            self.parameters_manager.clear();
             self.special_fields.clear();
         }
 
         fn default_instance() -> &'static TezosTransactionOp {
             static instance: TezosTransactionOp = TezosTransactionOp {
-                source: ::protobuf::MessageField::none(),
+                source: ::std::option::Option::None,
                 fee: ::std::option::Option::None,
                 counter: ::std::option::Option::None,
                 gas_limit: ::std::option::Option::None,
@@ -1887,6 +2107,7 @@ pub mod tezos_sign_tx {
                 amount: ::std::option::Option::None,
                 destination: ::protobuf::MessageField::none(),
                 parameters: ::std::option::Option::None,
+                parameters_manager: ::protobuf::MessageField::none(),
                 special_fields: ::protobuf::SpecialFields::new(),
             };
             &instance
@@ -1910,6 +2131,402 @@ pub mod tezos_sign_tx {
         type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
     }
 
+    /// Nested message and enums of message `TezosTransactionOp`
+    pub mod tezos_transaction_op {
+        #[derive(PartialEq,Clone,Default,Debug)]
+        // @@protoc_insertion_point(message:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager)
+        pub struct TezosParametersManager {
+            // message fields
+            // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.set_delegate)
+            pub set_delegate: ::std::option::Option<::std::vec::Vec<u8>>,
+            // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.cancel_delegate)
+            pub cancel_delegate: ::std::option::Option<bool>,
+            // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.transfer)
+            pub transfer: ::protobuf::MessageField<tezos_parameters_manager::TezosManagerTransfer>,
+            // special fields
+            // @@protoc_insertion_point(special_field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.special_fields)
+            pub special_fields: ::protobuf::SpecialFields,
+        }
+
+        impl<'a> ::std::default::Default for &'a TezosParametersManager {
+            fn default() -> &'a TezosParametersManager {
+                <TezosParametersManager as ::protobuf::Message>::default_instance()
+            }
+        }
+
+        impl TezosParametersManager {
+            pub fn new() -> TezosParametersManager {
+                ::std::default::Default::default()
+            }
+
+            // optional bytes set_delegate = 1;
+
+            pub fn set_delegate(&self) -> &[u8] {
+                match self.set_delegate.as_ref() {
+                    Some(v) => v,
+                    None => &[],
+                }
+            }
+
+            pub fn clear_set_delegate(&mut self) {
+                self.set_delegate = ::std::option::Option::None;
+            }
+
+            pub fn has_set_delegate(&self) -> bool {
+                self.set_delegate.is_some()
+            }
+
+            // Param is passed by value, moved
+            pub fn set_set_delegate(&mut self, v: ::std::vec::Vec<u8>) {
+                self.set_delegate = ::std::option::Option::Some(v);
+            }
+
+            // Mutable pointer to the field.
+            // If field is not initialized, it is initialized with default value first.
+            pub fn mut_set_delegate(&mut self) -> &mut ::std::vec::Vec<u8> {
+                if self.set_delegate.is_none() {
+                    self.set_delegate = ::std::option::Option::Some(::std::vec::Vec::new());
+                }
+                self.set_delegate.as_mut().unwrap()
+            }
+
+            // Take field
+            pub fn take_set_delegate(&mut self) -> ::std::vec::Vec<u8> {
+                self.set_delegate.take().unwrap_or_else(|| ::std::vec::Vec::new())
+            }
+
+            // optional bool cancel_delegate = 2;
+
+            pub fn cancel_delegate(&self) -> bool {
+                self.cancel_delegate.unwrap_or(false)
+            }
+
+            pub fn clear_cancel_delegate(&mut self) {
+                self.cancel_delegate = ::std::option::Option::None;
+            }
+
+            pub fn has_cancel_delegate(&self) -> bool {
+                self.cancel_delegate.is_some()
+            }
+
+            // Param is passed by value, moved
+            pub fn set_cancel_delegate(&mut self, v: bool) {
+                self.cancel_delegate = ::std::option::Option::Some(v);
+            }
+
+            pub(in super::super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+                let mut fields = ::std::vec::Vec::with_capacity(3);
+                let mut oneofs = ::std::vec::Vec::with_capacity(0);
+                fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                    "set_delegate",
+                    |m: &TezosParametersManager| { &m.set_delegate },
+                    |m: &mut TezosParametersManager| { &mut m.set_delegate },
+                ));
+                fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                    "cancel_delegate",
+                    |m: &TezosParametersManager| { &m.cancel_delegate },
+                    |m: &mut TezosParametersManager| { &mut m.cancel_delegate },
+                ));
+                fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, tezos_parameters_manager::TezosManagerTransfer>(
+                    "transfer",
+                    |m: &TezosParametersManager| { &m.transfer },
+                    |m: &mut TezosParametersManager| { &mut m.transfer },
+                ));
+                ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<TezosParametersManager>(
+                    "TezosSignTx.TezosTransactionOp.TezosParametersManager",
+                    fields,
+                    oneofs,
+                )
+            }
+        }
+
+        impl ::protobuf::Message for TezosParametersManager {
+            const NAME: &'static str = "TezosParametersManager";
+
+            fn is_initialized(&self) -> bool {
+                for v in &self.transfer {
+                    if !v.is_initialized() {
+                        return false;
+                    }
+                };
+                true
+            }
+
+            fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+                while let Some(tag) = is.read_raw_tag_or_eof()? {
+                    match tag {
+                        10 => {
+                            self.set_delegate = ::std::option::Option::Some(is.read_bytes()?);
+                        },
+                        16 => {
+                            self.cancel_delegate = ::std::option::Option::Some(is.read_bool()?);
+                        },
+                        26 => {
+                            ::protobuf::rt::read_singular_message_into_field(is, &mut self.transfer)?;
+                        },
+                        tag => {
+                            ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                        },
+                    };
+                }
+                ::std::result::Result::Ok(())
+            }
+
+            // Compute sizes of nested messages
+            #[allow(unused_variables)]
+            fn compute_size(&self) -> u64 {
+                let mut my_size = 0;
+                if let Some(v) = self.set_delegate.as_ref() {
+                    my_size += ::protobuf::rt::bytes_size(1, &v);
+                }
+                if let Some(v) = self.cancel_delegate {
+                    my_size += 1 + 1;
+                }
+                if let Some(v) = self.transfer.as_ref() {
+                    let len = v.compute_size();
+                    my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+                }
+                my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+                self.special_fields.cached_size().set(my_size as u32);
+                my_size
+            }
+
+            fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+                if let Some(v) = self.set_delegate.as_ref() {
+                    os.write_bytes(1, v)?;
+                }
+                if let Some(v) = self.cancel_delegate {
+                    os.write_bool(2, v)?;
+                }
+                if let Some(v) = self.transfer.as_ref() {
+                    ::protobuf::rt::write_message_field_with_cached_size(3, v, os)?;
+                }
+                os.write_unknown_fields(self.special_fields.unknown_fields())?;
+                ::std::result::Result::Ok(())
+            }
+
+            fn special_fields(&self) -> &::protobuf::SpecialFields {
+                &self.special_fields
+            }
+
+            fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+                &mut self.special_fields
+            }
+
+            fn new() -> TezosParametersManager {
+                TezosParametersManager::new()
+            }
+
+            fn clear(&mut self) {
+                self.set_delegate = ::std::option::Option::None;
+                self.cancel_delegate = ::std::option::Option::None;
+                self.transfer.clear();
+                self.special_fields.clear();
+            }
+
+            fn default_instance() -> &'static TezosParametersManager {
+                static instance: TezosParametersManager = TezosParametersManager {
+                    set_delegate: ::std::option::Option::None,
+                    cancel_delegate: ::std::option::Option::None,
+                    transfer: ::protobuf::MessageField::none(),
+                    special_fields: ::protobuf::SpecialFields::new(),
+                };
+                &instance
+            }
+        }
+
+        impl ::protobuf::MessageFull for TezosParametersManager {
+            fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+                static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+                descriptor.get(|| super::super::file_descriptor().message_by_package_relative_name("TezosSignTx.TezosTransactionOp.TezosParametersManager").unwrap()).clone()
+            }
+        }
+
+        impl ::std::fmt::Display for TezosParametersManager {
+            fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+                ::protobuf::text_format::fmt(self, f)
+            }
+        }
+
+        impl ::protobuf::reflect::ProtobufValue for TezosParametersManager {
+            type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+        }
+
+        /// Nested message and enums of message `TezosParametersManager`
+        pub mod tezos_parameters_manager {
+            #[derive(PartialEq,Clone,Default,Debug)]
+            // @@protoc_insertion_point(message:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.TezosManagerTransfer)
+            pub struct TezosManagerTransfer {
+                // message fields
+                // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.TezosManagerTransfer.destination)
+                pub destination: ::protobuf::MessageField<super::super::TezosContractID>,
+                // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.TezosManagerTransfer.amount)
+                pub amount: ::std::option::Option<u64>,
+                // special fields
+                // @@protoc_insertion_point(special_field:hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParametersManager.TezosManagerTransfer.special_fields)
+                pub special_fields: ::protobuf::SpecialFields,
+            }
+
+            impl<'a> ::std::default::Default for &'a TezosManagerTransfer {
+                fn default() -> &'a TezosManagerTransfer {
+                    <TezosManagerTransfer as ::protobuf::Message>::default_instance()
+                }
+            }
+
+            impl TezosManagerTransfer {
+                pub fn new() -> TezosManagerTransfer {
+                    ::std::default::Default::default()
+                }
+
+                // required uint64 amount = 2;
+
+                pub fn amount(&self) -> u64 {
+                    self.amount.unwrap_or(0)
+                }
+
+                pub fn clear_amount(&mut self) {
+                    self.amount = ::std::option::Option::None;
+                }
+
+                pub fn has_amount(&self) -> bool {
+                    self.amount.is_some()
+                }
+
+                // Param is passed by value, moved
+                pub fn set_amount(&mut self, v: u64) {
+                    self.amount = ::std::option::Option::Some(v);
+                }
+
+                pub(in super::super::super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+                    let mut fields = ::std::vec::Vec::with_capacity(2);
+                    let mut oneofs = ::std::vec::Vec::with_capacity(0);
+                    fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, super::super::TezosContractID>(
+                        "destination",
+                        |m: &TezosManagerTransfer| { &m.destination },
+                        |m: &mut TezosManagerTransfer| { &mut m.destination },
+                    ));
+                    fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                        "amount",
+                        |m: &TezosManagerTransfer| { &m.amount },
+                        |m: &mut TezosManagerTransfer| { &mut m.amount },
+                    ));
+                    ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<TezosManagerTransfer>(
+                        "TezosSignTx.TezosTransactionOp.TezosParametersManager.TezosManagerTransfer",
+                        fields,
+                        oneofs,
+                    )
+                }
+            }
+
+            impl ::protobuf::Message for TezosManagerTransfer {
+                const NAME: &'static str = "TezosManagerTransfer";
+
+                fn is_initialized(&self) -> bool {
+                    if self.destination.is_none() {
+                        return false;
+                    }
+                    if self.amount.is_none() {
+                        return false;
+                    }
+                    for v in &self.destination {
+                        if !v.is_initialized() {
+                            return false;
+                        }
+                    };
+                    true
+                }
+
+                fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+                    while let Some(tag) = is.read_raw_tag_or_eof()? {
+                        match tag {
+                            10 => {
+                                ::protobuf::rt::read_singular_message_into_field(is, &mut self.destination)?;
+                            },
+                            16 => {
+                                self.amount = ::std::option::Option::Some(is.read_uint64()?);
+                            },
+                            tag => {
+                                ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                            },
+                        };
+                    }
+                    ::std::result::Result::Ok(())
+                }
+
+                // Compute sizes of nested messages
+                #[allow(unused_variables)]
+                fn compute_size(&self) -> u64 {
+                    let mut my_size = 0;
+                    if let Some(v) = self.destination.as_ref() {
+                        let len = v.compute_size();
+                        my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+                    }
+                    if let Some(v) = self.amount {
+                        my_size += ::protobuf::rt::uint64_size(2, v);
+                    }
+                    my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+                    self.special_fields.cached_size().set(my_size as u32);
+                    my_size
+                }
+
+                fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+                    if let Some(v) = self.destination.as_ref() {
+                        ::protobuf::rt::write_message_field_with_cached_size(1, v, os)?;
+                    }
+                    if let Some(v) = self.amount {
+                        os.write_uint64(2, v)?;
+                    }
+                    os.write_unknown_fields(self.special_fields.unknown_fields())?;
+                    ::std::result::Result::Ok(())
+                }
+
+                fn special_fields(&self) -> &::protobuf::SpecialFields {
+                    &self.special_fields
+                }
+
+                fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+                    &mut self.special_fields
+                }
+
+                fn new() -> TezosManagerTransfer {
+                    TezosManagerTransfer::new()
+                }
+
+                fn clear(&mut self) {
+                    self.destination.clear();
+                    self.amount = ::std::option::Option::None;
+                    self.special_fields.clear();
+                }
+
+                fn default_instance() -> &'static TezosManagerTransfer {
+                    static instance: TezosManagerTransfer = TezosManagerTransfer {
+                        destination: ::protobuf::MessageField::none(),
+                        amount: ::std::option::Option::None,
+                        special_fields: ::protobuf::SpecialFields::new(),
+                    };
+                    &instance
+                }
+            }
+
+            impl ::protobuf::MessageFull for TezosManagerTransfer {
+                fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+                    static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+                    descriptor.get(|| super::super::super::file_descriptor().message_by_package_relative_name("TezosSignTx.TezosTransactionOp.TezosParametersManager.TezosManagerTransfer").unwrap()).clone()
+                }
+            }
+
+            impl ::std::fmt::Display for TezosManagerTransfer {
+                fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+                    ::protobuf::text_format::fmt(self, f)
+                }
+            }
+
+            impl ::protobuf::reflect::ProtobufValue for TezosManagerTransfer {
+                type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+            }
+        }
+    }
+
     /// *
     ///  Structure representing information for origination
     #[derive(PartialEq,Clone,Default,Debug)]
@@ -1917,7 +2534,7 @@ pub mod tezos_sign_tx {
     pub struct TezosOriginationOp {
         // message fields
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosOriginationOp.source)
-        pub source: ::protobuf::MessageField<TezosContractID>,
+        pub source: ::std::option::Option<::std::vec::Vec<u8>>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosOriginationOp.fee)
         pub fee: ::std::option::Option<u64>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosOriginationOp.counter)
@@ -1954,7 +2571,43 @@ pub mod tezos_sign_tx {
             ::std::default::Default::default()
         }
 
-        // optional uint64 fee = 2;
+        // required bytes source = 12;
+
+        pub fn source(&self) -> &[u8] {
+            match self.source.as_ref() {
+                Some(v) => v,
+                None => &[],
+            }
+        }
+
+        pub fn clear_source(&mut self) {
+            self.source = ::std::option::Option::None;
+        }
+
+        pub fn has_source(&self) -> bool {
+            self.source.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_source(&mut self, v: ::std::vec::Vec<u8>) {
+            self.source = ::std::option::Option::Some(v);
+        }
+
+        // Mutable pointer to the field.
+        // If field is not initialized, it is initialized with default value first.
+        pub fn mut_source(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.source.is_none() {
+                self.source = ::std::option::Option::Some(::std::vec::Vec::new());
+            }
+            self.source.as_mut().unwrap()
+        }
+
+        // Take field
+        pub fn take_source(&mut self) -> ::std::vec::Vec<u8> {
+            self.source.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        }
+
+        // required uint64 fee = 2;
 
         pub fn fee(&self) -> u64 {
             self.fee.unwrap_or(0)
@@ -1973,7 +2626,7 @@ pub mod tezos_sign_tx {
             self.fee = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 counter = 3;
+        // required uint64 counter = 3;
 
         pub fn counter(&self) -> u64 {
             self.counter.unwrap_or(0)
@@ -1992,7 +2645,7 @@ pub mod tezos_sign_tx {
             self.counter = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 gas_limit = 4;
+        // required uint64 gas_limit = 4;
 
         pub fn gas_limit(&self) -> u64 {
             self.gas_limit.unwrap_or(0)
@@ -2011,7 +2664,7 @@ pub mod tezos_sign_tx {
             self.gas_limit = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 storage_limit = 5;
+        // required uint64 storage_limit = 5;
 
         pub fn storage_limit(&self) -> u64 {
             self.storage_limit.unwrap_or(0)
@@ -2066,7 +2719,7 @@ pub mod tezos_sign_tx {
             self.manager_pubkey.take().unwrap_or_else(|| ::std::vec::Vec::new())
         }
 
-        // optional uint64 balance = 7;
+        // required uint64 balance = 7;
 
         pub fn balance(&self) -> u64 {
             self.balance.unwrap_or(0)
@@ -2159,7 +2812,7 @@ pub mod tezos_sign_tx {
             self.delegate.take().unwrap_or_else(|| ::std::vec::Vec::new())
         }
 
-        // optional bytes script = 11;
+        // required bytes script = 11;
 
         pub fn script(&self) -> &[u8] {
             match self.script.as_ref() {
@@ -2198,7 +2851,7 @@ pub mod tezos_sign_tx {
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
             let mut fields = ::std::vec::Vec::with_capacity(11);
             let mut oneofs = ::std::vec::Vec::with_capacity(0);
-            fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, TezosContractID>(
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "source",
                 |m: &TezosOriginationOp| { &m.source },
                 |m: &mut TezosOriginationOp| { &mut m.source },
@@ -2265,14 +2918,35 @@ pub mod tezos_sign_tx {
         const NAME: &'static str = "TezosOriginationOp";
 
         fn is_initialized(&self) -> bool {
+            if self.source.is_none() {
+                return false;
+            }
+            if self.fee.is_none() {
+                return false;
+            }
+            if self.counter.is_none() {
+                return false;
+            }
+            if self.gas_limit.is_none() {
+                return false;
+            }
+            if self.storage_limit.is_none() {
+                return false;
+            }
+            if self.balance.is_none() {
+                return false;
+            }
+            if self.script.is_none() {
+                return false;
+            }
             true
         }
 
         fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
             while let Some(tag) = is.read_raw_tag_or_eof()? {
                 match tag {
-                    10 => {
-                        ::protobuf::rt::read_singular_message_into_field(is, &mut self.source)?;
+                    98 => {
+                        self.source = ::std::option::Option::Some(is.read_bytes()?);
                     },
                     16 => {
                         self.fee = ::std::option::Option::Some(is.read_uint64()?);
@@ -2317,8 +2991,7 @@ pub mod tezos_sign_tx {
         fn compute_size(&self) -> u64 {
             let mut my_size = 0;
             if let Some(v) = self.source.as_ref() {
-                let len = v.compute_size();
-                my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+                my_size += ::protobuf::rt::bytes_size(12, &v);
             }
             if let Some(v) = self.fee {
                 my_size += ::protobuf::rt::uint64_size(2, v);
@@ -2357,7 +3030,7 @@ pub mod tezos_sign_tx {
 
         fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
             if let Some(v) = self.source.as_ref() {
-                ::protobuf::rt::write_message_field_with_cached_size(1, v, os)?;
+                os.write_bytes(12, v)?;
             }
             if let Some(v) = self.fee {
                 os.write_uint64(2, v)?;
@@ -2406,7 +3079,7 @@ pub mod tezos_sign_tx {
         }
 
         fn clear(&mut self) {
-            self.source.clear();
+            self.source = ::std::option::Option::None;
             self.fee = ::std::option::Option::None;
             self.counter = ::std::option::Option::None;
             self.gas_limit = ::std::option::Option::None;
@@ -2422,7 +3095,7 @@ pub mod tezos_sign_tx {
 
         fn default_instance() -> &'static TezosOriginationOp {
             static instance: TezosOriginationOp = TezosOriginationOp {
-                source: ::protobuf::MessageField::none(),
+                source: ::std::option::Option::None,
                 fee: ::std::option::Option::None,
                 counter: ::std::option::Option::None,
                 gas_limit: ::std::option::Option::None,
@@ -2463,7 +3136,7 @@ pub mod tezos_sign_tx {
     pub struct TezosDelegationOp {
         // message fields
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosDelegationOp.source)
-        pub source: ::protobuf::MessageField<TezosContractID>,
+        pub source: ::std::option::Option<::std::vec::Vec<u8>>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosDelegationOp.fee)
         pub fee: ::std::option::Option<u64>,
         // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosDelegationOp.counter)
@@ -2490,7 +3163,43 @@ pub mod tezos_sign_tx {
             ::std::default::Default::default()
         }
 
-        // optional uint64 fee = 2;
+        // required bytes source = 7;
+
+        pub fn source(&self) -> &[u8] {
+            match self.source.as_ref() {
+                Some(v) => v,
+                None => &[],
+            }
+        }
+
+        pub fn clear_source(&mut self) {
+            self.source = ::std::option::Option::None;
+        }
+
+        pub fn has_source(&self) -> bool {
+            self.source.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_source(&mut self, v: ::std::vec::Vec<u8>) {
+            self.source = ::std::option::Option::Some(v);
+        }
+
+        // Mutable pointer to the field.
+        // If field is not initialized, it is initialized with default value first.
+        pub fn mut_source(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.source.is_none() {
+                self.source = ::std::option::Option::Some(::std::vec::Vec::new());
+            }
+            self.source.as_mut().unwrap()
+        }
+
+        // Take field
+        pub fn take_source(&mut self) -> ::std::vec::Vec<u8> {
+            self.source.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        }
+
+        // required uint64 fee = 2;
 
         pub fn fee(&self) -> u64 {
             self.fee.unwrap_or(0)
@@ -2509,7 +3218,7 @@ pub mod tezos_sign_tx {
             self.fee = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 counter = 3;
+        // required uint64 counter = 3;
 
         pub fn counter(&self) -> u64 {
             self.counter.unwrap_or(0)
@@ -2528,7 +3237,7 @@ pub mod tezos_sign_tx {
             self.counter = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 gas_limit = 4;
+        // required uint64 gas_limit = 4;
 
         pub fn gas_limit(&self) -> u64 {
             self.gas_limit.unwrap_or(0)
@@ -2547,7 +3256,7 @@ pub mod tezos_sign_tx {
             self.gas_limit = ::std::option::Option::Some(v);
         }
 
-        // optional uint64 storage_limit = 5;
+        // required uint64 storage_limit = 5;
 
         pub fn storage_limit(&self) -> u64 {
             self.storage_limit.unwrap_or(0)
@@ -2566,7 +3275,7 @@ pub mod tezos_sign_tx {
             self.storage_limit = ::std::option::Option::Some(v);
         }
 
-        // optional bytes delegate = 6;
+        // required bytes delegate = 6;
 
         pub fn delegate(&self) -> &[u8] {
             match self.delegate.as_ref() {
@@ -2605,7 +3314,7 @@ pub mod tezos_sign_tx {
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
             let mut fields = ::std::vec::Vec::with_capacity(6);
             let mut oneofs = ::std::vec::Vec::with_capacity(0);
-            fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, TezosContractID>(
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "source",
                 |m: &TezosDelegationOp| { &m.source },
                 |m: &mut TezosDelegationOp| { &mut m.source },
@@ -2647,14 +3356,32 @@ pub mod tezos_sign_tx {
         const NAME: &'static str = "TezosDelegationOp";
 
         fn is_initialized(&self) -> bool {
+            if self.source.is_none() {
+                return false;
+            }
+            if self.fee.is_none() {
+                return false;
+            }
+            if self.counter.is_none() {
+                return false;
+            }
+            if self.gas_limit.is_none() {
+                return false;
+            }
+            if self.storage_limit.is_none() {
+                return false;
+            }
+            if self.delegate.is_none() {
+                return false;
+            }
             true
         }
 
         fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
             while let Some(tag) = is.read_raw_tag_or_eof()? {
                 match tag {
-                    10 => {
-                        ::protobuf::rt::read_singular_message_into_field(is, &mut self.source)?;
+                    58 => {
+                        self.source = ::std::option::Option::Some(is.read_bytes()?);
                     },
                     16 => {
                         self.fee = ::std::option::Option::Some(is.read_uint64()?);
@@ -2684,8 +3411,7 @@ pub mod tezos_sign_tx {
         fn compute_size(&self) -> u64 {
             let mut my_size = 0;
             if let Some(v) = self.source.as_ref() {
-                let len = v.compute_size();
-                my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+                my_size += ::protobuf::rt::bytes_size(7, &v);
             }
             if let Some(v) = self.fee {
                 my_size += ::protobuf::rt::uint64_size(2, v);
@@ -2709,7 +3435,7 @@ pub mod tezos_sign_tx {
 
         fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
             if let Some(v) = self.source.as_ref() {
-                ::protobuf::rt::write_message_field_with_cached_size(1, v, os)?;
+                os.write_bytes(7, v)?;
             }
             if let Some(v) = self.fee {
                 os.write_uint64(2, v)?;
@@ -2743,7 +3469,7 @@ pub mod tezos_sign_tx {
         }
 
         fn clear(&mut self) {
-            self.source.clear();
+            self.source = ::std::option::Option::None;
             self.fee = ::std::option::Option::None;
             self.counter = ::std::option::Option::None;
             self.gas_limit = ::std::option::Option::None;
@@ -2754,7 +3480,7 @@ pub mod tezos_sign_tx {
 
         fn default_instance() -> &'static TezosDelegationOp {
             static instance: TezosDelegationOp = TezosDelegationOp {
-                source: ::protobuf::MessageField::none(),
+                source: ::std::option::Option::None,
                 fee: ::std::option::Option::None,
                 counter: ::std::option::Option::None,
                 gas_limit: ::std::option::Option::None,
@@ -2781,6 +3507,591 @@ pub mod tezos_sign_tx {
 
     impl ::protobuf::reflect::ProtobufValue for TezosDelegationOp {
         type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+    }
+
+    /// *
+    ///  Structure representing information for proposal
+    #[derive(PartialEq,Clone,Default,Debug)]
+    // @@protoc_insertion_point(message:hw.trezor.messages.tezos.TezosSignTx.TezosProposalOp)
+    pub struct TezosProposalOp {
+        // message fields
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosProposalOp.source)
+        pub source: ::std::option::Option<::std::vec::Vec<u8>>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosProposalOp.period)
+        pub period: ::std::option::Option<u64>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosProposalOp.proposals)
+        pub proposals: ::std::vec::Vec<::std::vec::Vec<u8>>,
+        // special fields
+        // @@protoc_insertion_point(special_field:hw.trezor.messages.tezos.TezosSignTx.TezosProposalOp.special_fields)
+        pub special_fields: ::protobuf::SpecialFields,
+    }
+
+    impl<'a> ::std::default::Default for &'a TezosProposalOp {
+        fn default() -> &'a TezosProposalOp {
+            <TezosProposalOp as ::protobuf::Message>::default_instance()
+        }
+    }
+
+    impl TezosProposalOp {
+        pub fn new() -> TezosProposalOp {
+            ::std::default::Default::default()
+        }
+
+        // required bytes source = 1;
+
+        pub fn source(&self) -> &[u8] {
+            match self.source.as_ref() {
+                Some(v) => v,
+                None => &[],
+            }
+        }
+
+        pub fn clear_source(&mut self) {
+            self.source = ::std::option::Option::None;
+        }
+
+        pub fn has_source(&self) -> bool {
+            self.source.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_source(&mut self, v: ::std::vec::Vec<u8>) {
+            self.source = ::std::option::Option::Some(v);
+        }
+
+        // Mutable pointer to the field.
+        // If field is not initialized, it is initialized with default value first.
+        pub fn mut_source(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.source.is_none() {
+                self.source = ::std::option::Option::Some(::std::vec::Vec::new());
+            }
+            self.source.as_mut().unwrap()
+        }
+
+        // Take field
+        pub fn take_source(&mut self) -> ::std::vec::Vec<u8> {
+            self.source.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        }
+
+        // required uint64 period = 2;
+
+        pub fn period(&self) -> u64 {
+            self.period.unwrap_or(0)
+        }
+
+        pub fn clear_period(&mut self) {
+            self.period = ::std::option::Option::None;
+        }
+
+        pub fn has_period(&self) -> bool {
+            self.period.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_period(&mut self, v: u64) {
+            self.period = ::std::option::Option::Some(v);
+        }
+
+        pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+            let mut fields = ::std::vec::Vec::with_capacity(3);
+            let mut oneofs = ::std::vec::Vec::with_capacity(0);
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "source",
+                |m: &TezosProposalOp| { &m.source },
+                |m: &mut TezosProposalOp| { &mut m.source },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "period",
+                |m: &TezosProposalOp| { &m.period },
+                |m: &mut TezosProposalOp| { &mut m.period },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
+                "proposals",
+                |m: &TezosProposalOp| { &m.proposals },
+                |m: &mut TezosProposalOp| { &mut m.proposals },
+            ));
+            ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<TezosProposalOp>(
+                "TezosSignTx.TezosProposalOp",
+                fields,
+                oneofs,
+            )
+        }
+    }
+
+    impl ::protobuf::Message for TezosProposalOp {
+        const NAME: &'static str = "TezosProposalOp";
+
+        fn is_initialized(&self) -> bool {
+            if self.source.is_none() {
+                return false;
+            }
+            if self.period.is_none() {
+                return false;
+            }
+            true
+        }
+
+        fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+            while let Some(tag) = is.read_raw_tag_or_eof()? {
+                match tag {
+                    10 => {
+                        self.source = ::std::option::Option::Some(is.read_bytes()?);
+                    },
+                    16 => {
+                        self.period = ::std::option::Option::Some(is.read_uint64()?);
+                    },
+                    34 => {
+                        self.proposals.push(is.read_bytes()?);
+                    },
+                    tag => {
+                        ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                    },
+                };
+            }
+            ::std::result::Result::Ok(())
+        }
+
+        // Compute sizes of nested messages
+        #[allow(unused_variables)]
+        fn compute_size(&self) -> u64 {
+            let mut my_size = 0;
+            if let Some(v) = self.source.as_ref() {
+                my_size += ::protobuf::rt::bytes_size(1, &v);
+            }
+            if let Some(v) = self.period {
+                my_size += ::protobuf::rt::uint64_size(2, v);
+            }
+            for value in &self.proposals {
+                my_size += ::protobuf::rt::bytes_size(4, &value);
+            };
+            my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+            self.special_fields.cached_size().set(my_size as u32);
+            my_size
+        }
+
+        fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+            if let Some(v) = self.source.as_ref() {
+                os.write_bytes(1, v)?;
+            }
+            if let Some(v) = self.period {
+                os.write_uint64(2, v)?;
+            }
+            for v in &self.proposals {
+                os.write_bytes(4, &v)?;
+            };
+            os.write_unknown_fields(self.special_fields.unknown_fields())?;
+            ::std::result::Result::Ok(())
+        }
+
+        fn special_fields(&self) -> &::protobuf::SpecialFields {
+            &self.special_fields
+        }
+
+        fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+            &mut self.special_fields
+        }
+
+        fn new() -> TezosProposalOp {
+            TezosProposalOp::new()
+        }
+
+        fn clear(&mut self) {
+            self.source = ::std::option::Option::None;
+            self.period = ::std::option::Option::None;
+            self.proposals.clear();
+            self.special_fields.clear();
+        }
+
+        fn default_instance() -> &'static TezosProposalOp {
+            static instance: TezosProposalOp = TezosProposalOp {
+                source: ::std::option::Option::None,
+                period: ::std::option::Option::None,
+                proposals: ::std::vec::Vec::new(),
+                special_fields: ::protobuf::SpecialFields::new(),
+            };
+            &instance
+        }
+    }
+
+    impl ::protobuf::MessageFull for TezosProposalOp {
+        fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+            static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+            descriptor.get(|| super::file_descriptor().message_by_package_relative_name("TezosSignTx.TezosProposalOp").unwrap()).clone()
+        }
+    }
+
+    impl ::std::fmt::Display for TezosProposalOp {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            ::protobuf::text_format::fmt(self, f)
+        }
+    }
+
+    impl ::protobuf::reflect::ProtobufValue for TezosProposalOp {
+        type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+    }
+
+    /// *
+    ///  Structure representing information for ballot
+    #[derive(PartialEq,Clone,Default,Debug)]
+    // @@protoc_insertion_point(message:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp)
+    pub struct TezosBallotOp {
+        // message fields
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.source)
+        pub source: ::std::option::Option<::std::vec::Vec<u8>>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.period)
+        pub period: ::std::option::Option<u64>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.proposal)
+        pub proposal: ::std::option::Option<::std::vec::Vec<u8>>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.ballot)
+        pub ballot: ::std::option::Option<::protobuf::EnumOrUnknown<tezos_ballot_op::TezosBallotType>>,
+        // special fields
+        // @@protoc_insertion_point(special_field:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.special_fields)
+        pub special_fields: ::protobuf::SpecialFields,
+    }
+
+    impl<'a> ::std::default::Default for &'a TezosBallotOp {
+        fn default() -> &'a TezosBallotOp {
+            <TezosBallotOp as ::protobuf::Message>::default_instance()
+        }
+    }
+
+    impl TezosBallotOp {
+        pub fn new() -> TezosBallotOp {
+            ::std::default::Default::default()
+        }
+
+        // required bytes source = 1;
+
+        pub fn source(&self) -> &[u8] {
+            match self.source.as_ref() {
+                Some(v) => v,
+                None => &[],
+            }
+        }
+
+        pub fn clear_source(&mut self) {
+            self.source = ::std::option::Option::None;
+        }
+
+        pub fn has_source(&self) -> bool {
+            self.source.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_source(&mut self, v: ::std::vec::Vec<u8>) {
+            self.source = ::std::option::Option::Some(v);
+        }
+
+        // Mutable pointer to the field.
+        // If field is not initialized, it is initialized with default value first.
+        pub fn mut_source(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.source.is_none() {
+                self.source = ::std::option::Option::Some(::std::vec::Vec::new());
+            }
+            self.source.as_mut().unwrap()
+        }
+
+        // Take field
+        pub fn take_source(&mut self) -> ::std::vec::Vec<u8> {
+            self.source.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        }
+
+        // required uint64 period = 2;
+
+        pub fn period(&self) -> u64 {
+            self.period.unwrap_or(0)
+        }
+
+        pub fn clear_period(&mut self) {
+            self.period = ::std::option::Option::None;
+        }
+
+        pub fn has_period(&self) -> bool {
+            self.period.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_period(&mut self, v: u64) {
+            self.period = ::std::option::Option::Some(v);
+        }
+
+        // required bytes proposal = 3;
+
+        pub fn proposal(&self) -> &[u8] {
+            match self.proposal.as_ref() {
+                Some(v) => v,
+                None => &[],
+            }
+        }
+
+        pub fn clear_proposal(&mut self) {
+            self.proposal = ::std::option::Option::None;
+        }
+
+        pub fn has_proposal(&self) -> bool {
+            self.proposal.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_proposal(&mut self, v: ::std::vec::Vec<u8>) {
+            self.proposal = ::std::option::Option::Some(v);
+        }
+
+        // Mutable pointer to the field.
+        // If field is not initialized, it is initialized with default value first.
+        pub fn mut_proposal(&mut self) -> &mut ::std::vec::Vec<u8> {
+            if self.proposal.is_none() {
+                self.proposal = ::std::option::Option::Some(::std::vec::Vec::new());
+            }
+            self.proposal.as_mut().unwrap()
+        }
+
+        // Take field
+        pub fn take_proposal(&mut self) -> ::std::vec::Vec<u8> {
+            self.proposal.take().unwrap_or_else(|| ::std::vec::Vec::new())
+        }
+
+        // required .hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.TezosBallotType ballot = 4;
+
+        pub fn ballot(&self) -> tezos_ballot_op::TezosBallotType {
+            match self.ballot {
+                Some(e) => e.enum_value_or(tezos_ballot_op::TezosBallotType::Yay),
+                None => tezos_ballot_op::TezosBallotType::Yay,
+            }
+        }
+
+        pub fn clear_ballot(&mut self) {
+            self.ballot = ::std::option::Option::None;
+        }
+
+        pub fn has_ballot(&self) -> bool {
+            self.ballot.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_ballot(&mut self, v: tezos_ballot_op::TezosBallotType) {
+            self.ballot = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
+        }
+
+        pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+            let mut fields = ::std::vec::Vec::with_capacity(4);
+            let mut oneofs = ::std::vec::Vec::with_capacity(0);
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "source",
+                |m: &TezosBallotOp| { &m.source },
+                |m: &mut TezosBallotOp| { &mut m.source },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "period",
+                |m: &TezosBallotOp| { &m.period },
+                |m: &mut TezosBallotOp| { &mut m.period },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "proposal",
+                |m: &TezosBallotOp| { &m.proposal },
+                |m: &mut TezosBallotOp| { &mut m.proposal },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "ballot",
+                |m: &TezosBallotOp| { &m.ballot },
+                |m: &mut TezosBallotOp| { &mut m.ballot },
+            ));
+            ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<TezosBallotOp>(
+                "TezosSignTx.TezosBallotOp",
+                fields,
+                oneofs,
+            )
+        }
+    }
+
+    impl ::protobuf::Message for TezosBallotOp {
+        const NAME: &'static str = "TezosBallotOp";
+
+        fn is_initialized(&self) -> bool {
+            if self.source.is_none() {
+                return false;
+            }
+            if self.period.is_none() {
+                return false;
+            }
+            if self.proposal.is_none() {
+                return false;
+            }
+            if self.ballot.is_none() {
+                return false;
+            }
+            true
+        }
+
+        fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+            while let Some(tag) = is.read_raw_tag_or_eof()? {
+                match tag {
+                    10 => {
+                        self.source = ::std::option::Option::Some(is.read_bytes()?);
+                    },
+                    16 => {
+                        self.period = ::std::option::Option::Some(is.read_uint64()?);
+                    },
+                    26 => {
+                        self.proposal = ::std::option::Option::Some(is.read_bytes()?);
+                    },
+                    32 => {
+                        self.ballot = ::std::option::Option::Some(is.read_enum_or_unknown()?);
+                    },
+                    tag => {
+                        ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                    },
+                };
+            }
+            ::std::result::Result::Ok(())
+        }
+
+        // Compute sizes of nested messages
+        #[allow(unused_variables)]
+        fn compute_size(&self) -> u64 {
+            let mut my_size = 0;
+            if let Some(v) = self.source.as_ref() {
+                my_size += ::protobuf::rt::bytes_size(1, &v);
+            }
+            if let Some(v) = self.period {
+                my_size += ::protobuf::rt::uint64_size(2, v);
+            }
+            if let Some(v) = self.proposal.as_ref() {
+                my_size += ::protobuf::rt::bytes_size(3, &v);
+            }
+            if let Some(v) = self.ballot {
+                my_size += ::protobuf::rt::int32_size(4, v.value());
+            }
+            my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+            self.special_fields.cached_size().set(my_size as u32);
+            my_size
+        }
+
+        fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+            if let Some(v) = self.source.as_ref() {
+                os.write_bytes(1, v)?;
+            }
+            if let Some(v) = self.period {
+                os.write_uint64(2, v)?;
+            }
+            if let Some(v) = self.proposal.as_ref() {
+                os.write_bytes(3, v)?;
+            }
+            if let Some(v) = self.ballot {
+                os.write_enum(4, ::protobuf::EnumOrUnknown::value(&v))?;
+            }
+            os.write_unknown_fields(self.special_fields.unknown_fields())?;
+            ::std::result::Result::Ok(())
+        }
+
+        fn special_fields(&self) -> &::protobuf::SpecialFields {
+            &self.special_fields
+        }
+
+        fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+            &mut self.special_fields
+        }
+
+        fn new() -> TezosBallotOp {
+            TezosBallotOp::new()
+        }
+
+        fn clear(&mut self) {
+            self.source = ::std::option::Option::None;
+            self.period = ::std::option::Option::None;
+            self.proposal = ::std::option::Option::None;
+            self.ballot = ::std::option::Option::None;
+            self.special_fields.clear();
+        }
+
+        fn default_instance() -> &'static TezosBallotOp {
+            static instance: TezosBallotOp = TezosBallotOp {
+                source: ::std::option::Option::None,
+                period: ::std::option::Option::None,
+                proposal: ::std::option::Option::None,
+                ballot: ::std::option::Option::None,
+                special_fields: ::protobuf::SpecialFields::new(),
+            };
+            &instance
+        }
+    }
+
+    impl ::protobuf::MessageFull for TezosBallotOp {
+        fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+            static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+            descriptor.get(|| super::file_descriptor().message_by_package_relative_name("TezosSignTx.TezosBallotOp").unwrap()).clone()
+        }
+    }
+
+    impl ::std::fmt::Display for TezosBallotOp {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            ::protobuf::text_format::fmt(self, f)
+        }
+    }
+
+    impl ::protobuf::reflect::ProtobufValue for TezosBallotOp {
+        type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+    }
+
+    /// Nested message and enums of message `TezosBallotOp`
+    pub mod tezos_ballot_op {
+        #[derive(Clone,Copy,PartialEq,Eq,Debug,Hash)]
+        // @@protoc_insertion_point(enum:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.TezosBallotType)
+        pub enum TezosBallotType {
+            // @@protoc_insertion_point(enum_value:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.TezosBallotType.Yay)
+            Yay = 0,
+            // @@protoc_insertion_point(enum_value:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.TezosBallotType.Nay)
+            Nay = 1,
+            // @@protoc_insertion_point(enum_value:hw.trezor.messages.tezos.TezosSignTx.TezosBallotOp.TezosBallotType.Pass)
+            Pass = 2,
+        }
+
+        impl ::protobuf::Enum for TezosBallotType {
+            const NAME: &'static str = "TezosBallotType";
+
+            fn value(&self) -> i32 {
+                *self as i32
+            }
+
+            fn from_i32(value: i32) -> ::std::option::Option<TezosBallotType> {
+                match value {
+                    0 => ::std::option::Option::Some(TezosBallotType::Yay),
+                    1 => ::std::option::Option::Some(TezosBallotType::Nay),
+                    2 => ::std::option::Option::Some(TezosBallotType::Pass),
+                    _ => ::std::option::Option::None
+                }
+            }
+
+            const VALUES: &'static [TezosBallotType] = &[
+                TezosBallotType::Yay,
+                TezosBallotType::Nay,
+                TezosBallotType::Pass,
+            ];
+        }
+
+        impl ::protobuf::EnumFull for TezosBallotType {
+            fn enum_descriptor() -> ::protobuf::reflect::EnumDescriptor {
+                static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::Lazy::new();
+                descriptor.get(|| super::super::file_descriptor().enum_by_package_relative_name("TezosSignTx.TezosBallotOp.TezosBallotType").unwrap()).clone()
+            }
+
+            fn descriptor(&self) -> ::protobuf::reflect::EnumValueDescriptor {
+                let index = *self as usize;
+                Self::enum_descriptor().value_by_index(index)
+            }
+        }
+
+        impl ::std::default::Default for TezosBallotType {
+            fn default() -> Self {
+                TezosBallotType::Yay
+            }
+        }
+
+        impl TezosBallotType {
+            pub(in super::super) fn generated_enum_descriptor_data() -> ::protobuf::reflect::GeneratedEnumDescriptorData {
+                ::protobuf::reflect::GeneratedEnumDescriptorData::new::<TezosBallotType>("TezosSignTx.TezosBallotOp.TezosBallotType")
+            }
+        }
     }
 }
 
@@ -2813,7 +4124,7 @@ impl TezosSignedTx {
         ::std::default::Default::default()
     }
 
-    // optional string signature = 1;
+    // required string signature = 1;
 
     pub fn signature(&self) -> &str {
         match self.signature.as_ref() {
@@ -2849,7 +4160,7 @@ impl TezosSignedTx {
         self.signature.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional bytes sig_op_contents = 2;
+    // required bytes sig_op_contents = 2;
 
     pub fn sig_op_contents(&self) -> &[u8] {
         match self.sig_op_contents.as_ref() {
@@ -2885,7 +4196,7 @@ impl TezosSignedTx {
         self.sig_op_contents.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional string operation_hash = 3;
+    // required string operation_hash = 3;
 
     pub fn operation_hash(&self) -> &str {
         match self.operation_hash.as_ref() {
@@ -2951,6 +4262,15 @@ impl ::protobuf::Message for TezosSignedTx {
     const NAME: &'static str = "TezosSignedTx";
 
     fn is_initialized(&self) -> bool {
+        if self.signature.is_none() {
+            return false;
+        }
+        if self.sig_op_contents.is_none() {
+            return false;
+        }
+        if self.operation_hash.is_none() {
+            return false;
+        }
         true
     }
 
@@ -3057,105 +4377,123 @@ static file_descriptor_proto_data: &'static [u8] = b"\
     \n\x14messages-tezos.proto\x12\x18hw.trezor.messages.tezos\"Q\n\x0fTezos\
     GetAddress\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12!\n\
     \x0cshow_display\x18\x02\x20\x01(\x08R\x0bshowDisplay\"(\n\x0cTezosAddre\
-    ss\x12\x18\n\x07address\x18\x01\x20\x01(\tR\x07address\"S\n\x11TezosGetP\
+    ss\x12\x18\n\x07address\x18\x01\x20\x02(\tR\x07address\"S\n\x11TezosGetP\
     ublicKey\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12!\n\x0c\
     show_display\x18\x02\x20\x01(\x08R\x0bshowDisplay\"/\n\x0eTezosPublicKey\
-    \x12\x1d\n\npublic_key\x18\x01\x20\x01(\tR\tpublicKey\"\xa1\x0e\n\x0bTez\
+    \x12\x1d\n\npublic_key\x18\x01\x20\x02(\tR\tpublicKey\"\xa4\x14\n\x0bTez\
     osSignTx\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12\x16\n\
-    \x06branch\x18\x02\x20\x01(\x0cR\x06branch\x12K\n\x06reveal\x18\x03\x20\
+    \x06branch\x18\x02\x20\x02(\x0cR\x06branch\x12K\n\x06reveal\x18\x03\x20\
     \x01(\x0b23.hw.trezor.messages.tezos.TezosSignTx.TezosRevealOpR\x06revea\
     l\x12Z\n\x0btransaction\x18\x04\x20\x01(\x0b28.hw.trezor.messages.tezos.\
     TezosSignTx.TezosTransactionOpR\x0btransaction\x12Z\n\x0borigination\x18\
     \x05\x20\x01(\x0b28.hw.trezor.messages.tezos.TezosSignTx.TezosOriginatio\
     nOpR\x0borigination\x12W\n\ndelegation\x18\x06\x20\x01(\x0b27.hw.trezor.\
-    messages.tezos.TezosSignTx.TezosDelegationOpR\ndelegation\x1a\xb3\x01\n\
-    \x0fTezosContractID\x12Y\n\x03tag\x18\x01\x20\x01(\x0e2G.hw.trezor.messa\
-    ges.tezos.TezosSignTx.TezosContractID.TezosContractTypeR\x03tag\x12\x12\
-    \n\x04hash\x18\x02\x20\x01(\x0cR\x04hash\"1\n\x11TezosContractType\x12\
-    \x0c\n\x08Implicit\x10\0\x12\x0e\n\nOriginated\x10\x01\x1a\xeb\x01\n\rTe\
-    zosRevealOp\x12M\n\x06source\x18\x01\x20\x01(\x0b25.hw.trezor.messages.t\
-    ezos.TezosSignTx.TezosContractIDR\x06source\x12\x10\n\x03fee\x18\x02\x20\
-    \x01(\x04R\x03fee\x12\x18\n\x07counter\x18\x03\x20\x01(\x04R\x07counter\
-    \x12\x1b\n\tgas_limit\x18\x04\x20\x01(\x04R\x08gasLimit\x12#\n\rstorage_\
-    limit\x18\x05\x20\x01(\x04R\x0cstorageLimit\x12\x1d\n\npublic_key\x18\
-    \x06\x20\x01(\x0cR\tpublicKey\x1a\xe2\x02\n\x12TezosTransactionOp\x12M\n\
-    \x06source\x18\x01\x20\x01(\x0b25.hw.trezor.messages.tezos.TezosSignTx.T\
-    ezosContractIDR\x06source\x12\x10\n\x03fee\x18\x02\x20\x01(\x04R\x03fee\
-    \x12\x18\n\x07counter\x18\x03\x20\x01(\x04R\x07counter\x12\x1b\n\tgas_li\
-    mit\x18\x04\x20\x01(\x04R\x08gasLimit\x12#\n\rstorage_limit\x18\x05\x20\
-    \x01(\x04R\x0cstorageLimit\x12\x16\n\x06amount\x18\x06\x20\x01(\x04R\x06\
-    amount\x12W\n\x0bdestination\x18\x07\x20\x01(\x0b25.hw.trezor.messages.t\
-    ezos.TezosSignTx.TezosContractIDR\x0bdestination\x12\x1e\n\nparameters\
-    \x18\x08\x20\x01(\x0cR\nparameters\x1a\x86\x03\n\x12TezosOriginationOp\
-    \x12M\n\x06source\x18\x01\x20\x01(\x0b25.hw.trezor.messages.tezos.TezosS\
-    ignTx.TezosContractIDR\x06source\x12\x10\n\x03fee\x18\x02\x20\x01(\x04R\
-    \x03fee\x12\x18\n\x07counter\x18\x03\x20\x01(\x04R\x07counter\x12\x1b\n\
-    \tgas_limit\x18\x04\x20\x01(\x04R\x08gasLimit\x12#\n\rstorage_limit\x18\
-    \x05\x20\x01(\x04R\x0cstorageLimit\x12%\n\x0emanager_pubkey\x18\x06\x20\
-    \x01(\x0cR\rmanagerPubkey\x12\x18\n\x07balance\x18\x07\x20\x01(\x04R\x07\
-    balance\x12\x1c\n\tspendable\x18\x08\x20\x01(\x08R\tspendable\x12\x20\n\
-    \x0bdelegatable\x18\t\x20\x01(\x08R\x0bdelegatable\x12\x1a\n\x08delegate\
-    \x18\n\x20\x01(\x0cR\x08delegate\x12\x16\n\x06script\x18\x0b\x20\x01(\
-    \x0cR\x06script\x1a\xec\x01\n\x11TezosDelegationOp\x12M\n\x06source\x18\
-    \x01\x20\x01(\x0b25.hw.trezor.messages.tezos.TezosSignTx.TezosContractID\
-    R\x06source\x12\x10\n\x03fee\x18\x02\x20\x01(\x04R\x03fee\x12\x18\n\x07c\
-    ounter\x18\x03\x20\x01(\x04R\x07counter\x12\x1b\n\tgas_limit\x18\x04\x20\
-    \x01(\x04R\x08gasLimit\x12#\n\rstorage_limit\x18\x05\x20\x01(\x04R\x0cst\
-    orageLimit\x12\x1a\n\x08delegate\x18\x06\x20\x01(\x0cR\x08delegate\"|\n\
-    \rTezosSignedTx\x12\x1c\n\tsignature\x18\x01\x20\x01(\tR\tsignature\x12&\
-    \n\x0fsig_op_contents\x18\x02\x20\x01(\x0cR\rsigOpContents\x12%\n\x0eope\
-    ration_hash\x18\x03\x20\x01(\tR\roperationHashB9\n#com.satoshilabs.trezo\
-    r.lib.protobufB\x12TrezorMessageTezosJ\xab,\n\x07\x12\x05\0\0\x84\x01\
-    \x01\n\x08\n\x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\x01\0!\n\
-    \x08\n\x01\x08\x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\x1a#\x20Su\
-    gar\x20for\x20easier\x20handling\x20in\x20Java\n\n\x08\n\x01\x08\x12\x03\
-    \x05\03\n\t\n\x02\x08\x08\x12\x03\x05\03\n\x80\x01\n\x02\x04\0\x12\x04\r\
-    \0\x10\x01\x1at*\n\x20Request:\x20Ask\x20device\x20for\x20Tezos\x20addre\
-    ss\x20corresponding\x20to\x20address_n\x20path\n\x20@start\n\x20@next\
-    \x20TezosAddress\n\x20@next\x20Failure\n\n\n\n\x03\x04\0\x01\x12\x03\r\
-    \x08\x17\n=\n\x04\x04\0\x02\0\x12\x03\x0e\x04\"\"0\x20BIP-32\x20path\x20\
-    to\x20derive\x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\x05\x04\0\
-    \x02\0\x04\x12\x03\x0e\x04\x0c\n\x0c\n\x05\x04\0\x02\0\x05\x12\x03\x0e\r\
-    \x13\n\x0c\n\x05\x04\0\x02\0\x01\x12\x03\x0e\x14\x1d\n\x0c\n\x05\x04\0\
-    \x02\0\x03\x12\x03\x0e\x20!\nC\n\x04\x04\0\x02\x01\x12\x03\x0f\x04#\"6\
-    \x20optionally\x20show\x20on\x20display\x20before\x20sending\x20the\x20r\
-    esult\n\n\x0c\n\x05\x04\0\x02\x01\x04\x12\x03\x0f\x04\x0c\n\x0c\n\x05\
-    \x04\0\x02\x01\x05\x12\x03\x0f\r\x11\n\x0c\n\x05\x04\0\x02\x01\x01\x12\
-    \x03\x0f\x12\x1e\n\x0c\n\x05\x04\0\x02\x01\x03\x12\x03\x0f!\"\nW\n\x02\
-    \x04\x01\x12\x04\x16\0\x18\x01\x1aK*\n\x20Response:\x20Contains\x20Tezos\
-    \x20address\x20derived\x20from\x20device\x20private\x20seed\n\x20@end\n\
-    \n\n\n\x03\x04\x01\x01\x12\x03\x16\x08\x14\n.\n\x04\x04\x01\x02\0\x12\
-    \x03\x17\x04\x20\"!\x20Coin\x20address\x20in\x20Base58\x20encoding\n\n\
-    \x0c\n\x05\x04\x01\x02\0\x04\x12\x03\x17\x04\x0c\n\x0c\n\x05\x04\x01\x02\
-    \0\x05\x12\x03\x17\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x03\x17\x14\
-    \x1b\n\x0c\n\x05\x04\x01\x02\0\x03\x12\x03\x17\x1e\x1f\nv\n\x02\x04\x02\
-    \x12\x04\x1f\0\"\x01\x1aj*\n\x20Request:\x20Ask\x20device\x20for\x20Tezo\
-    s\x20public\x20key\x20corresponding\x20to\x20address_n\x20path\n\x20@sta\
-    rt\n\x20@next\x20TezosPublicKey\n\n\n\n\x03\x04\x02\x01\x12\x03\x1f\x08\
-    \x19\n=\n\x04\x04\x02\x02\0\x12\x03\x20\x04\"\"0\x20BIP-32\x20path\x20to\
-    \x20derive\x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\x05\x04\x02\
-    \x02\0\x04\x12\x03\x20\x04\x0c\n\x0c\n\x05\x04\x02\x02\0\x05\x12\x03\x20\
-    \r\x13\n\x0c\n\x05\x04\x02\x02\0\x01\x12\x03\x20\x14\x1d\n\x0c\n\x05\x04\
-    \x02\x02\0\x03\x12\x03\x20\x20!\nC\n\x04\x04\x02\x02\x01\x12\x03!\x04#\"\
-    6\x20Optionally\x20show\x20on\x20display\x20before\x20sending\x20the\x20\
-    result\n\n\x0c\n\x05\x04\x02\x02\x01\x04\x12\x03!\x04\x0c\n\x0c\n\x05\
-    \x04\x02\x02\x01\x05\x12\x03!\r\x11\n\x0c\n\x05\x04\x02\x02\x01\x01\x12\
-    \x03!\x12\x1e\n\x0c\n\x05\x04\x02\x02\x01\x03\x12\x03!!\"\nZ\n\x02\x04\
-    \x03\x12\x04(\0*\x01\x1aN*\n\x20Response:\x20Contains\x20Tezos\x20public\
-    \x20key\x20derived\x20from\x20device\x20private\x20seed\n\x20@end\n\n\n\
-    \n\x03\x04\x03\x01\x12\x03(\x08\x16\n7\n\x04\x04\x03\x02\0\x12\x03)\x04#\
-    \"*\x20b58\x20encoded\x20Tezos\x20public\x20key\x20with\x20prefix\n\n\
-    \x0c\n\x05\x04\x03\x02\0\x04\x12\x03)\x04\x0c\n\x0c\n\x05\x04\x03\x02\0\
-    \x05\x12\x03)\r\x13\n\x0c\n\x05\x04\x03\x02\0\x01\x12\x03)\x14\x1e\n\x0c\
-    \n\x05\x04\x03\x02\0\x03\x12\x03)!\"\nZ\n\x02\x04\x04\x12\x041\0z\x01\
-    \x1aN*\n\x20Request:\x20Ask\x20device\x20to\x20sign\x20Tezos\x20transact\
-    ion\n\x20@start\n\x20@next\x20TezosSignedTx\n\n\n\n\x03\x04\x04\x01\x12\
-    \x031\x08\x13\n=\n\x04\x04\x04\x02\0\x12\x032\x04\"\"0\x20BIP-32\x20path\
-    \x20to\x20derive\x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\x05\
-    \x04\x04\x02\0\x04\x12\x032\x04\x0c\n\x0c\n\x05\x04\x04\x02\0\x05\x12\
-    \x032\r\x13\n\x0c\n\x05\x04\x04\x02\0\x01\x12\x032\x14\x1d\n\x0c\n\x05\
-    \x04\x04\x02\0\x03\x12\x032\x20!\n\x0b\n\x04\x04\x04\x02\x01\x12\x033\
-    \x04\x1e\n\x0c\n\x05\x04\x04\x02\x01\x04\x12\x033\x04\x0c\n\x0c\n\x05\
+    messages.tezos.TezosSignTx.TezosDelegationOpR\ndelegation\x12Q\n\x08prop\
+    osal\x18\x07\x20\x01(\x0b25.hw.trezor.messages.tezos.TezosSignTx.TezosPr\
+    oposalOpR\x08proposal\x12K\n\x06ballot\x18\x08\x20\x01(\x0b23.hw.trezor.\
+    messages.tezos.TezosSignTx.TezosBallotOpR\x06ballot\x1a\xb3\x01\n\x0fTez\
+    osContractID\x12Y\n\x03tag\x18\x01\x20\x02(\x0e2G.hw.trezor.messages.tez\
+    os.TezosSignTx.TezosContractID.TezosContractTypeR\x03tag\x12\x12\n\x04ha\
+    sh\x18\x02\x20\x02(\x0cR\x04hash\"1\n\x11TezosContractType\x12\x0c\n\x08\
+    Implicit\x10\0\x12\x0e\n\nOriginated\x10\x01\x1a\xb4\x01\n\rTezosRevealO\
+    p\x12\x16\n\x06source\x18\x07\x20\x02(\x0cR\x06source\x12\x10\n\x03fee\
+    \x18\x02\x20\x02(\x04R\x03fee\x12\x18\n\x07counter\x18\x03\x20\x02(\x04R\
+    \x07counter\x12\x1b\n\tgas_limit\x18\x04\x20\x02(\x04R\x08gasLimit\x12#\
+    \n\rstorage_limit\x18\x05\x20\x02(\x04R\x0cstorageLimit\x12\x1d\n\npubli\
+    c_key\x18\x06\x20\x02(\x0cR\tpublicKey\x1a\x9f\x06\n\x12TezosTransaction\
+    Op\x12\x16\n\x06source\x18\t\x20\x02(\x0cR\x06source\x12\x10\n\x03fee\
+    \x18\x02\x20\x02(\x04R\x03fee\x12\x18\n\x07counter\x18\x03\x20\x02(\x04R\
+    \x07counter\x12\x1b\n\tgas_limit\x18\x04\x20\x02(\x04R\x08gasLimit\x12#\
+    \n\rstorage_limit\x18\x05\x20\x02(\x04R\x0cstorageLimit\x12\x16\n\x06amo\
+    unt\x18\x06\x20\x02(\x04R\x06amount\x12W\n\x0bdestination\x18\x07\x20\
+    \x02(\x0b25.hw.trezor.messages.tezos.TezosSignTx.TezosContractIDR\x0bdes\
+    tination\x12\x1e\n\nparameters\x18\x08\x20\x01(\x0cR\nparameters\x12~\n\
+    \x12parameters_manager\x18\n\x20\x01(\x0b2O.hw.trezor.messages.tezos.Tez\
+    osSignTx.TezosTransactionOp.TezosParametersManagerR\x11parametersManager\
+    \x1a\xf1\x02\n\x16TezosParametersManager\x12!\n\x0cset_delegate\x18\x01\
+    \x20\x01(\x0cR\x0bsetDelegate\x12'\n\x0fcancel_delegate\x18\x02\x20\x01(\
+    \x08R\x0ecancelDelegate\x12\x80\x01\n\x08transfer\x18\x03\x20\x01(\x0b2d\
+    .hw.trezor.messages.tezos.TezosSignTx.TezosTransactionOp.TezosParameters\
+    Manager.TezosManagerTransferR\x08transfer\x1a\x87\x01\n\x14TezosManagerT\
+    ransfer\x12W\n\x0bdestination\x18\x01\x20\x02(\x0b25.hw.trezor.messages.\
+    tezos.TezosSignTx.TezosContractIDR\x0bdestination\x12\x16\n\x06amount\
+    \x18\x02\x20\x02(\x04R\x06amount\x1a\xcf\x02\n\x12TezosOriginationOp\x12\
+    \x16\n\x06source\x18\x0c\x20\x02(\x0cR\x06source\x12\x10\n\x03fee\x18\
+    \x02\x20\x02(\x04R\x03fee\x12\x18\n\x07counter\x18\x03\x20\x02(\x04R\x07\
+    counter\x12\x1b\n\tgas_limit\x18\x04\x20\x02(\x04R\x08gasLimit\x12#\n\rs\
+    torage_limit\x18\x05\x20\x02(\x04R\x0cstorageLimit\x12%\n\x0emanager_pub\
+    key\x18\x06\x20\x01(\x0cR\rmanagerPubkey\x12\x18\n\x07balance\x18\x07\
+    \x20\x02(\x04R\x07balance\x12\x1c\n\tspendable\x18\x08\x20\x01(\x08R\tsp\
+    endable\x12\x20\n\x0bdelegatable\x18\t\x20\x01(\x08R\x0bdelegatable\x12\
+    \x1a\n\x08delegate\x18\n\x20\x01(\x0cR\x08delegate\x12\x16\n\x06script\
+    \x18\x0b\x20\x02(\x0cR\x06script\x1a\xb5\x01\n\x11TezosDelegationOp\x12\
+    \x16\n\x06source\x18\x07\x20\x02(\x0cR\x06source\x12\x10\n\x03fee\x18\
+    \x02\x20\x02(\x04R\x03fee\x12\x18\n\x07counter\x18\x03\x20\x02(\x04R\x07\
+    counter\x12\x1b\n\tgas_limit\x18\x04\x20\x02(\x04R\x08gasLimit\x12#\n\rs\
+    torage_limit\x18\x05\x20\x02(\x04R\x0cstorageLimit\x12\x1a\n\x08delegate\
+    \x18\x06\x20\x02(\x0cR\x08delegate\x1a_\n\x0fTezosProposalOp\x12\x16\n\
+    \x06source\x18\x01\x20\x02(\x0cR\x06source\x12\x16\n\x06period\x18\x02\
+    \x20\x02(\x04R\x06period\x12\x1c\n\tproposals\x18\x04\x20\x03(\x0cR\tpro\
+    posals\x1a\xe7\x01\n\rTezosBallotOp\x12\x16\n\x06source\x18\x01\x20\x02(\
+    \x0cR\x06source\x12\x16\n\x06period\x18\x02\x20\x02(\x04R\x06period\x12\
+    \x1a\n\x08proposal\x18\x03\x20\x02(\x0cR\x08proposal\x12[\n\x06ballot\
+    \x18\x04\x20\x02(\x0e2C.hw.trezor.messages.tezos.TezosSignTx.TezosBallot\
+    Op.TezosBallotTypeR\x06ballot\"-\n\x0fTezosBallotType\x12\x07\n\x03Yay\
+    \x10\0\x12\x07\n\x03Nay\x10\x01\x12\x08\n\x04Pass\x10\x02\"|\n\rTezosSig\
+    nedTx\x12\x1c\n\tsignature\x18\x01\x20\x02(\tR\tsignature\x12&\n\x0fsig_\
+    op_contents\x18\x02\x20\x02(\x0cR\rsigOpContents\x12%\n\x0eoperation_has\
+    h\x18\x03\x20\x02(\tR\roperationHashB9\n#com.satoshilabs.trezor.lib.prot\
+    obufB\x12TrezorMessageTezosJ\xc0;\n\x07\x12\x05\0\0\xa9\x01\x01\n\x08\n\
+    \x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\x01\0!\n\x08\n\x01\x08\
+    \x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\x1a#\x20Sugar\x20for\x20\
+    easier\x20handling\x20in\x20Java\n\n\x08\n\x01\x08\x12\x03\x05\03\n\t\n\
+    \x02\x08\x08\x12\x03\x05\03\n\x80\x01\n\x02\x04\0\x12\x04\r\0\x10\x01\
+    \x1at*\n\x20Request:\x20Ask\x20device\x20for\x20Tezos\x20address\x20corr\
+    esponding\x20to\x20address_n\x20path\n\x20@start\n\x20@next\x20TezosAddr\
+    ess\n\x20@next\x20Failure\n\n\n\n\x03\x04\0\x01\x12\x03\r\x08\x17\n=\n\
+    \x04\x04\0\x02\0\x12\x03\x0e\x04\"\"0\x20BIP-32\x20path\x20to\x20derive\
+    \x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\x05\x04\0\x02\0\x04\
+    \x12\x03\x0e\x04\x0c\n\x0c\n\x05\x04\0\x02\0\x05\x12\x03\x0e\r\x13\n\x0c\
+    \n\x05\x04\0\x02\0\x01\x12\x03\x0e\x14\x1d\n\x0c\n\x05\x04\0\x02\0\x03\
+    \x12\x03\x0e\x20!\nC\n\x04\x04\0\x02\x01\x12\x03\x0f\x04#\"6\x20optional\
+    ly\x20show\x20on\x20display\x20before\x20sending\x20the\x20result\n\n\
+    \x0c\n\x05\x04\0\x02\x01\x04\x12\x03\x0f\x04\x0c\n\x0c\n\x05\x04\0\x02\
+    \x01\x05\x12\x03\x0f\r\x11\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\x0f\x12\
+    \x1e\n\x0c\n\x05\x04\0\x02\x01\x03\x12\x03\x0f!\"\nW\n\x02\x04\x01\x12\
+    \x04\x16\0\x18\x01\x1aK*\n\x20Response:\x20Contains\x20Tezos\x20address\
+    \x20derived\x20from\x20device\x20private\x20seed\n\x20@end\n\n\n\n\x03\
+    \x04\x01\x01\x12\x03\x16\x08\x14\n.\n\x04\x04\x01\x02\0\x12\x03\x17\x04\
+    \x20\"!\x20Coin\x20address\x20in\x20Base58\x20encoding\n\n\x0c\n\x05\x04\
+    \x01\x02\0\x04\x12\x03\x17\x04\x0c\n\x0c\n\x05\x04\x01\x02\0\x05\x12\x03\
+    \x17\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x03\x17\x14\x1b\n\x0c\n\x05\
+    \x04\x01\x02\0\x03\x12\x03\x17\x1e\x1f\nv\n\x02\x04\x02\x12\x04\x1f\0\"\
+    \x01\x1aj*\n\x20Request:\x20Ask\x20device\x20for\x20Tezos\x20public\x20k\
+    ey\x20corresponding\x20to\x20address_n\x20path\n\x20@start\n\x20@next\
+    \x20TezosPublicKey\n\n\n\n\x03\x04\x02\x01\x12\x03\x1f\x08\x19\n=\n\x04\
+    \x04\x02\x02\0\x12\x03\x20\x04\"\"0\x20BIP-32\x20path\x20to\x20derive\
+    \x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\x05\x04\x02\x02\0\x04\
+    \x12\x03\x20\x04\x0c\n\x0c\n\x05\x04\x02\x02\0\x05\x12\x03\x20\r\x13\n\
+    \x0c\n\x05\x04\x02\x02\0\x01\x12\x03\x20\x14\x1d\n\x0c\n\x05\x04\x02\x02\
+    \0\x03\x12\x03\x20\x20!\nC\n\x04\x04\x02\x02\x01\x12\x03!\x04#\"6\x20Opt\
+    ionally\x20show\x20on\x20display\x20before\x20sending\x20the\x20result\n\
+    \n\x0c\n\x05\x04\x02\x02\x01\x04\x12\x03!\x04\x0c\n\x0c\n\x05\x04\x02\
+    \x02\x01\x05\x12\x03!\r\x11\n\x0c\n\x05\x04\x02\x02\x01\x01\x12\x03!\x12\
+    \x1e\n\x0c\n\x05\x04\x02\x02\x01\x03\x12\x03!!\"\nZ\n\x02\x04\x03\x12\
+    \x04(\0*\x01\x1aN*\n\x20Response:\x20Contains\x20Tezos\x20public\x20key\
+    \x20derived\x20from\x20device\x20private\x20seed\n\x20@end\n\n\n\n\x03\
+    \x04\x03\x01\x12\x03(\x08\x16\n7\n\x04\x04\x03\x02\0\x12\x03)\x04#\"*\
+    \x20b58\x20encoded\x20Tezos\x20public\x20key\x20with\x20prefix\n\n\x0c\n\
+    \x05\x04\x03\x02\0\x04\x12\x03)\x04\x0c\n\x0c\n\x05\x04\x03\x02\0\x05\
+    \x12\x03)\r\x13\n\x0c\n\x05\x04\x03\x02\0\x01\x12\x03)\x14\x1e\n\x0c\n\
+    \x05\x04\x03\x02\0\x03\x12\x03)!\"\n[\n\x02\x04\x04\x12\x051\0\x9f\x01\
+    \x01\x1aN*\n\x20Request:\x20Ask\x20device\x20to\x20sign\x20Tezos\x20tran\
+    saction\n\x20@start\n\x20@next\x20TezosSignedTx\n\n\n\n\x03\x04\x04\x01\
+    \x12\x031\x08\x13\n=\n\x04\x04\x04\x02\0\x12\x032\x04\"\"0\x20BIP-32\x20\
+    path\x20to\x20derive\x20the\x20key\x20from\x20master\x20node\n\n\x0c\n\
+    \x05\x04\x04\x02\0\x04\x12\x032\x04\x0c\n\x0c\n\x05\x04\x04\x02\0\x05\
+    \x12\x032\r\x13\n\x0c\n\x05\x04\x04\x02\0\x01\x12\x032\x14\x1d\n\x0c\n\
+    \x05\x04\x04\x02\0\x03\x12\x032\x20!\n\x0b\n\x04\x04\x04\x02\x01\x12\x03\
+    3\x04\x1e\n\x0c\n\x05\x04\x04\x02\x01\x04\x12\x033\x04\x0c\n\x0c\n\x05\
     \x04\x04\x02\x01\x05\x12\x033\r\x12\n\x0c\n\x05\x04\x04\x02\x01\x01\x12\
     \x033\x13\x19\n\x0c\n\x05\x04\x04\x02\x01\x03\x12\x033\x1c\x1d\nD\n\x04\
     \x04\x04\x02\x02\x12\x035\x04&\"7\x20Tezos\x20reveal\x20operation\x20(ma\
@@ -3173,168 +4511,255 @@ static file_descriptor_proto_data: &'static [u8] = b"\
     \x04\x02\x05\x12\x038\x04.\"\x1c\x20Tezos\x20delegation\x20operation\n\n\
     \x0c\n\x05\x04\x04\x02\x05\x04\x12\x038\x04\x0c\n\x0c\n\x05\x04\x04\x02\
     \x05\x06\x12\x038\r\x1e\n\x0c\n\x05\x04\x04\x02\x05\x01\x12\x038\x1f)\n\
-    \x0c\n\x05\x04\x04\x02\x05\x03\x12\x038,-\n\"\n\x04\x04\x04\x03\0\x12\
-    \x04<\x04F\x05\x1a\x14\n\x20Tezos\x20contract\x20ID\n\n\x0c\n\x05\x04\
-    \x04\x03\0\x01\x12\x03<\x0c\x1b\n\r\n\x06\x04\x04\x03\0\x02\0\x12\x03=\
-    \x08+\n\x0e\n\x07\x04\x04\x03\0\x02\0\x04\x12\x03=\x08\x10\n\x0e\n\x07\
-    \x04\x04\x03\0\x02\0\x06\x12\x03=\x11\"\n\x0e\n\x07\x04\x04\x03\0\x02\0\
-    \x01\x12\x03=#&\n\x0e\n\x07\x04\x04\x03\0\x02\0\x03\x12\x03=)*\n>\n\x06\
-    \x04\x04\x03\0\x02\x01\x12\x03>\x08\x20\"/\x20Implicit\x20=\x2021B,\x20o\
-    riginated\x20=\x2020B\x20+\x201B\x20padding\n\n\x0e\n\x07\x04\x04\x03\0\
-    \x02\x01\x04\x12\x03>\x08\x10\n\x0e\n\x07\x04\x04\x03\0\x02\x01\x05\x12\
-    \x03>\x11\x16\n\x0e\n\x07\x04\x04\x03\0\x02\x01\x01\x12\x03>\x17\x1b\n\
-    \x0e\n\x07\x04\x04\x03\0\x02\x01\x03\x12\x03>\x1e\x1f\n.\n\x06\x04\x04\
-    \x03\0\x04\0\x12\x04B\x08E\t\x1a\x1e\n\x20Type\x20of\x20Tezos\x20Contrac\
-    t\x20type\n\n\x0e\n\x07\x04\x04\x03\0\x04\0\x01\x12\x03B\r\x1e\n\x0f\n\
-    \x08\x04\x04\x03\0\x04\0\x02\0\x12\x03C\x0c\x19\n\x10\n\t\x04\x04\x03\0\
-    \x04\0\x02\0\x01\x12\x03C\x0c\x14\n\x10\n\t\x04\x04\x03\0\x04\0\x02\0\
-    \x02\x12\x03C\x17\x18\n\x0f\n\x08\x04\x04\x03\0\x04\0\x02\x01\x12\x03D\
-    \x0c\x1b\n\x10\n\t\x04\x04\x03\0\x04\0\x02\x01\x01\x12\x03D\x0c\x16\n\
-    \x10\n\t\x04\x04\x03\0\x04\0\x02\x01\x02\x12\x03D\x19\x1a\n?\n\x04\x04\
-    \x04\x03\x01\x12\x04J\x04Q\x05\x1a1*\n\x20Structure\x20representing\x20i\
-    nformation\x20for\x20reveal\n\n\x0c\n\x05\x04\x04\x03\x01\x01\x12\x03J\
-    \x0c\x19\n\r\n\x06\x04\x04\x03\x01\x02\0\x12\x03K\x08,\n\x0e\n\x07\x04\
-    \x04\x03\x01\x02\0\x04\x12\x03K\x08\x10\n\x0e\n\x07\x04\x04\x03\x01\x02\
-    \0\x06\x12\x03K\x11\x20\n\x0e\n\x07\x04\x04\x03\x01\x02\0\x01\x12\x03K!'\
-    \n\x0e\n\x07\x04\x04\x03\x01\x02\0\x03\x12\x03K*+\n\r\n\x06\x04\x04\x03\
-    \x01\x02\x01\x12\x03L\x08\x20\n\x0e\n\x07\x04\x04\x03\x01\x02\x01\x04\
-    \x12\x03L\x08\x10\n\x0e\n\x07\x04\x04\x03\x01\x02\x01\x05\x12\x03L\x11\
-    \x17\n\x0e\n\x07\x04\x04\x03\x01\x02\x01\x01\x12\x03L\x18\x1b\n\x0e\n\
-    \x07\x04\x04\x03\x01\x02\x01\x03\x12\x03L\x1e\x1f\n\r\n\x06\x04\x04\x03\
-    \x01\x02\x02\x12\x03M\x08$\n\x0e\n\x07\x04\x04\x03\x01\x02\x02\x04\x12\
-    \x03M\x08\x10\n\x0e\n\x07\x04\x04\x03\x01\x02\x02\x05\x12\x03M\x11\x17\n\
-    \x0e\n\x07\x04\x04\x03\x01\x02\x02\x01\x12\x03M\x18\x1f\n\x0e\n\x07\x04\
-    \x04\x03\x01\x02\x02\x03\x12\x03M\"#\n\r\n\x06\x04\x04\x03\x01\x02\x03\
-    \x12\x03N\x08&\n\x0e\n\x07\x04\x04\x03\x01\x02\x03\x04\x12\x03N\x08\x10\
-    \n\x0e\n\x07\x04\x04\x03\x01\x02\x03\x05\x12\x03N\x11\x17\n\x0e\n\x07\
-    \x04\x04\x03\x01\x02\x03\x01\x12\x03N\x18!\n\x0e\n\x07\x04\x04\x03\x01\
-    \x02\x03\x03\x12\x03N$%\n\r\n\x06\x04\x04\x03\x01\x02\x04\x12\x03O\x08*\
-    \n\x0e\n\x07\x04\x04\x03\x01\x02\x04\x04\x12\x03O\x08\x10\n\x0e\n\x07\
-    \x04\x04\x03\x01\x02\x04\x05\x12\x03O\x11\x17\n\x0e\n\x07\x04\x04\x03\
-    \x01\x02\x04\x01\x12\x03O\x18%\n\x0e\n\x07\x04\x04\x03\x01\x02\x04\x03\
-    \x12\x03O()\n\r\n\x06\x04\x04\x03\x01\x02\x05\x12\x03P\x08&\n\x0e\n\x07\
-    \x04\x04\x03\x01\x02\x05\x04\x12\x03P\x08\x10\n\x0e\n\x07\x04\x04\x03\
-    \x01\x02\x05\x05\x12\x03P\x11\x16\n\x0e\n\x07\x04\x04\x03\x01\x02\x05\
-    \x01\x12\x03P\x17!\n\x0e\n\x07\x04\x04\x03\x01\x02\x05\x03\x12\x03P$%\nD\
-    \n\x04\x04\x04\x03\x02\x12\x04U\x04^\x05\x1a6*\n\x20Structure\x20represe\
-    nting\x20information\x20for\x20transaction\n\n\x0c\n\x05\x04\x04\x03\x02\
-    \x01\x12\x03U\x0c\x1e\n\r\n\x06\x04\x04\x03\x02\x02\0\x12\x03V\x08,\n\
-    \x0e\n\x07\x04\x04\x03\x02\x02\0\x04\x12\x03V\x08\x10\n\x0e\n\x07\x04\
-    \x04\x03\x02\x02\0\x06\x12\x03V\x11\x20\n\x0e\n\x07\x04\x04\x03\x02\x02\
-    \0\x01\x12\x03V!'\n\x0e\n\x07\x04\x04\x03\x02\x02\0\x03\x12\x03V*+\n\r\n\
-    \x06\x04\x04\x03\x02\x02\x01\x12\x03W\x08\x20\n\x0e\n\x07\x04\x04\x03\
-    \x02\x02\x01\x04\x12\x03W\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x01\
-    \x05\x12\x03W\x11\x17\n\x0e\n\x07\x04\x04\x03\x02\x02\x01\x01\x12\x03W\
-    \x18\x1b\n\x0e\n\x07\x04\x04\x03\x02\x02\x01\x03\x12\x03W\x1e\x1f\n\r\n\
-    \x06\x04\x04\x03\x02\x02\x02\x12\x03X\x08$\n\x0e\n\x07\x04\x04\x03\x02\
-    \x02\x02\x04\x12\x03X\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x02\x05\
-    \x12\x03X\x11\x17\n\x0e\n\x07\x04\x04\x03\x02\x02\x02\x01\x12\x03X\x18\
-    \x1f\n\x0e\n\x07\x04\x04\x03\x02\x02\x02\x03\x12\x03X\"#\n\r\n\x06\x04\
-    \x04\x03\x02\x02\x03\x12\x03Y\x08&\n\x0e\n\x07\x04\x04\x03\x02\x02\x03\
-    \x04\x12\x03Y\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x03\x05\x12\x03Y\
-    \x11\x17\n\x0e\n\x07\x04\x04\x03\x02\x02\x03\x01\x12\x03Y\x18!\n\x0e\n\
-    \x07\x04\x04\x03\x02\x02\x03\x03\x12\x03Y$%\n\r\n\x06\x04\x04\x03\x02\
-    \x02\x04\x12\x03Z\x08*\n\x0e\n\x07\x04\x04\x03\x02\x02\x04\x04\x12\x03Z\
-    \x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x04\x05\x12\x03Z\x11\x17\n\x0e\
-    \n\x07\x04\x04\x03\x02\x02\x04\x01\x12\x03Z\x18%\n\x0e\n\x07\x04\x04\x03\
-    \x02\x02\x04\x03\x12\x03Z()\n\r\n\x06\x04\x04\x03\x02\x02\x05\x12\x03[\
-    \x08#\n\x0e\n\x07\x04\x04\x03\x02\x02\x05\x04\x12\x03[\x08\x10\n\x0e\n\
-    \x07\x04\x04\x03\x02\x02\x05\x05\x12\x03[\x11\x17\n\x0e\n\x07\x04\x04\
-    \x03\x02\x02\x05\x01\x12\x03[\x18\x1e\n\x0e\n\x07\x04\x04\x03\x02\x02\
-    \x05\x03\x12\x03[!\"\n\r\n\x06\x04\x04\x03\x02\x02\x06\x12\x03\\\x081\n\
-    \x0e\n\x07\x04\x04\x03\x02\x02\x06\x04\x12\x03\\\x08\x10\n\x0e\n\x07\x04\
-    \x04\x03\x02\x02\x06\x06\x12\x03\\\x11\x20\n\x0e\n\x07\x04\x04\x03\x02\
-    \x02\x06\x01\x12\x03\\!,\n\x0e\n\x07\x04\x04\x03\x02\x02\x06\x03\x12\x03\
-    \\/0\n\r\n\x06\x04\x04\x03\x02\x02\x07\x12\x03]\x08&\n\x0e\n\x07\x04\x04\
-    \x03\x02\x02\x07\x04\x12\x03]\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\
-    \x07\x05\x12\x03]\x11\x16\n\x0e\n\x07\x04\x04\x03\x02\x02\x07\x01\x12\
-    \x03]\x17!\n\x0e\n\x07\x04\x04\x03\x02\x02\x07\x03\x12\x03]$%\nD\n\x04\
-    \x04\x04\x03\x03\x12\x04b\x04n\x05\x1a6*\n\x20Structure\x20representing\
-    \x20information\x20for\x20origination\n\n\x0c\n\x05\x04\x04\x03\x03\x01\
-    \x12\x03b\x0c\x1e\n\r\n\x06\x04\x04\x03\x03\x02\0\x12\x03c\x08,\n\x0e\n\
-    \x07\x04\x04\x03\x03\x02\0\x04\x12\x03c\x08\x10\n\x0e\n\x07\x04\x04\x03\
-    \x03\x02\0\x06\x12\x03c\x11\x20\n\x0e\n\x07\x04\x04\x03\x03\x02\0\x01\
-    \x12\x03c!'\n\x0e\n\x07\x04\x04\x03\x03\x02\0\x03\x12\x03c*+\n\r\n\x06\
-    \x04\x04\x03\x03\x02\x01\x12\x03d\x08\x20\n\x0e\n\x07\x04\x04\x03\x03\
-    \x02\x01\x04\x12\x03d\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x01\x05\
-    \x12\x03d\x11\x17\n\x0e\n\x07\x04\x04\x03\x03\x02\x01\x01\x12\x03d\x18\
-    \x1b\n\x0e\n\x07\x04\x04\x03\x03\x02\x01\x03\x12\x03d\x1e\x1f\n\r\n\x06\
-    \x04\x04\x03\x03\x02\x02\x12\x03e\x08$\n\x0e\n\x07\x04\x04\x03\x03\x02\
-    \x02\x04\x12\x03e\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x02\x05\x12\
-    \x03e\x11\x17\n\x0e\n\x07\x04\x04\x03\x03\x02\x02\x01\x12\x03e\x18\x1f\n\
-    \x0e\n\x07\x04\x04\x03\x03\x02\x02\x03\x12\x03e\"#\n\r\n\x06\x04\x04\x03\
-    \x03\x02\x03\x12\x03f\x08&\n\x0e\n\x07\x04\x04\x03\x03\x02\x03\x04\x12\
-    \x03f\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x03\x05\x12\x03f\x11\x17\n\
-    \x0e\n\x07\x04\x04\x03\x03\x02\x03\x01\x12\x03f\x18!\n\x0e\n\x07\x04\x04\
-    \x03\x03\x02\x03\x03\x12\x03f$%\n\r\n\x06\x04\x04\x03\x03\x02\x04\x12\
-    \x03g\x08*\n\x0e\n\x07\x04\x04\x03\x03\x02\x04\x04\x12\x03g\x08\x10\n\
-    \x0e\n\x07\x04\x04\x03\x03\x02\x04\x05\x12\x03g\x11\x17\n\x0e\n\x07\x04\
-    \x04\x03\x03\x02\x04\x01\x12\x03g\x18%\n\x0e\n\x07\x04\x04\x03\x03\x02\
-    \x04\x03\x12\x03g()\n\r\n\x06\x04\x04\x03\x03\x02\x05\x12\x03h\x08*\n\
-    \x0e\n\x07\x04\x04\x03\x03\x02\x05\x04\x12\x03h\x08\x10\n\x0e\n\x07\x04\
-    \x04\x03\x03\x02\x05\x05\x12\x03h\x11\x16\n\x0e\n\x07\x04\x04\x03\x03\
-    \x02\x05\x01\x12\x03h\x17%\n\x0e\n\x07\x04\x04\x03\x03\x02\x05\x03\x12\
-    \x03h()\n\r\n\x06\x04\x04\x03\x03\x02\x06\x12\x03i\x08$\n\x0e\n\x07\x04\
-    \x04\x03\x03\x02\x06\x04\x12\x03i\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\
-    \x02\x06\x05\x12\x03i\x11\x17\n\x0e\n\x07\x04\x04\x03\x03\x02\x06\x01\
-    \x12\x03i\x18\x1f\n\x0e\n\x07\x04\x04\x03\x03\x02\x06\x03\x12\x03i\"#\n\
-    \r\n\x06\x04\x04\x03\x03\x02\x07\x12\x03j\x08$\n\x0e\n\x07\x04\x04\x03\
-    \x03\x02\x07\x04\x12\x03j\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x07\
-    \x05\x12\x03j\x11\x15\n\x0e\n\x07\x04\x04\x03\x03\x02\x07\x01\x12\x03j\
-    \x16\x1f\n\x0e\n\x07\x04\x04\x03\x03\x02\x07\x03\x12\x03j\"#\n\r\n\x06\
-    \x04\x04\x03\x03\x02\x08\x12\x03k\x08&\n\x0e\n\x07\x04\x04\x03\x03\x02\
-    \x08\x04\x12\x03k\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x08\x05\x12\
-    \x03k\x11\x15\n\x0e\n\x07\x04\x04\x03\x03\x02\x08\x01\x12\x03k\x16!\n\
-    \x0e\n\x07\x04\x04\x03\x03\x02\x08\x03\x12\x03k$%\n\r\n\x06\x04\x04\x03\
-    \x03\x02\t\x12\x03l\x08%\n\x0e\n\x07\x04\x04\x03\x03\x02\t\x04\x12\x03l\
-    \x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\t\x05\x12\x03l\x11\x16\n\x0e\n\
-    \x07\x04\x04\x03\x03\x02\t\x01\x12\x03l\x17\x1f\n\x0e\n\x07\x04\x04\x03\
-    \x03\x02\t\x03\x12\x03l\"$\n\r\n\x06\x04\x04\x03\x03\x02\n\x12\x03m\x08#\
-    \n\x0e\n\x07\x04\x04\x03\x03\x02\n\x04\x12\x03m\x08\x10\n\x0e\n\x07\x04\
-    \x04\x03\x03\x02\n\x05\x12\x03m\x11\x16\n\x0e\n\x07\x04\x04\x03\x03\x02\
-    \n\x01\x12\x03m\x17\x1d\n\x0e\n\x07\x04\x04\x03\x03\x02\n\x03\x12\x03m\
-    \x20\"\nC\n\x04\x04\x04\x03\x04\x12\x04r\x04y\x05\x1a5*\n\x20Structure\
-    \x20representing\x20information\x20for\x20delegation\n\n\x0c\n\x05\x04\
-    \x04\x03\x04\x01\x12\x03r\x0c\x1d\n\r\n\x06\x04\x04\x03\x04\x02\0\x12\
-    \x03s\x08,\n\x0e\n\x07\x04\x04\x03\x04\x02\0\x04\x12\x03s\x08\x10\n\x0e\
-    \n\x07\x04\x04\x03\x04\x02\0\x06\x12\x03s\x11\x20\n\x0e\n\x07\x04\x04\
-    \x03\x04\x02\0\x01\x12\x03s!'\n\x0e\n\x07\x04\x04\x03\x04\x02\0\x03\x12\
-    \x03s*+\n\r\n\x06\x04\x04\x03\x04\x02\x01\x12\x03t\x08\x20\n\x0e\n\x07\
-    \x04\x04\x03\x04\x02\x01\x04\x12\x03t\x08\x10\n\x0e\n\x07\x04\x04\x03\
-    \x04\x02\x01\x05\x12\x03t\x11\x17\n\x0e\n\x07\x04\x04\x03\x04\x02\x01\
-    \x01\x12\x03t\x18\x1b\n\x0e\n\x07\x04\x04\x03\x04\x02\x01\x03\x12\x03t\
-    \x1e\x1f\n\r\n\x06\x04\x04\x03\x04\x02\x02\x12\x03u\x08$\n\x0e\n\x07\x04\
-    \x04\x03\x04\x02\x02\x04\x12\x03u\x08\x10\n\x0e\n\x07\x04\x04\x03\x04\
-    \x02\x02\x05\x12\x03u\x11\x17\n\x0e\n\x07\x04\x04\x03\x04\x02\x02\x01\
-    \x12\x03u\x18\x1f\n\x0e\n\x07\x04\x04\x03\x04\x02\x02\x03\x12\x03u\"#\n\
-    \r\n\x06\x04\x04\x03\x04\x02\x03\x12\x03v\x08&\n\x0e\n\x07\x04\x04\x03\
-    \x04\x02\x03\x04\x12\x03v\x08\x10\n\x0e\n\x07\x04\x04\x03\x04\x02\x03\
-    \x05\x12\x03v\x11\x17\n\x0e\n\x07\x04\x04\x03\x04\x02\x03\x01\x12\x03v\
-    \x18!\n\x0e\n\x07\x04\x04\x03\x04\x02\x03\x03\x12\x03v$%\n\r\n\x06\x04\
-    \x04\x03\x04\x02\x04\x12\x03w\x08*\n\x0e\n\x07\x04\x04\x03\x04\x02\x04\
-    \x04\x12\x03w\x08\x10\n\x0e\n\x07\x04\x04\x03\x04\x02\x04\x05\x12\x03w\
-    \x11\x17\n\x0e\n\x07\x04\x04\x03\x04\x02\x04\x01\x12\x03w\x18%\n\x0e\n\
-    \x07\x04\x04\x03\x04\x02\x04\x03\x12\x03w()\n\r\n\x06\x04\x04\x03\x04\
-    \x02\x05\x12\x03x\x08$\n\x0e\n\x07\x04\x04\x03\x04\x02\x05\x04\x12\x03x\
-    \x08\x10\n\x0e\n\x07\x04\x04\x03\x04\x02\x05\x05\x12\x03x\x11\x16\n\x0e\
-    \n\x07\x04\x04\x03\x04\x02\x05\x01\x12\x03x\x17\x1f\n\x0e\n\x07\x04\x04\
-    \x03\x04\x02\x05\x03\x12\x03x\"#\nF\n\x02\x04\x05\x12\x06\x80\x01\0\x84\
-    \x01\x01\x1a8*\n\x20Response:\x20Contains\x20Tezos\x20transaction\x20sig\
-    nature\n\x20@end\n\n\x0b\n\x03\x04\x05\x01\x12\x04\x80\x01\x08\x15\nC\n\
-    \x04\x04\x05\x02\0\x12\x04\x81\x01\x04\"\"5\x20Tezos\x20b58\x20encoded\
-    \x20transaction\x20signature\x20with\x20prefix\n\n\r\n\x05\x04\x05\x02\0\
-    \x04\x12\x04\x81\x01\x04\x0c\n\r\n\x05\x04\x05\x02\0\x05\x12\x04\x81\x01\
-    \r\x13\n\r\n\x05\x04\x05\x02\0\x01\x12\x04\x81\x01\x14\x1d\n\r\n\x05\x04\
-    \x05\x02\0\x03\x12\x04\x81\x01\x20!\n8\n\x04\x04\x05\x02\x01\x12\x04\x82\
-    \x01\x04'\"*\x20operation_bytes\x20+\x20signed\x20operation_bytes\n\n\r\
-    \n\x05\x04\x05\x02\x01\x04\x12\x04\x82\x01\x04\x0c\n\r\n\x05\x04\x05\x02\
-    \x01\x05\x12\x04\x82\x01\r\x12\n\r\n\x05\x04\x05\x02\x01\x01\x12\x04\x82\
-    \x01\x13\"\n\r\n\x05\x04\x05\x02\x01\x03\x12\x04\x82\x01%&\nA\n\x04\x04\
-    \x05\x02\x02\x12\x04\x83\x01\x04'\"3\x20b58\x20encoded\x20hashed\x20oper\
-    ation\x20contents\x20with\x20prefix\n\n\r\n\x05\x04\x05\x02\x02\x04\x12\
-    \x04\x83\x01\x04\x0c\n\r\n\x05\x04\x05\x02\x02\x05\x12\x04\x83\x01\r\x13\
-    \n\r\n\x05\x04\x05\x02\x02\x01\x12\x04\x83\x01\x14\"\n\r\n\x05\x04\x05\
-    \x02\x02\x03\x12\x04\x83\x01%&\
+    \x0c\n\x05\x04\x04\x02\x05\x03\x12\x038,-\n'\n\x04\x04\x04\x02\x06\x12\
+    \x039\x04*\"\x1a\x20Tezos\x20proposal\x20operation\n\n\x0c\n\x05\x04\x04\
+    \x02\x06\x04\x12\x039\x04\x0c\n\x0c\n\x05\x04\x04\x02\x06\x06\x12\x039\r\
+    \x1c\n\x0c\n\x05\x04\x04\x02\x06\x01\x12\x039\x1d%\n\x0c\n\x05\x04\x04\
+    \x02\x06\x03\x12\x039()\n%\n\x04\x04\x04\x02\x07\x12\x03:\x04&\"\x18\x20\
+    Tezos\x20ballot\x20operation\n\n\x0c\n\x05\x04\x04\x02\x07\x04\x12\x03:\
+    \x04\x0c\n\x0c\n\x05\x04\x04\x02\x07\x06\x12\x03:\r\x1a\n\x0c\n\x05\x04\
+    \x04\x02\x07\x01\x12\x03:\x1b!\n\x0c\n\x05\x04\x04\x02\x07\x03\x12\x03:$\
+    %\n\"\n\x04\x04\x04\x03\0\x12\x04>\x04H\x05\x1a\x14\n\x20Tezos\x20contra\
+    ct\x20ID\n\n\x0c\n\x05\x04\x04\x03\0\x01\x12\x03>\x0c\x1b\n\r\n\x06\x04\
+    \x04\x03\0\x02\0\x12\x03?\x08+\n\x0e\n\x07\x04\x04\x03\0\x02\0\x04\x12\
+    \x03?\x08\x10\n\x0e\n\x07\x04\x04\x03\0\x02\0\x06\x12\x03?\x11\"\n\x0e\n\
+    \x07\x04\x04\x03\0\x02\0\x01\x12\x03?#&\n\x0e\n\x07\x04\x04\x03\0\x02\0\
+    \x03\x12\x03?)*\n>\n\x06\x04\x04\x03\0\x02\x01\x12\x03@\x08\x20\"/\x20Im\
+    plicit\x20=\x2021B,\x20originated\x20=\x2020B\x20+\x201B\x20padding\n\n\
+    \x0e\n\x07\x04\x04\x03\0\x02\x01\x04\x12\x03@\x08\x10\n\x0e\n\x07\x04\
+    \x04\x03\0\x02\x01\x05\x12\x03@\x11\x16\n\x0e\n\x07\x04\x04\x03\0\x02\
+    \x01\x01\x12\x03@\x17\x1b\n\x0e\n\x07\x04\x04\x03\0\x02\x01\x03\x12\x03@\
+    \x1e\x1f\n.\n\x06\x04\x04\x03\0\x04\0\x12\x04D\x08G\t\x1a\x1e\n\x20Type\
+    \x20of\x20Tezos\x20Contract\x20type\n\n\x0e\n\x07\x04\x04\x03\0\x04\0\
+    \x01\x12\x03D\r\x1e\n\x0f\n\x08\x04\x04\x03\0\x04\0\x02\0\x12\x03E\x0c\
+    \x19\n\x10\n\t\x04\x04\x03\0\x04\0\x02\0\x01\x12\x03E\x0c\x14\n\x10\n\t\
+    \x04\x04\x03\0\x04\0\x02\0\x02\x12\x03E\x17\x18\n\x0f\n\x08\x04\x04\x03\
+    \0\x04\0\x02\x01\x12\x03F\x0c\x1b\n\x10\n\t\x04\x04\x03\0\x04\0\x02\x01\
+    \x01\x12\x03F\x0c\x16\n\x10\n\t\x04\x04\x03\0\x04\0\x02\x01\x02\x12\x03F\
+    \x19\x1a\n?\n\x04\x04\x04\x03\x01\x12\x04L\x04S\x05\x1a1*\n\x20Structure\
+    \x20representing\x20information\x20for\x20reveal\n\n\x0c\n\x05\x04\x04\
+    \x03\x01\x01\x12\x03L\x0c\x19\n\r\n\x06\x04\x04\x03\x01\x02\0\x12\x03M\
+    \x08\"\n\x0e\n\x07\x04\x04\x03\x01\x02\0\x04\x12\x03M\x08\x10\n\x0e\n\
+    \x07\x04\x04\x03\x01\x02\0\x05\x12\x03M\x11\x16\n\x0e\n\x07\x04\x04\x03\
+    \x01\x02\0\x01\x12\x03M\x17\x1d\n\x0e\n\x07\x04\x04\x03\x01\x02\0\x03\
+    \x12\x03M\x20!\n\r\n\x06\x04\x04\x03\x01\x02\x01\x12\x03N\x08\x20\n\x0e\
+    \n\x07\x04\x04\x03\x01\x02\x01\x04\x12\x03N\x08\x10\n\x0e\n\x07\x04\x04\
+    \x03\x01\x02\x01\x05\x12\x03N\x11\x17\n\x0e\n\x07\x04\x04\x03\x01\x02\
+    \x01\x01\x12\x03N\x18\x1b\n\x0e\n\x07\x04\x04\x03\x01\x02\x01\x03\x12\
+    \x03N\x1e\x1f\n\r\n\x06\x04\x04\x03\x01\x02\x02\x12\x03O\x08$\n\x0e\n\
+    \x07\x04\x04\x03\x01\x02\x02\x04\x12\x03O\x08\x10\n\x0e\n\x07\x04\x04\
+    \x03\x01\x02\x02\x05\x12\x03O\x11\x17\n\x0e\n\x07\x04\x04\x03\x01\x02\
+    \x02\x01\x12\x03O\x18\x1f\n\x0e\n\x07\x04\x04\x03\x01\x02\x02\x03\x12\
+    \x03O\"#\n\r\n\x06\x04\x04\x03\x01\x02\x03\x12\x03P\x08&\n\x0e\n\x07\x04\
+    \x04\x03\x01\x02\x03\x04\x12\x03P\x08\x10\n\x0e\n\x07\x04\x04\x03\x01\
+    \x02\x03\x05\x12\x03P\x11\x17\n\x0e\n\x07\x04\x04\x03\x01\x02\x03\x01\
+    \x12\x03P\x18!\n\x0e\n\x07\x04\x04\x03\x01\x02\x03\x03\x12\x03P$%\n\r\n\
+    \x06\x04\x04\x03\x01\x02\x04\x12\x03Q\x08*\n\x0e\n\x07\x04\x04\x03\x01\
+    \x02\x04\x04\x12\x03Q\x08\x10\n\x0e\n\x07\x04\x04\x03\x01\x02\x04\x05\
+    \x12\x03Q\x11\x17\n\x0e\n\x07\x04\x04\x03\x01\x02\x04\x01\x12\x03Q\x18%\
+    \n\x0e\n\x07\x04\x04\x03\x01\x02\x04\x03\x12\x03Q()\n\r\n\x06\x04\x04\
+    \x03\x01\x02\x05\x12\x03R\x08&\n\x0e\n\x07\x04\x04\x03\x01\x02\x05\x04\
+    \x12\x03R\x08\x10\n\x0e\n\x07\x04\x04\x03\x01\x02\x05\x05\x12\x03R\x11\
+    \x16\n\x0e\n\x07\x04\x04\x03\x01\x02\x05\x01\x12\x03R\x17!\n\x0e\n\x07\
+    \x04\x04\x03\x01\x02\x05\x03\x12\x03R$%\nD\n\x04\x04\x04\x03\x02\x12\x04\
+    W\x04l\x05\x1a6*\n\x20Structure\x20representing\x20information\x20for\
+    \x20transaction\n\n\x0c\n\x05\x04\x04\x03\x02\x01\x12\x03W\x0c\x1e\n\r\n\
+    \x06\x04\x04\x03\x02\x02\0\x12\x03X\x08\"\n\x0e\n\x07\x04\x04\x03\x02\
+    \x02\0\x04\x12\x03X\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\0\x05\x12\
+    \x03X\x11\x16\n\x0e\n\x07\x04\x04\x03\x02\x02\0\x01\x12\x03X\x17\x1d\n\
+    \x0e\n\x07\x04\x04\x03\x02\x02\0\x03\x12\x03X\x20!\n\r\n\x06\x04\x04\x03\
+    \x02\x02\x01\x12\x03Y\x08\x20\n\x0e\n\x07\x04\x04\x03\x02\x02\x01\x04\
+    \x12\x03Y\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x01\x05\x12\x03Y\x11\
+    \x17\n\x0e\n\x07\x04\x04\x03\x02\x02\x01\x01\x12\x03Y\x18\x1b\n\x0e\n\
+    \x07\x04\x04\x03\x02\x02\x01\x03\x12\x03Y\x1e\x1f\n\r\n\x06\x04\x04\x03\
+    \x02\x02\x02\x12\x03Z\x08$\n\x0e\n\x07\x04\x04\x03\x02\x02\x02\x04\x12\
+    \x03Z\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x02\x05\x12\x03Z\x11\x17\n\
+    \x0e\n\x07\x04\x04\x03\x02\x02\x02\x01\x12\x03Z\x18\x1f\n\x0e\n\x07\x04\
+    \x04\x03\x02\x02\x02\x03\x12\x03Z\"#\n\r\n\x06\x04\x04\x03\x02\x02\x03\
+    \x12\x03[\x08&\n\x0e\n\x07\x04\x04\x03\x02\x02\x03\x04\x12\x03[\x08\x10\
+    \n\x0e\n\x07\x04\x04\x03\x02\x02\x03\x05\x12\x03[\x11\x17\n\x0e\n\x07\
+    \x04\x04\x03\x02\x02\x03\x01\x12\x03[\x18!\n\x0e\n\x07\x04\x04\x03\x02\
+    \x02\x03\x03\x12\x03[$%\n\r\n\x06\x04\x04\x03\x02\x02\x04\x12\x03\\\x08*\
+    \n\x0e\n\x07\x04\x04\x03\x02\x02\x04\x04\x12\x03\\\x08\x10\n\x0e\n\x07\
+    \x04\x04\x03\x02\x02\x04\x05\x12\x03\\\x11\x17\n\x0e\n\x07\x04\x04\x03\
+    \x02\x02\x04\x01\x12\x03\\\x18%\n\x0e\n\x07\x04\x04\x03\x02\x02\x04\x03\
+    \x12\x03\\()\n\r\n\x06\x04\x04\x03\x02\x02\x05\x12\x03]\x08#\n\x0e\n\x07\
+    \x04\x04\x03\x02\x02\x05\x04\x12\x03]\x08\x10\n\x0e\n\x07\x04\x04\x03\
+    \x02\x02\x05\x05\x12\x03]\x11\x17\n\x0e\n\x07\x04\x04\x03\x02\x02\x05\
+    \x01\x12\x03]\x18\x1e\n\x0e\n\x07\x04\x04\x03\x02\x02\x05\x03\x12\x03]!\
+    \"\n\r\n\x06\x04\x04\x03\x02\x02\x06\x12\x03^\x081\n\x0e\n\x07\x04\x04\
+    \x03\x02\x02\x06\x04\x12\x03^\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\
+    \x06\x06\x12\x03^\x11\x20\n\x0e\n\x07\x04\x04\x03\x02\x02\x06\x01\x12\
+    \x03^!,\n\x0e\n\x07\x04\x04\x03\x02\x02\x06\x03\x12\x03^/0\n\r\n\x06\x04\
+    \x04\x03\x02\x02\x07\x12\x03_\x08&\n\x0e\n\x07\x04\x04\x03\x02\x02\x07\
+    \x04\x12\x03_\x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x07\x05\x12\x03_\
+    \x11\x16\n\x0e\n\x07\x04\x04\x03\x02\x02\x07\x01\x12\x03_\x17!\n\x0e\n\
+    \x07\x04\x04\x03\x02\x02\x07\x03\x12\x03_$%\n\r\n\x06\x04\x04\x03\x02\
+    \x02\x08\x12\x03`\x08@\n\x0e\n\x07\x04\x04\x03\x02\x02\x08\x04\x12\x03`\
+    \x08\x10\n\x0e\n\x07\x04\x04\x03\x02\x02\x08\x06\x12\x03`\x11'\n\x0e\n\
+    \x07\x04\x04\x03\x02\x02\x08\x01\x12\x03`(:\n\x0e\n\x07\x04\x04\x03\x02\
+    \x02\x08\x03\x12\x03`=?\n\x0e\n\x06\x04\x04\x03\x02\x03\0\x12\x04b\x08k\
+    \t\n\x0e\n\x07\x04\x04\x03\x02\x03\0\x01\x12\x03b\x10&\n\x0f\n\x08\x04\
+    \x04\x03\x02\x03\0\x02\0\x12\x03c\x0c,\n\x10\n\t\x04\x04\x03\x02\x03\0\
+    \x02\0\x04\x12\x03c\x0c\x14\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\0\x05\
+    \x12\x03c\x15\x1a\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\0\x01\x12\x03c\x1b\
+    '\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\0\x03\x12\x03c*+\n\x0f\n\x08\x04\
+    \x04\x03\x02\x03\0\x02\x01\x12\x03d\x0c.\n\x10\n\t\x04\x04\x03\x02\x03\0\
+    \x02\x01\x04\x12\x03d\x0c\x14\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\x01\
+    \x05\x12\x03d\x15\x19\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\x01\x01\x12\
+    \x03d\x1a)\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\x01\x03\x12\x03d,-\n\x0f\
+    \n\x08\x04\x04\x03\x02\x03\0\x02\x02\x12\x03e\x0c7\n\x10\n\t\x04\x04\x03\
+    \x02\x03\0\x02\x02\x04\x12\x03e\x0c\x14\n\x10\n\t\x04\x04\x03\x02\x03\0\
+    \x02\x02\x06\x12\x03e\x15)\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\x02\x01\
+    \x12\x03e*2\n\x10\n\t\x04\x04\x03\x02\x03\0\x02\x02\x03\x12\x03e56\n\x10\
+    \n\x08\x04\x04\x03\x02\x03\0\x03\0\x12\x04g\x0cj\r\n\x10\n\t\x04\x04\x03\
+    \x02\x03\0\x03\0\x01\x12\x03g\x14(\n\x11\n\n\x04\x04\x03\x02\x03\0\x03\0\
+    \x02\0\x12\x03h\x109\n\x12\n\x0b\x04\x04\x03\x02\x03\0\x03\0\x02\0\x04\
+    \x12\x03h\x10\x18\n\x12\n\x0b\x04\x04\x03\x02\x03\0\x03\0\x02\0\x06\x12\
+    \x03h\x19(\n\x12\n\x0b\x04\x04\x03\x02\x03\0\x03\0\x02\0\x01\x12\x03h)4\
+    \n\x12\n\x0b\x04\x04\x03\x02\x03\0\x03\0\x02\0\x03\x12\x03h78\n\x11\n\n\
+    \x04\x04\x03\x02\x03\0\x03\0\x02\x01\x12\x03i\x10+\n\x12\n\x0b\x04\x04\
+    \x03\x02\x03\0\x03\0\x02\x01\x04\x12\x03i\x10\x18\n\x12\n\x0b\x04\x04\
+    \x03\x02\x03\0\x03\0\x02\x01\x05\x12\x03i\x19\x1f\n\x12\n\x0b\x04\x04\
+    \x03\x02\x03\0\x03\0\x02\x01\x01\x12\x03i\x20&\n\x12\n\x0b\x04\x04\x03\
+    \x02\x03\0\x03\0\x02\x01\x03\x12\x03i)*\nD\n\x04\x04\x04\x03\x03\x12\x04\
+    p\x04|\x05\x1a6*\n\x20Structure\x20representing\x20information\x20for\
+    \x20origination\n\n\x0c\n\x05\x04\x04\x03\x03\x01\x12\x03p\x0c\x1e\n\r\n\
+    \x06\x04\x04\x03\x03\x02\0\x12\x03q\x08#\n\x0e\n\x07\x04\x04\x03\x03\x02\
+    \0\x04\x12\x03q\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\0\x05\x12\x03q\
+    \x11\x16\n\x0e\n\x07\x04\x04\x03\x03\x02\0\x01\x12\x03q\x17\x1d\n\x0e\n\
+    \x07\x04\x04\x03\x03\x02\0\x03\x12\x03q\x20\"\n\r\n\x06\x04\x04\x03\x03\
+    \x02\x01\x12\x03r\x08\x20\n\x0e\n\x07\x04\x04\x03\x03\x02\x01\x04\x12\
+    \x03r\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x01\x05\x12\x03r\x11\x17\n\
+    \x0e\n\x07\x04\x04\x03\x03\x02\x01\x01\x12\x03r\x18\x1b\n\x0e\n\x07\x04\
+    \x04\x03\x03\x02\x01\x03\x12\x03r\x1e\x1f\n\r\n\x06\x04\x04\x03\x03\x02\
+    \x02\x12\x03s\x08$\n\x0e\n\x07\x04\x04\x03\x03\x02\x02\x04\x12\x03s\x08\
+    \x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x02\x05\x12\x03s\x11\x17\n\x0e\n\
+    \x07\x04\x04\x03\x03\x02\x02\x01\x12\x03s\x18\x1f\n\x0e\n\x07\x04\x04\
+    \x03\x03\x02\x02\x03\x12\x03s\"#\n\r\n\x06\x04\x04\x03\x03\x02\x03\x12\
+    \x03t\x08&\n\x0e\n\x07\x04\x04\x03\x03\x02\x03\x04\x12\x03t\x08\x10\n\
+    \x0e\n\x07\x04\x04\x03\x03\x02\x03\x05\x12\x03t\x11\x17\n\x0e\n\x07\x04\
+    \x04\x03\x03\x02\x03\x01\x12\x03t\x18!\n\x0e\n\x07\x04\x04\x03\x03\x02\
+    \x03\x03\x12\x03t$%\n\r\n\x06\x04\x04\x03\x03\x02\x04\x12\x03u\x08*\n\
+    \x0e\n\x07\x04\x04\x03\x03\x02\x04\x04\x12\x03u\x08\x10\n\x0e\n\x07\x04\
+    \x04\x03\x03\x02\x04\x05\x12\x03u\x11\x17\n\x0e\n\x07\x04\x04\x03\x03\
+    \x02\x04\x01\x12\x03u\x18%\n\x0e\n\x07\x04\x04\x03\x03\x02\x04\x03\x12\
+    \x03u()\n\r\n\x06\x04\x04\x03\x03\x02\x05\x12\x03v\x08*\n\x0e\n\x07\x04\
+    \x04\x03\x03\x02\x05\x04\x12\x03v\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\
+    \x02\x05\x05\x12\x03v\x11\x16\n\x0e\n\x07\x04\x04\x03\x03\x02\x05\x01\
+    \x12\x03v\x17%\n\x0e\n\x07\x04\x04\x03\x03\x02\x05\x03\x12\x03v()\n\r\n\
+    \x06\x04\x04\x03\x03\x02\x06\x12\x03w\x08$\n\x0e\n\x07\x04\x04\x03\x03\
+    \x02\x06\x04\x12\x03w\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x06\x05\
+    \x12\x03w\x11\x17\n\x0e\n\x07\x04\x04\x03\x03\x02\x06\x01\x12\x03w\x18\
+    \x1f\n\x0e\n\x07\x04\x04\x03\x03\x02\x06\x03\x12\x03w\"#\n\r\n\x06\x04\
+    \x04\x03\x03\x02\x07\x12\x03x\x08$\n\x0e\n\x07\x04\x04\x03\x03\x02\x07\
+    \x04\x12\x03x\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x07\x05\x12\x03x\
+    \x11\x15\n\x0e\n\x07\x04\x04\x03\x03\x02\x07\x01\x12\x03x\x16\x1f\n\x0e\
+    \n\x07\x04\x04\x03\x03\x02\x07\x03\x12\x03x\"#\n\r\n\x06\x04\x04\x03\x03\
+    \x02\x08\x12\x03y\x08&\n\x0e\n\x07\x04\x04\x03\x03\x02\x08\x04\x12\x03y\
+    \x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\x08\x05\x12\x03y\x11\x15\n\x0e\
+    \n\x07\x04\x04\x03\x03\x02\x08\x01\x12\x03y\x16!\n\x0e\n\x07\x04\x04\x03\
+    \x03\x02\x08\x03\x12\x03y$%\n\r\n\x06\x04\x04\x03\x03\x02\t\x12\x03z\x08\
+    %\n\x0e\n\x07\x04\x04\x03\x03\x02\t\x04\x12\x03z\x08\x10\n\x0e\n\x07\x04\
+    \x04\x03\x03\x02\t\x05\x12\x03z\x11\x16\n\x0e\n\x07\x04\x04\x03\x03\x02\
+    \t\x01\x12\x03z\x17\x1f\n\x0e\n\x07\x04\x04\x03\x03\x02\t\x03\x12\x03z\"\
+    $\n\r\n\x06\x04\x04\x03\x03\x02\n\x12\x03{\x08#\n\x0e\n\x07\x04\x04\x03\
+    \x03\x02\n\x04\x12\x03{\x08\x10\n\x0e\n\x07\x04\x04\x03\x03\x02\n\x05\
+    \x12\x03{\x11\x16\n\x0e\n\x07\x04\x04\x03\x03\x02\n\x01\x12\x03{\x17\x1d\
+    \n\x0e\n\x07\x04\x04\x03\x03\x02\n\x03\x12\x03{\x20\"\nE\n\x04\x04\x04\
+    \x03\x04\x12\x06\x80\x01\x04\x87\x01\x05\x1a5*\n\x20Structure\x20represe\
+    nting\x20information\x20for\x20delegation\n\n\r\n\x05\x04\x04\x03\x04\
+    \x01\x12\x04\x80\x01\x0c\x1d\n\x0e\n\x06\x04\x04\x03\x04\x02\0\x12\x04\
+    \x81\x01\x08\"\n\x0f\n\x07\x04\x04\x03\x04\x02\0\x04\x12\x04\x81\x01\x08\
+    \x10\n\x0f\n\x07\x04\x04\x03\x04\x02\0\x05\x12\x04\x81\x01\x11\x16\n\x0f\
+    \n\x07\x04\x04\x03\x04\x02\0\x01\x12\x04\x81\x01\x17\x1d\n\x0f\n\x07\x04\
+    \x04\x03\x04\x02\0\x03\x12\x04\x81\x01\x20!\n\x0e\n\x06\x04\x04\x03\x04\
+    \x02\x01\x12\x04\x82\x01\x08\x20\n\x0f\n\x07\x04\x04\x03\x04\x02\x01\x04\
+    \x12\x04\x82\x01\x08\x10\n\x0f\n\x07\x04\x04\x03\x04\x02\x01\x05\x12\x04\
+    \x82\x01\x11\x17\n\x0f\n\x07\x04\x04\x03\x04\x02\x01\x01\x12\x04\x82\x01\
+    \x18\x1b\n\x0f\n\x07\x04\x04\x03\x04\x02\x01\x03\x12\x04\x82\x01\x1e\x1f\
+    \n\x0e\n\x06\x04\x04\x03\x04\x02\x02\x12\x04\x83\x01\x08$\n\x0f\n\x07\
+    \x04\x04\x03\x04\x02\x02\x04\x12\x04\x83\x01\x08\x10\n\x0f\n\x07\x04\x04\
+    \x03\x04\x02\x02\x05\x12\x04\x83\x01\x11\x17\n\x0f\n\x07\x04\x04\x03\x04\
+    \x02\x02\x01\x12\x04\x83\x01\x18\x1f\n\x0f\n\x07\x04\x04\x03\x04\x02\x02\
+    \x03\x12\x04\x83\x01\"#\n\x0e\n\x06\x04\x04\x03\x04\x02\x03\x12\x04\x84\
+    \x01\x08&\n\x0f\n\x07\x04\x04\x03\x04\x02\x03\x04\x12\x04\x84\x01\x08\
+    \x10\n\x0f\n\x07\x04\x04\x03\x04\x02\x03\x05\x12\x04\x84\x01\x11\x17\n\
+    \x0f\n\x07\x04\x04\x03\x04\x02\x03\x01\x12\x04\x84\x01\x18!\n\x0f\n\x07\
+    \x04\x04\x03\x04\x02\x03\x03\x12\x04\x84\x01$%\n\x0e\n\x06\x04\x04\x03\
+    \x04\x02\x04\x12\x04\x85\x01\x08*\n\x0f\n\x07\x04\x04\x03\x04\x02\x04\
+    \x04\x12\x04\x85\x01\x08\x10\n\x0f\n\x07\x04\x04\x03\x04\x02\x04\x05\x12\
+    \x04\x85\x01\x11\x17\n\x0f\n\x07\x04\x04\x03\x04\x02\x04\x01\x12\x04\x85\
+    \x01\x18%\n\x0f\n\x07\x04\x04\x03\x04\x02\x04\x03\x12\x04\x85\x01()\n\
+    \x0e\n\x06\x04\x04\x03\x04\x02\x05\x12\x04\x86\x01\x08$\n\x0f\n\x07\x04\
+    \x04\x03\x04\x02\x05\x04\x12\x04\x86\x01\x08\x10\n\x0f\n\x07\x04\x04\x03\
+    \x04\x02\x05\x05\x12\x04\x86\x01\x11\x16\n\x0f\n\x07\x04\x04\x03\x04\x02\
+    \x05\x01\x12\x04\x86\x01\x17\x1f\n\x0f\n\x07\x04\x04\x03\x04\x02\x05\x03\
+    \x12\x04\x86\x01\"#\nC\n\x04\x04\x04\x03\x05\x12\x06\x8b\x01\x04\x8f\x01\
+    \x05\x1a3*\n\x20Structure\x20representing\x20information\x20for\x20propo\
+    sal\n\n\r\n\x05\x04\x04\x03\x05\x01\x12\x04\x8b\x01\x0c\x1b\nW\n\x06\x04\
+    \x04\x03\x05\x02\0\x12\x04\x8c\x01\x08\"\"GContains\x20only\x20public_ke\
+    y_hash,\x20not\x20to\x20be\x20confused\x20with\x20TezosContractID\n\n\
+    \x0f\n\x07\x04\x04\x03\x05\x02\0\x04\x12\x04\x8c\x01\x08\x10\n\x0f\n\x07\
+    \x04\x04\x03\x05\x02\0\x05\x12\x04\x8c\x01\x11\x16\n\x0f\n\x07\x04\x04\
+    \x03\x05\x02\0\x01\x12\x04\x8c\x01\x17\x1d\n\x0f\n\x07\x04\x04\x03\x05\
+    \x02\0\x03\x12\x04\x8c\x01\x20!\n\x0e\n\x06\x04\x04\x03\x05\x02\x01\x12\
+    \x04\x8d\x01\x08#\n\x0f\n\x07\x04\x04\x03\x05\x02\x01\x04\x12\x04\x8d\
+    \x01\x08\x10\n\x0f\n\x07\x04\x04\x03\x05\x02\x01\x05\x12\x04\x8d\x01\x11\
+    \x17\n\x0f\n\x07\x04\x04\x03\x05\x02\x01\x01\x12\x04\x8d\x01\x18\x1e\n\
+    \x0f\n\x07\x04\x04\x03\x05\x02\x01\x03\x12\x04\x8d\x01!\"\n\x0e\n\x06\
+    \x04\x04\x03\x05\x02\x02\x12\x04\x8e\x01\x08%\n\x0f\n\x07\x04\x04\x03\
+    \x05\x02\x02\x04\x12\x04\x8e\x01\x08\x10\n\x0f\n\x07\x04\x04\x03\x05\x02\
+    \x02\x05\x12\x04\x8e\x01\x11\x16\n\x0f\n\x07\x04\x04\x03\x05\x02\x02\x01\
+    \x12\x04\x8e\x01\x17\x20\n\x0f\n\x07\x04\x04\x03\x05\x02\x02\x03\x12\x04\
+    \x8e\x01#$\nA\n\x04\x04\x04\x03\x06\x12\x06\x93\x01\x04\x9e\x01\x05\x1a1\
+    *\n\x20Structure\x20representing\x20information\x20for\x20ballot\n\n\r\n\
+    \x05\x04\x04\x03\x06\x01\x12\x04\x93\x01\x0c\x19\nW\n\x06\x04\x04\x03\
+    \x06\x02\0\x12\x04\x94\x01\x08\"\"GContains\x20only\x20public_key_hash,\
+    \x20not\x20to\x20be\x20confused\x20with\x20TezosContractID\n\n\x0f\n\x07\
+    \x04\x04\x03\x06\x02\0\x04\x12\x04\x94\x01\x08\x10\n\x0f\n\x07\x04\x04\
+    \x03\x06\x02\0\x05\x12\x04\x94\x01\x11\x16\n\x0f\n\x07\x04\x04\x03\x06\
+    \x02\0\x01\x12\x04\x94\x01\x17\x1d\n\x0f\n\x07\x04\x04\x03\x06\x02\0\x03\
+    \x12\x04\x94\x01\x20!\n\x0e\n\x06\x04\x04\x03\x06\x02\x01\x12\x04\x95\
+    \x01\x08#\n\x0f\n\x07\x04\x04\x03\x06\x02\x01\x04\x12\x04\x95\x01\x08\
+    \x10\n\x0f\n\x07\x04\x04\x03\x06\x02\x01\x05\x12\x04\x95\x01\x11\x17\n\
+    \x0f\n\x07\x04\x04\x03\x06\x02\x01\x01\x12\x04\x95\x01\x18\x1e\n\x0f\n\
+    \x07\x04\x04\x03\x06\x02\x01\x03\x12\x04\x95\x01!\"\n\x0e\n\x06\x04\x04\
+    \x03\x06\x02\x02\x12\x04\x96\x01\x08$\n\x0f\n\x07\x04\x04\x03\x06\x02\
+    \x02\x04\x12\x04\x96\x01\x08\x10\n\x0f\n\x07\x04\x04\x03\x06\x02\x02\x05\
+    \x12\x04\x96\x01\x11\x16\n\x0f\n\x07\x04\x04\x03\x06\x02\x02\x01\x12\x04\
+    \x96\x01\x17\x1f\n\x0f\n\x07\x04\x04\x03\x06\x02\x02\x03\x12\x04\x96\x01\
+    \"#\n\x0e\n\x06\x04\x04\x03\x06\x02\x03\x12\x04\x97\x01\x08,\n\x0f\n\x07\
+    \x04\x04\x03\x06\x02\x03\x04\x12\x04\x97\x01\x08\x10\n\x0f\n\x07\x04\x04\
+    \x03\x06\x02\x03\x06\x12\x04\x97\x01\x11\x20\n\x0f\n\x07\x04\x04\x03\x06\
+    \x02\x03\x01\x12\x04\x97\x01!'\n\x0f\n\x07\x04\x04\x03\x06\x02\x03\x03\
+    \x12\x04\x97\x01*+\n\x10\n\x06\x04\x04\x03\x06\x04\0\x12\x06\x99\x01\x08\
+    \x9d\x01\t\n\x0f\n\x07\x04\x04\x03\x06\x04\0\x01\x12\x04\x99\x01\r\x1c\n\
+    \x10\n\x08\x04\x04\x03\x06\x04\0\x02\0\x12\x04\x9a\x01\x0c\x14\n\x11\n\t\
+    \x04\x04\x03\x06\x04\0\x02\0\x01\x12\x04\x9a\x01\x0c\x0f\n\x11\n\t\x04\
+    \x04\x03\x06\x04\0\x02\0\x02\x12\x04\x9a\x01\x12\x13\n\x10\n\x08\x04\x04\
+    \x03\x06\x04\0\x02\x01\x12\x04\x9b\x01\x0c\x14\n\x11\n\t\x04\x04\x03\x06\
+    \x04\0\x02\x01\x01\x12\x04\x9b\x01\x0c\x0f\n\x11\n\t\x04\x04\x03\x06\x04\
+    \0\x02\x01\x02\x12\x04\x9b\x01\x12\x13\n\x10\n\x08\x04\x04\x03\x06\x04\0\
+    \x02\x02\x12\x04\x9c\x01\x0c\x15\n\x11\n\t\x04\x04\x03\x06\x04\0\x02\x02\
+    \x01\x12\x04\x9c\x01\x0c\x10\n\x11\n\t\x04\x04\x03\x06\x04\0\x02\x02\x02\
+    \x12\x04\x9c\x01\x13\x14\nF\n\x02\x04\x05\x12\x06\xa5\x01\0\xa9\x01\x01\
+    \x1a8*\n\x20Response:\x20Contains\x20Tezos\x20transaction\x20signature\n\
+    \x20@end\n\n\x0b\n\x03\x04\x05\x01\x12\x04\xa5\x01\x08\x15\nC\n\x04\x04\
+    \x05\x02\0\x12\x04\xa6\x01\x04\"\"5\x20Tezos\x20b58\x20encoded\x20transa\
+    ction\x20signature\x20with\x20prefix\n\n\r\n\x05\x04\x05\x02\0\x04\x12\
+    \x04\xa6\x01\x04\x0c\n\r\n\x05\x04\x05\x02\0\x05\x12\x04\xa6\x01\r\x13\n\
+    \r\n\x05\x04\x05\x02\0\x01\x12\x04\xa6\x01\x14\x1d\n\r\n\x05\x04\x05\x02\
+    \0\x03\x12\x04\xa6\x01\x20!\n8\n\x04\x04\x05\x02\x01\x12\x04\xa7\x01\x04\
+    '\"*\x20operation_bytes\x20+\x20signed\x20operation_bytes\n\n\r\n\x05\
+    \x04\x05\x02\x01\x04\x12\x04\xa7\x01\x04\x0c\n\r\n\x05\x04\x05\x02\x01\
+    \x05\x12\x04\xa7\x01\r\x12\n\r\n\x05\x04\x05\x02\x01\x01\x12\x04\xa7\x01\
+    \x13\"\n\r\n\x05\x04\x05\x02\x01\x03\x12\x04\xa7\x01%&\nA\n\x04\x04\x05\
+    \x02\x02\x12\x04\xa8\x01\x04'\"3\x20b58\x20encoded\x20hashed\x20operatio\
+    n\x20contents\x20with\x20prefix\n\n\r\n\x05\x04\x05\x02\x02\x04\x12\x04\
+    \xa8\x01\x04\x0c\n\r\n\x05\x04\x05\x02\x02\x05\x12\x04\xa8\x01\r\x13\n\r\
+    \n\x05\x04\x05\x02\x02\x01\x12\x04\xa8\x01\x14\"\n\r\n\x05\x04\x05\x02\
+    \x02\x03\x12\x04\xa8\x01%&\
 ";
 
 /// `FileDescriptorProto` object which was a source for this generated file
@@ -3352,7 +4777,7 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(0);
-            let mut messages = ::std::vec::Vec::with_capacity(11);
+            let mut messages = ::std::vec::Vec::with_capacity(15);
             messages.push(TezosGetAddress::generated_message_descriptor_data());
             messages.push(TezosAddress::generated_message_descriptor_data());
             messages.push(TezosGetPublicKey::generated_message_descriptor_data());
@@ -3364,8 +4789,13 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
             messages.push(tezos_sign_tx::TezosTransactionOp::generated_message_descriptor_data());
             messages.push(tezos_sign_tx::TezosOriginationOp::generated_message_descriptor_data());
             messages.push(tezos_sign_tx::TezosDelegationOp::generated_message_descriptor_data());
-            let mut enums = ::std::vec::Vec::with_capacity(1);
+            messages.push(tezos_sign_tx::TezosProposalOp::generated_message_descriptor_data());
+            messages.push(tezos_sign_tx::TezosBallotOp::generated_message_descriptor_data());
+            messages.push(tezos_sign_tx::tezos_transaction_op::TezosParametersManager::generated_message_descriptor_data());
+            messages.push(tezos_sign_tx::tezos_transaction_op::tezos_parameters_manager::TezosManagerTransfer::generated_message_descriptor_data());
+            let mut enums = ::std::vec::Vec::with_capacity(2);
             enums.push(tezos_sign_tx::tezos_contract_id::TezosContractType::generated_enum_descriptor_data());
+            enums.push(tezos_sign_tx::tezos_ballot_op::TezosBallotType::generated_enum_descriptor_data());
             ::protobuf::reflect::GeneratedFileDescriptor::new_generated(
                 file_descriptor_proto(),
                 deps,

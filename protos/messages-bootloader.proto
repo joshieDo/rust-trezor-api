@@ -5,6 +5,8 @@ package hw.trezor.messages.bootloader;
 option java_package = "com.satoshilabs.trezor.lib.protobuf";
 option java_outer_classname = "TrezorMessageBootloader";
 
+import "messages.proto";
+
 /**
  * Request: Ask device to erase its firmware (so it can be replaced via FirmwareUpload)
  * @start
@@ -19,8 +21,8 @@ message FirmwareErase {
  * @next FirmwareUpload
  */
 message FirmwareRequest {
-    optional uint32 offset = 1; // offset of requested firmware chunk
-    optional uint32 length = 2; // length of requested firmware chunk
+    required uint32 offset = 1; // offset of requested firmware chunk
+    required uint32 length = 2; // length of requested firmware chunk
 }
 
 /**

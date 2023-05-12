@@ -19,9 +19,9 @@ pub use protos::Features;
 pub use protos::InputScriptType;
 pub use protos::PinMatrixRequest as PinMatrixRequestType;
 
-use protos::tx_ack::transaction_type::tx_output_type::OutputScriptType;
 use protos::tx_ack::transaction_type::TxInputType;
 use protos::tx_request::RequestType as TxRequestType;
+use protos::OutputScriptType;
 
 /// Fulfill a TxRequest for TXINPUT.
 fn ack_input_request(
@@ -326,6 +326,9 @@ impl<'a> SignTxProgress<'a> {
 			TxRequestType::TXMETA => ack_meta_request(&self.req, psbt),
 			TxRequestType::TXEXTRADATA => unimplemented!(), //TODO(stevenroose) implement
 			TxRequestType::TXFINISHED => unreachable!(),
+			TxRequestType::TXORIGINPUT
+			| TxRequestType::TXORIGOUTPUT
+			| TxRequestType::TXPAYMENTREQ => unimplemented!(),
 		}?;
 		self.ack_msg(ack)
 	}

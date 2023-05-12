@@ -51,7 +51,7 @@ impl Trezor {
 	/// This method is only exported for users that want to expand the features of this library
 	/// f.e. for supporting additional coins etc.
 	pub fn call_raw<S: TrezorMessage>(&mut self, message: S) -> Result<ProtoMessage> {
-		let proto_msg = ProtoMessage(S::message_type(), message.write_to_bytes()?);
+		let proto_msg = ProtoMessage(S::MESSAGE_TYPE, message.write_to_bytes()?);
 		self.transport.write_message(proto_msg).map_err(Error::TransportSendMessage)?;
 		self.transport.read_message().map_err(Error::TransportReceiveMessage)
 	}
@@ -65,11 +65,11 @@ impl Trezor {
 		message: S,
 		result_handler: Box<ResultHandler<'a, T, R>>,
 	) -> Result<TrezorResponse<'a, T, R>> {
-		trace!("Sending {:?} msg: {:?}", S::message_type(), message);
+		trace!("Sending {:?} msg: {:?}", S::MESSAGE_TYPE, message);
 		let resp = self.call_raw(message)?;
-		if resp.message_type() == R::message_type() {
+		if resp.message_type() == R::MESSAGE_TYPE {
 			let resp_msg = resp.into_message()?;
-			trace!("Received {:?} msg: {:?}", R::message_type(), resp_msg);
+			trace!("Received {:?} msg: {:?}", R::MESSAGE_TYPE, resp_msg);
 			Ok(TrezorResponse::Ok(result_handler(self, resp_msg)?))
 		} else {
 			match resp.message_type() {

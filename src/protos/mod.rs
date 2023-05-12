@@ -33,9 +33,16 @@ features! {
 	"ethereum" => {
 		pub mod messages_ethereum;
 		pub mod messages_ethereum_eip712;
+		pub mod messages_ethereum_definitions;
 
 		pub use messages_ethereum::*;
 		pub use messages_ethereum_eip712::*;
+		pub use messages_ethereum_definitions::*;
+	}
+
+	"binance" => {
+		pub mod messages_binance;
+		pub use messages_binance::*;
 	}
 
 	"cardano" => {
@@ -43,9 +50,9 @@ features! {
 		pub use messages_cardano::*;
 	}
 
-	"lisk" => {
-		pub mod messages_lisk;
-		pub use messages_lisk::*;
+	"eos" => {
+		pub mod messages_eos;
+		pub use messages_eos::*;
 	}
 
 	"monero" => {
@@ -56,11 +63,6 @@ features! {
 	"nem" => {
 		pub mod messages_nem;
 		pub use messages_nem::*;
-	}
-
-	"ontology" => {
-		pub mod messages_ontology;
-		pub use messages_ontology::*;
 	}
 
 	"ripple" => {
@@ -78,8 +80,8 @@ features! {
 		pub use messages_tezos::*;
 	}
 
-	"tron" => {
-		pub mod messages_tron;
-		pub use messages_tron::*;
+	"webauthn" => {
+		pub mod messages_webauthn;
+		pub use messages_webauthn::*;
 	}
 }

@@ -178,7 +178,7 @@ impl<'a, T, R: TrezorMessage> TrezorResponse<'a, T, R> {
 	pub fn button_request(self) -> Result<ButtonRequest<'a, T, R>> {
 		match self {
 			TrezorResponse::ButtonRequest(r) => Ok(r),
-			TrezorResponse::Ok(_) => Err(Error::UnexpectedMessageType(R::message_type())),
+			TrezorResponse::Ok(_) => Err(Error::UnexpectedMessageType(R::MESSAGE_TYPE)),
 			TrezorResponse::Failure(m) => Err(Error::FailureResponse(m)),
 			TrezorResponse::PinMatrixRequest(_) => {
 				Err(Error::UnexpectedInteractionRequest(InteractionType::PinMatrix))
@@ -193,7 +193,7 @@ impl<'a, T, R: TrezorMessage> TrezorResponse<'a, T, R> {
 	pub fn pin_matrix_request(self) -> Result<PinMatrixRequest<'a, T, R>> {
 		match self {
 			TrezorResponse::PinMatrixRequest(r) => Ok(r),
-			TrezorResponse::Ok(_) => Err(Error::UnexpectedMessageType(R::message_type())),
+			TrezorResponse::Ok(_) => Err(Error::UnexpectedMessageType(R::MESSAGE_TYPE)),
 			TrezorResponse::Failure(m) => Err(Error::FailureResponse(m)),
 			TrezorResponse::ButtonRequest(_) => {
 				Err(Error::UnexpectedInteractionRequest(InteractionType::Button))
@@ -208,7 +208,7 @@ impl<'a, T, R: TrezorMessage> TrezorResponse<'a, T, R> {
 	pub fn passphrase_request(self) -> Result<PassphraseRequest<'a, T, R>> {
 		match self {
 			TrezorResponse::PassphraseRequest(r) => Ok(r),
-			TrezorResponse::Ok(_) => Err(Error::UnexpectedMessageType(R::message_type())),
+			TrezorResponse::Ok(_) => Err(Error::UnexpectedMessageType(R::MESSAGE_TYPE)),
 			TrezorResponse::Failure(m) => Err(Error::FailureResponse(m)),
 			TrezorResponse::ButtonRequest(_) => {
 				Err(Error::UnexpectedInteractionRequest(InteractionType::Button))

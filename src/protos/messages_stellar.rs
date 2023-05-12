@@ -29,35 +29,38 @@ const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_3_2_0;
 ///  Describes a Stellar asset
 ///  @embed
 #[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarAssetType)
-pub struct StellarAssetType {
+// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarAsset)
+pub struct StellarAsset {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAssetType.type)
-    pub type_: ::std::option::Option<u32>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAssetType.code)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAsset.type)
+    pub type_: ::std::option::Option<::protobuf::EnumOrUnknown<StellarAssetType>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAsset.code)
     pub code: ::std::option::Option<::std::string::String>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAssetType.issuer)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAsset.issuer)
     pub issuer: ::std::option::Option<::std::string::String>,
     // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarAssetType.special_fields)
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarAsset.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
 }
 
-impl<'a> ::std::default::Default for &'a StellarAssetType {
-    fn default() -> &'a StellarAssetType {
-        <StellarAssetType as ::protobuf::Message>::default_instance()
+impl<'a> ::std::default::Default for &'a StellarAsset {
+    fn default() -> &'a StellarAsset {
+        <StellarAsset as ::protobuf::Message>::default_instance()
     }
 }
 
-impl StellarAssetType {
-    pub fn new() -> StellarAssetType {
+impl StellarAsset {
+    pub fn new() -> StellarAsset {
         ::std::default::Default::default()
     }
 
-    // optional uint32 type = 1;
+    // required .hw.trezor.messages.stellar.StellarAssetType type = 1;
 
-    pub fn type_(&self) -> u32 {
-        self.type_.unwrap_or(0)
+    pub fn type_(&self) -> StellarAssetType {
+        match self.type_ {
+            Some(e) => e.enum_value_or(StellarAssetType::NATIVE),
+            None => StellarAssetType::NATIVE,
+        }
     }
 
     pub fn clear_type_(&mut self) {
@@ -69,8 +72,8 @@ impl StellarAssetType {
     }
 
     // Param is passed by value, moved
-    pub fn set_type(&mut self, v: u32) {
-        self.type_ = ::std::option::Option::Some(v);
+    pub fn set_type(&mut self, v: StellarAssetType) {
+        self.type_ = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     // optional string code = 2;
@@ -150,31 +153,34 @@ impl StellarAssetType {
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "type",
-            |m: &StellarAssetType| { &m.type_ },
-            |m: &mut StellarAssetType| { &mut m.type_ },
+            |m: &StellarAsset| { &m.type_ },
+            |m: &mut StellarAsset| { &mut m.type_ },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "code",
-            |m: &StellarAssetType| { &m.code },
-            |m: &mut StellarAssetType| { &mut m.code },
+            |m: &StellarAsset| { &m.code },
+            |m: &mut StellarAsset| { &mut m.code },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "issuer",
-            |m: &StellarAssetType| { &m.issuer },
-            |m: &mut StellarAssetType| { &mut m.issuer },
+            |m: &StellarAsset| { &m.issuer },
+            |m: &mut StellarAsset| { &mut m.issuer },
         ));
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarAssetType>(
-            "StellarAssetType",
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarAsset>(
+            "StellarAsset",
             fields,
             oneofs,
         )
     }
 }
 
-impl ::protobuf::Message for StellarAssetType {
-    const NAME: &'static str = "StellarAssetType";
+impl ::protobuf::Message for StellarAsset {
+    const NAME: &'static str = "StellarAsset";
 
     fn is_initialized(&self) -> bool {
+        if self.type_.is_none() {
+            return false;
+        }
         true
     }
 
@@ -182,7 +188,7 @@ impl ::protobuf::Message for StellarAssetType {
         while let Some(tag) = is.read_raw_tag_or_eof()? {
             match tag {
                 8 => {
-                    self.type_ = ::std::option::Option::Some(is.read_uint32()?);
+                    self.type_ = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 18 => {
                     self.code = ::std::option::Option::Some(is.read_string()?);
@@ -203,7 +209,7 @@ impl ::protobuf::Message for StellarAssetType {
     fn compute_size(&self) -> u64 {
         let mut my_size = 0;
         if let Some(v) = self.type_ {
-            my_size += ::protobuf::rt::uint32_size(1, v);
+            my_size += ::protobuf::rt::int32_size(1, v.value());
         }
         if let Some(v) = self.code.as_ref() {
             my_size += ::protobuf::rt::string_size(2, &v);
@@ -218,7 +224,7 @@ impl ::protobuf::Message for StellarAssetType {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
         if let Some(v) = self.type_ {
-            os.write_uint32(1, v)?;
+            os.write_enum(1, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         if let Some(v) = self.code.as_ref() {
             os.write_string(2, v)?;
@@ -238,8 +244,8 @@ impl ::protobuf::Message for StellarAssetType {
         &mut self.special_fields
     }
 
-    fn new() -> StellarAssetType {
-        StellarAssetType::new()
+    fn new() -> StellarAsset {
+        StellarAsset::new()
     }
 
     fn clear(&mut self) {
@@ -249,8 +255,8 @@ impl ::protobuf::Message for StellarAssetType {
         self.special_fields.clear();
     }
 
-    fn default_instance() -> &'static StellarAssetType {
-        static instance: StellarAssetType = StellarAssetType {
+    fn default_instance() -> &'static StellarAsset {
+        static instance: StellarAsset = StellarAsset {
             type_: ::std::option::Option::None,
             code: ::std::option::Option::None,
             issuer: ::std::option::Option::None,
@@ -260,20 +266,20 @@ impl ::protobuf::Message for StellarAssetType {
     }
 }
 
-impl ::protobuf::MessageFull for StellarAssetType {
+impl ::protobuf::MessageFull for StellarAsset {
     fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
         static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarAssetType").unwrap()).clone()
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarAsset").unwrap()).clone()
     }
 }
 
-impl ::std::fmt::Display for StellarAssetType {
+impl ::std::fmt::Display for StellarAsset {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
         ::protobuf::text_format::fmt(self, f)
     }
 }
 
-impl ::protobuf::reflect::ProtobufValue for StellarAssetType {
+impl ::protobuf::reflect::ProtobufValue for StellarAsset {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
@@ -468,7 +474,7 @@ impl StellarAddress {
         ::std::default::Default::default()
     }
 
-    // optional string address = 1;
+    // required string address = 1;
 
     pub fn address(&self) -> &str {
         match self.address.as_ref() {
@@ -524,6 +530,9 @@ impl ::protobuf::Message for StellarAddress {
     const NAME: &'static str = "StellarAddress";
 
     fn is_initialized(&self) -> bool {
+        if self.address.is_none() {
+            return false;
+        }
         true
     }
 
@@ -627,7 +636,7 @@ pub struct StellarSignTx {
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSignTx.timebounds_end)
     pub timebounds_end: ::std::option::Option<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSignTx.memo_type)
-    pub memo_type: ::std::option::Option<u32>,
+    pub memo_type: ::std::option::Option<::protobuf::EnumOrUnknown<stellar_sign_tx::StellarMemoType>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSignTx.memo_text)
     pub memo_text: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSignTx.memo_id)
@@ -652,7 +661,7 @@ impl StellarSignTx {
         ::std::default::Default::default()
     }
 
-    // optional string network_passphrase = 3;
+    // required string network_passphrase = 3;
 
     pub fn network_passphrase(&self) -> &str {
         match self.network_passphrase.as_ref() {
@@ -688,7 +697,7 @@ impl StellarSignTx {
         self.network_passphrase.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional string source_account = 4;
+    // required string source_account = 4;
 
     pub fn source_account(&self) -> &str {
         match self.source_account.as_ref() {
@@ -724,7 +733,7 @@ impl StellarSignTx {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional uint32 fee = 5;
+    // required uint32 fee = 5;
 
     pub fn fee(&self) -> u32 {
         self.fee.unwrap_or(0)
@@ -743,7 +752,7 @@ impl StellarSignTx {
         self.fee = ::std::option::Option::Some(v);
     }
 
-    // optional uint64 sequence_number = 6;
+    // required uint64 sequence_number = 6;
 
     pub fn sequence_number(&self) -> u64 {
         self.sequence_number.unwrap_or(0)
@@ -762,7 +771,7 @@ impl StellarSignTx {
         self.sequence_number = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 timebounds_start = 8;
+    // required uint32 timebounds_start = 8;
 
     pub fn timebounds_start(&self) -> u32 {
         self.timebounds_start.unwrap_or(0)
@@ -781,7 +790,7 @@ impl StellarSignTx {
         self.timebounds_start = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 timebounds_end = 9;
+    // required uint32 timebounds_end = 9;
 
     pub fn timebounds_end(&self) -> u32 {
         self.timebounds_end.unwrap_or(0)
@@ -800,10 +809,13 @@ impl StellarSignTx {
         self.timebounds_end = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 memo_type = 10;
+    // required .hw.trezor.messages.stellar.StellarSignTx.StellarMemoType memo_type = 10;
 
-    pub fn memo_type(&self) -> u32 {
-        self.memo_type.unwrap_or(0)
+    pub fn memo_type(&self) -> stellar_sign_tx::StellarMemoType {
+        match self.memo_type {
+            Some(e) => e.enum_value_or(stellar_sign_tx::StellarMemoType::NONE),
+            None => stellar_sign_tx::StellarMemoType::NONE,
+        }
     }
 
     pub fn clear_memo_type(&mut self) {
@@ -815,8 +827,8 @@ impl StellarSignTx {
     }
 
     // Param is passed by value, moved
-    pub fn set_memo_type(&mut self, v: u32) {
-        self.memo_type = ::std::option::Option::Some(v);
+    pub fn set_memo_type(&mut self, v: stellar_sign_tx::StellarMemoType) {
+        self.memo_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     // optional string memo_text = 11;
@@ -910,7 +922,7 @@ impl StellarSignTx {
         self.memo_hash.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional uint32 num_operations = 14;
+    // required uint32 num_operations = 14;
 
     pub fn num_operations(&self) -> u32 {
         self.num_operations.unwrap_or(0)
@@ -1004,6 +1016,30 @@ impl ::protobuf::Message for StellarSignTx {
     const NAME: &'static str = "StellarSignTx";
 
     fn is_initialized(&self) -> bool {
+        if self.network_passphrase.is_none() {
+            return false;
+        }
+        if self.source_account.is_none() {
+            return false;
+        }
+        if self.fee.is_none() {
+            return false;
+        }
+        if self.sequence_number.is_none() {
+            return false;
+        }
+        if self.timebounds_start.is_none() {
+            return false;
+        }
+        if self.timebounds_end.is_none() {
+            return false;
+        }
+        if self.memo_type.is_none() {
+            return false;
+        }
+        if self.num_operations.is_none() {
+            return false;
+        }
         true
     }
 
@@ -1035,7 +1071,7 @@ impl ::protobuf::Message for StellarSignTx {
                     self.timebounds_end = ::std::option::Option::Some(is.read_uint32()?);
                 },
                 80 => {
-                    self.memo_type = ::std::option::Option::Some(is.read_uint32()?);
+                    self.memo_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 90 => {
                     self.memo_text = ::std::option::Option::Some(is.read_string()?);
@@ -1083,7 +1119,7 @@ impl ::protobuf::Message for StellarSignTx {
             my_size += ::protobuf::rt::uint32_size(9, v);
         }
         if let Some(v) = self.memo_type {
-            my_size += ::protobuf::rt::uint32_size(10, v);
+            my_size += ::protobuf::rt::int32_size(10, v.value());
         }
         if let Some(v) = self.memo_text.as_ref() {
             my_size += ::protobuf::rt::string_size(11, &v);
@@ -1125,7 +1161,7 @@ impl ::protobuf::Message for StellarSignTx {
             os.write_uint32(9, v)?;
         }
         if let Some(v) = self.memo_type {
-            os.write_uint32(10, v)?;
+            os.write_enum(10, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         if let Some(v) = self.memo_text.as_ref() {
             os.write_string(11, v)?;
@@ -1208,13 +1244,85 @@ impl ::protobuf::reflect::ProtobufValue for StellarSignTx {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
+/// Nested message and enums of message `StellarSignTx`
+pub mod stellar_sign_tx {
+    ///  https://github.com/stellar/stellar-core/blob/02d26858069de7c0eefe065056fb0a19bf72ea56/src/xdr/Stellar-transaction.x#L506-L513
+    #[derive(Clone,Copy,PartialEq,Eq,Debug,Hash)]
+    // @@protoc_insertion_point(enum:hw.trezor.messages.stellar.StellarSignTx.StellarMemoType)
+    pub enum StellarMemoType {
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSignTx.StellarMemoType.NONE)
+        NONE = 0,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSignTx.StellarMemoType.TEXT)
+        TEXT = 1,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSignTx.StellarMemoType.ID)
+        ID = 2,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSignTx.StellarMemoType.HASH)
+        HASH = 3,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSignTx.StellarMemoType.RETURN)
+        RETURN = 4,
+    }
+
+    impl ::protobuf::Enum for StellarMemoType {
+        const NAME: &'static str = "StellarMemoType";
+
+        fn value(&self) -> i32 {
+            *self as i32
+        }
+
+        fn from_i32(value: i32) -> ::std::option::Option<StellarMemoType> {
+            match value {
+                0 => ::std::option::Option::Some(StellarMemoType::NONE),
+                1 => ::std::option::Option::Some(StellarMemoType::TEXT),
+                2 => ::std::option::Option::Some(StellarMemoType::ID),
+                3 => ::std::option::Option::Some(StellarMemoType::HASH),
+                4 => ::std::option::Option::Some(StellarMemoType::RETURN),
+                _ => ::std::option::Option::None
+            }
+        }
+
+        const VALUES: &'static [StellarMemoType] = &[
+            StellarMemoType::NONE,
+            StellarMemoType::TEXT,
+            StellarMemoType::ID,
+            StellarMemoType::HASH,
+            StellarMemoType::RETURN,
+        ];
+    }
+
+    impl ::protobuf::EnumFull for StellarMemoType {
+        fn enum_descriptor() -> ::protobuf::reflect::EnumDescriptor {
+            static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::Lazy::new();
+            descriptor.get(|| super::file_descriptor().enum_by_package_relative_name("StellarSignTx.StellarMemoType").unwrap()).clone()
+        }
+
+        fn descriptor(&self) -> ::protobuf::reflect::EnumValueDescriptor {
+            let index = *self as usize;
+            Self::enum_descriptor().value_by_index(index)
+        }
+    }
+
+    impl ::std::default::Default for StellarMemoType {
+        fn default() -> Self {
+            StellarMemoType::NONE
+        }
+    }
+
+    impl StellarMemoType {
+        pub(in super) fn generated_enum_descriptor_data() -> ::protobuf::reflect::GeneratedEnumDescriptorData {
+            ::protobuf::reflect::GeneratedEnumDescriptorData::new::<StellarMemoType>("StellarSignTx.StellarMemoType")
+        }
+    }
+}
+
 /// *
 ///  Response: device is ready for client to send the next operation
 ///  @next StellarPaymentOp
 ///  @next StellarCreateAccountOp
-///  @next StellarPathPaymentOp
-///  @next StellarManageOfferOp
-///  @next StellarCreatePassiveOfferOp
+///  @next StellarPathPaymentStrictReceiveOp
+///  @next StellarPathPaymentStrictSendOp
+///  @next StellarManageSellOfferOp
+///  @next StellarManageBuyOfferOp
+///  @next StellarCreatePassiveSellOfferOp
 ///  @next StellarSetOptionsOp
 ///  @next StellarChangeTrustOp
 ///  @next StellarAllowTrustOp
@@ -1337,7 +1445,7 @@ pub struct StellarPaymentOp {
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPaymentOp.destination_account)
     pub destination_account: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPaymentOp.asset)
-    pub asset: ::protobuf::MessageField<StellarAssetType>,
+    pub asset: ::protobuf::MessageField<StellarAsset>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPaymentOp.amount)
     pub amount: ::std::option::Option<i64>,
     // special fields
@@ -1392,7 +1500,7 @@ impl StellarPaymentOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional string destination_account = 2;
+    // required string destination_account = 2;
 
     pub fn destination_account(&self) -> &str {
         match self.destination_account.as_ref() {
@@ -1428,7 +1536,7 @@ impl StellarPaymentOp {
         self.destination_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional sint64 amount = 4;
+    // required sint64 amount = 4;
 
     pub fn amount(&self) -> i64 {
         self.amount.unwrap_or(0)
@@ -1460,7 +1568,7 @@ impl StellarPaymentOp {
             |m: &StellarPaymentOp| { &m.destination_account },
             |m: &mut StellarPaymentOp| { &mut m.destination_account },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "asset",
             |m: &StellarPaymentOp| { &m.asset },
             |m: &mut StellarPaymentOp| { &mut m.asset },
@@ -1482,6 +1590,20 @@ impl ::protobuf::Message for StellarPaymentOp {
     const NAME: &'static str = "StellarPaymentOp";
 
     fn is_initialized(&self) -> bool {
+        if self.destination_account.is_none() {
+            return false;
+        }
+        if self.asset.is_none() {
+            return false;
+        }
+        if self.amount.is_none() {
+            return false;
+        }
+        for v in &self.asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -1662,7 +1784,7 @@ impl StellarCreateAccountOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional string new_account = 2;
+    // required string new_account = 2;
 
     pub fn new_account(&self) -> &str {
         match self.new_account.as_ref() {
@@ -1698,7 +1820,7 @@ impl StellarCreateAccountOp {
         self.new_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional sint64 starting_balance = 3;
+    // required sint64 starting_balance = 3;
 
     pub fn starting_balance(&self) -> i64 {
         self.starting_balance.unwrap_or(0)
@@ -1747,6 +1869,12 @@ impl ::protobuf::Message for StellarCreateAccountOp {
     const NAME: &'static str = "StellarCreateAccountOp";
 
     fn is_initialized(&self) -> bool {
+        if self.new_account.is_none() {
+            return false;
+        }
+        if self.starting_balance.is_none() {
+            return false;
+        }
         true
     }
 
@@ -1854,36 +1982,36 @@ impl ::protobuf::reflect::ProtobufValue for StellarCreateAccountOp {
 ///  @next StellarTxOpRequest
 ///  @next StellarSignedTx
 #[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarPathPaymentOp)
-pub struct StellarPathPaymentOp {
+// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp)
+pub struct StellarPathPaymentStrictReceiveOp {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentOp.source_account)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.source_account)
     pub source_account: ::std::option::Option<::std::string::String>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentOp.send_asset)
-    pub send_asset: ::protobuf::MessageField<StellarAssetType>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentOp.send_max)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.send_asset)
+    pub send_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.send_max)
     pub send_max: ::std::option::Option<i64>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentOp.destination_account)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.destination_account)
     pub destination_account: ::std::option::Option<::std::string::String>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentOp.destination_asset)
-    pub destination_asset: ::protobuf::MessageField<StellarAssetType>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentOp.destination_amount)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.destination_asset)
+    pub destination_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.destination_amount)
     pub destination_amount: ::std::option::Option<i64>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentOp.paths)
-    pub paths: ::std::vec::Vec<StellarAssetType>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.paths)
+    pub paths: ::std::vec::Vec<StellarAsset>,
     // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarPathPaymentOp.special_fields)
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarPathPaymentStrictReceiveOp.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
 }
 
-impl<'a> ::std::default::Default for &'a StellarPathPaymentOp {
-    fn default() -> &'a StellarPathPaymentOp {
-        <StellarPathPaymentOp as ::protobuf::Message>::default_instance()
+impl<'a> ::std::default::Default for &'a StellarPathPaymentStrictReceiveOp {
+    fn default() -> &'a StellarPathPaymentStrictReceiveOp {
+        <StellarPathPaymentStrictReceiveOp as ::protobuf::Message>::default_instance()
     }
 }
 
-impl StellarPathPaymentOp {
-    pub fn new() -> StellarPathPaymentOp {
+impl StellarPathPaymentStrictReceiveOp {
+    pub fn new() -> StellarPathPaymentStrictReceiveOp {
         ::std::default::Default::default()
     }
 
@@ -1923,7 +2051,7 @@ impl StellarPathPaymentOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional sint64 send_max = 3;
+    // required sint64 send_max = 3;
 
     pub fn send_max(&self) -> i64 {
         self.send_max.unwrap_or(0)
@@ -1942,7 +2070,7 @@ impl StellarPathPaymentOp {
         self.send_max = ::std::option::Option::Some(v);
     }
 
-    // optional string destination_account = 4;
+    // required string destination_account = 4;
 
     pub fn destination_account(&self) -> &str {
         match self.destination_account.as_ref() {
@@ -1978,7 +2106,7 @@ impl StellarPathPaymentOp {
         self.destination_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional sint64 destination_amount = 6;
+    // required sint64 destination_amount = 6;
 
     pub fn destination_amount(&self) -> i64 {
         self.destination_amount.unwrap_or(0)
@@ -2002,51 +2130,81 @@ impl StellarPathPaymentOp {
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "source_account",
-            |m: &StellarPathPaymentOp| { &m.source_account },
-            |m: &mut StellarPathPaymentOp| { &mut m.source_account },
+            |m: &StellarPathPaymentStrictReceiveOp| { &m.source_account },
+            |m: &mut StellarPathPaymentStrictReceiveOp| { &mut m.source_account },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "send_asset",
-            |m: &StellarPathPaymentOp| { &m.send_asset },
-            |m: &mut StellarPathPaymentOp| { &mut m.send_asset },
+            |m: &StellarPathPaymentStrictReceiveOp| { &m.send_asset },
+            |m: &mut StellarPathPaymentStrictReceiveOp| { &mut m.send_asset },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "send_max",
-            |m: &StellarPathPaymentOp| { &m.send_max },
-            |m: &mut StellarPathPaymentOp| { &mut m.send_max },
+            |m: &StellarPathPaymentStrictReceiveOp| { &m.send_max },
+            |m: &mut StellarPathPaymentStrictReceiveOp| { &mut m.send_max },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "destination_account",
-            |m: &StellarPathPaymentOp| { &m.destination_account },
-            |m: &mut StellarPathPaymentOp| { &mut m.destination_account },
+            |m: &StellarPathPaymentStrictReceiveOp| { &m.destination_account },
+            |m: &mut StellarPathPaymentStrictReceiveOp| { &mut m.destination_account },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "destination_asset",
-            |m: &StellarPathPaymentOp| { &m.destination_asset },
-            |m: &mut StellarPathPaymentOp| { &mut m.destination_asset },
+            |m: &StellarPathPaymentStrictReceiveOp| { &m.destination_asset },
+            |m: &mut StellarPathPaymentStrictReceiveOp| { &mut m.destination_asset },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "destination_amount",
-            |m: &StellarPathPaymentOp| { &m.destination_amount },
-            |m: &mut StellarPathPaymentOp| { &mut m.destination_amount },
+            |m: &StellarPathPaymentStrictReceiveOp| { &m.destination_amount },
+            |m: &mut StellarPathPaymentStrictReceiveOp| { &mut m.destination_amount },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
             "paths",
-            |m: &StellarPathPaymentOp| { &m.paths },
-            |m: &mut StellarPathPaymentOp| { &mut m.paths },
+            |m: &StellarPathPaymentStrictReceiveOp| { &m.paths },
+            |m: &mut StellarPathPaymentStrictReceiveOp| { &mut m.paths },
         ));
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarPathPaymentOp>(
-            "StellarPathPaymentOp",
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarPathPaymentStrictReceiveOp>(
+            "StellarPathPaymentStrictReceiveOp",
             fields,
             oneofs,
         )
     }
 }
 
-impl ::protobuf::Message for StellarPathPaymentOp {
-    const NAME: &'static str = "StellarPathPaymentOp";
+impl ::protobuf::Message for StellarPathPaymentStrictReceiveOp {
+    const NAME: &'static str = "StellarPathPaymentStrictReceiveOp";
 
     fn is_initialized(&self) -> bool {
+        if self.send_asset.is_none() {
+            return false;
+        }
+        if self.send_max.is_none() {
+            return false;
+        }
+        if self.destination_account.is_none() {
+            return false;
+        }
+        if self.destination_asset.is_none() {
+            return false;
+        }
+        if self.destination_amount.is_none() {
+            return false;
+        }
+        for v in &self.send_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.destination_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.paths {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -2149,8 +2307,8 @@ impl ::protobuf::Message for StellarPathPaymentOp {
         &mut self.special_fields
     }
 
-    fn new() -> StellarPathPaymentOp {
-        StellarPathPaymentOp::new()
+    fn new() -> StellarPathPaymentStrictReceiveOp {
+        StellarPathPaymentStrictReceiveOp::new()
     }
 
     fn clear(&mut self) {
@@ -2164,8 +2322,8 @@ impl ::protobuf::Message for StellarPathPaymentOp {
         self.special_fields.clear();
     }
 
-    fn default_instance() -> &'static StellarPathPaymentOp {
-        static instance: StellarPathPaymentOp = StellarPathPaymentOp {
+    fn default_instance() -> &'static StellarPathPaymentStrictReceiveOp {
+        static instance: StellarPathPaymentStrictReceiveOp = StellarPathPaymentStrictReceiveOp {
             source_account: ::std::option::Option::None,
             send_asset: ::protobuf::MessageField::none(),
             send_max: ::std::option::Option::None,
@@ -2179,20 +2337,20 @@ impl ::protobuf::Message for StellarPathPaymentOp {
     }
 }
 
-impl ::protobuf::MessageFull for StellarPathPaymentOp {
+impl ::protobuf::MessageFull for StellarPathPaymentStrictReceiveOp {
     fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
         static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarPathPaymentOp").unwrap()).clone()
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarPathPaymentStrictReceiveOp").unwrap()).clone()
     }
 }
 
-impl ::std::fmt::Display for StellarPathPaymentOp {
+impl ::std::fmt::Display for StellarPathPaymentStrictReceiveOp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
         ::protobuf::text_format::fmt(self, f)
     }
 }
 
-impl ::protobuf::reflect::ProtobufValue for StellarPathPaymentOp {
+impl ::protobuf::reflect::ProtobufValue for StellarPathPaymentStrictReceiveOp {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
@@ -2201,36 +2359,36 @@ impl ::protobuf::reflect::ProtobufValue for StellarPathPaymentOp {
 ///  @next StellarTxOpRequest
 ///  @next StellarSignedTx
 #[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarManageOfferOp)
-pub struct StellarManageOfferOp {
+// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp)
+pub struct StellarPathPaymentStrictSendOp {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageOfferOp.source_account)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.source_account)
     pub source_account: ::std::option::Option<::std::string::String>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageOfferOp.selling_asset)
-    pub selling_asset: ::protobuf::MessageField<StellarAssetType>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageOfferOp.buying_asset)
-    pub buying_asset: ::protobuf::MessageField<StellarAssetType>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageOfferOp.amount)
-    pub amount: ::std::option::Option<i64>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageOfferOp.price_n)
-    pub price_n: ::std::option::Option<u32>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageOfferOp.price_d)
-    pub price_d: ::std::option::Option<u32>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageOfferOp.offer_id)
-    pub offer_id: ::std::option::Option<u64>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.send_asset)
+    pub send_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.send_amount)
+    pub send_amount: ::std::option::Option<i64>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.destination_account)
+    pub destination_account: ::std::option::Option<::std::string::String>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.destination_asset)
+    pub destination_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.destination_min)
+    pub destination_min: ::std::option::Option<i64>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.paths)
+    pub paths: ::std::vec::Vec<StellarAsset>,
     // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarManageOfferOp.special_fields)
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarPathPaymentStrictSendOp.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
 }
 
-impl<'a> ::std::default::Default for &'a StellarManageOfferOp {
-    fn default() -> &'a StellarManageOfferOp {
-        <StellarManageOfferOp as ::protobuf::Message>::default_instance()
+impl<'a> ::std::default::Default for &'a StellarPathPaymentStrictSendOp {
+    fn default() -> &'a StellarPathPaymentStrictSendOp {
+        <StellarPathPaymentStrictSendOp as ::protobuf::Message>::default_instance()
     }
 }
 
-impl StellarManageOfferOp {
-    pub fn new() -> StellarManageOfferOp {
+impl StellarPathPaymentStrictSendOp {
+    pub fn new() -> StellarPathPaymentStrictSendOp {
         ::std::default::Default::default()
     }
 
@@ -2270,7 +2428,384 @@ impl StellarManageOfferOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional sint64 amount = 4;
+    // required sint64 send_amount = 3;
+
+    pub fn send_amount(&self) -> i64 {
+        self.send_amount.unwrap_or(0)
+    }
+
+    pub fn clear_send_amount(&mut self) {
+        self.send_amount = ::std::option::Option::None;
+    }
+
+    pub fn has_send_amount(&self) -> bool {
+        self.send_amount.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_send_amount(&mut self, v: i64) {
+        self.send_amount = ::std::option::Option::Some(v);
+    }
+
+    // required string destination_account = 4;
+
+    pub fn destination_account(&self) -> &str {
+        match self.destination_account.as_ref() {
+            Some(v) => v,
+            None => "",
+        }
+    }
+
+    pub fn clear_destination_account(&mut self) {
+        self.destination_account = ::std::option::Option::None;
+    }
+
+    pub fn has_destination_account(&self) -> bool {
+        self.destination_account.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_destination_account(&mut self, v: ::std::string::String) {
+        self.destination_account = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_destination_account(&mut self) -> &mut ::std::string::String {
+        if self.destination_account.is_none() {
+            self.destination_account = ::std::option::Option::Some(::std::string::String::new());
+        }
+        self.destination_account.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_destination_account(&mut self) -> ::std::string::String {
+        self.destination_account.take().unwrap_or_else(|| ::std::string::String::new())
+    }
+
+    // required sint64 destination_min = 6;
+
+    pub fn destination_min(&self) -> i64 {
+        self.destination_min.unwrap_or(0)
+    }
+
+    pub fn clear_destination_min(&mut self) {
+        self.destination_min = ::std::option::Option::None;
+    }
+
+    pub fn has_destination_min(&self) -> bool {
+        self.destination_min.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_destination_min(&mut self, v: i64) {
+        self.destination_min = ::std::option::Option::Some(v);
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(7);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "source_account",
+            |m: &StellarPathPaymentStrictSendOp| { &m.source_account },
+            |m: &mut StellarPathPaymentStrictSendOp| { &mut m.source_account },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
+            "send_asset",
+            |m: &StellarPathPaymentStrictSendOp| { &m.send_asset },
+            |m: &mut StellarPathPaymentStrictSendOp| { &mut m.send_asset },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "send_amount",
+            |m: &StellarPathPaymentStrictSendOp| { &m.send_amount },
+            |m: &mut StellarPathPaymentStrictSendOp| { &mut m.send_amount },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "destination_account",
+            |m: &StellarPathPaymentStrictSendOp| { &m.destination_account },
+            |m: &mut StellarPathPaymentStrictSendOp| { &mut m.destination_account },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
+            "destination_asset",
+            |m: &StellarPathPaymentStrictSendOp| { &m.destination_asset },
+            |m: &mut StellarPathPaymentStrictSendOp| { &mut m.destination_asset },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "destination_min",
+            |m: &StellarPathPaymentStrictSendOp| { &m.destination_min },
+            |m: &mut StellarPathPaymentStrictSendOp| { &mut m.destination_min },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
+            "paths",
+            |m: &StellarPathPaymentStrictSendOp| { &m.paths },
+            |m: &mut StellarPathPaymentStrictSendOp| { &mut m.paths },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarPathPaymentStrictSendOp>(
+            "StellarPathPaymentStrictSendOp",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for StellarPathPaymentStrictSendOp {
+    const NAME: &'static str = "StellarPathPaymentStrictSendOp";
+
+    fn is_initialized(&self) -> bool {
+        if self.send_asset.is_none() {
+            return false;
+        }
+        if self.send_amount.is_none() {
+            return false;
+        }
+        if self.destination_account.is_none() {
+            return false;
+        }
+        if self.destination_asset.is_none() {
+            return false;
+        }
+        if self.destination_min.is_none() {
+            return false;
+        }
+        for v in &self.send_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.destination_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.paths {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    self.source_account = ::std::option::Option::Some(is.read_string()?);
+                },
+                18 => {
+                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.send_asset)?;
+                },
+                24 => {
+                    self.send_amount = ::std::option::Option::Some(is.read_sint64()?);
+                },
+                34 => {
+                    self.destination_account = ::std::option::Option::Some(is.read_string()?);
+                },
+                42 => {
+                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.destination_asset)?;
+                },
+                48 => {
+                    self.destination_min = ::std::option::Option::Some(is.read_sint64()?);
+                },
+                58 => {
+                    self.paths.push(is.read_message()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.source_account.as_ref() {
+            my_size += ::protobuf::rt::string_size(1, &v);
+        }
+        if let Some(v) = self.send_asset.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
+        if let Some(v) = self.send_amount {
+            my_size += ::protobuf::rt::sint64_size(3, v);
+        }
+        if let Some(v) = self.destination_account.as_ref() {
+            my_size += ::protobuf::rt::string_size(4, &v);
+        }
+        if let Some(v) = self.destination_asset.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
+        if let Some(v) = self.destination_min {
+            my_size += ::protobuf::rt::sint64_size(6, v);
+        }
+        for value in &self.paths {
+            let len = value.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        };
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.source_account.as_ref() {
+            os.write_string(1, v)?;
+        }
+        if let Some(v) = self.send_asset.as_ref() {
+            ::protobuf::rt::write_message_field_with_cached_size(2, v, os)?;
+        }
+        if let Some(v) = self.send_amount {
+            os.write_sint64(3, v)?;
+        }
+        if let Some(v) = self.destination_account.as_ref() {
+            os.write_string(4, v)?;
+        }
+        if let Some(v) = self.destination_asset.as_ref() {
+            ::protobuf::rt::write_message_field_with_cached_size(5, v, os)?;
+        }
+        if let Some(v) = self.destination_min {
+            os.write_sint64(6, v)?;
+        }
+        for v in &self.paths {
+            ::protobuf::rt::write_message_field_with_cached_size(7, v, os)?;
+        };
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> StellarPathPaymentStrictSendOp {
+        StellarPathPaymentStrictSendOp::new()
+    }
+
+    fn clear(&mut self) {
+        self.source_account = ::std::option::Option::None;
+        self.send_asset.clear();
+        self.send_amount = ::std::option::Option::None;
+        self.destination_account = ::std::option::Option::None;
+        self.destination_asset.clear();
+        self.destination_min = ::std::option::Option::None;
+        self.paths.clear();
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static StellarPathPaymentStrictSendOp {
+        static instance: StellarPathPaymentStrictSendOp = StellarPathPaymentStrictSendOp {
+            source_account: ::std::option::Option::None,
+            send_asset: ::protobuf::MessageField::none(),
+            send_amount: ::std::option::Option::None,
+            destination_account: ::std::option::Option::None,
+            destination_asset: ::protobuf::MessageField::none(),
+            destination_min: ::std::option::Option::None,
+            paths: ::std::vec::Vec::new(),
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for StellarPathPaymentStrictSendOp {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarPathPaymentStrictSendOp").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for StellarPathPaymentStrictSendOp {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for StellarPathPaymentStrictSendOp {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: ask device to confirm this operation type
+///  @next StellarTxOpRequest
+///  @next StellarSignedTx
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarManageSellOfferOp)
+pub struct StellarManageSellOfferOp {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageSellOfferOp.source_account)
+    pub source_account: ::std::option::Option<::std::string::String>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageSellOfferOp.selling_asset)
+    pub selling_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageSellOfferOp.buying_asset)
+    pub buying_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageSellOfferOp.amount)
+    pub amount: ::std::option::Option<i64>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageSellOfferOp.price_n)
+    pub price_n: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageSellOfferOp.price_d)
+    pub price_d: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageSellOfferOp.offer_id)
+    pub offer_id: ::std::option::Option<u64>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarManageSellOfferOp.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a StellarManageSellOfferOp {
+    fn default() -> &'a StellarManageSellOfferOp {
+        <StellarManageSellOfferOp as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl StellarManageSellOfferOp {
+    pub fn new() -> StellarManageSellOfferOp {
+        ::std::default::Default::default()
+    }
+
+    // optional string source_account = 1;
+
+    pub fn source_account(&self) -> &str {
+        match self.source_account.as_ref() {
+            Some(v) => v,
+            None => "",
+        }
+    }
+
+    pub fn clear_source_account(&mut self) {
+        self.source_account = ::std::option::Option::None;
+    }
+
+    pub fn has_source_account(&self) -> bool {
+        self.source_account.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_source_account(&mut self, v: ::std::string::String) {
+        self.source_account = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_source_account(&mut self) -> &mut ::std::string::String {
+        if self.source_account.is_none() {
+            self.source_account = ::std::option::Option::Some(::std::string::String::new());
+        }
+        self.source_account.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_source_account(&mut self) -> ::std::string::String {
+        self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
+    }
+
+    // required sint64 amount = 4;
 
     pub fn amount(&self) -> i64 {
         self.amount.unwrap_or(0)
@@ -2289,7 +2824,7 @@ impl StellarManageOfferOp {
         self.amount = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 price_n = 5;
+    // required uint32 price_n = 5;
 
     pub fn price_n(&self) -> u32 {
         self.price_n.unwrap_or(0)
@@ -2308,7 +2843,7 @@ impl StellarManageOfferOp {
         self.price_n = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 price_d = 6;
+    // required uint32 price_d = 6;
 
     pub fn price_d(&self) -> u32 {
         self.price_d.unwrap_or(0)
@@ -2327,7 +2862,7 @@ impl StellarManageOfferOp {
         self.price_d = ::std::option::Option::Some(v);
     }
 
-    // optional uint64 offer_id = 7;
+    // required uint64 offer_id = 7;
 
     pub fn offer_id(&self) -> u64 {
         self.offer_id.unwrap_or(0)
@@ -2351,51 +2886,79 @@ impl StellarManageOfferOp {
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "source_account",
-            |m: &StellarManageOfferOp| { &m.source_account },
-            |m: &mut StellarManageOfferOp| { &mut m.source_account },
+            |m: &StellarManageSellOfferOp| { &m.source_account },
+            |m: &mut StellarManageSellOfferOp| { &mut m.source_account },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "selling_asset",
-            |m: &StellarManageOfferOp| { &m.selling_asset },
-            |m: &mut StellarManageOfferOp| { &mut m.selling_asset },
+            |m: &StellarManageSellOfferOp| { &m.selling_asset },
+            |m: &mut StellarManageSellOfferOp| { &mut m.selling_asset },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "buying_asset",
-            |m: &StellarManageOfferOp| { &m.buying_asset },
-            |m: &mut StellarManageOfferOp| { &mut m.buying_asset },
+            |m: &StellarManageSellOfferOp| { &m.buying_asset },
+            |m: &mut StellarManageSellOfferOp| { &mut m.buying_asset },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "amount",
-            |m: &StellarManageOfferOp| { &m.amount },
-            |m: &mut StellarManageOfferOp| { &mut m.amount },
+            |m: &StellarManageSellOfferOp| { &m.amount },
+            |m: &mut StellarManageSellOfferOp| { &mut m.amount },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "price_n",
-            |m: &StellarManageOfferOp| { &m.price_n },
-            |m: &mut StellarManageOfferOp| { &mut m.price_n },
+            |m: &StellarManageSellOfferOp| { &m.price_n },
+            |m: &mut StellarManageSellOfferOp| { &mut m.price_n },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "price_d",
-            |m: &StellarManageOfferOp| { &m.price_d },
-            |m: &mut StellarManageOfferOp| { &mut m.price_d },
+            |m: &StellarManageSellOfferOp| { &m.price_d },
+            |m: &mut StellarManageSellOfferOp| { &mut m.price_d },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "offer_id",
-            |m: &StellarManageOfferOp| { &m.offer_id },
-            |m: &mut StellarManageOfferOp| { &mut m.offer_id },
+            |m: &StellarManageSellOfferOp| { &m.offer_id },
+            |m: &mut StellarManageSellOfferOp| { &mut m.offer_id },
         ));
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarManageOfferOp>(
-            "StellarManageOfferOp",
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarManageSellOfferOp>(
+            "StellarManageSellOfferOp",
             fields,
             oneofs,
         )
     }
 }
 
-impl ::protobuf::Message for StellarManageOfferOp {
-    const NAME: &'static str = "StellarManageOfferOp";
+impl ::protobuf::Message for StellarManageSellOfferOp {
+    const NAME: &'static str = "StellarManageSellOfferOp";
 
     fn is_initialized(&self) -> bool {
+        if self.selling_asset.is_none() {
+            return false;
+        }
+        if self.buying_asset.is_none() {
+            return false;
+        }
+        if self.amount.is_none() {
+            return false;
+        }
+        if self.price_n.is_none() {
+            return false;
+        }
+        if self.price_d.is_none() {
+            return false;
+        }
+        if self.offer_id.is_none() {
+            return false;
+        }
+        for v in &self.selling_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.buying_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -2497,8 +3060,8 @@ impl ::protobuf::Message for StellarManageOfferOp {
         &mut self.special_fields
     }
 
-    fn new() -> StellarManageOfferOp {
-        StellarManageOfferOp::new()
+    fn new() -> StellarManageSellOfferOp {
+        StellarManageSellOfferOp::new()
     }
 
     fn clear(&mut self) {
@@ -2512,8 +3075,8 @@ impl ::protobuf::Message for StellarManageOfferOp {
         self.special_fields.clear();
     }
 
-    fn default_instance() -> &'static StellarManageOfferOp {
-        static instance: StellarManageOfferOp = StellarManageOfferOp {
+    fn default_instance() -> &'static StellarManageSellOfferOp {
+        static instance: StellarManageSellOfferOp = StellarManageSellOfferOp {
             source_account: ::std::option::Option::None,
             selling_asset: ::protobuf::MessageField::none(),
             buying_asset: ::protobuf::MessageField::none(),
@@ -2527,20 +3090,20 @@ impl ::protobuf::Message for StellarManageOfferOp {
     }
 }
 
-impl ::protobuf::MessageFull for StellarManageOfferOp {
+impl ::protobuf::MessageFull for StellarManageSellOfferOp {
     fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
         static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarManageOfferOp").unwrap()).clone()
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarManageSellOfferOp").unwrap()).clone()
     }
 }
 
-impl ::std::fmt::Display for StellarManageOfferOp {
+impl ::std::fmt::Display for StellarManageSellOfferOp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
         ::protobuf::text_format::fmt(self, f)
     }
 }
 
-impl ::protobuf::reflect::ProtobufValue for StellarManageOfferOp {
+impl ::protobuf::reflect::ProtobufValue for StellarManageSellOfferOp {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
@@ -2549,34 +3112,36 @@ impl ::protobuf::reflect::ProtobufValue for StellarManageOfferOp {
 ///  @next StellarTxOpRequest
 ///  @next StellarSignedTx
 #[derive(PartialEq,Clone,Default,Debug)]
-// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp)
-pub struct StellarCreatePassiveOfferOp {
+// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarManageBuyOfferOp)
+pub struct StellarManageBuyOfferOp {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp.source_account)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.source_account)
     pub source_account: ::std::option::Option<::std::string::String>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp.selling_asset)
-    pub selling_asset: ::protobuf::MessageField<StellarAssetType>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp.buying_asset)
-    pub buying_asset: ::protobuf::MessageField<StellarAssetType>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp.amount)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.selling_asset)
+    pub selling_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.buying_asset)
+    pub buying_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.amount)
     pub amount: ::std::option::Option<i64>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp.price_n)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.price_n)
     pub price_n: ::std::option::Option<u32>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp.price_d)
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.price_d)
     pub price_d: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.offer_id)
+    pub offer_id: ::std::option::Option<u64>,
     // special fields
-    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarCreatePassiveOfferOp.special_fields)
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarManageBuyOfferOp.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
 }
 
-impl<'a> ::std::default::Default for &'a StellarCreatePassiveOfferOp {
-    fn default() -> &'a StellarCreatePassiveOfferOp {
-        <StellarCreatePassiveOfferOp as ::protobuf::Message>::default_instance()
+impl<'a> ::std::default::Default for &'a StellarManageBuyOfferOp {
+    fn default() -> &'a StellarManageBuyOfferOp {
+        <StellarManageBuyOfferOp as ::protobuf::Message>::default_instance()
     }
 }
 
-impl StellarCreatePassiveOfferOp {
-    pub fn new() -> StellarCreatePassiveOfferOp {
+impl StellarManageBuyOfferOp {
+    pub fn new() -> StellarManageBuyOfferOp {
         ::std::default::Default::default()
     }
 
@@ -2616,7 +3181,7 @@ impl StellarCreatePassiveOfferOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional sint64 amount = 4;
+    // required sint64 amount = 4;
 
     pub fn amount(&self) -> i64 {
         self.amount.unwrap_or(0)
@@ -2635,7 +3200,7 @@ impl StellarCreatePassiveOfferOp {
         self.amount = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 price_n = 5;
+    // required uint32 price_n = 5;
 
     pub fn price_n(&self) -> u32 {
         self.price_n.unwrap_or(0)
@@ -2654,7 +3219,381 @@ impl StellarCreatePassiveOfferOp {
         self.price_n = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 price_d = 6;
+    // required uint32 price_d = 6;
+
+    pub fn price_d(&self) -> u32 {
+        self.price_d.unwrap_or(0)
+    }
+
+    pub fn clear_price_d(&mut self) {
+        self.price_d = ::std::option::Option::None;
+    }
+
+    pub fn has_price_d(&self) -> bool {
+        self.price_d.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_price_d(&mut self, v: u32) {
+        self.price_d = ::std::option::Option::Some(v);
+    }
+
+    // required uint64 offer_id = 7;
+
+    pub fn offer_id(&self) -> u64 {
+        self.offer_id.unwrap_or(0)
+    }
+
+    pub fn clear_offer_id(&mut self) {
+        self.offer_id = ::std::option::Option::None;
+    }
+
+    pub fn has_offer_id(&self) -> bool {
+        self.offer_id.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_offer_id(&mut self, v: u64) {
+        self.offer_id = ::std::option::Option::Some(v);
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(7);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "source_account",
+            |m: &StellarManageBuyOfferOp| { &m.source_account },
+            |m: &mut StellarManageBuyOfferOp| { &mut m.source_account },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
+            "selling_asset",
+            |m: &StellarManageBuyOfferOp| { &m.selling_asset },
+            |m: &mut StellarManageBuyOfferOp| { &mut m.selling_asset },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
+            "buying_asset",
+            |m: &StellarManageBuyOfferOp| { &m.buying_asset },
+            |m: &mut StellarManageBuyOfferOp| { &mut m.buying_asset },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "amount",
+            |m: &StellarManageBuyOfferOp| { &m.amount },
+            |m: &mut StellarManageBuyOfferOp| { &mut m.amount },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "price_n",
+            |m: &StellarManageBuyOfferOp| { &m.price_n },
+            |m: &mut StellarManageBuyOfferOp| { &mut m.price_n },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "price_d",
+            |m: &StellarManageBuyOfferOp| { &m.price_d },
+            |m: &mut StellarManageBuyOfferOp| { &mut m.price_d },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "offer_id",
+            |m: &StellarManageBuyOfferOp| { &m.offer_id },
+            |m: &mut StellarManageBuyOfferOp| { &mut m.offer_id },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarManageBuyOfferOp>(
+            "StellarManageBuyOfferOp",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for StellarManageBuyOfferOp {
+    const NAME: &'static str = "StellarManageBuyOfferOp";
+
+    fn is_initialized(&self) -> bool {
+        if self.selling_asset.is_none() {
+            return false;
+        }
+        if self.buying_asset.is_none() {
+            return false;
+        }
+        if self.amount.is_none() {
+            return false;
+        }
+        if self.price_n.is_none() {
+            return false;
+        }
+        if self.price_d.is_none() {
+            return false;
+        }
+        if self.offer_id.is_none() {
+            return false;
+        }
+        for v in &self.selling_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.buying_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    self.source_account = ::std::option::Option::Some(is.read_string()?);
+                },
+                18 => {
+                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.selling_asset)?;
+                },
+                26 => {
+                    ::protobuf::rt::read_singular_message_into_field(is, &mut self.buying_asset)?;
+                },
+                32 => {
+                    self.amount = ::std::option::Option::Some(is.read_sint64()?);
+                },
+                40 => {
+                    self.price_n = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                48 => {
+                    self.price_d = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                56 => {
+                    self.offer_id = ::std::option::Option::Some(is.read_uint64()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.source_account.as_ref() {
+            my_size += ::protobuf::rt::string_size(1, &v);
+        }
+        if let Some(v) = self.selling_asset.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
+        if let Some(v) = self.buying_asset.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint64_size(len) + len;
+        }
+        if let Some(v) = self.amount {
+            my_size += ::protobuf::rt::sint64_size(4, v);
+        }
+        if let Some(v) = self.price_n {
+            my_size += ::protobuf::rt::uint32_size(5, v);
+        }
+        if let Some(v) = self.price_d {
+            my_size += ::protobuf::rt::uint32_size(6, v);
+        }
+        if let Some(v) = self.offer_id {
+            my_size += ::protobuf::rt::uint64_size(7, v);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.source_account.as_ref() {
+            os.write_string(1, v)?;
+        }
+        if let Some(v) = self.selling_asset.as_ref() {
+            ::protobuf::rt::write_message_field_with_cached_size(2, v, os)?;
+        }
+        if let Some(v) = self.buying_asset.as_ref() {
+            ::protobuf::rt::write_message_field_with_cached_size(3, v, os)?;
+        }
+        if let Some(v) = self.amount {
+            os.write_sint64(4, v)?;
+        }
+        if let Some(v) = self.price_n {
+            os.write_uint32(5, v)?;
+        }
+        if let Some(v) = self.price_d {
+            os.write_uint32(6, v)?;
+        }
+        if let Some(v) = self.offer_id {
+            os.write_uint64(7, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> StellarManageBuyOfferOp {
+        StellarManageBuyOfferOp::new()
+    }
+
+    fn clear(&mut self) {
+        self.source_account = ::std::option::Option::None;
+        self.selling_asset.clear();
+        self.buying_asset.clear();
+        self.amount = ::std::option::Option::None;
+        self.price_n = ::std::option::Option::None;
+        self.price_d = ::std::option::Option::None;
+        self.offer_id = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static StellarManageBuyOfferOp {
+        static instance: StellarManageBuyOfferOp = StellarManageBuyOfferOp {
+            source_account: ::std::option::Option::None,
+            selling_asset: ::protobuf::MessageField::none(),
+            buying_asset: ::protobuf::MessageField::none(),
+            amount: ::std::option::Option::None,
+            price_n: ::std::option::Option::None,
+            price_d: ::std::option::Option::None,
+            offer_id: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for StellarManageBuyOfferOp {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarManageBuyOfferOp").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for StellarManageBuyOfferOp {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for StellarManageBuyOfferOp {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: ask device to confirm this operation type
+///  @next StellarTxOpRequest
+///  @next StellarSignedTx
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp)
+pub struct StellarCreatePassiveSellOfferOp {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp.source_account)
+    pub source_account: ::std::option::Option<::std::string::String>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp.selling_asset)
+    pub selling_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp.buying_asset)
+    pub buying_asset: ::protobuf::MessageField<StellarAsset>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp.amount)
+    pub amount: ::std::option::Option<i64>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp.price_n)
+    pub price_n: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp.price_d)
+    pub price_d: ::std::option::Option<u32>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarCreatePassiveSellOfferOp.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a StellarCreatePassiveSellOfferOp {
+    fn default() -> &'a StellarCreatePassiveSellOfferOp {
+        <StellarCreatePassiveSellOfferOp as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl StellarCreatePassiveSellOfferOp {
+    pub fn new() -> StellarCreatePassiveSellOfferOp {
+        ::std::default::Default::default()
+    }
+
+    // optional string source_account = 1;
+
+    pub fn source_account(&self) -> &str {
+        match self.source_account.as_ref() {
+            Some(v) => v,
+            None => "",
+        }
+    }
+
+    pub fn clear_source_account(&mut self) {
+        self.source_account = ::std::option::Option::None;
+    }
+
+    pub fn has_source_account(&self) -> bool {
+        self.source_account.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_source_account(&mut self, v: ::std::string::String) {
+        self.source_account = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_source_account(&mut self) -> &mut ::std::string::String {
+        if self.source_account.is_none() {
+            self.source_account = ::std::option::Option::Some(::std::string::String::new());
+        }
+        self.source_account.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_source_account(&mut self) -> ::std::string::String {
+        self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
+    }
+
+    // required sint64 amount = 4;
+
+    pub fn amount(&self) -> i64 {
+        self.amount.unwrap_or(0)
+    }
+
+    pub fn clear_amount(&mut self) {
+        self.amount = ::std::option::Option::None;
+    }
+
+    pub fn has_amount(&self) -> bool {
+        self.amount.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_amount(&mut self, v: i64) {
+        self.amount = ::std::option::Option::Some(v);
+    }
+
+    // required uint32 price_n = 5;
+
+    pub fn price_n(&self) -> u32 {
+        self.price_n.unwrap_or(0)
+    }
+
+    pub fn clear_price_n(&mut self) {
+        self.price_n = ::std::option::Option::None;
+    }
+
+    pub fn has_price_n(&self) -> bool {
+        self.price_n.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_price_n(&mut self, v: u32) {
+        self.price_n = ::std::option::Option::Some(v);
+    }
+
+    // required uint32 price_d = 6;
 
     pub fn price_d(&self) -> u32 {
         self.price_d.unwrap_or(0)
@@ -2678,46 +3617,71 @@ impl StellarCreatePassiveOfferOp {
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "source_account",
-            |m: &StellarCreatePassiveOfferOp| { &m.source_account },
-            |m: &mut StellarCreatePassiveOfferOp| { &mut m.source_account },
+            |m: &StellarCreatePassiveSellOfferOp| { &m.source_account },
+            |m: &mut StellarCreatePassiveSellOfferOp| { &mut m.source_account },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "selling_asset",
-            |m: &StellarCreatePassiveOfferOp| { &m.selling_asset },
-            |m: &mut StellarCreatePassiveOfferOp| { &mut m.selling_asset },
+            |m: &StellarCreatePassiveSellOfferOp| { &m.selling_asset },
+            |m: &mut StellarCreatePassiveSellOfferOp| { &mut m.selling_asset },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "buying_asset",
-            |m: &StellarCreatePassiveOfferOp| { &m.buying_asset },
-            |m: &mut StellarCreatePassiveOfferOp| { &mut m.buying_asset },
+            |m: &StellarCreatePassiveSellOfferOp| { &m.buying_asset },
+            |m: &mut StellarCreatePassiveSellOfferOp| { &mut m.buying_asset },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "amount",
-            |m: &StellarCreatePassiveOfferOp| { &m.amount },
-            |m: &mut StellarCreatePassiveOfferOp| { &mut m.amount },
+            |m: &StellarCreatePassiveSellOfferOp| { &m.amount },
+            |m: &mut StellarCreatePassiveSellOfferOp| { &mut m.amount },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "price_n",
-            |m: &StellarCreatePassiveOfferOp| { &m.price_n },
-            |m: &mut StellarCreatePassiveOfferOp| { &mut m.price_n },
+            |m: &StellarCreatePassiveSellOfferOp| { &m.price_n },
+            |m: &mut StellarCreatePassiveSellOfferOp| { &mut m.price_n },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "price_d",
-            |m: &StellarCreatePassiveOfferOp| { &m.price_d },
-            |m: &mut StellarCreatePassiveOfferOp| { &mut m.price_d },
+            |m: &StellarCreatePassiveSellOfferOp| { &m.price_d },
+            |m: &mut StellarCreatePassiveSellOfferOp| { &mut m.price_d },
         ));
-        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarCreatePassiveOfferOp>(
-            "StellarCreatePassiveOfferOp",
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<StellarCreatePassiveSellOfferOp>(
+            "StellarCreatePassiveSellOfferOp",
             fields,
             oneofs,
         )
     }
 }
 
-impl ::protobuf::Message for StellarCreatePassiveOfferOp {
-    const NAME: &'static str = "StellarCreatePassiveOfferOp";
+impl ::protobuf::Message for StellarCreatePassiveSellOfferOp {
+    const NAME: &'static str = "StellarCreatePassiveSellOfferOp";
 
     fn is_initialized(&self) -> bool {
+        if self.selling_asset.is_none() {
+            return false;
+        }
+        if self.buying_asset.is_none() {
+            return false;
+        }
+        if self.amount.is_none() {
+            return false;
+        }
+        if self.price_n.is_none() {
+            return false;
+        }
+        if self.price_d.is_none() {
+            return false;
+        }
+        for v in &self.selling_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.buying_asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -2810,8 +3774,8 @@ impl ::protobuf::Message for StellarCreatePassiveOfferOp {
         &mut self.special_fields
     }
 
-    fn new() -> StellarCreatePassiveOfferOp {
-        StellarCreatePassiveOfferOp::new()
+    fn new() -> StellarCreatePassiveSellOfferOp {
+        StellarCreatePassiveSellOfferOp::new()
     }
 
     fn clear(&mut self) {
@@ -2824,8 +3788,8 @@ impl ::protobuf::Message for StellarCreatePassiveOfferOp {
         self.special_fields.clear();
     }
 
-    fn default_instance() -> &'static StellarCreatePassiveOfferOp {
-        static instance: StellarCreatePassiveOfferOp = StellarCreatePassiveOfferOp {
+    fn default_instance() -> &'static StellarCreatePassiveSellOfferOp {
+        static instance: StellarCreatePassiveSellOfferOp = StellarCreatePassiveSellOfferOp {
             source_account: ::std::option::Option::None,
             selling_asset: ::protobuf::MessageField::none(),
             buying_asset: ::protobuf::MessageField::none(),
@@ -2838,20 +3802,20 @@ impl ::protobuf::Message for StellarCreatePassiveOfferOp {
     }
 }
 
-impl ::protobuf::MessageFull for StellarCreatePassiveOfferOp {
+impl ::protobuf::MessageFull for StellarCreatePassiveSellOfferOp {
     fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
         static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
-        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarCreatePassiveOfferOp").unwrap()).clone()
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("StellarCreatePassiveSellOfferOp").unwrap()).clone()
     }
 }
 
-impl ::std::fmt::Display for StellarCreatePassiveOfferOp {
+impl ::std::fmt::Display for StellarCreatePassiveSellOfferOp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
         ::protobuf::text_format::fmt(self, f)
     }
 }
 
-impl ::protobuf::reflect::ProtobufValue for StellarCreatePassiveOfferOp {
+impl ::protobuf::reflect::ProtobufValue for StellarCreatePassiveSellOfferOp {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
@@ -2882,7 +3846,7 @@ pub struct StellarSetOptionsOp {
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSetOptionsOp.home_domain)
     pub home_domain: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSetOptionsOp.signer_type)
-    pub signer_type: ::std::option::Option<u32>,
+    pub signer_type: ::std::option::Option<::protobuf::EnumOrUnknown<stellar_set_options_op::StellarSignerType>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSetOptionsOp.signer_key)
     pub signer_key: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarSetOptionsOp.signer_weight)
@@ -3125,10 +4089,13 @@ impl StellarSetOptionsOp {
         self.home_domain.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional uint32 signer_type = 10;
+    // optional .hw.trezor.messages.stellar.StellarSetOptionsOp.StellarSignerType signer_type = 10;
 
-    pub fn signer_type(&self) -> u32 {
-        self.signer_type.unwrap_or(0)
+    pub fn signer_type(&self) -> stellar_set_options_op::StellarSignerType {
+        match self.signer_type {
+            Some(e) => e.enum_value_or(stellar_set_options_op::StellarSignerType::ACCOUNT),
+            None => stellar_set_options_op::StellarSignerType::ACCOUNT,
+        }
     }
 
     pub fn clear_signer_type(&mut self) {
@@ -3140,8 +4107,8 @@ impl StellarSetOptionsOp {
     }
 
     // Param is passed by value, moved
-    pub fn set_signer_type(&mut self, v: u32) {
-        self.signer_type = ::std::option::Option::Some(v);
+    pub fn set_signer_type(&mut self, v: stellar_set_options_op::StellarSignerType) {
+        self.signer_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     // optional bytes signer_key = 11;
@@ -3308,7 +4275,7 @@ impl ::protobuf::Message for StellarSetOptionsOp {
                     self.home_domain = ::std::option::Option::Some(is.read_string()?);
                 },
                 80 => {
-                    self.signer_type = ::std::option::Option::Some(is.read_uint32()?);
+                    self.signer_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 90 => {
                     self.signer_key = ::std::option::Option::Some(is.read_bytes()?);
@@ -3356,7 +4323,7 @@ impl ::protobuf::Message for StellarSetOptionsOp {
             my_size += ::protobuf::rt::string_size(9, &v);
         }
         if let Some(v) = self.signer_type {
-            my_size += ::protobuf::rt::uint32_size(10, v);
+            my_size += ::protobuf::rt::int32_size(10, v.value());
         }
         if let Some(v) = self.signer_key.as_ref() {
             my_size += ::protobuf::rt::bytes_size(11, &v);
@@ -3398,7 +4365,7 @@ impl ::protobuf::Message for StellarSetOptionsOp {
             os.write_string(9, v)?;
         }
         if let Some(v) = self.signer_type {
-            os.write_uint32(10, v)?;
+            os.write_enum(10, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         if let Some(v) = self.signer_key.as_ref() {
             os.write_bytes(11, v)?;
@@ -3475,6 +4442,68 @@ impl ::protobuf::reflect::ProtobufValue for StellarSetOptionsOp {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
+/// Nested message and enums of message `StellarSetOptionsOp`
+pub mod stellar_set_options_op {
+    ///  https://github.com/stellar/stellar-core/blob/02d26858069de7c0eefe065056fb0a19bf72ea56/src/xdr/Stellar-types.x#L32-L37
+    #[derive(Clone,Copy,PartialEq,Eq,Debug,Hash)]
+    // @@protoc_insertion_point(enum:hw.trezor.messages.stellar.StellarSetOptionsOp.StellarSignerType)
+    pub enum StellarSignerType {
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSetOptionsOp.StellarSignerType.ACCOUNT)
+        ACCOUNT = 0,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSetOptionsOp.StellarSignerType.PRE_AUTH)
+        PRE_AUTH = 1,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarSetOptionsOp.StellarSignerType.HASH)
+        HASH = 2,
+    }
+
+    impl ::protobuf::Enum for StellarSignerType {
+        const NAME: &'static str = "StellarSignerType";
+
+        fn value(&self) -> i32 {
+            *self as i32
+        }
+
+        fn from_i32(value: i32) -> ::std::option::Option<StellarSignerType> {
+            match value {
+                0 => ::std::option::Option::Some(StellarSignerType::ACCOUNT),
+                1 => ::std::option::Option::Some(StellarSignerType::PRE_AUTH),
+                2 => ::std::option::Option::Some(StellarSignerType::HASH),
+                _ => ::std::option::Option::None
+            }
+        }
+
+        const VALUES: &'static [StellarSignerType] = &[
+            StellarSignerType::ACCOUNT,
+            StellarSignerType::PRE_AUTH,
+            StellarSignerType::HASH,
+        ];
+    }
+
+    impl ::protobuf::EnumFull for StellarSignerType {
+        fn enum_descriptor() -> ::protobuf::reflect::EnumDescriptor {
+            static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::Lazy::new();
+            descriptor.get(|| super::file_descriptor().enum_by_package_relative_name("StellarSetOptionsOp.StellarSignerType").unwrap()).clone()
+        }
+
+        fn descriptor(&self) -> ::protobuf::reflect::EnumValueDescriptor {
+            let index = *self as usize;
+            Self::enum_descriptor().value_by_index(index)
+        }
+    }
+
+    impl ::std::default::Default for StellarSignerType {
+        fn default() -> Self {
+            StellarSignerType::ACCOUNT
+        }
+    }
+
+    impl StellarSignerType {
+        pub(in super) fn generated_enum_descriptor_data() -> ::protobuf::reflect::GeneratedEnumDescriptorData {
+            ::protobuf::reflect::GeneratedEnumDescriptorData::new::<StellarSignerType>("StellarSetOptionsOp.StellarSignerType")
+        }
+    }
+}
+
 /// *
 ///  Request: ask device to confirm this operation type
 ///  @next StellarTxOpRequest
@@ -3486,7 +4515,7 @@ pub struct StellarChangeTrustOp {
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarChangeTrustOp.source_account)
     pub source_account: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarChangeTrustOp.asset)
-    pub asset: ::protobuf::MessageField<StellarAssetType>,
+    pub asset: ::protobuf::MessageField<StellarAsset>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarChangeTrustOp.limit)
     pub limit: ::std::option::Option<u64>,
     // special fields
@@ -3541,7 +4570,7 @@ impl StellarChangeTrustOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional uint64 limit = 3;
+    // required uint64 limit = 3;
 
     pub fn limit(&self) -> u64 {
         self.limit.unwrap_or(0)
@@ -3568,7 +4597,7 @@ impl StellarChangeTrustOp {
             |m: &StellarChangeTrustOp| { &m.source_account },
             |m: &mut StellarChangeTrustOp| { &mut m.source_account },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAssetType>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, StellarAsset>(
             "asset",
             |m: &StellarChangeTrustOp| { &m.asset },
             |m: &mut StellarChangeTrustOp| { &mut m.asset },
@@ -3590,6 +4619,17 @@ impl ::protobuf::Message for StellarChangeTrustOp {
     const NAME: &'static str = "StellarChangeTrustOp";
 
     fn is_initialized(&self) -> bool {
+        if self.asset.is_none() {
+            return false;
+        }
+        if self.limit.is_none() {
+            return false;
+        }
+        for v in &self.asset {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -3706,11 +4746,11 @@ pub struct StellarAllowTrustOp {
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAllowTrustOp.trusted_account)
     pub trusted_account: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAllowTrustOp.asset_type)
-    pub asset_type: ::std::option::Option<u32>,
+    pub asset_type: ::std::option::Option<::protobuf::EnumOrUnknown<StellarAssetType>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAllowTrustOp.asset_code)
     pub asset_code: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.stellar.StellarAllowTrustOp.is_authorized)
-    pub is_authorized: ::std::option::Option<u32>,
+    pub is_authorized: ::std::option::Option<bool>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.stellar.StellarAllowTrustOp.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -3763,7 +4803,7 @@ impl StellarAllowTrustOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional string trusted_account = 2;
+    // required string trusted_account = 2;
 
     pub fn trusted_account(&self) -> &str {
         match self.trusted_account.as_ref() {
@@ -3799,10 +4839,13 @@ impl StellarAllowTrustOp {
         self.trusted_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional uint32 asset_type = 3;
+    // required .hw.trezor.messages.stellar.StellarAssetType asset_type = 3;
 
-    pub fn asset_type(&self) -> u32 {
-        self.asset_type.unwrap_or(0)
+    pub fn asset_type(&self) -> StellarAssetType {
+        match self.asset_type {
+            Some(e) => e.enum_value_or(StellarAssetType::NATIVE),
+            None => StellarAssetType::NATIVE,
+        }
     }
 
     pub fn clear_asset_type(&mut self) {
@@ -3814,8 +4857,8 @@ impl StellarAllowTrustOp {
     }
 
     // Param is passed by value, moved
-    pub fn set_asset_type(&mut self, v: u32) {
-        self.asset_type = ::std::option::Option::Some(v);
+    pub fn set_asset_type(&mut self, v: StellarAssetType) {
+        self.asset_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     // optional string asset_code = 4;
@@ -3854,10 +4897,10 @@ impl StellarAllowTrustOp {
         self.asset_code.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional uint32 is_authorized = 5;
+    // required bool is_authorized = 5;
 
-    pub fn is_authorized(&self) -> u32 {
-        self.is_authorized.unwrap_or(0)
+    pub fn is_authorized(&self) -> bool {
+        self.is_authorized.unwrap_or(false)
     }
 
     pub fn clear_is_authorized(&mut self) {
@@ -3869,7 +4912,7 @@ impl StellarAllowTrustOp {
     }
 
     // Param is passed by value, moved
-    pub fn set_is_authorized(&mut self, v: u32) {
+    pub fn set_is_authorized(&mut self, v: bool) {
         self.is_authorized = ::std::option::Option::Some(v);
     }
 
@@ -3913,6 +4956,15 @@ impl ::protobuf::Message for StellarAllowTrustOp {
     const NAME: &'static str = "StellarAllowTrustOp";
 
     fn is_initialized(&self) -> bool {
+        if self.trusted_account.is_none() {
+            return false;
+        }
+        if self.asset_type.is_none() {
+            return false;
+        }
+        if self.is_authorized.is_none() {
+            return false;
+        }
         true
     }
 
@@ -3926,13 +4978,13 @@ impl ::protobuf::Message for StellarAllowTrustOp {
                     self.trusted_account = ::std::option::Option::Some(is.read_string()?);
                 },
                 24 => {
-                    self.asset_type = ::std::option::Option::Some(is.read_uint32()?);
+                    self.asset_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 34 => {
                     self.asset_code = ::std::option::Option::Some(is.read_string()?);
                 },
                 40 => {
-                    self.is_authorized = ::std::option::Option::Some(is.read_uint32()?);
+                    self.is_authorized = ::std::option::Option::Some(is.read_bool()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -3953,13 +5005,13 @@ impl ::protobuf::Message for StellarAllowTrustOp {
             my_size += ::protobuf::rt::string_size(2, &v);
         }
         if let Some(v) = self.asset_type {
-            my_size += ::protobuf::rt::uint32_size(3, v);
+            my_size += ::protobuf::rt::int32_size(3, v.value());
         }
         if let Some(v) = self.asset_code.as_ref() {
             my_size += ::protobuf::rt::string_size(4, &v);
         }
         if let Some(v) = self.is_authorized {
-            my_size += ::protobuf::rt::uint32_size(5, v);
+            my_size += 1 + 1;
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
@@ -3974,13 +5026,13 @@ impl ::protobuf::Message for StellarAllowTrustOp {
             os.write_string(2, v)?;
         }
         if let Some(v) = self.asset_type {
-            os.write_uint32(3, v)?;
+            os.write_enum(3, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         if let Some(v) = self.asset_code.as_ref() {
             os.write_string(4, v)?;
         }
         if let Some(v) = self.is_authorized {
-            os.write_uint32(5, v)?;
+            os.write_bool(5, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -4101,7 +5153,7 @@ impl StellarAccountMergeOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional string destination_account = 2;
+    // required string destination_account = 2;
 
     pub fn destination_account(&self) -> &str {
         match self.destination_account.as_ref() {
@@ -4162,6 +5214,9 @@ impl ::protobuf::Message for StellarAccountMergeOp {
     const NAME: &'static str = "StellarAccountMergeOp";
 
     fn is_initialized(&self) -> bool {
+        if self.destination_account.is_none() {
+            return false;
+        }
         true
     }
 
@@ -4319,7 +5374,7 @@ impl StellarManageDataOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional string key = 2;
+    // required string key = 2;
 
     pub fn key(&self) -> &str {
         match self.key.as_ref() {
@@ -4421,6 +5476,9 @@ impl ::protobuf::Message for StellarManageDataOp {
     const NAME: &'static str = "StellarManageDataOp";
 
     fn is_initialized(&self) -> bool {
+        if self.key.is_none() {
+            return false;
+        }
         true
     }
 
@@ -4587,7 +5645,7 @@ impl StellarBumpSequenceOp {
         self.source_account.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional uint64 bump_to = 2;
+    // required uint64 bump_to = 2;
 
     pub fn bump_to(&self) -> u64 {
         self.bump_to.unwrap_or(0)
@@ -4631,6 +5689,9 @@ impl ::protobuf::Message for StellarBumpSequenceOp {
     const NAME: &'static str = "StellarBumpSequenceOp";
 
     fn is_initialized(&self) -> bool {
+        if self.bump_to.is_none() {
+            return false;
+        }
         true
     }
 
@@ -4749,7 +5810,7 @@ impl StellarSignedTx {
         ::std::default::Default::default()
     }
 
-    // optional bytes public_key = 1;
+    // required bytes public_key = 1;
 
     pub fn public_key(&self) -> &[u8] {
         match self.public_key.as_ref() {
@@ -4785,7 +5846,7 @@ impl StellarSignedTx {
         self.public_key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes signature = 2;
+    // required bytes signature = 2;
 
     pub fn signature(&self) -> &[u8] {
         match self.signature.as_ref() {
@@ -4846,6 +5907,12 @@ impl ::protobuf::Message for StellarSignedTx {
     const NAME: &'static str = "StellarSignedTx";
 
     fn is_initialized(&self) -> bool {
+        if self.public_key.is_none() {
+            return false;
+        }
+        if self.signature.is_none() {
+            return false;
+        }
         true
     }
 
@@ -4937,431 +6004,619 @@ impl ::protobuf::reflect::ProtobufValue for StellarSignedTx {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
+///  https://github.com/stellar/stellar-core/blob/02d26858069de7c0eefe065056fb0a19bf72ea56/src/xdr/Stellar-ledger-entries.x#L25-L31
+#[derive(Clone,Copy,PartialEq,Eq,Debug,Hash)]
+// @@protoc_insertion_point(enum:hw.trezor.messages.stellar.StellarAssetType)
+pub enum StellarAssetType {
+    // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarAssetType.NATIVE)
+    NATIVE = 0,
+    // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarAssetType.ALPHANUM4)
+    ALPHANUM4 = 1,
+    // @@protoc_insertion_point(enum_value:hw.trezor.messages.stellar.StellarAssetType.ALPHANUM12)
+    ALPHANUM12 = 2,
+}
+
+impl ::protobuf::Enum for StellarAssetType {
+    const NAME: &'static str = "StellarAssetType";
+
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<StellarAssetType> {
+        match value {
+            0 => ::std::option::Option::Some(StellarAssetType::NATIVE),
+            1 => ::std::option::Option::Some(StellarAssetType::ALPHANUM4),
+            2 => ::std::option::Option::Some(StellarAssetType::ALPHANUM12),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    const VALUES: &'static [StellarAssetType] = &[
+        StellarAssetType::NATIVE,
+        StellarAssetType::ALPHANUM4,
+        StellarAssetType::ALPHANUM12,
+    ];
+}
+
+impl ::protobuf::EnumFull for StellarAssetType {
+    fn enum_descriptor() -> ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().enum_by_package_relative_name("StellarAssetType").unwrap()).clone()
+    }
+
+    fn descriptor(&self) -> ::protobuf::reflect::EnumValueDescriptor {
+        let index = *self as usize;
+        Self::enum_descriptor().value_by_index(index)
+    }
+}
+
+impl ::std::default::Default for StellarAssetType {
+    fn default() -> Self {
+        StellarAssetType::NATIVE
+    }
+}
+
+impl StellarAssetType {
+    fn generated_enum_descriptor_data() -> ::protobuf::reflect::GeneratedEnumDescriptorData {
+        ::protobuf::reflect::GeneratedEnumDescriptorData::new::<StellarAssetType>("StellarAssetType")
+    }
+}
+
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n\x16messages-stellar.proto\x12\x1ahw.trezor.messages.stellar\"R\n\x10S\
-    tellarAssetType\x12\x12\n\x04type\x18\x01\x20\x01(\rR\x04type\x12\x12\n\
-    \x04code\x18\x02\x20\x01(\tR\x04code\x12\x16\n\x06issuer\x18\x03\x20\x01\
-    (\tR\x06issuer\"S\n\x11StellarGetAddress\x12\x1b\n\taddress_n\x18\x01\
-    \x20\x03(\rR\x08addressN\x12!\n\x0cshow_display\x18\x02\x20\x01(\x08R\
-    \x0bshowDisplay\"*\n\x0eStellarAddress\x12\x18\n\x07address\x18\x01\x20\
-    \x01(\tR\x07address\"\xa6\x03\n\rStellarSignTx\x12\x1b\n\taddress_n\x18\
-    \x02\x20\x03(\rR\x08addressN\x12-\n\x12network_passphrase\x18\x03\x20\
-    \x01(\tR\x11networkPassphrase\x12%\n\x0esource_account\x18\x04\x20\x01(\
-    \tR\rsourceAccount\x12\x10\n\x03fee\x18\x05\x20\x01(\rR\x03fee\x12'\n\
-    \x0fsequence_number\x18\x06\x20\x01(\x04R\x0esequenceNumber\x12)\n\x10ti\
-    mebounds_start\x18\x08\x20\x01(\rR\x0ftimeboundsStart\x12%\n\x0etimeboun\
-    ds_end\x18\t\x20\x01(\rR\rtimeboundsEnd\x12\x1b\n\tmemo_type\x18\n\x20\
-    \x01(\rR\x08memoType\x12\x1b\n\tmemo_text\x18\x0b\x20\x01(\tR\x08memoTex\
-    t\x12\x17\n\x07memo_id\x18\x0c\x20\x01(\x04R\x06memoId\x12\x1b\n\tmemo_h\
-    ash\x18\r\x20\x01(\x0cR\x08memoHash\x12%\n\x0enum_operations\x18\x0e\x20\
-    \x01(\rR\rnumOperations\"\x14\n\x12StellarTxOpRequest\"\xc6\x01\n\x10Ste\
-    llarPaymentOp\x12%\n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAccoun\
-    t\x12/\n\x13destination_account\x18\x02\x20\x01(\tR\x12destinationAccoun\
-    t\x12B\n\x05asset\x18\x03\x20\x01(\x0b2,.hw.trezor.messages.stellar.Stel\
-    larAssetTypeR\x05asset\x12\x16\n\x06amount\x18\x04\x20\x01(\x12R\x06amou\
-    nt\"\x8b\x01\n\x16StellarCreateAccountOp\x12%\n\x0esource_account\x18\
-    \x01\x20\x01(\tR\rsourceAccount\x12\x1f\n\x0bnew_account\x18\x02\x20\x01\
-    (\tR\nnewAccount\x12)\n\x10starting_balance\x18\x03\x20\x01(\x12R\x0fsta\
-    rtingBalance\"\xa4\x03\n\x14StellarPathPaymentOp\x12%\n\x0esource_accoun\
-    t\x18\x01\x20\x01(\tR\rsourceAccount\x12K\n\nsend_asset\x18\x02\x20\x01(\
-    \x0b2,.hw.trezor.messages.stellar.StellarAssetTypeR\tsendAsset\x12\x19\n\
-    \x08send_max\x18\x03\x20\x01(\x12R\x07sendMax\x12/\n\x13destination_acco\
-    unt\x18\x04\x20\x01(\tR\x12destinationAccount\x12Y\n\x11destination_asse\
-    t\x18\x05\x20\x01(\x0b2,.hw.trezor.messages.stellar.StellarAssetTypeR\
-    \x10destinationAsset\x12-\n\x12destination_amount\x18\x06\x20\x01(\x12R\
-    \x11destinationAmount\x12B\n\x05paths\x18\x07\x20\x03(\x0b2,.hw.trezor.m\
-    essages.stellar.StellarAssetTypeR\x05paths\"\xc6\x02\n\x14StellarManageO\
-    fferOp\x12%\n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\x12Q\
-    \n\rselling_asset\x18\x02\x20\x01(\x0b2,.hw.trezor.messages.stellar.Stel\
-    larAssetTypeR\x0csellingAsset\x12O\n\x0cbuying_asset\x18\x03\x20\x01(\
-    \x0b2,.hw.trezor.messages.stellar.StellarAssetTypeR\x0bbuyingAsset\x12\
-    \x16\n\x06amount\x18\x04\x20\x01(\x12R\x06amount\x12\x17\n\x07price_n\
-    \x18\x05\x20\x01(\rR\x06priceN\x12\x17\n\x07price_d\x18\x06\x20\x01(\rR\
-    \x06priceD\x12\x19\n\x08offer_id\x18\x07\x20\x01(\x04R\x07offerId\"\xb2\
-    \x02\n\x1bStellarCreatePassiveOfferOp\x12%\n\x0esource_account\x18\x01\
-    \x20\x01(\tR\rsourceAccount\x12Q\n\rselling_asset\x18\x02\x20\x01(\x0b2,\
-    .hw.trezor.messages.stellar.StellarAssetTypeR\x0csellingAsset\x12O\n\x0c\
-    buying_asset\x18\x03\x20\x01(\x0b2,.hw.trezor.messages.stellar.StellarAs\
-    setTypeR\x0bbuyingAsset\x12\x16\n\x06amount\x18\x04\x20\x01(\x12R\x06amo\
-    unt\x12\x17\n\x07price_n\x18\x05\x20\x01(\rR\x06priceN\x12\x17\n\x07pric\
-    e_d\x18\x06\x20\x01(\rR\x06priceD\"\xe0\x03\n\x13StellarSetOptionsOp\x12\
-    %\n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\x12B\n\x1dinfla\
-    tion_destination_account\x18\x02\x20\x01(\tR\x1binflationDestinationAcco\
-    unt\x12\x1f\n\x0bclear_flags\x18\x03\x20\x01(\rR\nclearFlags\x12\x1b\n\t\
-    set_flags\x18\x04\x20\x01(\rR\x08setFlags\x12#\n\rmaster_weight\x18\x05\
-    \x20\x01(\rR\x0cmasterWeight\x12#\n\rlow_threshold\x18\x06\x20\x01(\rR\
-    \x0clowThreshold\x12)\n\x10medium_threshold\x18\x07\x20\x01(\rR\x0fmediu\
-    mThreshold\x12%\n\x0ehigh_threshold\x18\x08\x20\x01(\rR\rhighThreshold\
-    \x12\x1f\n\x0bhome_domain\x18\t\x20\x01(\tR\nhomeDomain\x12\x1f\n\x0bsig\
-    ner_type\x18\n\x20\x01(\rR\nsignerType\x12\x1d\n\nsigner_key\x18\x0b\x20\
-    \x01(\x0cR\tsignerKey\x12#\n\rsigner_weight\x18\x0c\x20\x01(\rR\x0csigne\
-    rWeight\"\x97\x01\n\x14StellarChangeTrustOp\x12%\n\x0esource_account\x18\
-    \x01\x20\x01(\tR\rsourceAccount\x12B\n\x05asset\x18\x02\x20\x01(\x0b2,.h\
-    w.trezor.messages.stellar.StellarAssetTypeR\x05asset\x12\x14\n\x05limit\
-    \x18\x03\x20\x01(\x04R\x05limit\"\xc8\x01\n\x13StellarAllowTrustOp\x12%\
+    \n\x16messages-stellar.proto\x12\x1ahw.trezor.messages.stellar\"|\n\x0cS\
+    tellarAsset\x12@\n\x04type\x18\x01\x20\x02(\x0e2,.hw.trezor.messages.ste\
+    llar.StellarAssetTypeR\x04type\x12\x12\n\x04code\x18\x02\x20\x01(\tR\x04\
+    code\x12\x16\n\x06issuer\x18\x03\x20\x01(\tR\x06issuer\"S\n\x11StellarGe\
+    tAddress\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12!\n\x0c\
+    show_display\x18\x02\x20\x01(\x08R\x0bshowDisplay\"*\n\x0eStellarAddress\
+    \x12\x18\n\x07address\x18\x01\x20\x02(\tR\x07address\"\xa6\x04\n\rStella\
+    rSignTx\x12\x1b\n\taddress_n\x18\x02\x20\x03(\rR\x08addressN\x12-\n\x12n\
+    etwork_passphrase\x18\x03\x20\x02(\tR\x11networkPassphrase\x12%\n\x0esou\
+    rce_account\x18\x04\x20\x02(\tR\rsourceAccount\x12\x10\n\x03fee\x18\x05\
+    \x20\x02(\rR\x03fee\x12'\n\x0fsequence_number\x18\x06\x20\x02(\x04R\x0es\
+    equenceNumber\x12)\n\x10timebounds_start\x18\x08\x20\x02(\rR\x0ftimeboun\
+    dsStart\x12%\n\x0etimebounds_end\x18\t\x20\x02(\rR\rtimeboundsEnd\x12V\n\
+    \tmemo_type\x18\n\x20\x02(\x0e29.hw.trezor.messages.stellar.StellarSignT\
+    x.StellarMemoTypeR\x08memoType\x12\x1b\n\tmemo_text\x18\x0b\x20\x01(\tR\
+    \x08memoText\x12\x17\n\x07memo_id\x18\x0c\x20\x01(\x04R\x06memoId\x12\
+    \x1b\n\tmemo_hash\x18\r\x20\x01(\x0cR\x08memoHash\x12%\n\x0enum_operatio\
+    ns\x18\x0e\x20\x02(\rR\rnumOperations\"C\n\x0fStellarMemoType\x12\x08\n\
+    \x04NONE\x10\0\x12\x08\n\x04TEXT\x10\x01\x12\x06\n\x02ID\x10\x02\x12\x08\
+    \n\x04HASH\x10\x03\x12\n\n\x06RETURN\x10\x04\"\x14\n\x12StellarTxOpReque\
+    st\"\xc2\x01\n\x10StellarPaymentOp\x12%\n\x0esource_account\x18\x01\x20\
+    \x01(\tR\rsourceAccount\x12/\n\x13destination_account\x18\x02\x20\x02(\t\
+    R\x12destinationAccount\x12>\n\x05asset\x18\x03\x20\x02(\x0b2(.hw.trezor\
+    .messages.stellar.StellarAssetR\x05asset\x12\x16\n\x06amount\x18\x04\x20\
+    \x02(\x12R\x06amount\"\x8b\x01\n\x16StellarCreateAccountOp\x12%\n\x0esou\
+    rce_account\x18\x01\x20\x01(\tR\rsourceAccount\x12\x1f\n\x0bnew_account\
+    \x18\x02\x20\x02(\tR\nnewAccount\x12)\n\x10starting_balance\x18\x03\x20\
+    \x02(\x12R\x0fstartingBalance\"\xa5\x03\n!StellarPathPaymentStrictReceiv\
+    eOp\x12%\n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\x12G\n\n\
+    send_asset\x18\x02\x20\x02(\x0b2(.hw.trezor.messages.stellar.StellarAsse\
+    tR\tsendAsset\x12\x19\n\x08send_max\x18\x03\x20\x02(\x12R\x07sendMax\x12\
+    /\n\x13destination_account\x18\x04\x20\x02(\tR\x12destinationAccount\x12\
+    U\n\x11destination_asset\x18\x05\x20\x02(\x0b2(.hw.trezor.messages.stell\
+    ar.StellarAssetR\x10destinationAsset\x12-\n\x12destination_amount\x18\
+    \x06\x20\x02(\x12R\x11destinationAmount\x12>\n\x05paths\x18\x07\x20\x03(\
+    \x0b2(.hw.trezor.messages.stellar.StellarAssetR\x05paths\"\xa2\x03\n\x1e\
+    StellarPathPaymentStrictSendOp\x12%\n\x0esource_account\x18\x01\x20\x01(\
+    \tR\rsourceAccount\x12G\n\nsend_asset\x18\x02\x20\x02(\x0b2(.hw.trezor.m\
+    essages.stellar.StellarAssetR\tsendAsset\x12\x1f\n\x0bsend_amount\x18\
+    \x03\x20\x02(\x12R\nsendAmount\x12/\n\x13destination_account\x18\x04\x20\
+    \x02(\tR\x12destinationAccount\x12U\n\x11destination_asset\x18\x05\x20\
+    \x02(\x0b2(.hw.trezor.messages.stellar.StellarAssetR\x10destinationAsset\
+    \x12'\n\x0fdestination_min\x18\x06\x20\x02(\x12R\x0edestinationMin\x12>\
+    \n\x05paths\x18\x07\x20\x03(\x0b2(.hw.trezor.messages.stellar.StellarAss\
+    etR\x05paths\"\xc2\x02\n\x18StellarManageSellOfferOp\x12%\n\x0esource_ac\
+    count\x18\x01\x20\x01(\tR\rsourceAccount\x12M\n\rselling_asset\x18\x02\
+    \x20\x02(\x0b2(.hw.trezor.messages.stellar.StellarAssetR\x0csellingAsset\
+    \x12K\n\x0cbuying_asset\x18\x03\x20\x02(\x0b2(.hw.trezor.messages.stella\
+    r.StellarAssetR\x0bbuyingAsset\x12\x16\n\x06amount\x18\x04\x20\x02(\x12R\
+    \x06amount\x12\x17\n\x07price_n\x18\x05\x20\x02(\rR\x06priceN\x12\x17\n\
+    \x07price_d\x18\x06\x20\x02(\rR\x06priceD\x12\x19\n\x08offer_id\x18\x07\
+    \x20\x02(\x04R\x07offerId\"\xc1\x02\n\x17StellarManageBuyOfferOp\x12%\n\
+    \x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\x12M\n\rselling_as\
+    set\x18\x02\x20\x02(\x0b2(.hw.trezor.messages.stellar.StellarAssetR\x0cs\
+    ellingAsset\x12K\n\x0cbuying_asset\x18\x03\x20\x02(\x0b2(.hw.trezor.mess\
+    ages.stellar.StellarAssetR\x0bbuyingAsset\x12\x16\n\x06amount\x18\x04\
+    \x20\x02(\x12R\x06amount\x12\x17\n\x07price_n\x18\x05\x20\x02(\rR\x06pri\
+    ceN\x12\x17\n\x07price_d\x18\x06\x20\x02(\rR\x06priceD\x12\x19\n\x08offe\
+    r_id\x18\x07\x20\x02(\x04R\x07offerId\"\xae\x02\n\x1fStellarCreatePassiv\
+    eSellOfferOp\x12%\n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\
+    \x12M\n\rselling_asset\x18\x02\x20\x02(\x0b2(.hw.trezor.messages.stellar\
+    .StellarAssetR\x0csellingAsset\x12K\n\x0cbuying_asset\x18\x03\x20\x02(\
+    \x0b2(.hw.trezor.messages.stellar.StellarAssetR\x0bbuyingAsset\x12\x16\n\
+    \x06amount\x18\x04\x20\x02(\x12R\x06amount\x12\x17\n\x07price_n\x18\x05\
+    \x20\x02(\rR\x06priceN\x12\x17\n\x07price_d\x18\x06\x20\x02(\rR\x06price\
+    D\"\xdd\x04\n\x13StellarSetOptionsOp\x12%\n\x0esource_account\x18\x01\
+    \x20\x01(\tR\rsourceAccount\x12B\n\x1dinflation_destination_account\x18\
+    \x02\x20\x01(\tR\x1binflationDestinationAccount\x12\x1f\n\x0bclear_flags\
+    \x18\x03\x20\x01(\rR\nclearFlags\x12\x1b\n\tset_flags\x18\x04\x20\x01(\r\
+    R\x08setFlags\x12#\n\rmaster_weight\x18\x05\x20\x01(\rR\x0cmasterWeight\
+    \x12#\n\rlow_threshold\x18\x06\x20\x01(\rR\x0clowThreshold\x12)\n\x10med\
+    ium_threshold\x18\x07\x20\x01(\rR\x0fmediumThreshold\x12%\n\x0ehigh_thre\
+    shold\x18\x08\x20\x01(\rR\rhighThreshold\x12\x1f\n\x0bhome_domain\x18\t\
+    \x20\x01(\tR\nhomeDomain\x12b\n\x0bsigner_type\x18\n\x20\x01(\x0e2A.hw.t\
+    rezor.messages.stellar.StellarSetOptionsOp.StellarSignerTypeR\nsignerTyp\
+    e\x12\x1d\n\nsigner_key\x18\x0b\x20\x01(\x0cR\tsignerKey\x12#\n\rsigner_\
+    weight\x18\x0c\x20\x01(\rR\x0csignerWeight\"8\n\x11StellarSignerType\x12\
+    \x0b\n\x07ACCOUNT\x10\0\x12\x0c\n\x08PRE_AUTH\x10\x01\x12\x08\n\x04HASH\
+    \x10\x02\"\x93\x01\n\x14StellarChangeTrustOp\x12%\n\x0esource_account\
+    \x18\x01\x20\x01(\tR\rsourceAccount\x12>\n\x05asset\x18\x02\x20\x02(\x0b\
+    2(.hw.trezor.messages.stellar.StellarAssetR\x05asset\x12\x14\n\x05limit\
+    \x18\x03\x20\x02(\x04R\x05limit\"\xf6\x01\n\x13StellarAllowTrustOp\x12%\
     \n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\x12'\n\x0ftruste\
-    d_account\x18\x02\x20\x01(\tR\x0etrustedAccount\x12\x1d\n\nasset_type\
-    \x18\x03\x20\x01(\rR\tassetType\x12\x1d\n\nasset_code\x18\x04\x20\x01(\t\
-    R\tassetCode\x12#\n\ris_authorized\x18\x05\x20\x01(\rR\x0cisAuthorized\"\
-    o\n\x15StellarAccountMergeOp\x12%\n\x0esource_account\x18\x01\x20\x01(\t\
-    R\rsourceAccount\x12/\n\x13destination_account\x18\x02\x20\x01(\tR\x12de\
-    stinationAccount\"d\n\x13StellarManageDataOp\x12%\n\x0esource_account\
-    \x18\x01\x20\x01(\tR\rsourceAccount\x12\x10\n\x03key\x18\x02\x20\x01(\tR\
-    \x03key\x12\x14\n\x05value\x18\x03\x20\x01(\x0cR\x05value\"W\n\x15Stella\
-    rBumpSequenceOp\x12%\n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAcco\
-    unt\x12\x17\n\x07bump_to\x18\x02\x20\x01(\x04R\x06bumpTo\"N\n\x0fStellar\
-    SignedTx\x12\x1d\n\npublic_key\x18\x01\x20\x01(\x0cR\tpublicKey\x12\x1c\
-    \n\tsignature\x18\x02\x20\x01(\x0cR\tsignatureB;\n#com.satoshilabs.trezo\
-    r.lib.protobufB\x14TrezorMessageStellarJ\xf2J\n\x07\x12\x05\0\0\xdd\x01\
-    \x01\n\x08\n\x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\x01\0#\n\
-    \x08\n\x01\x08\x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\x1a#\x20Su\
-    gar\x20for\x20easier\x20handling\x20in\x20Java\n\n\x08\n\x01\x08\x12\x03\
-    \x05\05\n\t\n\x02\x08\x08\x12\x03\x05\05\n1\n\x02\x04\0\x12\x04\x0b\0\
-    \x0f\x01\x1a%*\n\x20Describes\x20a\x20Stellar\x20asset\n\x20@embed\n\n\n\
-    \n\x03\x04\0\x01\x12\x03\x0b\x08\x18\nF\n\x04\x04\0\x02\0\x12\x03\x0c\
-    \x04\x1d\"9\x200\x20=\x20native\x20asset\x20(XLM),\x201\x20=\x20alphanum\
-    \x204,\x202\x20=\x20alphanum\x2012\n\n\x0c\n\x05\x04\0\x02\0\x04\x12\x03\
-    \x0c\x04\x0c\n\x0c\n\x05\x04\0\x02\0\x05\x12\x03\x0c\r\x13\n\x0c\n\x05\
-    \x04\0\x02\0\x01\x12\x03\x0c\x14\x18\n\x0c\n\x05\x04\0\x02\0\x03\x12\x03\
-    \x0c\x1b\x1c\n@\n\x04\x04\0\x02\x01\x12\x03\r\x04\x1d\"3\x20for\x20non-n\
-    ative\x20assets,\x20string\x20describing\x20the\x20code\n\n\x0c\n\x05\
-    \x04\0\x02\x01\x04\x12\x03\r\x04\x0c\n\x0c\n\x05\x04\0\x02\x01\x05\x12\
-    \x03\r\r\x13\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\r\x14\x18\n\x0c\n\x05\
-    \x04\0\x02\x01\x03\x12\x03\r\x1b\x1c\n\x1e\n\x04\x04\0\x02\x02\x12\x03\
-    \x0e\x04\x1f\"\x11\x20issuing\x20address\n\n\x0c\n\x05\x04\0\x02\x02\x04\
-    \x12\x03\x0e\x04\x0c\n\x0c\n\x05\x04\0\x02\x02\x05\x12\x03\x0e\r\x13\n\
-    \x0c\n\x05\x04\0\x02\x02\x01\x12\x03\x0e\x14\x1a\n\x0c\n\x05\x04\0\x02\
-    \x02\x03\x12\x03\x0e\x1d\x1e\nU\n\x02\x04\x01\x12\x04\x16\0\x19\x01\x1aI\
-    *\n\x20Request:\x20Address\x20at\x20the\x20specified\x20index\n\x20@star\
-    t\n\x20@next\x20StellarAddress\n\n\n\n\x03\x04\x01\x01\x12\x03\x16\x08\
-    \x19\n[\n\x04\x04\x01\x02\0\x12\x03\x17\x04\"\"N\x20BIP-32\x20path.\x20F\
-    or\x20compatibility\x20with\x20other\x20wallets,\x20must\x20be\x20m/44'/\
-    148'/index'\n\n\x0c\n\x05\x04\x01\x02\0\x04\x12\x03\x17\x04\x0c\n\x0c\n\
-    \x05\x04\x01\x02\0\x05\x12\x03\x17\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\
-    \x12\x03\x17\x14\x1d\n\x0c\n\x05\x04\x01\x02\0\x03\x12\x03\x17\x20!\nC\n\
-    \x04\x04\x01\x02\x01\x12\x03\x18\x04#\"6\x20optionally\x20show\x20on\x20\
-    display\x20before\x20sending\x20the\x20result\n\n\x0c\n\x05\x04\x01\x02\
-    \x01\x04\x12\x03\x18\x04\x0c\n\x0c\n\x05\x04\x01\x02\x01\x05\x12\x03\x18\
-    \r\x11\n\x0c\n\x05\x04\x01\x02\x01\x01\x12\x03\x18\x12\x1e\n\x0c\n\x05\
-    \x04\x01\x02\x01\x03\x12\x03\x18!\"\n;\n\x02\x04\x02\x12\x04\x1f\0!\x01\
-    \x1a/*\n\x20Response:\x20Address\x20for\x20the\x20given\x20index\n\x20@e\
-    nd\n\n\n\n\x03\x04\x02\x01\x12\x03\x1f\x08\x16\nK\n\x04\x04\x02\x02\0\
-    \x12\x03\x20\x04\x20\">\x20Address\x20in\x20Stellar\x20format\x20(base32\
-    \x20of\x20a\x20pubkey\x20with\x20checksum)\n\n\x0c\n\x05\x04\x02\x02\0\
-    \x04\x12\x03\x20\x04\x0c\n\x0c\n\x05\x04\x02\x02\0\x05\x12\x03\x20\r\x13\
-    \n\x0c\n\x05\x04\x02\x02\0\x01\x12\x03\x20\x14\x1b\n\x0c\n\x05\x04\x02\
-    \x02\0\x03\x12\x03\x20\x1e\x1f\na\n\x02\x04\x03\x12\x04(\05\x01\x1aU*\n\
-    \x20Request:\x20ask\x20device\x20to\x20sign\x20Stellar\x20transaction\n\
-    \x20@start\n\x20@next\x20StellarTxOpRequest\n\n\n\n\x03\x04\x03\x01\x12\
-    \x03(\x08\x15\n[\n\x04\x04\x03\x02\0\x12\x03)\x04\"\"N\x20BIP-32\x20path\
-    .\x20For\x20compatibility\x20with\x20other\x20wallets,\x20must\x20be\x20\
-    m/44'/148'/index'\n\n\x0c\n\x05\x04\x03\x02\0\x04\x12\x03)\x04\x0c\n\x0c\
-    \n\x05\x04\x03\x02\0\x05\x12\x03)\r\x13\n\x0c\n\x05\x04\x03\x02\0\x01\
-    \x12\x03)\x14\x1d\n\x0c\n\x05\x04\x03\x02\0\x03\x12\x03)\x20!\nI\n\x04\
-    \x04\x03\x02\x01\x12\x03*\x04+\"<\x20passphrase\x20for\x20signing\x20mes\
-    sages\x20on\x20the\x20destination\x20network\n\n\x0c\n\x05\x04\x03\x02\
-    \x01\x04\x12\x03*\x04\x0c\n\x0c\n\x05\x04\x03\x02\x01\x05\x12\x03*\r\x13\
-    \n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x03*\x14&\n\x0c\n\x05\x04\x03\x02\
-    \x01\x03\x12\x03*)*\n%\n\x04\x04\x03\x02\x02\x12\x03+\x04'\"\x18\x20sour\
-    ce\x20account\x20address\n\n\x0c\n\x05\x04\x03\x02\x02\x04\x12\x03+\x04\
-    \x0c\n\x0c\n\x05\x04\x03\x02\x02\x05\x12\x03+\r\x13\n\x0c\n\x05\x04\x03\
-    \x02\x02\x01\x12\x03+\x14\"\n\x0c\n\x05\x04\x03\x02\x02\x03\x12\x03+%&\n\
-    3\n\x04\x04\x03\x02\x03\x12\x03,\x04\x1c\"&\x20Fee\x20(in\x20stroops)\
-    \x20for\x20the\x20transaction\n\n\x0c\n\x05\x04\x03\x02\x03\x04\x12\x03,\
-    \x04\x0c\n\x0c\n\x05\x04\x03\x02\x03\x05\x12\x03,\r\x13\n\x0c\n\x05\x04\
-    \x03\x02\x03\x01\x12\x03,\x14\x17\n\x0c\n\x05\x04\x03\x02\x03\x03\x12\
-    \x03,\x1a\x1b\n*\n\x04\x04\x03\x02\x04\x12\x03-\x04(\"\x1d\x20transactio\
-    n\x20sequence\x20number\n\n\x0c\n\x05\x04\x03\x02\x04\x04\x12\x03-\x04\
-    \x0c\n\x0c\n\x05\x04\x03\x02\x04\x05\x12\x03-\r\x13\n\x0c\n\x05\x04\x03\
-    \x02\x04\x01\x12\x03-\x14#\n\x0c\n\x05\x04\x03\x02\x04\x03\x12\x03-&'\nE\
-    \n\x04\x04\x03\x02\x05\x12\x03.\x04)\"8\x20unix\x20timestamp\x20(client\
-    \x20must\x20truncate\x20this\x20to\x2032\x20bytes)\n\n\x0c\n\x05\x04\x03\
-    \x02\x05\x04\x12\x03.\x04\x0c\n\x0c\n\x05\x04\x03\x02\x05\x05\x12\x03.\r\
-    \x13\n\x0c\n\x05\x04\x03\x02\x05\x01\x12\x03.\x14$\n\x0c\n\x05\x04\x03\
-    \x02\x05\x03\x12\x03.'(\nE\n\x04\x04\x03\x02\x06\x12\x03/\x04'\"8\x20uni\
-    x\x20timestamp\x20(client\x20must\x20truncate\x20this\x20to\x2032\x20byt\
-    es)\n\n\x0c\n\x05\x04\x03\x02\x06\x04\x12\x03/\x04\x0c\n\x0c\n\x05\x04\
-    \x03\x02\x06\x05\x12\x03/\r\x13\n\x0c\n\x05\x04\x03\x02\x06\x01\x12\x03/\
-    \x14\"\n\x0c\n\x05\x04\x03\x02\x06\x03\x12\x03/%&\n?\n\x04\x04\x03\x02\
-    \x07\x12\x030\x04#\"2\x200\x20=\x20none,\x201\x20=\x20text,\x202\x20=\
-    \x20id,\x203\x20=\x20hash,\x204\x20=\x20return\n\n\x0c\n\x05\x04\x03\x02\
-    \x07\x04\x12\x030\x04\x0c\n\x0c\n\x05\x04\x03\x02\x07\x05\x12\x030\r\x13\
-    \n\x0c\n\x05\x04\x03\x02\x07\x01\x12\x030\x14\x1d\n\x0c\n\x05\x04\x03\
-    \x02\x07\x03\x12\x030\x20\"\n;\n\x04\x04\x03\x02\x08\x12\x031\x04#\".\
-    \x20up\x20to\x2028\x20characters\x20(4\x20bytes\x20are\x20for\x20length)\
-    \n\n\x0c\n\x05\x04\x03\x02\x08\x04\x12\x031\x04\x0c\n\x0c\n\x05\x04\x03\
-    \x02\x08\x05\x12\x031\r\x13\n\x0c\n\x05\x04\x03\x02\x08\x01\x12\x031\x14\
-    \x1d\n\x0c\n\x05\x04\x03\x02\x08\x03\x12\x031\x20\"\n\x1c\n\x04\x04\x03\
-    \x02\t\x12\x032\x04!\"\x0f\x208-byte\x20uint64\n\n\x0c\n\x05\x04\x03\x02\
-    \t\x04\x12\x032\x04\x0c\n\x0c\n\x05\x04\x03\x02\t\x05\x12\x032\r\x13\n\
-    \x0c\n\x05\x04\x03\x02\t\x01\x12\x032\x14\x1b\n\x0c\n\x05\x04\x03\x02\t\
-    \x03\x12\x032\x1e\x20\n+\n\x04\x04\x03\x02\n\x12\x033\x04\"\"\x1e\x2032\
-    \x20bytes\x20representing\x20a\x20hash\n\n\x0c\n\x05\x04\x03\x02\n\x04\
-    \x12\x033\x04\x0c\n\x0c\n\x05\x04\x03\x02\n\x05\x12\x033\r\x12\n\x0c\n\
-    \x05\x04\x03\x02\n\x01\x12\x033\x13\x1c\n\x0c\n\x05\x04\x03\x02\n\x03\
-    \x12\x033\x1f!\n7\n\x04\x04\x03\x02\x0b\x12\x034\x04(\"*\x20number\x20of\
-    \x20operations\x20in\x20this\x20transaction\n\n\x0c\n\x05\x04\x03\x02\
-    \x0b\x04\x12\x034\x04\x0c\n\x0c\n\x05\x04\x03\x02\x0b\x05\x12\x034\r\x13\
-    \n\x0c\n\x05\x04\x03\x02\x0b\x01\x12\x034\x14\"\n\x0c\n\x05\x04\x03\x02\
-    \x0b\x03\x12\x034%'\n\x88\x03\n\x02\x04\x04\x12\x04E\0F\x01\x1a\xfb\x02*\
-    \n\x20Response:\x20device\x20is\x20ready\x20for\x20client\x20to\x20send\
-    \x20the\x20next\x20operation\n\x20@next\x20StellarPaymentOp\n\x20@next\
-    \x20StellarCreateAccountOp\n\x20@next\x20StellarPathPaymentOp\n\x20@next\
-    \x20StellarManageOfferOp\n\x20@next\x20StellarCreatePassiveOfferOp\n\x20\
-    @next\x20StellarSetOptionsOp\n\x20@next\x20StellarChangeTrustOp\n\x20@ne\
-    xt\x20StellarAllowTrustOp\n\x20@next\x20StellarAccountMergeOp\n\x20@next\
-    \x20StellarManageDataOp\n\x20@next\x20StellarBumpSequenceOp\n\n\n\n\x03\
-    \x04\x04\x01\x12\x03E\x08\x1a\ns\n\x02\x04\x05\x12\x04M\0R\x01\x1ag*\n\
-    \x20Request:\x20ask\x20device\x20to\x20confirm\x20this\x20operation\x20t\
-    ype\n\x20@next\x20StellarTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\n\
-    \n\x03\x04\x05\x01\x12\x03M\x08\x18\n0\n\x04\x04\x05\x02\0\x12\x03N\x04'\
-    \"#\x20(optional)\x20source\x20account\x20address\n\n\x0c\n\x05\x04\x05\
-    \x02\0\x04\x12\x03N\x04\x0c\n\x0c\n\x05\x04\x05\x02\0\x05\x12\x03N\r\x13\
-    \n\x0c\n\x05\x04\x05\x02\0\x01\x12\x03N\x14\"\n\x0c\n\x05\x04\x05\x02\0\
-    \x03\x12\x03N%&\n*\n\x04\x04\x05\x02\x01\x12\x03O\x04,\"\x1d\x20destinat\
-    ion\x20account\x20address\n\n\x0c\n\x05\x04\x05\x02\x01\x04\x12\x03O\x04\
-    \x0c\n\x0c\n\x05\x04\x05\x02\x01\x05\x12\x03O\r\x13\n\x0c\n\x05\x04\x05\
-    \x02\x01\x01\x12\x03O\x14'\n\x0c\n\x05\x04\x05\x02\x01\x03\x12\x03O*+\n.\
-    \n\x04\x04\x05\x02\x02\x12\x03P\x04(\"!\x20asset\x20involved\x20in\x20th\
-    e\x20operation\n\n\x0c\n\x05\x04\x05\x02\x02\x04\x12\x03P\x04\x0c\n\x0c\
-    \n\x05\x04\x05\x02\x02\x06\x12\x03P\r\x1d\n\x0c\n\x05\x04\x05\x02\x02\
-    \x01\x12\x03P\x1e#\n\x0c\n\x05\x04\x05\x02\x02\x03\x12\x03P&'\n/\n\x04\
-    \x04\x05\x02\x03\x12\x03Q\x04\x1f\"\"\x20amount\x20of\x20the\x20given\
-    \x20asset\x20to\x20pay\n\n\x0c\n\x05\x04\x05\x02\x03\x04\x12\x03Q\x04\
-    \x0c\n\x0c\n\x05\x04\x05\x02\x03\x05\x12\x03Q\r\x13\n\x0c\n\x05\x04\x05\
-    \x02\x03\x01\x12\x03Q\x14\x1a\n\x0c\n\x05\x04\x05\x02\x03\x03\x12\x03Q\
-    \x1d\x1e\ns\n\x02\x04\x06\x12\x04Y\0]\x01\x1ag*\n\x20Request:\x20ask\x20\
+    d_account\x18\x02\x20\x02(\tR\x0etrustedAccount\x12K\n\nasset_type\x18\
+    \x03\x20\x02(\x0e2,.hw.trezor.messages.stellar.StellarAssetTypeR\tassetT\
+    ype\x12\x1d\n\nasset_code\x18\x04\x20\x01(\tR\tassetCode\x12#\n\ris_auth\
+    orized\x18\x05\x20\x02(\x08R\x0cisAuthorized\"o\n\x15StellarAccountMerge\
+    Op\x12%\n\x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\x12/\n\
+    \x13destination_account\x18\x02\x20\x02(\tR\x12destinationAccount\"d\n\
+    \x13StellarManageDataOp\x12%\n\x0esource_account\x18\x01\x20\x01(\tR\rso\
+    urceAccount\x12\x10\n\x03key\x18\x02\x20\x02(\tR\x03key\x12\x14\n\x05val\
+    ue\x18\x03\x20\x01(\x0cR\x05value\"W\n\x15StellarBumpSequenceOp\x12%\n\
+    \x0esource_account\x18\x01\x20\x01(\tR\rsourceAccount\x12\x17\n\x07bump_\
+    to\x18\x02\x20\x02(\x04R\x06bumpTo\"N\n\x0fStellarSignedTx\x12\x1d\n\npu\
+    blic_key\x18\x01\x20\x02(\x0cR\tpublicKey\x12\x1c\n\tsignature\x18\x02\
+    \x20\x02(\x0cR\tsignature*=\n\x10StellarAssetType\x12\n\n\x06NATIVE\x10\
+    \0\x12\r\n\tALPHANUM4\x10\x01\x12\x0e\n\nALPHANUM12\x10\x02B;\n#com.sato\
+    shilabs.trezor.lib.protobufB\x14TrezorMessageStellarJ\xb5a\n\x07\x12\x05\
+    \0\0\x95\x02\x01\n\x08\n\x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\x02\x12\x03\
+    \x01\0#\n\x08\n\x01\x08\x12\x03\x04\0<\n.\n\x02\x08\x01\x12\x03\x04\0<\
+    \x1a#\x20Sugar\x20for\x20easier\x20handling\x20in\x20Java\n\n\x08\n\x01\
+    \x08\x12\x03\x05\05\n\t\n\x02\x08\x08\x12\x03\x05\05\n\x8d\x01\n\x02\x05\
+    \0\x12\x04\x08\0\x0c\x01\x1a\x80\x01\x20https://github.com/stellar/stell\
+    ar-core/blob/02d26858069de7c0eefe065056fb0a19bf72ea56/src/xdr/Stellar-le\
+    dger-entries.x#L25-L31\n\n\n\n\x03\x05\0\x01\x12\x03\x08\x05\x15\n\x0b\n\
+    \x04\x05\0\x02\0\x12\x03\t\x04\x0f\n\x0c\n\x05\x05\0\x02\0\x01\x12\x03\t\
+    \x04\n\n\x0c\n\x05\x05\0\x02\0\x02\x12\x03\t\r\x0e\n\x0b\n\x04\x05\0\x02\
+    \x01\x12\x03\n\x04\x12\n\x0c\n\x05\x05\0\x02\x01\x01\x12\x03\n\x04\r\n\
+    \x0c\n\x05\x05\0\x02\x01\x02\x12\x03\n\x10\x11\n\x0b\n\x04\x05\0\x02\x02\
+    \x12\x03\x0b\x04\x13\n\x0c\n\x05\x05\0\x02\x02\x01\x12\x03\x0b\x04\x0e\n\
+    \x0c\n\x05\x05\0\x02\x02\x02\x12\x03\x0b\x11\x12\n1\n\x02\x04\0\x12\x04\
+    \x12\0\x17\x01\x1a%*\n\x20Describes\x20a\x20Stellar\x20asset\n\x20@embed\
+    \n\n\n\n\x03\x04\0\x01\x12\x03\x12\x08\x14\n\x0b\n\x04\x04\0\x02\0\x12\
+    \x03\x13\x04'\n\x0c\n\x05\x04\0\x02\0\x04\x12\x03\x13\x04\x0c\n\x0c\n\
+    \x05\x04\0\x02\0\x06\x12\x03\x13\r\x1d\n\x0c\n\x05\x04\0\x02\0\x01\x12\
+    \x03\x13\x1e\"\n\x0c\n\x05\x04\0\x02\0\x03\x12\x03\x13%&\n@\n\x04\x04\0\
+    \x02\x01\x12\x03\x14\x04\x1d\"3\x20for\x20non-native\x20assets,\x20strin\
+    g\x20describing\x20the\x20code\n\n\x0c\n\x05\x04\0\x02\x01\x04\x12\x03\
+    \x14\x04\x0c\n\x0c\n\x05\x04\0\x02\x01\x05\x12\x03\x14\r\x13\n\x0c\n\x05\
+    \x04\0\x02\x01\x01\x12\x03\x14\x14\x18\n\x0c\n\x05\x04\0\x02\x01\x03\x12\
+    \x03\x14\x1b\x1c\n\x1e\n\x04\x04\0\x02\x02\x12\x03\x15\x04\x1f\"\x11\x20\
+    issuing\x20address\n\n\x0c\n\x05\x04\0\x02\x02\x04\x12\x03\x15\x04\x0c\n\
+    \x0c\n\x05\x04\0\x02\x02\x05\x12\x03\x15\r\x13\n\x0c\n\x05\x04\0\x02\x02\
+    \x01\x12\x03\x15\x14\x1a\n\x0c\n\x05\x04\0\x02\x02\x03\x12\x03\x15\x1d\
+    \x1e\nU\n\x02\x04\x01\x12\x04\x1e\0!\x01\x1aI*\n\x20Request:\x20Address\
+    \x20at\x20the\x20specified\x20index\n\x20@start\n\x20@next\x20StellarAdd\
+    ress\n\n\n\n\x03\x04\x01\x01\x12\x03\x1e\x08\x19\n[\n\x04\x04\x01\x02\0\
+    \x12\x03\x1f\x04\"\"N\x20BIP-32\x20path.\x20For\x20compatibility\x20with\
+    \x20other\x20wallets,\x20must\x20be\x20m/44'/148'/index'\n\n\x0c\n\x05\
+    \x04\x01\x02\0\x04\x12\x03\x1f\x04\x0c\n\x0c\n\x05\x04\x01\x02\0\x05\x12\
+    \x03\x1f\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x03\x1f\x14\x1d\n\x0c\n\
+    \x05\x04\x01\x02\0\x03\x12\x03\x1f\x20!\nC\n\x04\x04\x01\x02\x01\x12\x03\
+    \x20\x04#\"6\x20optionally\x20show\x20on\x20display\x20before\x20sending\
+    \x20the\x20result\n\n\x0c\n\x05\x04\x01\x02\x01\x04\x12\x03\x20\x04\x0c\
+    \n\x0c\n\x05\x04\x01\x02\x01\x05\x12\x03\x20\r\x11\n\x0c\n\x05\x04\x01\
+    \x02\x01\x01\x12\x03\x20\x12\x1e\n\x0c\n\x05\x04\x01\x02\x01\x03\x12\x03\
+    \x20!\"\n;\n\x02\x04\x02\x12\x04'\0)\x01\x1a/*\n\x20Response:\x20Address\
+    \x20for\x20the\x20given\x20index\n\x20@end\n\n\n\n\x03\x04\x02\x01\x12\
+    \x03'\x08\x16\nK\n\x04\x04\x02\x02\0\x12\x03(\x04\x20\">\x20Address\x20i\
+    n\x20Stellar\x20format\x20(base32\x20of\x20a\x20pubkey\x20with\x20checks\
+    um)\n\n\x0c\n\x05\x04\x02\x02\0\x04\x12\x03(\x04\x0c\n\x0c\n\x05\x04\x02\
+    \x02\0\x05\x12\x03(\r\x13\n\x0c\n\x05\x04\x02\x02\0\x01\x12\x03(\x14\x1b\
+    \n\x0c\n\x05\x04\x02\x02\0\x03\x12\x03(\x1e\x1f\na\n\x02\x04\x03\x12\x04\
+    0\0F\x01\x1aU*\n\x20Request:\x20ask\x20device\x20to\x20sign\x20Stellar\
+    \x20transaction\n\x20@start\n\x20@next\x20StellarTxOpRequest\n\n\n\n\x03\
+    \x04\x03\x01\x12\x030\x08\x15\n[\n\x04\x04\x03\x02\0\x12\x031\x04\"\"N\
+    \x20BIP-32\x20path.\x20For\x20compatibility\x20with\x20other\x20wallets,\
+    \x20must\x20be\x20m/44'/148'/index'\n\n\x0c\n\x05\x04\x03\x02\0\x04\x12\
+    \x031\x04\x0c\n\x0c\n\x05\x04\x03\x02\0\x05\x12\x031\r\x13\n\x0c\n\x05\
+    \x04\x03\x02\0\x01\x12\x031\x14\x1d\n\x0c\n\x05\x04\x03\x02\0\x03\x12\
+    \x031\x20!\nI\n\x04\x04\x03\x02\x01\x12\x032\x04+\"<\x20passphrase\x20fo\
+    r\x20signing\x20messages\x20on\x20the\x20destination\x20network\n\n\x0c\
+    \n\x05\x04\x03\x02\x01\x04\x12\x032\x04\x0c\n\x0c\n\x05\x04\x03\x02\x01\
+    \x05\x12\x032\r\x13\n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x032\x14&\n\x0c\
+    \n\x05\x04\x03\x02\x01\x03\x12\x032)*\n%\n\x04\x04\x03\x02\x02\x12\x033\
+    \x04'\"\x18\x20source\x20account\x20address\n\n\x0c\n\x05\x04\x03\x02\
+    \x02\x04\x12\x033\x04\x0c\n\x0c\n\x05\x04\x03\x02\x02\x05\x12\x033\r\x13\
+    \n\x0c\n\x05\x04\x03\x02\x02\x01\x12\x033\x14\"\n\x0c\n\x05\x04\x03\x02\
+    \x02\x03\x12\x033%&\n3\n\x04\x04\x03\x02\x03\x12\x034\x04\x1c\"&\x20Fee\
+    \x20(in\x20stroops)\x20for\x20the\x20transaction\n\n\x0c\n\x05\x04\x03\
+    \x02\x03\x04\x12\x034\x04\x0c\n\x0c\n\x05\x04\x03\x02\x03\x05\x12\x034\r\
+    \x13\n\x0c\n\x05\x04\x03\x02\x03\x01\x12\x034\x14\x17\n\x0c\n\x05\x04\
+    \x03\x02\x03\x03\x12\x034\x1a\x1b\n*\n\x04\x04\x03\x02\x04\x12\x035\x04(\
+    \"\x1d\x20transaction\x20sequence\x20number\n\n\x0c\n\x05\x04\x03\x02\
+    \x04\x04\x12\x035\x04\x0c\n\x0c\n\x05\x04\x03\x02\x04\x05\x12\x035\r\x13\
+    \n\x0c\n\x05\x04\x03\x02\x04\x01\x12\x035\x14#\n\x0c\n\x05\x04\x03\x02\
+    \x04\x03\x12\x035&'\nE\n\x04\x04\x03\x02\x05\x12\x036\x04)\"8\x20unix\
+    \x20timestamp\x20(client\x20must\x20truncate\x20this\x20to\x2032\x20byte\
+    s)\n\n\x0c\n\x05\x04\x03\x02\x05\x04\x12\x036\x04\x0c\n\x0c\n\x05\x04\
+    \x03\x02\x05\x05\x12\x036\r\x13\n\x0c\n\x05\x04\x03\x02\x05\x01\x12\x036\
+    \x14$\n\x0c\n\x05\x04\x03\x02\x05\x03\x12\x036'(\nE\n\x04\x04\x03\x02\
+    \x06\x12\x037\x04'\"8\x20unix\x20timestamp\x20(client\x20must\x20truncat\
+    e\x20this\x20to\x2032\x20bytes)\n\n\x0c\n\x05\x04\x03\x02\x06\x04\x12\
+    \x037\x04\x0c\n\x0c\n\x05\x04\x03\x02\x06\x05\x12\x037\r\x13\n\x0c\n\x05\
+    \x04\x03\x02\x06\x01\x12\x037\x14\"\n\x0c\n\x05\x04\x03\x02\x06\x03\x12\
+    \x037%&\n7\n\x04\x04\x03\x02\x07\x12\x038\x04,\"*\x20type\x20of\x20memo\
+    \x20attached\x20to\x20the\x20transaction\n\n\x0c\n\x05\x04\x03\x02\x07\
+    \x04\x12\x038\x04\x0c\n\x0c\n\x05\x04\x03\x02\x07\x06\x12\x038\r\x1c\n\
+    \x0c\n\x05\x04\x03\x02\x07\x01\x12\x038\x1d&\n\x0c\n\x05\x04\x03\x02\x07\
+    \x03\x12\x038)+\n;\n\x04\x04\x03\x02\x08\x12\x039\x04#\".\x20up\x20to\
+    \x2028\x20characters\x20(4\x20bytes\x20are\x20for\x20length)\n\n\x0c\n\
+    \x05\x04\x03\x02\x08\x04\x12\x039\x04\x0c\n\x0c\n\x05\x04\x03\x02\x08\
+    \x05\x12\x039\r\x13\n\x0c\n\x05\x04\x03\x02\x08\x01\x12\x039\x14\x1d\n\
+    \x0c\n\x05\x04\x03\x02\x08\x03\x12\x039\x20\"\n\x1c\n\x04\x04\x03\x02\t\
+    \x12\x03:\x04!\"\x0f\x208-byte\x20uint64\n\n\x0c\n\x05\x04\x03\x02\t\x04\
+    \x12\x03:\x04\x0c\n\x0c\n\x05\x04\x03\x02\t\x05\x12\x03:\r\x13\n\x0c\n\
+    \x05\x04\x03\x02\t\x01\x12\x03:\x14\x1b\n\x0c\n\x05\x04\x03\x02\t\x03\
+    \x12\x03:\x1e\x20\n+\n\x04\x04\x03\x02\n\x12\x03;\x04\"\"\x1e\x2032\x20b\
+    ytes\x20representing\x20a\x20hash\n\n\x0c\n\x05\x04\x03\x02\n\x04\x12\
+    \x03;\x04\x0c\n\x0c\n\x05\x04\x03\x02\n\x05\x12\x03;\r\x12\n\x0c\n\x05\
+    \x04\x03\x02\n\x01\x12\x03;\x13\x1c\n\x0c\n\x05\x04\x03\x02\n\x03\x12\
+    \x03;\x1f!\n7\n\x04\x04\x03\x02\x0b\x12\x03<\x04(\"*\x20number\x20of\x20\
+    operations\x20in\x20this\x20transaction\n\n\x0c\n\x05\x04\x03\x02\x0b\
+    \x04\x12\x03<\x04\x0c\n\x0c\n\x05\x04\x03\x02\x0b\x05\x12\x03<\r\x13\n\
+    \x0c\n\x05\x04\x03\x02\x0b\x01\x12\x03<\x14\"\n\x0c\n\x05\x04\x03\x02\
+    \x0b\x03\x12\x03<%'\n\x8d\x01\n\x04\x04\x03\x04\0\x12\x04?\x04E\x05\x1a\
+    \x7f\x20https://github.com/stellar/stellar-core/blob/02d26858069de7c0eef\
+    e065056fb0a19bf72ea56/src/xdr/Stellar-transaction.x#L506-L513\n\n\x0c\n\
+    \x05\x04\x03\x04\0\x01\x12\x03?\t\x18\n\r\n\x06\x04\x03\x04\0\x02\0\x12\
+    \x03@\x08\x11\n\x0e\n\x07\x04\x03\x04\0\x02\0\x01\x12\x03@\x08\x0c\n\x0e\
+    \n\x07\x04\x03\x04\0\x02\0\x02\x12\x03@\x0f\x10\n\r\n\x06\x04\x03\x04\0\
+    \x02\x01\x12\x03A\x08\x11\n\x0e\n\x07\x04\x03\x04\0\x02\x01\x01\x12\x03A\
+    \x08\x0c\n\x0e\n\x07\x04\x03\x04\0\x02\x01\x02\x12\x03A\x0f\x10\n\r\n\
+    \x06\x04\x03\x04\0\x02\x02\x12\x03B\x08\x0f\n\x0e\n\x07\x04\x03\x04\0\
+    \x02\x02\x01\x12\x03B\x08\n\n\x0e\n\x07\x04\x03\x04\0\x02\x02\x02\x12\
+    \x03B\r\x0e\n\r\n\x06\x04\x03\x04\0\x02\x03\x12\x03C\x08\x11\n\x0e\n\x07\
+    \x04\x03\x04\0\x02\x03\x01\x12\x03C\x08\x0c\n\x0e\n\x07\x04\x03\x04\0\
+    \x02\x03\x02\x12\x03C\x0f\x10\n\r\n\x06\x04\x03\x04\0\x02\x04\x12\x03D\
+    \x08\x13\n\x0e\n\x07\x04\x03\x04\0\x02\x04\x01\x12\x03D\x08\x0e\n\x0e\n\
+    \x07\x04\x03\x04\0\x02\x04\x02\x12\x03D\x11\x12\n\xe2\x03\n\x02\x04\x04\
+    \x12\x04X\0Y\x01\x1a\xd5\x03*\n\x20Response:\x20device\x20is\x20ready\
+    \x20for\x20client\x20to\x20send\x20the\x20next\x20operation\n\x20@next\
+    \x20StellarPaymentOp\n\x20@next\x20StellarCreateAccountOp\n\x20@next\x20\
+    StellarPathPaymentStrictReceiveOp\n\x20@next\x20StellarPathPaymentStrict\
+    SendOp\n\x20@next\x20StellarManageSellOfferOp\n\x20@next\x20StellarManag\
+    eBuyOfferOp\n\x20@next\x20StellarCreatePassiveSellOfferOp\n\x20@next\x20\
+    StellarSetOptionsOp\n\x20@next\x20StellarChangeTrustOp\n\x20@next\x20Ste\
+    llarAllowTrustOp\n\x20@next\x20StellarAccountMergeOp\n\x20@next\x20Stell\
+    arManageDataOp\n\x20@next\x20StellarBumpSequenceOp\n\n\n\n\x03\x04\x04\
+    \x01\x12\x03X\x08\x1a\ns\n\x02\x04\x05\x12\x04`\0e\x01\x1ag*\n\x20Reques\
+    t:\x20ask\x20device\x20to\x20confirm\x20this\x20operation\x20type\n\x20@\
+    next\x20StellarTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\n\n\x03\x04\
+    \x05\x01\x12\x03`\x08\x18\n0\n\x04\x04\x05\x02\0\x12\x03a\x04'\"#\x20(op\
+    tional)\x20source\x20account\x20address\n\n\x0c\n\x05\x04\x05\x02\0\x04\
+    \x12\x03a\x04\x0c\n\x0c\n\x05\x04\x05\x02\0\x05\x12\x03a\r\x13\n\x0c\n\
+    \x05\x04\x05\x02\0\x01\x12\x03a\x14\"\n\x0c\n\x05\x04\x05\x02\0\x03\x12\
+    \x03a%&\n*\n\x04\x04\x05\x02\x01\x12\x03b\x04,\"\x1d\x20destination\x20a\
+    ccount\x20address\n\n\x0c\n\x05\x04\x05\x02\x01\x04\x12\x03b\x04\x0c\n\
+    \x0c\n\x05\x04\x05\x02\x01\x05\x12\x03b\r\x13\n\x0c\n\x05\x04\x05\x02\
+    \x01\x01\x12\x03b\x14'\n\x0c\n\x05\x04\x05\x02\x01\x03\x12\x03b*+\n.\n\
+    \x04\x04\x05\x02\x02\x12\x03c\x04$\"!\x20asset\x20involved\x20in\x20the\
+    \x20operation\n\n\x0c\n\x05\x04\x05\x02\x02\x04\x12\x03c\x04\x0c\n\x0c\n\
+    \x05\x04\x05\x02\x02\x06\x12\x03c\r\x19\n\x0c\n\x05\x04\x05\x02\x02\x01\
+    \x12\x03c\x1a\x1f\n\x0c\n\x05\x04\x05\x02\x02\x03\x12\x03c\"#\n/\n\x04\
+    \x04\x05\x02\x03\x12\x03d\x04\x1f\"\"\x20amount\x20of\x20the\x20given\
+    \x20asset\x20to\x20pay\n\n\x0c\n\x05\x04\x05\x02\x03\x04\x12\x03d\x04\
+    \x0c\n\x0c\n\x05\x04\x05\x02\x03\x05\x12\x03d\r\x13\n\x0c\n\x05\x04\x05\
+    \x02\x03\x01\x12\x03d\x14\x1a\n\x0c\n\x05\x04\x05\x02\x03\x03\x12\x03d\
+    \x1d\x1e\ns\n\x02\x04\x06\x12\x04l\0p\x01\x1ag*\n\x20Request:\x20ask\x20\
     device\x20to\x20confirm\x20this\x20operation\x20type\n\x20@next\x20Stell\
     arTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\n\n\x03\x04\x06\x01\x12\
-    \x03Y\x08\x1e\n0\n\x04\x04\x06\x02\0\x12\x03Z\x04'\"#\x20(optional)\x20s\
-    ource\x20account\x20address\n\n\x0c\n\x05\x04\x06\x02\0\x04\x12\x03Z\x04\
-    \x0c\n\x0c\n\x05\x04\x06\x02\0\x05\x12\x03Z\r\x13\n\x0c\n\x05\x04\x06\
-    \x02\0\x01\x12\x03Z\x14\"\n\x0c\n\x05\x04\x06\x02\0\x03\x12\x03Z%&\n(\n\
-    \x04\x04\x06\x02\x01\x12\x03[\x04$\"\x1b\x20account\x20address\x20to\x20\
-    create\n\n\x0c\n\x05\x04\x06\x02\x01\x04\x12\x03[\x04\x0c\n\x0c\n\x05\
-    \x04\x06\x02\x01\x05\x12\x03[\r\x13\n\x0c\n\x05\x04\x06\x02\x01\x01\x12\
-    \x03[\x14\x1f\n\x0c\n\x05\x04\x06\x02\x01\x03\x12\x03[\"#\n;\n\x04\x04\
-    \x06\x02\x02\x12\x03\\\x04)\".\x20initial\x20starting\x20balance\x20for\
-    \x20the\x20new\x20account\n\n\x0c\n\x05\x04\x06\x02\x02\x04\x12\x03\\\
-    \x04\x0c\n\x0c\n\x05\x04\x06\x02\x02\x05\x12\x03\\\r\x13\n\x0c\n\x05\x04\
-    \x06\x02\x02\x01\x12\x03\\\x14$\n\x0c\n\x05\x04\x06\x02\x02\x03\x12\x03\
-    \\'(\ns\n\x02\x04\x07\x12\x04d\0l\x01\x1ag*\n\x20Request:\x20ask\x20devi\
-    ce\x20to\x20confirm\x20this\x20operation\x20type\n\x20@next\x20StellarTx\
-    OpRequest\n\x20@next\x20StellarSignedTx\n\n\n\n\x03\x04\x07\x01\x12\x03d\
-    \x08\x1c\n(\n\x04\x04\x07\x02\0\x12\x03e\x04'\"\x1b\x20(optional)\x20sou\
-    rce\x20address\n\n\x0c\n\x05\x04\x07\x02\0\x04\x12\x03e\x04\x0c\n\x0c\n\
-    \x05\x04\x07\x02\0\x05\x12\x03e\r\x13\n\x0c\n\x05\x04\x07\x02\0\x01\x12\
-    \x03e\x14\"\n\x0c\n\x05\x04\x07\x02\0\x03\x12\x03e%&\n\x0b\n\x04\x04\x07\
-    \x02\x01\x12\x03f\x04-\n\x0c\n\x05\x04\x07\x02\x01\x04\x12\x03f\x04\x0c\
-    \n\x0c\n\x05\x04\x07\x02\x01\x06\x12\x03f\r\x1d\n\x0c\n\x05\x04\x07\x02\
-    \x01\x01\x12\x03f\x1e(\n\x0c\n\x05\x04\x07\x02\x01\x03\x12\x03f+,\n\x0b\
-    \n\x04\x04\x07\x02\x02\x12\x03g\x04!\n\x0c\n\x05\x04\x07\x02\x02\x04\x12\
-    \x03g\x04\x0c\n\x0c\n\x05\x04\x07\x02\x02\x05\x12\x03g\r\x13\n\x0c\n\x05\
-    \x04\x07\x02\x02\x01\x12\x03g\x14\x1c\n\x0c\n\x05\x04\x07\x02\x02\x03\
-    \x12\x03g\x1f\x20\n\x0b\n\x04\x04\x07\x02\x03\x12\x03h\x04,\n\x0c\n\x05\
-    \x04\x07\x02\x03\x04\x12\x03h\x04\x0c\n\x0c\n\x05\x04\x07\x02\x03\x05\
-    \x12\x03h\r\x13\n\x0c\n\x05\x04\x07\x02\x03\x01\x12\x03h\x14'\n\x0c\n\
-    \x05\x04\x07\x02\x03\x03\x12\x03h*+\n\x0b\n\x04\x04\x07\x02\x04\x12\x03i\
-    \x044\n\x0c\n\x05\x04\x07\x02\x04\x04\x12\x03i\x04\x0c\n\x0c\n\x05\x04\
-    \x07\x02\x04\x06\x12\x03i\r\x1d\n\x0c\n\x05\x04\x07\x02\x04\x01\x12\x03i\
-    \x1e/\n\x0c\n\x05\x04\x07\x02\x04\x03\x12\x03i23\n\x0b\n\x04\x04\x07\x02\
-    \x05\x12\x03j\x04+\n\x0c\n\x05\x04\x07\x02\x05\x04\x12\x03j\x04\x0c\n\
-    \x0c\n\x05\x04\x07\x02\x05\x05\x12\x03j\r\x13\n\x0c\n\x05\x04\x07\x02\
-    \x05\x01\x12\x03j\x14&\n\x0c\n\x05\x04\x07\x02\x05\x03\x12\x03j)*\n\x0b\
-    \n\x04\x04\x07\x02\x06\x12\x03k\x04(\n\x0c\n\x05\x04\x07\x02\x06\x04\x12\
-    \x03k\x04\x0c\n\x0c\n\x05\x04\x07\x02\x06\x06\x12\x03k\r\x1d\n\x0c\n\x05\
-    \x04\x07\x02\x06\x01\x12\x03k\x1e#\n\x0c\n\x05\x04\x07\x02\x06\x03\x12\
-    \x03k&'\ns\n\x02\x04\x08\x12\x04s\0{\x01\x1ag*\n\x20Request:\x20ask\x20d\
-    evice\x20to\x20confirm\x20this\x20operation\x20type\n\x20@next\x20Stella\
-    rTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\n\n\x03\x04\x08\x01\x12\
-    \x03s\x08\x1c\n0\n\x04\x04\x08\x02\0\x12\x03t\x04'\"#\x20(optional)\x20s\
-    ource\x20account\x20address\n\n\x0c\n\x05\x04\x08\x02\0\x04\x12\x03t\x04\
-    \x0c\n\x0c\n\x05\x04\x08\x02\0\x05\x12\x03t\r\x13\n\x0c\n\x05\x04\x08\
-    \x02\0\x01\x12\x03t\x14\"\n\x0c\n\x05\x04\x08\x02\0\x03\x12\x03t%&\n\x0b\
-    \n\x04\x04\x08\x02\x01\x12\x03u\x040\n\x0c\n\x05\x04\x08\x02\x01\x04\x12\
-    \x03u\x04\x0c\n\x0c\n\x05\x04\x08\x02\x01\x06\x12\x03u\r\x1d\n\x0c\n\x05\
-    \x04\x08\x02\x01\x01\x12\x03u\x1e+\n\x0c\n\x05\x04\x08\x02\x01\x03\x12\
-    \x03u./\n\x0b\n\x04\x04\x08\x02\x02\x12\x03v\x04/\n\x0c\n\x05\x04\x08\
-    \x02\x02\x04\x12\x03v\x04\x0c\n\x0c\n\x05\x04\x08\x02\x02\x06\x12\x03v\r\
-    \x1d\n\x0c\n\x05\x04\x08\x02\x02\x01\x12\x03v\x1e*\n\x0c\n\x05\x04\x08\
-    \x02\x02\x03\x12\x03v-.\n\x0b\n\x04\x04\x08\x02\x03\x12\x03w\x04\x1f\n\
-    \x0c\n\x05\x04\x08\x02\x03\x04\x12\x03w\x04\x0c\n\x0c\n\x05\x04\x08\x02\
-    \x03\x05\x12\x03w\r\x13\n\x0c\n\x05\x04\x08\x02\x03\x01\x12\x03w\x14\x1a\
-    \n\x0c\n\x05\x04\x08\x02\x03\x03\x12\x03w\x1d\x1e\n\x1e\n\x04\x04\x08\
-    \x02\x04\x12\x03x\x04\x20\"\x11\x20Price\x20numerator\n\n\x0c\n\x05\x04\
-    \x08\x02\x04\x04\x12\x03x\x04\x0c\n\x0c\n\x05\x04\x08\x02\x04\x05\x12\
-    \x03x\r\x13\n\x0c\n\x05\x04\x08\x02\x04\x01\x12\x03x\x14\x1b\n\x0c\n\x05\
-    \x04\x08\x02\x04\x03\x12\x03x\x1e\x1f\n\x20\n\x04\x04\x08\x02\x05\x12\
-    \x03y\x04\x20\"\x13\x20Price\x20denominator\n\n\x0c\n\x05\x04\x08\x02\
-    \x05\x04\x12\x03y\x04\x0c\n\x0c\n\x05\x04\x08\x02\x05\x05\x12\x03y\r\x13\
-    \n\x0c\n\x05\x04\x08\x02\x05\x01\x12\x03y\x14\x1b\n\x0c\n\x05\x04\x08\
-    \x02\x05\x03\x12\x03y\x1e\x1f\n6\n\x04\x04\x08\x02\x06\x12\x03z\x04!\")\
-    \x20Offer\x20ID\x20for\x20updating\x20an\x20existing\x20offer\n\n\x0c\n\
-    \x05\x04\x08\x02\x06\x04\x12\x03z\x04\x0c\n\x0c\n\x05\x04\x08\x02\x06\
-    \x05\x12\x03z\r\x13\n\x0c\n\x05\x04\x08\x02\x06\x01\x12\x03z\x14\x1c\n\
-    \x0c\n\x05\x04\x08\x02\x06\x03\x12\x03z\x1f\x20\nu\n\x02\x04\t\x12\x06\
-    \x82\x01\0\x89\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\x20con\
+    \x03l\x08\x1e\n0\n\x04\x04\x06\x02\0\x12\x03m\x04'\"#\x20(optional)\x20s\
+    ource\x20account\x20address\n\n\x0c\n\x05\x04\x06\x02\0\x04\x12\x03m\x04\
+    \x0c\n\x0c\n\x05\x04\x06\x02\0\x05\x12\x03m\r\x13\n\x0c\n\x05\x04\x06\
+    \x02\0\x01\x12\x03m\x14\"\n\x0c\n\x05\x04\x06\x02\0\x03\x12\x03m%&\n(\n\
+    \x04\x04\x06\x02\x01\x12\x03n\x04$\"\x1b\x20account\x20address\x20to\x20\
+    create\n\n\x0c\n\x05\x04\x06\x02\x01\x04\x12\x03n\x04\x0c\n\x0c\n\x05\
+    \x04\x06\x02\x01\x05\x12\x03n\r\x13\n\x0c\n\x05\x04\x06\x02\x01\x01\x12\
+    \x03n\x14\x1f\n\x0c\n\x05\x04\x06\x02\x01\x03\x12\x03n\"#\n;\n\x04\x04\
+    \x06\x02\x02\x12\x03o\x04)\".\x20initial\x20starting\x20balance\x20for\
+    \x20the\x20new\x20account\n\n\x0c\n\x05\x04\x06\x02\x02\x04\x12\x03o\x04\
+    \x0c\n\x0c\n\x05\x04\x06\x02\x02\x05\x12\x03o\r\x13\n\x0c\n\x05\x04\x06\
+    \x02\x02\x01\x12\x03o\x14$\n\x0c\n\x05\x04\x06\x02\x02\x03\x12\x03o'(\ns\
+    \n\x02\x04\x07\x12\x04w\0\x7f\x01\x1ag*\n\x20Request:\x20ask\x20device\
+    \x20to\x20confirm\x20this\x20operation\x20type\n\x20@next\x20StellarTxOp\
+    Request\n\x20@next\x20StellarSignedTx\n\n\n\n\x03\x04\x07\x01\x12\x03w\
+    \x08)\n(\n\x04\x04\x07\x02\0\x12\x03x\x04'\"\x1b\x20(optional)\x20source\
+    \x20address\n\n\x0c\n\x05\x04\x07\x02\0\x04\x12\x03x\x04\x0c\n\x0c\n\x05\
+    \x04\x07\x02\0\x05\x12\x03x\r\x13\n\x0c\n\x05\x04\x07\x02\0\x01\x12\x03x\
+    \x14\"\n\x0c\n\x05\x04\x07\x02\0\x03\x12\x03x%&\n\x20\n\x04\x04\x07\x02\
+    \x01\x12\x03y\x04)\"\x13\x20asset\x20we\x20pay\x20with\n\n\x0c\n\x05\x04\
+    \x07\x02\x01\x04\x12\x03y\x04\x0c\n\x0c\n\x05\x04\x07\x02\x01\x06\x12\
+    \x03y\r\x19\n\x0c\n\x05\x04\x07\x02\x01\x01\x12\x03y\x1a$\n\x0c\n\x05\
+    \x04\x07\x02\x01\x03\x12\x03y'(\nG\n\x04\x04\x07\x02\x02\x12\x03z\x04!\"\
+    :\x20the\x20maximum\x20amount\x20of\x20sendAsset\x20to\x20send\x20(exclu\
+    ding\x20fees)\n\n\x0c\n\x05\x04\x07\x02\x02\x04\x12\x03z\x04\x0c\n\x0c\n\
+    \x05\x04\x07\x02\x02\x05\x12\x03z\r\x13\n\x0c\n\x05\x04\x07\x02\x02\x01\
+    \x12\x03z\x14\x1c\n\x0c\n\x05\x04\x07\x02\x02\x03\x12\x03z\x1f\x20\n'\n\
+    \x04\x04\x07\x02\x03\x12\x03{\x04,\"\x1a\x20recipient\x20of\x20the\x20pa\
+    yment\n\n\x0c\n\x05\x04\x07\x02\x03\x04\x12\x03{\x04\x0c\n\x0c\n\x05\x04\
+    \x07\x02\x03\x05\x12\x03{\r\x13\n\x0c\n\x05\x04\x07\x02\x03\x01\x12\x03{\
+    \x14'\n\x0c\n\x05\x04\x07\x02\x03\x03\x12\x03{*+\n$\n\x04\x04\x07\x02\
+    \x04\x12\x03|\x040\"\x17\x20what\x20they\x20end\x20up\x20with\n\n\x0c\n\
+    \x05\x04\x07\x02\x04\x04\x12\x03|\x04\x0c\n\x0c\n\x05\x04\x07\x02\x04\
+    \x06\x12\x03|\r\x19\n\x0c\n\x05\x04\x07\x02\x04\x01\x12\x03|\x1a+\n\x0c\
+    \n\x05\x04\x07\x02\x04\x03\x12\x03|./\n&\n\x04\x04\x07\x02\x05\x12\x03}\
+    \x04+\"\x19\x20amount\x20they\x20end\x20up\x20with\n\n\x0c\n\x05\x04\x07\
+    \x02\x05\x04\x12\x03}\x04\x0c\n\x0c\n\x05\x04\x07\x02\x05\x05\x12\x03}\r\
+    \x13\n\x0c\n\x05\x04\x07\x02\x05\x01\x12\x03}\x14&\n\x0c\n\x05\x04\x07\
+    \x02\x05\x03\x12\x03})*\n>\n\x04\x04\x07\x02\x06\x12\x03~\x04$\"1\x20add\
+    itional\x20hops\x20it\x20must\x20go\x20through\x20to\x20get\x20there\n\n\
+    \x0c\n\x05\x04\x07\x02\x06\x04\x12\x03~\x04\x0c\n\x0c\n\x05\x04\x07\x02\
+    \x06\x06\x12\x03~\r\x19\n\x0c\n\x05\x04\x07\x02\x06\x01\x12\x03~\x1a\x1f\
+    \n\x0c\n\x05\x04\x07\x02\x06\x03\x12\x03~\"#\nu\n\x02\x04\x08\x12\x06\
+    \x86\x01\0\x8e\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\x20con\
     firm\x20this\x20operation\x20type\n\x20@next\x20StellarTxOpRequest\n\x20\
-    @next\x20StellarSignedTx\n\n\x0b\n\x03\x04\t\x01\x12\x04\x82\x01\x08#\n1\
-    \n\x04\x04\t\x02\0\x12\x04\x83\x01\x04'\"#\x20(optional)\x20source\x20ac\
-    count\x20address\n\n\r\n\x05\x04\t\x02\0\x04\x12\x04\x83\x01\x04\x0c\n\r\
-    \n\x05\x04\t\x02\0\x05\x12\x04\x83\x01\r\x13\n\r\n\x05\x04\t\x02\0\x01\
-    \x12\x04\x83\x01\x14\"\n\r\n\x05\x04\t\x02\0\x03\x12\x04\x83\x01%&\n\x0c\
-    \n\x04\x04\t\x02\x01\x12\x04\x84\x01\x040\n\r\n\x05\x04\t\x02\x01\x04\
-    \x12\x04\x84\x01\x04\x0c\n\r\n\x05\x04\t\x02\x01\x06\x12\x04\x84\x01\r\
-    \x1d\n\r\n\x05\x04\t\x02\x01\x01\x12\x04\x84\x01\x1e+\n\r\n\x05\x04\t\
-    \x02\x01\x03\x12\x04\x84\x01./\n\x0c\n\x04\x04\t\x02\x02\x12\x04\x85\x01\
-    \x04/\n\r\n\x05\x04\t\x02\x02\x04\x12\x04\x85\x01\x04\x0c\n\r\n\x05\x04\
-    \t\x02\x02\x06\x12\x04\x85\x01\r\x1d\n\r\n\x05\x04\t\x02\x02\x01\x12\x04\
-    \x85\x01\x1e*\n\r\n\x05\x04\t\x02\x02\x03\x12\x04\x85\x01-.\n\x0c\n\x04\
-    \x04\t\x02\x03\x12\x04\x86\x01\x04\x1f\n\r\n\x05\x04\t\x02\x03\x04\x12\
-    \x04\x86\x01\x04\x0c\n\r\n\x05\x04\t\x02\x03\x05\x12\x04\x86\x01\r\x13\n\
-    \r\n\x05\x04\t\x02\x03\x01\x12\x04\x86\x01\x14\x1a\n\r\n\x05\x04\t\x02\
-    \x03\x03\x12\x04\x86\x01\x1d\x1e\n\x1f\n\x04\x04\t\x02\x04\x12\x04\x87\
-    \x01\x04\x20\"\x11\x20Price\x20numerator\n\n\r\n\x05\x04\t\x02\x04\x04\
-    \x12\x04\x87\x01\x04\x0c\n\r\n\x05\x04\t\x02\x04\x05\x12\x04\x87\x01\r\
-    \x13\n\r\n\x05\x04\t\x02\x04\x01\x12\x04\x87\x01\x14\x1b\n\r\n\x05\x04\t\
-    \x02\x04\x03\x12\x04\x87\x01\x1e\x1f\n!\n\x04\x04\t\x02\x05\x12\x04\x88\
-    \x01\x04\x20\"\x13\x20Price\x20denominator\n\n\r\n\x05\x04\t\x02\x05\x04\
-    \x12\x04\x88\x01\x04\x0c\n\r\n\x05\x04\t\x02\x05\x05\x12\x04\x88\x01\r\
-    \x13\n\r\n\x05\x04\t\x02\x05\x01\x12\x04\x88\x01\x14\x1b\n\r\n\x05\x04\t\
-    \x02\x05\x03\x12\x04\x88\x01\x1e\x1f\nu\n\x02\x04\n\x12\x06\x90\x01\0\
-    \x9d\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\x20confirm\x20th\
-    is\x20operation\x20type\n\x20@next\x20StellarTxOpRequest\n\x20@next\x20S\
-    tellarSignedTx\n\n\x0b\n\x03\x04\n\x01\x12\x04\x90\x01\x08\x1b\n1\n\x04\
-    \x04\n\x02\0\x12\x04\x91\x01\x04'\"#\x20(optional)\x20source\x20account\
-    \x20address\n\n\r\n\x05\x04\n\x02\0\x04\x12\x04\x91\x01\x04\x0c\n\r\n\
-    \x05\x04\n\x02\0\x05\x12\x04\x91\x01\r\x13\n\r\n\x05\x04\n\x02\0\x01\x12\
-    \x04\x91\x01\x14\"\n\r\n\x05\x04\n\x02\0\x03\x12\x04\x91\x01%&\n8\n\x04\
-    \x04\n\x02\x01\x12\x04\x92\x01\x046\"*\x20(optional)\x20inflation\x20des\
-    tination\x20address\n\n\r\n\x05\x04\n\x02\x01\x04\x12\x04\x92\x01\x04\
-    \x0c\n\r\n\x05\x04\n\x02\x01\x05\x12\x04\x92\x01\r\x13\n\r\n\x05\x04\n\
-    \x02\x01\x01\x12\x04\x92\x01\x141\n\r\n\x05\x04\n\x02\x01\x03\x12\x04\
-    \x92\x0145\n\x0c\n\x04\x04\n\x02\x02\x12\x04\x93\x01\x04$\n\r\n\x05\x04\
-    \n\x02\x02\x04\x12\x04\x93\x01\x04\x0c\n\r\n\x05\x04\n\x02\x02\x05\x12\
-    \x04\x93\x01\r\x13\n\r\n\x05\x04\n\x02\x02\x01\x12\x04\x93\x01\x14\x1f\n\
-    \r\n\x05\x04\n\x02\x02\x03\x12\x04\x93\x01\"#\n\x0c\n\x04\x04\n\x02\x03\
-    \x12\x04\x94\x01\x04\"\n\r\n\x05\x04\n\x02\x03\x04\x12\x04\x94\x01\x04\
-    \x0c\n\r\n\x05\x04\n\x02\x03\x05\x12\x04\x94\x01\r\x13\n\r\n\x05\x04\n\
-    \x02\x03\x01\x12\x04\x94\x01\x14\x1d\n\r\n\x05\x04\n\x02\x03\x03\x12\x04\
-    \x94\x01\x20!\n\x0c\n\x04\x04\n\x02\x04\x12\x04\x95\x01\x04&\n\r\n\x05\
-    \x04\n\x02\x04\x04\x12\x04\x95\x01\x04\x0c\n\r\n\x05\x04\n\x02\x04\x05\
-    \x12\x04\x95\x01\r\x13\n\r\n\x05\x04\n\x02\x04\x01\x12\x04\x95\x01\x14!\
-    \n\r\n\x05\x04\n\x02\x04\x03\x12\x04\x95\x01$%\n\x0c\n\x04\x04\n\x02\x05\
-    \x12\x04\x96\x01\x04&\n\r\n\x05\x04\n\x02\x05\x04\x12\x04\x96\x01\x04\
-    \x0c\n\r\n\x05\x04\n\x02\x05\x05\x12\x04\x96\x01\r\x13\n\r\n\x05\x04\n\
-    \x02\x05\x01\x12\x04\x96\x01\x14!\n\r\n\x05\x04\n\x02\x05\x03\x12\x04\
-    \x96\x01$%\n\x0c\n\x04\x04\n\x02\x06\x12\x04\x97\x01\x04)\n\r\n\x05\x04\
-    \n\x02\x06\x04\x12\x04\x97\x01\x04\x0c\n\r\n\x05\x04\n\x02\x06\x05\x12\
-    \x04\x97\x01\r\x13\n\r\n\x05\x04\n\x02\x06\x01\x12\x04\x97\x01\x14$\n\r\
-    \n\x05\x04\n\x02\x06\x03\x12\x04\x97\x01'(\n\x0c\n\x04\x04\n\x02\x07\x12\
-    \x04\x98\x01\x04'\n\r\n\x05\x04\n\x02\x07\x04\x12\x04\x98\x01\x04\x0c\n\
-    \r\n\x05\x04\n\x02\x07\x05\x12\x04\x98\x01\r\x13\n\r\n\x05\x04\n\x02\x07\
-    \x01\x12\x04\x98\x01\x14\"\n\r\n\x05\x04\n\x02\x07\x03\x12\x04\x98\x01%&\
-    \n\x0c\n\x04\x04\n\x02\x08\x12\x04\x99\x01\x04$\n\r\n\x05\x04\n\x02\x08\
-    \x04\x12\x04\x99\x01\x04\x0c\n\r\n\x05\x04\n\x02\x08\x05\x12\x04\x99\x01\
-    \r\x13\n\r\n\x05\x04\n\x02\x08\x01\x12\x04\x99\x01\x14\x1f\n\r\n\x05\x04\
-    \n\x02\x08\x03\x12\x04\x99\x01\"#\n\x0c\n\x04\x04\n\x02\t\x12\x04\x9a\
-    \x01\x04%\n\r\n\x05\x04\n\x02\t\x04\x12\x04\x9a\x01\x04\x0c\n\r\n\x05\
-    \x04\n\x02\t\x05\x12\x04\x9a\x01\r\x13\n\r\n\x05\x04\n\x02\t\x01\x12\x04\
-    \x9a\x01\x14\x1f\n\r\n\x05\x04\n\x02\t\x03\x12\x04\x9a\x01\"$\n\x0c\n\
-    \x04\x04\n\x02\n\x12\x04\x9b\x01\x04#\n\r\n\x05\x04\n\x02\n\x04\x12\x04\
-    \x9b\x01\x04\x0c\n\r\n\x05\x04\n\x02\n\x05\x12\x04\x9b\x01\r\x12\n\r\n\
-    \x05\x04\n\x02\n\x01\x12\x04\x9b\x01\x13\x1d\n\r\n\x05\x04\n\x02\n\x03\
-    \x12\x04\x9b\x01\x20\"\n\x0c\n\x04\x04\n\x02\x0b\x12\x04\x9c\x01\x04'\n\
-    \r\n\x05\x04\n\x02\x0b\x04\x12\x04\x9c\x01\x04\x0c\n\r\n\x05\x04\n\x02\
-    \x0b\x05\x12\x04\x9c\x01\r\x13\n\r\n\x05\x04\n\x02\x0b\x01\x12\x04\x9c\
-    \x01\x14!\n\r\n\x05\x04\n\x02\x0b\x03\x12\x04\x9c\x01$&\nu\n\x02\x04\x0b\
-    \x12\x06\xa4\x01\0\xa8\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20t\
-    o\x20confirm\x20this\x20operation\x20type\n\x20@next\x20StellarTxOpReque\
-    st\n\x20@next\x20StellarSignedTx\n\n\x0b\n\x03\x04\x0b\x01\x12\x04\xa4\
-    \x01\x08\x1c\n1\n\x04\x04\x0b\x02\0\x12\x04\xa5\x01\x04'\"#\x20(optional\
-    )\x20source\x20account\x20address\n\n\r\n\x05\x04\x0b\x02\0\x04\x12\x04\
-    \xa5\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\0\x05\x12\x04\xa5\x01\r\x13\n\r\n\
-    \x05\x04\x0b\x02\0\x01\x12\x04\xa5\x01\x14\"\n\r\n\x05\x04\x0b\x02\0\x03\
-    \x12\x04\xa5\x01%&\n\x0c\n\x04\x04\x0b\x02\x01\x12\x04\xa6\x01\x04(\n\r\
-    \n\x05\x04\x0b\x02\x01\x04\x12\x04\xa6\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\
-    \x01\x06\x12\x04\xa6\x01\r\x1d\n\r\n\x05\x04\x0b\x02\x01\x01\x12\x04\xa6\
-    \x01\x1e#\n\r\n\x05\x04\x0b\x02\x01\x03\x12\x04\xa6\x01&'\n\x0c\n\x04\
-    \x04\x0b\x02\x02\x12\x04\xa7\x01\x04\x1e\n\r\n\x05\x04\x0b\x02\x02\x04\
-    \x12\x04\xa7\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\x02\x05\x12\x04\xa7\x01\r\
-    \x13\n\r\n\x05\x04\x0b\x02\x02\x01\x12\x04\xa7\x01\x14\x19\n\r\n\x05\x04\
-    \x0b\x02\x02\x03\x12\x04\xa7\x01\x1c\x1d\nu\n\x02\x04\x0c\x12\x06\xaf\
-    \x01\0\xb5\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\x20confirm\
+    @next\x20StellarSignedTx\n\n\x0b\n\x03\x04\x08\x01\x12\x04\x86\x01\x08&\
+    \n)\n\x04\x04\x08\x02\0\x12\x04\x87\x01\x04'\"\x1b\x20(optional)\x20sour\
+    ce\x20address\n\n\r\n\x05\x04\x08\x02\0\x04\x12\x04\x87\x01\x04\x0c\n\r\
+    \n\x05\x04\x08\x02\0\x05\x12\x04\x87\x01\r\x13\n\r\n\x05\x04\x08\x02\0\
+    \x01\x12\x04\x87\x01\x14\"\n\r\n\x05\x04\x08\x02\0\x03\x12\x04\x87\x01%&\
+    \n!\n\x04\x04\x08\x02\x01\x12\x04\x88\x01\x04)\"\x13\x20asset\x20we\x20p\
+    ay\x20with\n\n\r\n\x05\x04\x08\x02\x01\x04\x12\x04\x88\x01\x04\x0c\n\r\n\
+    \x05\x04\x08\x02\x01\x06\x12\x04\x88\x01\r\x19\n\r\n\x05\x04\x08\x02\x01\
+    \x01\x12\x04\x88\x01\x1a$\n\r\n\x05\x04\x08\x02\x01\x03\x12\x04\x88\x01'\
+    (\n<\n\x04\x04\x08\x02\x02\x12\x04\x89\x01\x04$\".\x20amount\x20of\x20se\
+    ndAsset\x20to\x20send\x20(excluding\x20fees)\n\n\r\n\x05\x04\x08\x02\x02\
+    \x04\x12\x04\x89\x01\x04\x0c\n\r\n\x05\x04\x08\x02\x02\x05\x12\x04\x89\
+    \x01\r\x13\n\r\n\x05\x04\x08\x02\x02\x01\x12\x04\x89\x01\x14\x1f\n\r\n\
+    \x05\x04\x08\x02\x02\x03\x12\x04\x89\x01\"#\n(\n\x04\x04\x08\x02\x03\x12\
+    \x04\x8a\x01\x04,\"\x1a\x20recipient\x20of\x20the\x20payment\n\n\r\n\x05\
+    \x04\x08\x02\x03\x04\x12\x04\x8a\x01\x04\x0c\n\r\n\x05\x04\x08\x02\x03\
+    \x05\x12\x04\x8a\x01\r\x13\n\r\n\x05\x04\x08\x02\x03\x01\x12\x04\x8a\x01\
+    \x14'\n\r\n\x05\x04\x08\x02\x03\x03\x12\x04\x8a\x01*+\n%\n\x04\x04\x08\
+    \x02\x04\x12\x04\x8b\x01\x040\"\x17\x20what\x20they\x20end\x20up\x20with\
+    \n\n\r\n\x05\x04\x08\x02\x04\x04\x12\x04\x8b\x01\x04\x0c\n\r\n\x05\x04\
+    \x08\x02\x04\x06\x12\x04\x8b\x01\r\x19\n\r\n\x05\x04\x08\x02\x04\x01\x12\
+    \x04\x8b\x01\x1a+\n\r\n\x05\x04\x08\x02\x04\x03\x12\x04\x8b\x01./\n?\n\
+    \x04\x04\x08\x02\x05\x12\x04\x8c\x01\x04(\"1\x20the\x20minimum\x20amount\
+    \x20of\x20dest\x20asset\x20to\x20be\x20received\n\n\r\n\x05\x04\x08\x02\
+    \x05\x04\x12\x04\x8c\x01\x04\x0c\n\r\n\x05\x04\x08\x02\x05\x05\x12\x04\
+    \x8c\x01\r\x13\n\r\n\x05\x04\x08\x02\x05\x01\x12\x04\x8c\x01\x14#\n\r\n\
+    \x05\x04\x08\x02\x05\x03\x12\x04\x8c\x01&'\n>\n\x04\x04\x08\x02\x06\x12\
+    \x04\x8d\x01\x04$\"0additional\x20hops\x20it\x20must\x20go\x20through\
+    \x20to\x20get\x20there\n\n\r\n\x05\x04\x08\x02\x06\x04\x12\x04\x8d\x01\
+    \x04\x0c\n\r\n\x05\x04\x08\x02\x06\x06\x12\x04\x8d\x01\r\x19\n\r\n\x05\
+    \x04\x08\x02\x06\x01\x12\x04\x8d\x01\x1a\x1f\n\r\n\x05\x04\x08\x02\x06\
+    \x03\x12\x04\x8d\x01\"#\nu\n\x02\x04\t\x12\x06\x95\x01\0\x9d\x01\x01\x1a\
+    g*\n\x20Request:\x20ask\x20device\x20to\x20confirm\x20this\x20operation\
+    \x20type\n\x20@next\x20StellarTxOpRequest\n\x20@next\x20StellarSignedTx\
+    \n\n\x0b\n\x03\x04\t\x01\x12\x04\x95\x01\x08\x20\n1\n\x04\x04\t\x02\0\
+    \x12\x04\x96\x01\x04'\"#\x20(optional)\x20source\x20account\x20address\n\
+    \n\r\n\x05\x04\t\x02\0\x04\x12\x04\x96\x01\x04\x0c\n\r\n\x05\x04\t\x02\0\
+    \x05\x12\x04\x96\x01\r\x13\n\r\n\x05\x04\t\x02\0\x01\x12\x04\x96\x01\x14\
+    \"\n\r\n\x05\x04\t\x02\0\x03\x12\x04\x96\x01%&\n\x0c\n\x04\x04\t\x02\x01\
+    \x12\x04\x97\x01\x04,\n\r\n\x05\x04\t\x02\x01\x04\x12\x04\x97\x01\x04\
+    \x0c\n\r\n\x05\x04\t\x02\x01\x06\x12\x04\x97\x01\r\x19\n\r\n\x05\x04\t\
+    \x02\x01\x01\x12\x04\x97\x01\x1a'\n\r\n\x05\x04\t\x02\x01\x03\x12\x04\
+    \x97\x01*+\n\x0c\n\x04\x04\t\x02\x02\x12\x04\x98\x01\x04+\n\r\n\x05\x04\
+    \t\x02\x02\x04\x12\x04\x98\x01\x04\x0c\n\r\n\x05\x04\t\x02\x02\x06\x12\
+    \x04\x98\x01\r\x19\n\r\n\x05\x04\t\x02\x02\x01\x12\x04\x98\x01\x1a&\n\r\
+    \n\x05\x04\t\x02\x02\x03\x12\x04\x98\x01)*\n\x0c\n\x04\x04\t\x02\x03\x12\
+    \x04\x99\x01\x04\x1f\n\r\n\x05\x04\t\x02\x03\x04\x12\x04\x99\x01\x04\x0c\
+    \n\r\n\x05\x04\t\x02\x03\x05\x12\x04\x99\x01\r\x13\n\r\n\x05\x04\t\x02\
+    \x03\x01\x12\x04\x99\x01\x14\x1a\n\r\n\x05\x04\t\x02\x03\x03\x12\x04\x99\
+    \x01\x1d\x1e\n\x1f\n\x04\x04\t\x02\x04\x12\x04\x9a\x01\x04\x20\"\x11\x20\
+    Price\x20numerator\n\n\r\n\x05\x04\t\x02\x04\x04\x12\x04\x9a\x01\x04\x0c\
+    \n\r\n\x05\x04\t\x02\x04\x05\x12\x04\x9a\x01\r\x13\n\r\n\x05\x04\t\x02\
+    \x04\x01\x12\x04\x9a\x01\x14\x1b\n\r\n\x05\x04\t\x02\x04\x03\x12\x04\x9a\
+    \x01\x1e\x1f\n!\n\x04\x04\t\x02\x05\x12\x04\x9b\x01\x04\x20\"\x13\x20Pri\
+    ce\x20denominator\n\n\r\n\x05\x04\t\x02\x05\x04\x12\x04\x9b\x01\x04\x0c\
+    \n\r\n\x05\x04\t\x02\x05\x05\x12\x04\x9b\x01\r\x13\n\r\n\x05\x04\t\x02\
+    \x05\x01\x12\x04\x9b\x01\x14\x1b\n\r\n\x05\x04\t\x02\x05\x03\x12\x04\x9b\
+    \x01\x1e\x1f\n7\n\x04\x04\t\x02\x06\x12\x04\x9c\x01\x04!\")\x20Offer\x20\
+    ID\x20for\x20updating\x20an\x20existing\x20offer\n\n\r\n\x05\x04\t\x02\
+    \x06\x04\x12\x04\x9c\x01\x04\x0c\n\r\n\x05\x04\t\x02\x06\x05\x12\x04\x9c\
+    \x01\r\x13\n\r\n\x05\x04\t\x02\x06\x01\x12\x04\x9c\x01\x14\x1c\n\r\n\x05\
+    \x04\t\x02\x06\x03\x12\x04\x9c\x01\x1f\x20\nu\n\x02\x04\n\x12\x06\xa4\
+    \x01\0\xac\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\x20confirm\
     \x20this\x20operation\x20type\n\x20@next\x20StellarTxOpRequest\n\x20@nex\
-    t\x20StellarSignedTx\n\n\x0b\n\x03\x04\x0c\x01\x12\x04\xaf\x01\x08\x1b\n\
-    1\n\x04\x04\x0c\x02\0\x12\x04\xb0\x01\x04'\"#\x20(optional)\x20source\
-    \x20account\x20address\n\n\r\n\x05\x04\x0c\x02\0\x04\x12\x04\xb0\x01\x04\
-    \x0c\n\r\n\x05\x04\x0c\x02\0\x05\x12\x04\xb0\x01\r\x13\n\r\n\x05\x04\x0c\
-    \x02\0\x01\x12\x04\xb0\x01\x14\"\n\r\n\x05\x04\x0c\x02\0\x03\x12\x04\xb0\
-    \x01%&\n;\n\x04\x04\x0c\x02\x01\x12\x04\xb1\x01\x04(\"-\x20The\x20accoun\
-    t\x20being\x20allowed\x20to\x20hold\x20the\x20asset\n\n\r\n\x05\x04\x0c\
-    \x02\x01\x04\x12\x04\xb1\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\x01\x05\x12\
-    \x04\xb1\x01\r\x13\n\r\n\x05\x04\x0c\x02\x01\x01\x12\x04\xb1\x01\x14#\n\
-    \r\n\x05\x04\x0c\x02\x01\x03\x12\x04\xb1\x01&'\n1\n\x04\x04\x0c\x02\x02\
-    \x12\x04\xb2\x01\x04#\"#\x201\x20=\x204-character,\x202\x20=\x2012-chara\
-    cter\n\n\r\n\x05\x04\x0c\x02\x02\x04\x12\x04\xb2\x01\x04\x0c\n\r\n\x05\
-    \x04\x0c\x02\x02\x05\x12\x04\xb2\x01\r\x13\n\r\n\x05\x04\x0c\x02\x02\x01\
-    \x12\x04\xb2\x01\x14\x1e\n\r\n\x05\x04\x0c\x02\x02\x03\x12\x04\xb2\x01!\
-    \"\n)\n\x04\x04\x0c\x02\x03\x12\x04\xb3\x01\x04#\"\x1b\x20human-readable\
-    \x20asset\x20code\n\n\r\n\x05\x04\x0c\x02\x03\x04\x12\x04\xb3\x01\x04\
-    \x0c\n\r\n\x05\x04\x0c\x02\x03\x05\x12\x04\xb3\x01\r\x13\n\r\n\x05\x04\
-    \x0c\x02\x03\x01\x12\x04\xb3\x01\x14\x1e\n\r\n\x05\x04\x0c\x02\x03\x03\
-    \x12\x04\xb3\x01!\"\n\x0c\n\x04\x04\x0c\x02\x04\x12\x04\xb4\x01\x04&\n\r\
-    \n\x05\x04\x0c\x02\x04\x04\x12\x04\xb4\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\
-    \x04\x05\x12\x04\xb4\x01\r\x13\n\r\n\x05\x04\x0c\x02\x04\x01\x12\x04\xb4\
-    \x01\x14!\n\r\n\x05\x04\x0c\x02\x04\x03\x12\x04\xb4\x01$%\nu\n\x02\x04\r\
-    \x12\x06\xbc\x01\0\xbf\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20t\
-    o\x20confirm\x20this\x20operation\x20type\n\x20@next\x20StellarTxOpReque\
-    st\n\x20@next\x20StellarSignedTx\n\n\x0b\n\x03\x04\r\x01\x12\x04\xbc\x01\
-    \x08\x1d\n1\n\x04\x04\r\x02\0\x12\x04\xbd\x01\x04'\"#\x20(optional)\x20s\
-    ource\x20account\x20address\n\n\r\n\x05\x04\r\x02\0\x04\x12\x04\xbd\x01\
-    \x04\x0c\n\r\n\x05\x04\r\x02\0\x05\x12\x04\xbd\x01\r\x13\n\r\n\x05\x04\r\
-    \x02\0\x01\x12\x04\xbd\x01\x14\"\n\r\n\x05\x04\r\x02\0\x03\x12\x04\xbd\
-    \x01%&\n+\n\x04\x04\r\x02\x01\x12\x04\xbe\x01\x04,\"\x1d\x20destination\
-    \x20account\x20address\n\n\r\n\x05\x04\r\x02\x01\x04\x12\x04\xbe\x01\x04\
-    \x0c\n\r\n\x05\x04\r\x02\x01\x05\x12\x04\xbe\x01\r\x13\n\r\n\x05\x04\r\
-    \x02\x01\x01\x12\x04\xbe\x01\x14'\n\r\n\x05\x04\r\x02\x01\x03\x12\x04\
-    \xbe\x01*+\nu\n\x02\x04\x0e\x12\x06\xc6\x01\0\xca\x01\x01\x1ag*\n\x20Req\
-    uest:\x20ask\x20device\x20to\x20confirm\x20this\x20operation\x20type\n\
-    \x20@next\x20StellarTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\x0b\n\
-    \x03\x04\x0e\x01\x12\x04\xc6\x01\x08\x1b\n1\n\x04\x04\x0e\x02\0\x12\x04\
-    \xc7\x01\x04'\"#\x20(optional)\x20source\x20account\x20address\n\n\r\n\
-    \x05\x04\x0e\x02\0\x04\x12\x04\xc7\x01\x04\x0c\n\r\n\x05\x04\x0e\x02\0\
-    \x05\x12\x04\xc7\x01\r\x13\n\r\n\x05\x04\x0e\x02\0\x01\x12\x04\xc7\x01\
-    \x14\"\n\r\n\x05\x04\x0e\x02\0\x03\x12\x04\xc7\x01%&\n\x0c\n\x04\x04\x0e\
-    \x02\x01\x12\x04\xc8\x01\x04\x1c\n\r\n\x05\x04\x0e\x02\x01\x04\x12\x04\
-    \xc8\x01\x04\x0c\n\r\n\x05\x04\x0e\x02\x01\x05\x12\x04\xc8\x01\r\x13\n\r\
-    \n\x05\x04\x0e\x02\x01\x01\x12\x04\xc8\x01\x14\x17\n\r\n\x05\x04\x0e\x02\
-    \x01\x03\x12\x04\xc8\x01\x1a\x1b\n*\n\x04\x04\x0e\x02\x02\x12\x04\xc9\
-    \x01\x04\x1d\"\x1c\x2064\x20bytes\x20of\x20arbitrary\x20data\n\n\r\n\x05\
-    \x04\x0e\x02\x02\x04\x12\x04\xc9\x01\x04\x0c\n\r\n\x05\x04\x0e\x02\x02\
-    \x05\x12\x04\xc9\x01\r\x12\n\r\n\x05\x04\x0e\x02\x02\x01\x12\x04\xc9\x01\
-    \x13\x18\n\r\n\x05\x04\x0e\x02\x02\x03\x12\x04\xc9\x01\x1b\x1c\nu\n\x02\
-    \x04\x0f\x12\x06\xd1\x01\0\xd4\x01\x01\x1ag*\n\x20Request:\x20ask\x20dev\
-    ice\x20to\x20confirm\x20this\x20operation\x20type\n\x20@next\x20StellarT\
-    xOpRequest\n\x20@next\x20StellarSignedTx\n\n\x0b\n\x03\x04\x0f\x01\x12\
-    \x04\xd1\x01\x08\x1d\n1\n\x04\x04\x0f\x02\0\x12\x04\xd2\x01\x04'\"#\x20(\
-    optional)\x20source\x20account\x20address\n\n\r\n\x05\x04\x0f\x02\0\x04\
-    \x12\x04\xd2\x01\x04\x0c\n\r\n\x05\x04\x0f\x02\0\x05\x12\x04\xd2\x01\r\
-    \x13\n\r\n\x05\x04\x0f\x02\0\x01\x12\x04\xd2\x01\x14\"\n\r\n\x05\x04\x0f\
-    \x02\0\x03\x12\x04\xd2\x01%&\n#\n\x04\x04\x0f\x02\x01\x12\x04\xd3\x01\
-    \x04\x20\"\x15\x20new\x20sequence\x20number\n\n\r\n\x05\x04\x0f\x02\x01\
-    \x04\x12\x04\xd3\x01\x04\x0c\n\r\n\x05\x04\x0f\x02\x01\x05\x12\x04\xd3\
-    \x01\r\x13\n\r\n\x05\x04\x0f\x02\x01\x01\x12\x04\xd3\x01\x14\x1b\n\r\n\
-    \x05\x04\x0f\x02\x01\x03\x12\x04\xd3\x01\x1e\x1f\n;\n\x02\x04\x10\x12\
-    \x06\xda\x01\0\xdd\x01\x01\x1a-*\n\x20Response:\x20signature\x20for\x20t\
-    ransaction\n\x20@end\n\n\x0b\n\x03\x04\x10\x01\x12\x04\xda\x01\x08\x17\n\
-    @\n\x04\x04\x10\x02\0\x12\x04\xdb\x01\x04\"\"2\x20public\x20key\x20for\
-    \x20the\x20private\x20key\x20used\x20to\x20sign\x20data\n\n\r\n\x05\x04\
-    \x10\x02\0\x04\x12\x04\xdb\x01\x04\x0c\n\r\n\x05\x04\x10\x02\0\x05\x12\
-    \x04\xdb\x01\r\x12\n\r\n\x05\x04\x10\x02\0\x01\x12\x04\xdb\x01\x13\x1d\n\
-    \r\n\x05\x04\x10\x02\0\x03\x12\x04\xdb\x01\x20!\nE\n\x04\x04\x10\x02\x01\
-    \x12\x04\xdc\x01\x04!\"7\x20signature\x20suitable\x20for\x20sending\x20t\
-    o\x20the\x20Stellar\x20network\n\n\r\n\x05\x04\x10\x02\x01\x04\x12\x04\
-    \xdc\x01\x04\x0c\n\r\n\x05\x04\x10\x02\x01\x05\x12\x04\xdc\x01\r\x12\n\r\
-    \n\x05\x04\x10\x02\x01\x01\x12\x04\xdc\x01\x13\x1c\n\r\n\x05\x04\x10\x02\
-    \x01\x03\x12\x04\xdc\x01\x1f\x20\
+    t\x20StellarSignedTx\n\n\x0b\n\x03\x04\n\x01\x12\x04\xa4\x01\x08\x1f\n1\
+    \n\x04\x04\n\x02\0\x12\x04\xa5\x01\x04'\"#\x20(optional)\x20source\x20ac\
+    count\x20address\n\n\r\n\x05\x04\n\x02\0\x04\x12\x04\xa5\x01\x04\x0c\n\r\
+    \n\x05\x04\n\x02\0\x05\x12\x04\xa5\x01\r\x13\n\r\n\x05\x04\n\x02\0\x01\
+    \x12\x04\xa5\x01\x14\"\n\r\n\x05\x04\n\x02\0\x03\x12\x04\xa5\x01%&\n\x0c\
+    \n\x04\x04\n\x02\x01\x12\x04\xa6\x01\x04,\n\r\n\x05\x04\n\x02\x01\x04\
+    \x12\x04\xa6\x01\x04\x0c\n\r\n\x05\x04\n\x02\x01\x06\x12\x04\xa6\x01\r\
+    \x19\n\r\n\x05\x04\n\x02\x01\x01\x12\x04\xa6\x01\x1a'\n\r\n\x05\x04\n\
+    \x02\x01\x03\x12\x04\xa6\x01*+\n\x0c\n\x04\x04\n\x02\x02\x12\x04\xa7\x01\
+    \x04+\n\r\n\x05\x04\n\x02\x02\x04\x12\x04\xa7\x01\x04\x0c\n\r\n\x05\x04\
+    \n\x02\x02\x06\x12\x04\xa7\x01\r\x19\n\r\n\x05\x04\n\x02\x02\x01\x12\x04\
+    \xa7\x01\x1a&\n\r\n\x05\x04\n\x02\x02\x03\x12\x04\xa7\x01)*\n\x0c\n\x04\
+    \x04\n\x02\x03\x12\x04\xa8\x01\x04\x1f\n\r\n\x05\x04\n\x02\x03\x04\x12\
+    \x04\xa8\x01\x04\x0c\n\r\n\x05\x04\n\x02\x03\x05\x12\x04\xa8\x01\r\x13\n\
+    \r\n\x05\x04\n\x02\x03\x01\x12\x04\xa8\x01\x14\x1a\n\r\n\x05\x04\n\x02\
+    \x03\x03\x12\x04\xa8\x01\x1d\x1e\n\x1f\n\x04\x04\n\x02\x04\x12\x04\xa9\
+    \x01\x04\x20\"\x11\x20Price\x20numerator\n\n\r\n\x05\x04\n\x02\x04\x04\
+    \x12\x04\xa9\x01\x04\x0c\n\r\n\x05\x04\n\x02\x04\x05\x12\x04\xa9\x01\r\
+    \x13\n\r\n\x05\x04\n\x02\x04\x01\x12\x04\xa9\x01\x14\x1b\n\r\n\x05\x04\n\
+    \x02\x04\x03\x12\x04\xa9\x01\x1e\x1f\n!\n\x04\x04\n\x02\x05\x12\x04\xaa\
+    \x01\x04\x20\"\x13\x20Price\x20denominator\n\n\r\n\x05\x04\n\x02\x05\x04\
+    \x12\x04\xaa\x01\x04\x0c\n\r\n\x05\x04\n\x02\x05\x05\x12\x04\xaa\x01\r\
+    \x13\n\r\n\x05\x04\n\x02\x05\x01\x12\x04\xaa\x01\x14\x1b\n\r\n\x05\x04\n\
+    \x02\x05\x03\x12\x04\xaa\x01\x1e\x1f\n7\n\x04\x04\n\x02\x06\x12\x04\xab\
+    \x01\x04!\")\x20Offer\x20ID\x20for\x20updating\x20an\x20existing\x20offe\
+    r\n\n\r\n\x05\x04\n\x02\x06\x04\x12\x04\xab\x01\x04\x0c\n\r\n\x05\x04\n\
+    \x02\x06\x05\x12\x04\xab\x01\r\x13\n\r\n\x05\x04\n\x02\x06\x01\x12\x04\
+    \xab\x01\x14\x1c\n\r\n\x05\x04\n\x02\x06\x03\x12\x04\xab\x01\x1f\x20\nu\
+    \n\x02\x04\x0b\x12\x06\xb3\x01\0\xba\x01\x01\x1ag*\n\x20Request:\x20ask\
+    \x20device\x20to\x20confirm\x20this\x20operation\x20type\n\x20@next\x20S\
+    tellarTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\x0b\n\x03\x04\x0b\
+    \x01\x12\x04\xb3\x01\x08'\n1\n\x04\x04\x0b\x02\0\x12\x04\xb4\x01\x04'\"#\
+    \x20(optional)\x20source\x20account\x20address\n\n\r\n\x05\x04\x0b\x02\0\
+    \x04\x12\x04\xb4\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\0\x05\x12\x04\xb4\x01\
+    \r\x13\n\r\n\x05\x04\x0b\x02\0\x01\x12\x04\xb4\x01\x14\"\n\r\n\x05\x04\
+    \x0b\x02\0\x03\x12\x04\xb4\x01%&\n\x0c\n\x04\x04\x0b\x02\x01\x12\x04\xb5\
+    \x01\x04,\n\r\n\x05\x04\x0b\x02\x01\x04\x12\x04\xb5\x01\x04\x0c\n\r\n\
+    \x05\x04\x0b\x02\x01\x06\x12\x04\xb5\x01\r\x19\n\r\n\x05\x04\x0b\x02\x01\
+    \x01\x12\x04\xb5\x01\x1a'\n\r\n\x05\x04\x0b\x02\x01\x03\x12\x04\xb5\x01*\
+    +\n\x0c\n\x04\x04\x0b\x02\x02\x12\x04\xb6\x01\x04+\n\r\n\x05\x04\x0b\x02\
+    \x02\x04\x12\x04\xb6\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\x02\x06\x12\x04\
+    \xb6\x01\r\x19\n\r\n\x05\x04\x0b\x02\x02\x01\x12\x04\xb6\x01\x1a&\n\r\n\
+    \x05\x04\x0b\x02\x02\x03\x12\x04\xb6\x01)*\n\x0c\n\x04\x04\x0b\x02\x03\
+    \x12\x04\xb7\x01\x04\x1f\n\r\n\x05\x04\x0b\x02\x03\x04\x12\x04\xb7\x01\
+    \x04\x0c\n\r\n\x05\x04\x0b\x02\x03\x05\x12\x04\xb7\x01\r\x13\n\r\n\x05\
+    \x04\x0b\x02\x03\x01\x12\x04\xb7\x01\x14\x1a\n\r\n\x05\x04\x0b\x02\x03\
+    \x03\x12\x04\xb7\x01\x1d\x1e\n\x1f\n\x04\x04\x0b\x02\x04\x12\x04\xb8\x01\
+    \x04\x20\"\x11\x20Price\x20numerator\n\n\r\n\x05\x04\x0b\x02\x04\x04\x12\
+    \x04\xb8\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\x04\x05\x12\x04\xb8\x01\r\x13\
+    \n\r\n\x05\x04\x0b\x02\x04\x01\x12\x04\xb8\x01\x14\x1b\n\r\n\x05\x04\x0b\
+    \x02\x04\x03\x12\x04\xb8\x01\x1e\x1f\n!\n\x04\x04\x0b\x02\x05\x12\x04\
+    \xb9\x01\x04\x20\"\x13\x20Price\x20denominator\n\n\r\n\x05\x04\x0b\x02\
+    \x05\x04\x12\x04\xb9\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\x05\x05\x12\x04\
+    \xb9\x01\r\x13\n\r\n\x05\x04\x0b\x02\x05\x01\x12\x04\xb9\x01\x14\x1b\n\r\
+    \n\x05\x04\x0b\x02\x05\x03\x12\x04\xb9\x01\x1e\x1f\nu\n\x02\x04\x0c\x12\
+    \x06\xc1\x01\0\xd5\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\
+    \x20confirm\x20this\x20operation\x20type\n\x20@next\x20StellarTxOpReques\
+    t\n\x20@next\x20StellarSignedTx\n\n\x0b\n\x03\x04\x0c\x01\x12\x04\xc1\
+    \x01\x08\x1b\n1\n\x04\x04\x0c\x02\0\x12\x04\xc2\x01\x04'\"#\x20(optional\
+    )\x20source\x20account\x20address\n\n\r\n\x05\x04\x0c\x02\0\x04\x12\x04\
+    \xc2\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\0\x05\x12\x04\xc2\x01\r\x13\n\r\n\
+    \x05\x04\x0c\x02\0\x01\x12\x04\xc2\x01\x14\"\n\r\n\x05\x04\x0c\x02\0\x03\
+    \x12\x04\xc2\x01%&\n8\n\x04\x04\x0c\x02\x01\x12\x04\xc3\x01\x046\"*\x20(\
+    optional)\x20inflation\x20destination\x20address\n\n\r\n\x05\x04\x0c\x02\
+    \x01\x04\x12\x04\xc3\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\x01\x05\x12\x04\
+    \xc3\x01\r\x13\n\r\n\x05\x04\x0c\x02\x01\x01\x12\x04\xc3\x01\x141\n\r\n\
+    \x05\x04\x0c\x02\x01\x03\x12\x04\xc3\x0145\n\x0c\n\x04\x04\x0c\x02\x02\
+    \x12\x04\xc4\x01\x04$\n\r\n\x05\x04\x0c\x02\x02\x04\x12\x04\xc4\x01\x04\
+    \x0c\n\r\n\x05\x04\x0c\x02\x02\x05\x12\x04\xc4\x01\r\x13\n\r\n\x05\x04\
+    \x0c\x02\x02\x01\x12\x04\xc4\x01\x14\x1f\n\r\n\x05\x04\x0c\x02\x02\x03\
+    \x12\x04\xc4\x01\"#\n\x0c\n\x04\x04\x0c\x02\x03\x12\x04\xc5\x01\x04\"\n\
+    \r\n\x05\x04\x0c\x02\x03\x04\x12\x04\xc5\x01\x04\x0c\n\r\n\x05\x04\x0c\
+    \x02\x03\x05\x12\x04\xc5\x01\r\x13\n\r\n\x05\x04\x0c\x02\x03\x01\x12\x04\
+    \xc5\x01\x14\x1d\n\r\n\x05\x04\x0c\x02\x03\x03\x12\x04\xc5\x01\x20!\n\
+    \x0c\n\x04\x04\x0c\x02\x04\x12\x04\xc6\x01\x04&\n\r\n\x05\x04\x0c\x02\
+    \x04\x04\x12\x04\xc6\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\x04\x05\x12\x04\
+    \xc6\x01\r\x13\n\r\n\x05\x04\x0c\x02\x04\x01\x12\x04\xc6\x01\x14!\n\r\n\
+    \x05\x04\x0c\x02\x04\x03\x12\x04\xc6\x01$%\n\x0c\n\x04\x04\x0c\x02\x05\
+    \x12\x04\xc7\x01\x04&\n\r\n\x05\x04\x0c\x02\x05\x04\x12\x04\xc7\x01\x04\
+    \x0c\n\r\n\x05\x04\x0c\x02\x05\x05\x12\x04\xc7\x01\r\x13\n\r\n\x05\x04\
+    \x0c\x02\x05\x01\x12\x04\xc7\x01\x14!\n\r\n\x05\x04\x0c\x02\x05\x03\x12\
+    \x04\xc7\x01$%\n\x0c\n\x04\x04\x0c\x02\x06\x12\x04\xc8\x01\x04)\n\r\n\
+    \x05\x04\x0c\x02\x06\x04\x12\x04\xc8\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\
+    \x06\x05\x12\x04\xc8\x01\r\x13\n\r\n\x05\x04\x0c\x02\x06\x01\x12\x04\xc8\
+    \x01\x14$\n\r\n\x05\x04\x0c\x02\x06\x03\x12\x04\xc8\x01'(\n\x0c\n\x04\
+    \x04\x0c\x02\x07\x12\x04\xc9\x01\x04'\n\r\n\x05\x04\x0c\x02\x07\x04\x12\
+    \x04\xc9\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\x07\x05\x12\x04\xc9\x01\r\x13\
+    \n\r\n\x05\x04\x0c\x02\x07\x01\x12\x04\xc9\x01\x14\"\n\r\n\x05\x04\x0c\
+    \x02\x07\x03\x12\x04\xc9\x01%&\n\x0c\n\x04\x04\x0c\x02\x08\x12\x04\xca\
+    \x01\x04$\n\r\n\x05\x04\x0c\x02\x08\x04\x12\x04\xca\x01\x04\x0c\n\r\n\
+    \x05\x04\x0c\x02\x08\x05\x12\x04\xca\x01\r\x13\n\r\n\x05\x04\x0c\x02\x08\
+    \x01\x12\x04\xca\x01\x14\x1f\n\r\n\x05\x04\x0c\x02\x08\x03\x12\x04\xca\
+    \x01\"#\n\x0c\n\x04\x04\x0c\x02\t\x12\x04\xcb\x01\x040\n\r\n\x05\x04\x0c\
+    \x02\t\x04\x12\x04\xcb\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\t\x06\x12\x04\
+    \xcb\x01\r\x1e\n\r\n\x05\x04\x0c\x02\t\x01\x12\x04\xcb\x01\x1f*\n\r\n\
+    \x05\x04\x0c\x02\t\x03\x12\x04\xcb\x01-/\n\x0c\n\x04\x04\x0c\x02\n\x12\
+    \x04\xcc\x01\x04#\n\r\n\x05\x04\x0c\x02\n\x04\x12\x04\xcc\x01\x04\x0c\n\
+    \r\n\x05\x04\x0c\x02\n\x05\x12\x04\xcc\x01\r\x12\n\r\n\x05\x04\x0c\x02\n\
+    \x01\x12\x04\xcc\x01\x13\x1d\n\r\n\x05\x04\x0c\x02\n\x03\x12\x04\xcc\x01\
+    \x20\"\n\x0c\n\x04\x04\x0c\x02\x0b\x12\x04\xcd\x01\x04'\n\r\n\x05\x04\
+    \x0c\x02\x0b\x04\x12\x04\xcd\x01\x04\x0c\n\r\n\x05\x04\x0c\x02\x0b\x05\
+    \x12\x04\xcd\x01\r\x13\n\r\n\x05\x04\x0c\x02\x0b\x01\x12\x04\xcd\x01\x14\
+    !\n\r\n\x05\x04\x0c\x02\x0b\x03\x12\x04\xcd\x01$&\n\x87\x01\n\x04\x04\
+    \x0c\x04\0\x12\x06\xd0\x01\x04\xd4\x01\x05\x1aw\x20https://github.com/st\
+    ellar/stellar-core/blob/02d26858069de7c0eefe065056fb0a19bf72ea56/src/xdr\
+    /Stellar-types.x#L32-L37\n\n\r\n\x05\x04\x0c\x04\0\x01\x12\x04\xd0\x01\t\
+    \x1a\n\x0e\n\x06\x04\x0c\x04\0\x02\0\x12\x04\xd1\x01\x08\x14\n\x0f\n\x07\
+    \x04\x0c\x04\0\x02\0\x01\x12\x04\xd1\x01\x08\x0f\n\x0f\n\x07\x04\x0c\x04\
+    \0\x02\0\x02\x12\x04\xd1\x01\x12\x13\n\x0e\n\x06\x04\x0c\x04\0\x02\x01\
+    \x12\x04\xd2\x01\x08\x15\n\x0f\n\x07\x04\x0c\x04\0\x02\x01\x01\x12\x04\
+    \xd2\x01\x08\x10\n\x0f\n\x07\x04\x0c\x04\0\x02\x01\x02\x12\x04\xd2\x01\
+    \x13\x14\n\x0e\n\x06\x04\x0c\x04\0\x02\x02\x12\x04\xd3\x01\x08\x11\n\x0f\
+    \n\x07\x04\x0c\x04\0\x02\x02\x01\x12\x04\xd3\x01\x08\x0c\n\x0f\n\x07\x04\
+    \x0c\x04\0\x02\x02\x02\x12\x04\xd3\x01\x0f\x10\nu\n\x02\x04\r\x12\x06\
+    \xdc\x01\0\xe0\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\x20con\
+    firm\x20this\x20operation\x20type\n\x20@next\x20StellarTxOpRequest\n\x20\
+    @next\x20StellarSignedTx\n\n\x0b\n\x03\x04\r\x01\x12\x04\xdc\x01\x08\x1c\
+    \n1\n\x04\x04\r\x02\0\x12\x04\xdd\x01\x04'\"#\x20(optional)\x20source\
+    \x20account\x20address\n\n\r\n\x05\x04\r\x02\0\x04\x12\x04\xdd\x01\x04\
+    \x0c\n\r\n\x05\x04\r\x02\0\x05\x12\x04\xdd\x01\r\x13\n\r\n\x05\x04\r\x02\
+    \0\x01\x12\x04\xdd\x01\x14\"\n\r\n\x05\x04\r\x02\0\x03\x12\x04\xdd\x01%&\
+    \n\x0c\n\x04\x04\r\x02\x01\x12\x04\xde\x01\x04$\n\r\n\x05\x04\r\x02\x01\
+    \x04\x12\x04\xde\x01\x04\x0c\n\r\n\x05\x04\r\x02\x01\x06\x12\x04\xde\x01\
+    \r\x19\n\r\n\x05\x04\r\x02\x01\x01\x12\x04\xde\x01\x1a\x1f\n\r\n\x05\x04\
+    \r\x02\x01\x03\x12\x04\xde\x01\"#\n\x0c\n\x04\x04\r\x02\x02\x12\x04\xdf\
+    \x01\x04\x1e\n\r\n\x05\x04\r\x02\x02\x04\x12\x04\xdf\x01\x04\x0c\n\r\n\
+    \x05\x04\r\x02\x02\x05\x12\x04\xdf\x01\r\x13\n\r\n\x05\x04\r\x02\x02\x01\
+    \x12\x04\xdf\x01\x14\x19\n\r\n\x05\x04\r\x02\x02\x03\x12\x04\xdf\x01\x1c\
+    \x1d\nu\n\x02\x04\x0e\x12\x06\xe7\x01\0\xed\x01\x01\x1ag*\n\x20Request:\
+    \x20ask\x20device\x20to\x20confirm\x20this\x20operation\x20type\n\x20@ne\
+    xt\x20StellarTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\x0b\n\x03\x04\
+    \x0e\x01\x12\x04\xe7\x01\x08\x1b\n1\n\x04\x04\x0e\x02\0\x12\x04\xe8\x01\
+    \x04'\"#\x20(optional)\x20source\x20account\x20address\n\n\r\n\x05\x04\
+    \x0e\x02\0\x04\x12\x04\xe8\x01\x04\x0c\n\r\n\x05\x04\x0e\x02\0\x05\x12\
+    \x04\xe8\x01\r\x13\n\r\n\x05\x04\x0e\x02\0\x01\x12\x04\xe8\x01\x14\"\n\r\
+    \n\x05\x04\x0e\x02\0\x03\x12\x04\xe8\x01%&\n;\n\x04\x04\x0e\x02\x01\x12\
+    \x04\xe9\x01\x04(\"-\x20The\x20account\x20being\x20allowed\x20to\x20hold\
+    \x20the\x20asset\n\n\r\n\x05\x04\x0e\x02\x01\x04\x12\x04\xe9\x01\x04\x0c\
+    \n\r\n\x05\x04\x0e\x02\x01\x05\x12\x04\xe9\x01\r\x13\n\r\n\x05\x04\x0e\
+    \x02\x01\x01\x12\x04\xe9\x01\x14#\n\r\n\x05\x04\x0e\x02\x01\x03\x12\x04\
+    \xe9\x01&'\n\x0c\n\x04\x04\x0e\x02\x02\x12\x04\xea\x01\x04-\n\r\n\x05\
+    \x04\x0e\x02\x02\x04\x12\x04\xea\x01\x04\x0c\n\r\n\x05\x04\x0e\x02\x02\
+    \x06\x12\x04\xea\x01\r\x1d\n\r\n\x05\x04\x0e\x02\x02\x01\x12\x04\xea\x01\
+    \x1e(\n\r\n\x05\x04\x0e\x02\x02\x03\x12\x04\xea\x01+,\n)\n\x04\x04\x0e\
+    \x02\x03\x12\x04\xeb\x01\x04#\"\x1b\x20human-readable\x20asset\x20code\n\
+    \n\r\n\x05\x04\x0e\x02\x03\x04\x12\x04\xeb\x01\x04\x0c\n\r\n\x05\x04\x0e\
+    \x02\x03\x05\x12\x04\xeb\x01\r\x13\n\r\n\x05\x04\x0e\x02\x03\x01\x12\x04\
+    \xeb\x01\x14\x1e\n\r\n\x05\x04\x0e\x02\x03\x03\x12\x04\xeb\x01!\"\n\x0c\
+    \n\x04\x04\x0e\x02\x04\x12\x04\xec\x01\x04$\n\r\n\x05\x04\x0e\x02\x04\
+    \x04\x12\x04\xec\x01\x04\x0c\n\r\n\x05\x04\x0e\x02\x04\x05\x12\x04\xec\
+    \x01\r\x11\n\r\n\x05\x04\x0e\x02\x04\x01\x12\x04\xec\x01\x12\x1f\n\r\n\
+    \x05\x04\x0e\x02\x04\x03\x12\x04\xec\x01\"#\nu\n\x02\x04\x0f\x12\x06\xf4\
+    \x01\0\xf7\x01\x01\x1ag*\n\x20Request:\x20ask\x20device\x20to\x20confirm\
+    \x20this\x20operation\x20type\n\x20@next\x20StellarTxOpRequest\n\x20@nex\
+    t\x20StellarSignedTx\n\n\x0b\n\x03\x04\x0f\x01\x12\x04\xf4\x01\x08\x1d\n\
+    1\n\x04\x04\x0f\x02\0\x12\x04\xf5\x01\x04'\"#\x20(optional)\x20source\
+    \x20account\x20address\n\n\r\n\x05\x04\x0f\x02\0\x04\x12\x04\xf5\x01\x04\
+    \x0c\n\r\n\x05\x04\x0f\x02\0\x05\x12\x04\xf5\x01\r\x13\n\r\n\x05\x04\x0f\
+    \x02\0\x01\x12\x04\xf5\x01\x14\"\n\r\n\x05\x04\x0f\x02\0\x03\x12\x04\xf5\
+    \x01%&\n+\n\x04\x04\x0f\x02\x01\x12\x04\xf6\x01\x04,\"\x1d\x20destinatio\
+    n\x20account\x20address\n\n\r\n\x05\x04\x0f\x02\x01\x04\x12\x04\xf6\x01\
+    \x04\x0c\n\r\n\x05\x04\x0f\x02\x01\x05\x12\x04\xf6\x01\r\x13\n\r\n\x05\
+    \x04\x0f\x02\x01\x01\x12\x04\xf6\x01\x14'\n\r\n\x05\x04\x0f\x02\x01\x03\
+    \x12\x04\xf6\x01*+\nu\n\x02\x04\x10\x12\x06\xfe\x01\0\x82\x02\x01\x1ag*\
+    \n\x20Request:\x20ask\x20device\x20to\x20confirm\x20this\x20operation\
+    \x20type\n\x20@next\x20StellarTxOpRequest\n\x20@next\x20StellarSignedTx\
+    \n\n\x0b\n\x03\x04\x10\x01\x12\x04\xfe\x01\x08\x1b\n1\n\x04\x04\x10\x02\
+    \0\x12\x04\xff\x01\x04'\"#\x20(optional)\x20source\x20account\x20address\
+    \n\n\r\n\x05\x04\x10\x02\0\x04\x12\x04\xff\x01\x04\x0c\n\r\n\x05\x04\x10\
+    \x02\0\x05\x12\x04\xff\x01\r\x13\n\r\n\x05\x04\x10\x02\0\x01\x12\x04\xff\
+    \x01\x14\"\n\r\n\x05\x04\x10\x02\0\x03\x12\x04\xff\x01%&\n\x0c\n\x04\x04\
+    \x10\x02\x01\x12\x04\x80\x02\x04\x1c\n\r\n\x05\x04\x10\x02\x01\x04\x12\
+    \x04\x80\x02\x04\x0c\n\r\n\x05\x04\x10\x02\x01\x05\x12\x04\x80\x02\r\x13\
+    \n\r\n\x05\x04\x10\x02\x01\x01\x12\x04\x80\x02\x14\x17\n\r\n\x05\x04\x10\
+    \x02\x01\x03\x12\x04\x80\x02\x1a\x1b\n*\n\x04\x04\x10\x02\x02\x12\x04\
+    \x81\x02\x04\x1d\"\x1c\x2064\x20bytes\x20of\x20arbitrary\x20data\n\n\r\n\
+    \x05\x04\x10\x02\x02\x04\x12\x04\x81\x02\x04\x0c\n\r\n\x05\x04\x10\x02\
+    \x02\x05\x12\x04\x81\x02\r\x12\n\r\n\x05\x04\x10\x02\x02\x01\x12\x04\x81\
+    \x02\x13\x18\n\r\n\x05\x04\x10\x02\x02\x03\x12\x04\x81\x02\x1b\x1c\nu\n\
+    \x02\x04\x11\x12\x06\x89\x02\0\x8c\x02\x01\x1ag*\n\x20Request:\x20ask\
+    \x20device\x20to\x20confirm\x20this\x20operation\x20type\n\x20@next\x20S\
+    tellarTxOpRequest\n\x20@next\x20StellarSignedTx\n\n\x0b\n\x03\x04\x11\
+    \x01\x12\x04\x89\x02\x08\x1d\n1\n\x04\x04\x11\x02\0\x12\x04\x8a\x02\x04'\
+    \"#\x20(optional)\x20source\x20account\x20address\n\n\r\n\x05\x04\x11\
+    \x02\0\x04\x12\x04\x8a\x02\x04\x0c\n\r\n\x05\x04\x11\x02\0\x05\x12\x04\
+    \x8a\x02\r\x13\n\r\n\x05\x04\x11\x02\0\x01\x12\x04\x8a\x02\x14\"\n\r\n\
+    \x05\x04\x11\x02\0\x03\x12\x04\x8a\x02%&\n#\n\x04\x04\x11\x02\x01\x12\
+    \x04\x8b\x02\x04\x20\"\x15\x20new\x20sequence\x20number\n\n\r\n\x05\x04\
+    \x11\x02\x01\x04\x12\x04\x8b\x02\x04\x0c\n\r\n\x05\x04\x11\x02\x01\x05\
+    \x12\x04\x8b\x02\r\x13\n\r\n\x05\x04\x11\x02\x01\x01\x12\x04\x8b\x02\x14\
+    \x1b\n\r\n\x05\x04\x11\x02\x01\x03\x12\x04\x8b\x02\x1e\x1f\n;\n\x02\x04\
+    \x12\x12\x06\x92\x02\0\x95\x02\x01\x1a-*\n\x20Response:\x20signature\x20\
+    for\x20transaction\n\x20@end\n\n\x0b\n\x03\x04\x12\x01\x12\x04\x92\x02\
+    \x08\x17\n@\n\x04\x04\x12\x02\0\x12\x04\x93\x02\x04\"\"2\x20public\x20ke\
+    y\x20for\x20the\x20private\x20key\x20used\x20to\x20sign\x20data\n\n\r\n\
+    \x05\x04\x12\x02\0\x04\x12\x04\x93\x02\x04\x0c\n\r\n\x05\x04\x12\x02\0\
+    \x05\x12\x04\x93\x02\r\x12\n\r\n\x05\x04\x12\x02\0\x01\x12\x04\x93\x02\
+    \x13\x1d\n\r\n\x05\x04\x12\x02\0\x03\x12\x04\x93\x02\x20!\nE\n\x04\x04\
+    \x12\x02\x01\x12\x04\x94\x02\x04!\"7\x20signature\x20suitable\x20for\x20\
+    sending\x20to\x20the\x20Stellar\x20network\n\n\r\n\x05\x04\x12\x02\x01\
+    \x04\x12\x04\x94\x02\x04\x0c\n\r\n\x05\x04\x12\x02\x01\x05\x12\x04\x94\
+    \x02\r\x12\n\r\n\x05\x04\x12\x02\x01\x01\x12\x04\x94\x02\x13\x1c\n\r\n\
+    \x05\x04\x12\x02\x01\x03\x12\x04\x94\x02\x1f\x20\
 ";
 
 /// `FileDescriptorProto` object which was a source for this generated file
@@ -5379,17 +6634,19 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(0);
-            let mut messages = ::std::vec::Vec::with_capacity(17);
-            messages.push(StellarAssetType::generated_message_descriptor_data());
+            let mut messages = ::std::vec::Vec::with_capacity(19);
+            messages.push(StellarAsset::generated_message_descriptor_data());
             messages.push(StellarGetAddress::generated_message_descriptor_data());
             messages.push(StellarAddress::generated_message_descriptor_data());
             messages.push(StellarSignTx::generated_message_descriptor_data());
             messages.push(StellarTxOpRequest::generated_message_descriptor_data());
             messages.push(StellarPaymentOp::generated_message_descriptor_data());
             messages.push(StellarCreateAccountOp::generated_message_descriptor_data());
-            messages.push(StellarPathPaymentOp::generated_message_descriptor_data());
-            messages.push(StellarManageOfferOp::generated_message_descriptor_data());
-            messages.push(StellarCreatePassiveOfferOp::generated_message_descriptor_data());
+            messages.push(StellarPathPaymentStrictReceiveOp::generated_message_descriptor_data());
+            messages.push(StellarPathPaymentStrictSendOp::generated_message_descriptor_data());
+            messages.push(StellarManageSellOfferOp::generated_message_descriptor_data());
+            messages.push(StellarManageBuyOfferOp::generated_message_descriptor_data());
+            messages.push(StellarCreatePassiveSellOfferOp::generated_message_descriptor_data());
             messages.push(StellarSetOptionsOp::generated_message_descriptor_data());
             messages.push(StellarChangeTrustOp::generated_message_descriptor_data());
             messages.push(StellarAllowTrustOp::generated_message_descriptor_data());
@@ -5397,7 +6654,10 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
             messages.push(StellarManageDataOp::generated_message_descriptor_data());
             messages.push(StellarBumpSequenceOp::generated_message_descriptor_data());
             messages.push(StellarSignedTx::generated_message_descriptor_data());
-            let mut enums = ::std::vec::Vec::with_capacity(0);
+            let mut enums = ::std::vec::Vec::with_capacity(3);
+            enums.push(StellarAssetType::generated_enum_descriptor_data());
+            enums.push(stellar_sign_tx::StellarMemoType::generated_enum_descriptor_data());
+            enums.push(stellar_set_options_op::StellarSignerType::generated_enum_descriptor_data());
             ::protobuf::reflect::GeneratedFileDescriptor::new_generated(
                 file_descriptor_proto(),
                 deps,

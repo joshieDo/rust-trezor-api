@@ -28,17 +28,25 @@ const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_3_2_0;
 /// *
 ///  Request: "Press" the button on the device
 ///  @start
-///  @next Success
+///  @next DebugLinkLayout
 #[derive(PartialEq,Clone,Default,Debug)]
 // @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkDecision)
 pub struct DebugLinkDecision {
     // message fields
-    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.yes_no)
-    pub yes_no: ::std::option::Option<bool>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.up_down)
-    pub up_down: ::std::option::Option<bool>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.button)
+    pub button: ::std::option::Option<::protobuf::EnumOrUnknown<debug_link_decision::DebugButton>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.swipe)
+    pub swipe: ::std::option::Option<::protobuf::EnumOrUnknown<debug_link_decision::DebugSwipeDirection>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.input)
     pub input: ::std::option::Option<::std::string::String>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.x)
+    pub x: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.y)
+    pub y: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.wait)
+    pub wait: ::std::option::Option<bool>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkDecision.hold_ms)
+    pub hold_ms: ::std::option::Option<u32>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkDecision.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -55,42 +63,48 @@ impl DebugLinkDecision {
         ::std::default::Default::default()
     }
 
-    // optional bool yes_no = 1;
+    // optional .hw.trezor.messages.debug.DebugLinkDecision.DebugButton button = 1;
 
-    pub fn yes_no(&self) -> bool {
-        self.yes_no.unwrap_or(false)
+    pub fn button(&self) -> debug_link_decision::DebugButton {
+        match self.button {
+            Some(e) => e.enum_value_or(debug_link_decision::DebugButton::NO),
+            None => debug_link_decision::DebugButton::NO,
+        }
     }
 
-    pub fn clear_yes_no(&mut self) {
-        self.yes_no = ::std::option::Option::None;
+    pub fn clear_button(&mut self) {
+        self.button = ::std::option::Option::None;
     }
 
-    pub fn has_yes_no(&self) -> bool {
-        self.yes_no.is_some()
-    }
-
-    // Param is passed by value, moved
-    pub fn set_yes_no(&mut self, v: bool) {
-        self.yes_no = ::std::option::Option::Some(v);
-    }
-
-    // optional bool up_down = 2;
-
-    pub fn up_down(&self) -> bool {
-        self.up_down.unwrap_or(false)
-    }
-
-    pub fn clear_up_down(&mut self) {
-        self.up_down = ::std::option::Option::None;
-    }
-
-    pub fn has_up_down(&self) -> bool {
-        self.up_down.is_some()
+    pub fn has_button(&self) -> bool {
+        self.button.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_up_down(&mut self, v: bool) {
-        self.up_down = ::std::option::Option::Some(v);
+    pub fn set_button(&mut self, v: debug_link_decision::DebugButton) {
+        self.button = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
+    }
+
+    // optional .hw.trezor.messages.debug.DebugLinkDecision.DebugSwipeDirection swipe = 2;
+
+    pub fn swipe(&self) -> debug_link_decision::DebugSwipeDirection {
+        match self.swipe {
+            Some(e) => e.enum_value_or(debug_link_decision::DebugSwipeDirection::UP),
+            None => debug_link_decision::DebugSwipeDirection::UP,
+        }
+    }
+
+    pub fn clear_swipe(&mut self) {
+        self.swipe = ::std::option::Option::None;
+    }
+
+    pub fn has_swipe(&self) -> bool {
+        self.swipe.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_swipe(&mut self, v: debug_link_decision::DebugSwipeDirection) {
+        self.swipe = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
     }
 
     // optional string input = 3;
@@ -129,23 +143,119 @@ impl DebugLinkDecision {
         self.input.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
+    // optional uint32 x = 4;
+
+    pub fn x(&self) -> u32 {
+        self.x.unwrap_or(0)
+    }
+
+    pub fn clear_x(&mut self) {
+        self.x = ::std::option::Option::None;
+    }
+
+    pub fn has_x(&self) -> bool {
+        self.x.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_x(&mut self, v: u32) {
+        self.x = ::std::option::Option::Some(v);
+    }
+
+    // optional uint32 y = 5;
+
+    pub fn y(&self) -> u32 {
+        self.y.unwrap_or(0)
+    }
+
+    pub fn clear_y(&mut self) {
+        self.y = ::std::option::Option::None;
+    }
+
+    pub fn has_y(&self) -> bool {
+        self.y.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_y(&mut self, v: u32) {
+        self.y = ::std::option::Option::Some(v);
+    }
+
+    // optional bool wait = 6;
+
+    pub fn wait(&self) -> bool {
+        self.wait.unwrap_or(false)
+    }
+
+    pub fn clear_wait(&mut self) {
+        self.wait = ::std::option::Option::None;
+    }
+
+    pub fn has_wait(&self) -> bool {
+        self.wait.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_wait(&mut self, v: bool) {
+        self.wait = ::std::option::Option::Some(v);
+    }
+
+    // optional uint32 hold_ms = 7;
+
+    pub fn hold_ms(&self) -> u32 {
+        self.hold_ms.unwrap_or(0)
+    }
+
+    pub fn clear_hold_ms(&mut self) {
+        self.hold_ms = ::std::option::Option::None;
+    }
+
+    pub fn has_hold_ms(&self) -> bool {
+        self.hold_ms.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_hold_ms(&mut self, v: u32) {
+        self.hold_ms = ::std::option::Option::Some(v);
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(3);
+        let mut fields = ::std::vec::Vec::with_capacity(7);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "yes_no",
-            |m: &DebugLinkDecision| { &m.yes_no },
-            |m: &mut DebugLinkDecision| { &mut m.yes_no },
+            "button",
+            |m: &DebugLinkDecision| { &m.button },
+            |m: &mut DebugLinkDecision| { &mut m.button },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "up_down",
-            |m: &DebugLinkDecision| { &m.up_down },
-            |m: &mut DebugLinkDecision| { &mut m.up_down },
+            "swipe",
+            |m: &DebugLinkDecision| { &m.swipe },
+            |m: &mut DebugLinkDecision| { &mut m.swipe },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "input",
             |m: &DebugLinkDecision| { &m.input },
             |m: &mut DebugLinkDecision| { &mut m.input },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "x",
+            |m: &DebugLinkDecision| { &m.x },
+            |m: &mut DebugLinkDecision| { &mut m.x },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "y",
+            |m: &DebugLinkDecision| { &m.y },
+            |m: &mut DebugLinkDecision| { &mut m.y },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "wait",
+            |m: &DebugLinkDecision| { &m.wait },
+            |m: &mut DebugLinkDecision| { &mut m.wait },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "hold_ms",
+            |m: &DebugLinkDecision| { &m.hold_ms },
+            |m: &mut DebugLinkDecision| { &mut m.hold_ms },
         ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkDecision>(
             "DebugLinkDecision",
@@ -166,13 +276,25 @@ impl ::protobuf::Message for DebugLinkDecision {
         while let Some(tag) = is.read_raw_tag_or_eof()? {
             match tag {
                 8 => {
-                    self.yes_no = ::std::option::Option::Some(is.read_bool()?);
+                    self.button = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 16 => {
-                    self.up_down = ::std::option::Option::Some(is.read_bool()?);
+                    self.swipe = ::std::option::Option::Some(is.read_enum_or_unknown()?);
                 },
                 26 => {
                     self.input = ::std::option::Option::Some(is.read_string()?);
+                },
+                32 => {
+                    self.x = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                40 => {
+                    self.y = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                48 => {
+                    self.wait = ::std::option::Option::Some(is.read_bool()?);
+                },
+                56 => {
+                    self.hold_ms = ::std::option::Option::Some(is.read_uint32()?);
                 },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -186,14 +308,26 @@ impl ::protobuf::Message for DebugLinkDecision {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u64 {
         let mut my_size = 0;
-        if let Some(v) = self.yes_no {
-            my_size += 1 + 1;
+        if let Some(v) = self.button {
+            my_size += ::protobuf::rt::int32_size(1, v.value());
         }
-        if let Some(v) = self.up_down {
-            my_size += 1 + 1;
+        if let Some(v) = self.swipe {
+            my_size += ::protobuf::rt::int32_size(2, v.value());
         }
         if let Some(v) = self.input.as_ref() {
             my_size += ::protobuf::rt::string_size(3, &v);
+        }
+        if let Some(v) = self.x {
+            my_size += ::protobuf::rt::uint32_size(4, v);
+        }
+        if let Some(v) = self.y {
+            my_size += ::protobuf::rt::uint32_size(5, v);
+        }
+        if let Some(v) = self.wait {
+            my_size += 1 + 1;
+        }
+        if let Some(v) = self.hold_ms {
+            my_size += ::protobuf::rt::uint32_size(7, v);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
@@ -201,14 +335,26 @@ impl ::protobuf::Message for DebugLinkDecision {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
-        if let Some(v) = self.yes_no {
-            os.write_bool(1, v)?;
+        if let Some(v) = self.button {
+            os.write_enum(1, ::protobuf::EnumOrUnknown::value(&v))?;
         }
-        if let Some(v) = self.up_down {
-            os.write_bool(2, v)?;
+        if let Some(v) = self.swipe {
+            os.write_enum(2, ::protobuf::EnumOrUnknown::value(&v))?;
         }
         if let Some(v) = self.input.as_ref() {
             os.write_string(3, v)?;
+        }
+        if let Some(v) = self.x {
+            os.write_uint32(4, v)?;
+        }
+        if let Some(v) = self.y {
+            os.write_uint32(5, v)?;
+        }
+        if let Some(v) = self.wait {
+            os.write_bool(6, v)?;
+        }
+        if let Some(v) = self.hold_ms {
+            os.write_uint32(7, v)?;
         }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -227,17 +373,25 @@ impl ::protobuf::Message for DebugLinkDecision {
     }
 
     fn clear(&mut self) {
-        self.yes_no = ::std::option::Option::None;
-        self.up_down = ::std::option::Option::None;
+        self.button = ::std::option::Option::None;
+        self.swipe = ::std::option::Option::None;
         self.input = ::std::option::Option::None;
+        self.x = ::std::option::Option::None;
+        self.y = ::std::option::Option::None;
+        self.wait = ::std::option::Option::None;
+        self.hold_ms = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
     fn default_instance() -> &'static DebugLinkDecision {
         static instance: DebugLinkDecision = DebugLinkDecision {
-            yes_no: ::std::option::Option::None,
-            up_down: ::std::option::Option::None,
+            button: ::std::option::Option::None,
+            swipe: ::std::option::Option::None,
             input: ::std::option::Option::None,
+            x: ::std::option::Option::None,
+            y: ::std::option::Option::None,
+            wait: ::std::option::Option::None,
+            hold_ms: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -261,6 +415,602 @@ impl ::protobuf::reflect::ProtobufValue for DebugLinkDecision {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
+/// Nested message and enums of message `DebugLinkDecision`
+pub mod debug_link_decision {
+    /// *
+    ///  Structure representing swipe direction
+    #[derive(Clone,Copy,PartialEq,Eq,Debug,Hash)]
+    // @@protoc_insertion_point(enum:hw.trezor.messages.debug.DebugLinkDecision.DebugSwipeDirection)
+    pub enum DebugSwipeDirection {
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.debug.DebugLinkDecision.DebugSwipeDirection.UP)
+        UP = 0,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.debug.DebugLinkDecision.DebugSwipeDirection.DOWN)
+        DOWN = 1,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.debug.DebugLinkDecision.DebugSwipeDirection.LEFT)
+        LEFT = 2,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.debug.DebugLinkDecision.DebugSwipeDirection.RIGHT)
+        RIGHT = 3,
+    }
+
+    impl ::protobuf::Enum for DebugSwipeDirection {
+        const NAME: &'static str = "DebugSwipeDirection";
+
+        fn value(&self) -> i32 {
+            *self as i32
+        }
+
+        fn from_i32(value: i32) -> ::std::option::Option<DebugSwipeDirection> {
+            match value {
+                0 => ::std::option::Option::Some(DebugSwipeDirection::UP),
+                1 => ::std::option::Option::Some(DebugSwipeDirection::DOWN),
+                2 => ::std::option::Option::Some(DebugSwipeDirection::LEFT),
+                3 => ::std::option::Option::Some(DebugSwipeDirection::RIGHT),
+                _ => ::std::option::Option::None
+            }
+        }
+
+        const VALUES: &'static [DebugSwipeDirection] = &[
+            DebugSwipeDirection::UP,
+            DebugSwipeDirection::DOWN,
+            DebugSwipeDirection::LEFT,
+            DebugSwipeDirection::RIGHT,
+        ];
+    }
+
+    impl ::protobuf::EnumFull for DebugSwipeDirection {
+        fn enum_descriptor() -> ::protobuf::reflect::EnumDescriptor {
+            static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::Lazy::new();
+            descriptor.get(|| super::file_descriptor().enum_by_package_relative_name("DebugLinkDecision.DebugSwipeDirection").unwrap()).clone()
+        }
+
+        fn descriptor(&self) -> ::protobuf::reflect::EnumValueDescriptor {
+            let index = *self as usize;
+            Self::enum_descriptor().value_by_index(index)
+        }
+    }
+
+    impl ::std::default::Default for DebugSwipeDirection {
+        fn default() -> Self {
+            DebugSwipeDirection::UP
+        }
+    }
+
+    impl DebugSwipeDirection {
+        pub(in super) fn generated_enum_descriptor_data() -> ::protobuf::reflect::GeneratedEnumDescriptorData {
+            ::protobuf::reflect::GeneratedEnumDescriptorData::new::<DebugSwipeDirection>("DebugLinkDecision.DebugSwipeDirection")
+        }
+    }
+
+    /// *
+    ///  Structure representing button presses
+    #[derive(Clone,Copy,PartialEq,Eq,Debug,Hash)]
+    // @@protoc_insertion_point(enum:hw.trezor.messages.debug.DebugLinkDecision.DebugButton)
+    pub enum DebugButton {
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.debug.DebugLinkDecision.DebugButton.NO)
+        NO = 0,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.debug.DebugLinkDecision.DebugButton.YES)
+        YES = 1,
+        // @@protoc_insertion_point(enum_value:hw.trezor.messages.debug.DebugLinkDecision.DebugButton.INFO)
+        INFO = 2,
+    }
+
+    impl ::protobuf::Enum for DebugButton {
+        const NAME: &'static str = "DebugButton";
+
+        fn value(&self) -> i32 {
+            *self as i32
+        }
+
+        fn from_i32(value: i32) -> ::std::option::Option<DebugButton> {
+            match value {
+                0 => ::std::option::Option::Some(DebugButton::NO),
+                1 => ::std::option::Option::Some(DebugButton::YES),
+                2 => ::std::option::Option::Some(DebugButton::INFO),
+                _ => ::std::option::Option::None
+            }
+        }
+
+        const VALUES: &'static [DebugButton] = &[
+            DebugButton::NO,
+            DebugButton::YES,
+            DebugButton::INFO,
+        ];
+    }
+
+    impl ::protobuf::EnumFull for DebugButton {
+        fn enum_descriptor() -> ::protobuf::reflect::EnumDescriptor {
+            static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::Lazy::new();
+            descriptor.get(|| super::file_descriptor().enum_by_package_relative_name("DebugLinkDecision.DebugButton").unwrap()).clone()
+        }
+
+        fn descriptor(&self) -> ::protobuf::reflect::EnumValueDescriptor {
+            let index = *self as usize;
+            Self::enum_descriptor().value_by_index(index)
+        }
+    }
+
+    impl ::std::default::Default for DebugButton {
+        fn default() -> Self {
+            DebugButton::NO
+        }
+    }
+
+    impl DebugButton {
+        pub(in super) fn generated_enum_descriptor_data() -> ::protobuf::reflect::GeneratedEnumDescriptorData {
+            ::protobuf::reflect::GeneratedEnumDescriptorData::new::<DebugButton>("DebugLinkDecision.DebugButton")
+        }
+    }
+}
+
+/// *
+///  Response: Device text layout as a list of tokens as returned by Rust
+///  @end
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkLayout)
+pub struct DebugLinkLayout {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkLayout.tokens)
+    pub tokens: ::std::vec::Vec<::std::string::String>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkLayout.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a DebugLinkLayout {
+    fn default() -> &'a DebugLinkLayout {
+        <DebugLinkLayout as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl DebugLinkLayout {
+    pub fn new() -> DebugLinkLayout {
+        ::std::default::Default::default()
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(1);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
+            "tokens",
+            |m: &DebugLinkLayout| { &m.tokens },
+            |m: &mut DebugLinkLayout| { &mut m.tokens },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkLayout>(
+            "DebugLinkLayout",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for DebugLinkLayout {
+    const NAME: &'static str = "DebugLinkLayout";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    self.tokens.push(is.read_string()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        for value in &self.tokens {
+            my_size += ::protobuf::rt::string_size(1, &value);
+        };
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        for v in &self.tokens {
+            os.write_string(1, &v)?;
+        };
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> DebugLinkLayout {
+        DebugLinkLayout::new()
+    }
+
+    fn clear(&mut self) {
+        self.tokens.clear();
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static DebugLinkLayout {
+        static instance: DebugLinkLayout = DebugLinkLayout {
+            tokens: ::std::vec::Vec::new(),
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for DebugLinkLayout {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("DebugLinkLayout").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for DebugLinkLayout {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for DebugLinkLayout {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Re-seed RNG with given value
+///  @start
+///  @next Success
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkReseedRandom)
+pub struct DebugLinkReseedRandom {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkReseedRandom.value)
+    pub value: ::std::option::Option<u32>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkReseedRandom.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a DebugLinkReseedRandom {
+    fn default() -> &'a DebugLinkReseedRandom {
+        <DebugLinkReseedRandom as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl DebugLinkReseedRandom {
+    pub fn new() -> DebugLinkReseedRandom {
+        ::std::default::Default::default()
+    }
+
+    // optional uint32 value = 1;
+
+    pub fn value(&self) -> u32 {
+        self.value.unwrap_or(0)
+    }
+
+    pub fn clear_value(&mut self) {
+        self.value = ::std::option::Option::None;
+    }
+
+    pub fn has_value(&self) -> bool {
+        self.value.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_value(&mut self, v: u32) {
+        self.value = ::std::option::Option::Some(v);
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(1);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "value",
+            |m: &DebugLinkReseedRandom| { &m.value },
+            |m: &mut DebugLinkReseedRandom| { &mut m.value },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkReseedRandom>(
+            "DebugLinkReseedRandom",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for DebugLinkReseedRandom {
+    const NAME: &'static str = "DebugLinkReseedRandom";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                8 => {
+                    self.value = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.value {
+            my_size += ::protobuf::rt::uint32_size(1, v);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.value {
+            os.write_uint32(1, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> DebugLinkReseedRandom {
+        DebugLinkReseedRandom::new()
+    }
+
+    fn clear(&mut self) {
+        self.value = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static DebugLinkReseedRandom {
+        static instance: DebugLinkReseedRandom = DebugLinkReseedRandom {
+            value: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for DebugLinkReseedRandom {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("DebugLinkReseedRandom").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for DebugLinkReseedRandom {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for DebugLinkReseedRandom {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Start or stop recording screen changes into given target directory
+///  @start
+///  @next Success
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkRecordScreen)
+pub struct DebugLinkRecordScreen {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkRecordScreen.target_directory)
+    pub target_directory: ::std::option::Option<::std::string::String>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkRecordScreen.refresh_index)
+    pub refresh_index: ::std::option::Option<u32>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkRecordScreen.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a DebugLinkRecordScreen {
+    fn default() -> &'a DebugLinkRecordScreen {
+        <DebugLinkRecordScreen as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl DebugLinkRecordScreen {
+    pub fn new() -> DebugLinkRecordScreen {
+        ::std::default::Default::default()
+    }
+
+    // optional string target_directory = 1;
+
+    pub fn target_directory(&self) -> &str {
+        match self.target_directory.as_ref() {
+            Some(v) => v,
+            None => "",
+        }
+    }
+
+    pub fn clear_target_directory(&mut self) {
+        self.target_directory = ::std::option::Option::None;
+    }
+
+    pub fn has_target_directory(&self) -> bool {
+        self.target_directory.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_target_directory(&mut self, v: ::std::string::String) {
+        self.target_directory = ::std::option::Option::Some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_target_directory(&mut self) -> &mut ::std::string::String {
+        if self.target_directory.is_none() {
+            self.target_directory = ::std::option::Option::Some(::std::string::String::new());
+        }
+        self.target_directory.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_target_directory(&mut self) -> ::std::string::String {
+        self.target_directory.take().unwrap_or_else(|| ::std::string::String::new())
+    }
+
+    // optional uint32 refresh_index = 2;
+
+    pub fn refresh_index(&self) -> u32 {
+        self.refresh_index.unwrap_or(0u32)
+    }
+
+    pub fn clear_refresh_index(&mut self) {
+        self.refresh_index = ::std::option::Option::None;
+    }
+
+    pub fn has_refresh_index(&self) -> bool {
+        self.refresh_index.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_refresh_index(&mut self, v: u32) {
+        self.refresh_index = ::std::option::Option::Some(v);
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(2);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "target_directory",
+            |m: &DebugLinkRecordScreen| { &m.target_directory },
+            |m: &mut DebugLinkRecordScreen| { &mut m.target_directory },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "refresh_index",
+            |m: &DebugLinkRecordScreen| { &m.refresh_index },
+            |m: &mut DebugLinkRecordScreen| { &mut m.refresh_index },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkRecordScreen>(
+            "DebugLinkRecordScreen",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for DebugLinkRecordScreen {
+    const NAME: &'static str = "DebugLinkRecordScreen";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                10 => {
+                    self.target_directory = ::std::option::Option::Some(is.read_string()?);
+                },
+                16 => {
+                    self.refresh_index = ::std::option::Option::Some(is.read_uint32()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.target_directory.as_ref() {
+            my_size += ::protobuf::rt::string_size(1, &v);
+        }
+        if let Some(v) = self.refresh_index {
+            my_size += ::protobuf::rt::uint32_size(2, v);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.target_directory.as_ref() {
+            os.write_string(1, v)?;
+        }
+        if let Some(v) = self.refresh_index {
+            os.write_uint32(2, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> DebugLinkRecordScreen {
+        DebugLinkRecordScreen::new()
+    }
+
+    fn clear(&mut self) {
+        self.target_directory = ::std::option::Option::None;
+        self.refresh_index = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static DebugLinkRecordScreen {
+        static instance: DebugLinkRecordScreen = DebugLinkRecordScreen {
+            target_directory: ::std::option::Option::None,
+            refresh_index: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for DebugLinkRecordScreen {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("DebugLinkRecordScreen").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for DebugLinkRecordScreen {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for DebugLinkRecordScreen {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
 /// *
 ///  Request: Computer asks for device state
 ///  @start
@@ -268,6 +1018,13 @@ impl ::protobuf::reflect::ProtobufValue for DebugLinkDecision {
 #[derive(PartialEq,Clone,Default,Debug)]
 // @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkGetState)
 pub struct DebugLinkGetState {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkGetState.wait_word_list)
+    pub wait_word_list: ::std::option::Option<bool>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkGetState.wait_word_pos)
+    pub wait_word_pos: ::std::option::Option<bool>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkGetState.wait_layout)
+    pub wait_layout: ::std::option::Option<bool>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkGetState.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -284,9 +1041,81 @@ impl DebugLinkGetState {
         ::std::default::Default::default()
     }
 
+    // optional bool wait_word_list = 1;
+
+    pub fn wait_word_list(&self) -> bool {
+        self.wait_word_list.unwrap_or(false)
+    }
+
+    pub fn clear_wait_word_list(&mut self) {
+        self.wait_word_list = ::std::option::Option::None;
+    }
+
+    pub fn has_wait_word_list(&self) -> bool {
+        self.wait_word_list.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_wait_word_list(&mut self, v: bool) {
+        self.wait_word_list = ::std::option::Option::Some(v);
+    }
+
+    // optional bool wait_word_pos = 2;
+
+    pub fn wait_word_pos(&self) -> bool {
+        self.wait_word_pos.unwrap_or(false)
+    }
+
+    pub fn clear_wait_word_pos(&mut self) {
+        self.wait_word_pos = ::std::option::Option::None;
+    }
+
+    pub fn has_wait_word_pos(&self) -> bool {
+        self.wait_word_pos.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_wait_word_pos(&mut self, v: bool) {
+        self.wait_word_pos = ::std::option::Option::Some(v);
+    }
+
+    // optional bool wait_layout = 3;
+
+    pub fn wait_layout(&self) -> bool {
+        self.wait_layout.unwrap_or(false)
+    }
+
+    pub fn clear_wait_layout(&mut self) {
+        self.wait_layout = ::std::option::Option::None;
+    }
+
+    pub fn has_wait_layout(&self) -> bool {
+        self.wait_layout.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_wait_layout(&mut self, v: bool) {
+        self.wait_layout = ::std::option::Option::Some(v);
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(0);
+        let mut fields = ::std::vec::Vec::with_capacity(3);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "wait_word_list",
+            |m: &DebugLinkGetState| { &m.wait_word_list },
+            |m: &mut DebugLinkGetState| { &mut m.wait_word_list },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "wait_word_pos",
+            |m: &DebugLinkGetState| { &m.wait_word_pos },
+            |m: &mut DebugLinkGetState| { &mut m.wait_word_pos },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "wait_layout",
+            |m: &DebugLinkGetState| { &m.wait_layout },
+            |m: &mut DebugLinkGetState| { &mut m.wait_layout },
+        ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkGetState>(
             "DebugLinkGetState",
             fields,
@@ -305,6 +1134,15 @@ impl ::protobuf::Message for DebugLinkGetState {
     fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
         while let Some(tag) = is.read_raw_tag_or_eof()? {
             match tag {
+                8 => {
+                    self.wait_word_list = ::std::option::Option::Some(is.read_bool()?);
+                },
+                16 => {
+                    self.wait_word_pos = ::std::option::Option::Some(is.read_bool()?);
+                },
+                24 => {
+                    self.wait_layout = ::std::option::Option::Some(is.read_bool()?);
+                },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
                 },
@@ -317,12 +1155,30 @@ impl ::protobuf::Message for DebugLinkGetState {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u64 {
         let mut my_size = 0;
+        if let Some(v) = self.wait_word_list {
+            my_size += 1 + 1;
+        }
+        if let Some(v) = self.wait_word_pos {
+            my_size += 1 + 1;
+        }
+        if let Some(v) = self.wait_layout {
+            my_size += 1 + 1;
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.wait_word_list {
+            os.write_bool(1, v)?;
+        }
+        if let Some(v) = self.wait_word_pos {
+            os.write_bool(2, v)?;
+        }
+        if let Some(v) = self.wait_layout {
+            os.write_bool(3, v)?;
+        }
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
     }
@@ -340,11 +1196,17 @@ impl ::protobuf::Message for DebugLinkGetState {
     }
 
     fn clear(&mut self) {
+        self.wait_word_list = ::std::option::Option::None;
+        self.wait_word_pos = ::std::option::Option::None;
+        self.wait_layout = ::std::option::Option::None;
         self.special_fields.clear();
     }
 
     fn default_instance() -> &'static DebugLinkGetState {
         static instance: DebugLinkGetState = DebugLinkGetState {
+            wait_word_list: ::std::option::Option::None,
+            wait_word_pos: ::std::option::Option::None,
+            wait_layout: ::std::option::Option::None,
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -381,8 +1243,8 @@ pub struct DebugLinkState {
     pub pin: ::std::option::Option<::std::string::String>,
     // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.matrix)
     pub matrix: ::std::option::Option<::std::string::String>,
-    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.mnemonic)
-    pub mnemonic: ::std::option::Option<::std::string::String>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.mnemonic_secret)
+    pub mnemonic_secret: ::std::option::Option<::std::vec::Vec<u8>>,
     // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.node)
     pub node: ::protobuf::MessageField<super::messages_common::HDNodeType>,
     // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.passphrase_protection)
@@ -397,6 +1259,10 @@ pub struct DebugLinkState {
     pub recovery_word_pos: ::std::option::Option<u32>,
     // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.reset_word_pos)
     pub reset_word_pos: ::std::option::Option<u32>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.mnemonic_type)
+    pub mnemonic_type: ::std::option::Option<::protobuf::EnumOrUnknown<super::messages_management::BackupType>>,
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkState.tokens)
+    pub tokens: ::std::vec::Vec<::std::string::String>,
     // special fields
     // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkState.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -521,40 +1387,40 @@ impl DebugLinkState {
         self.matrix.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    // optional string mnemonic = 4;
+    // optional bytes mnemonic_secret = 4;
 
-    pub fn mnemonic(&self) -> &str {
-        match self.mnemonic.as_ref() {
+    pub fn mnemonic_secret(&self) -> &[u8] {
+        match self.mnemonic_secret.as_ref() {
             Some(v) => v,
-            None => "",
+            None => &[],
         }
     }
 
-    pub fn clear_mnemonic(&mut self) {
-        self.mnemonic = ::std::option::Option::None;
+    pub fn clear_mnemonic_secret(&mut self) {
+        self.mnemonic_secret = ::std::option::Option::None;
     }
 
-    pub fn has_mnemonic(&self) -> bool {
-        self.mnemonic.is_some()
+    pub fn has_mnemonic_secret(&self) -> bool {
+        self.mnemonic_secret.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_mnemonic(&mut self, v: ::std::string::String) {
-        self.mnemonic = ::std::option::Option::Some(v);
+    pub fn set_mnemonic_secret(&mut self, v: ::std::vec::Vec<u8>) {
+        self.mnemonic_secret = ::std::option::Option::Some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_mnemonic(&mut self) -> &mut ::std::string::String {
-        if self.mnemonic.is_none() {
-            self.mnemonic = ::std::option::Option::Some(::std::string::String::new());
+    pub fn mut_mnemonic_secret(&mut self) -> &mut ::std::vec::Vec<u8> {
+        if self.mnemonic_secret.is_none() {
+            self.mnemonic_secret = ::std::option::Option::Some(::std::vec::Vec::new());
         }
-        self.mnemonic.as_mut().unwrap()
+        self.mnemonic_secret.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_mnemonic(&mut self) -> ::std::string::String {
-        self.mnemonic.take().unwrap_or_else(|| ::std::string::String::new())
+    pub fn take_mnemonic_secret(&mut self) -> ::std::vec::Vec<u8> {
+        self.mnemonic_secret.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     // optional bool passphrase_protection = 6;
@@ -722,8 +1588,30 @@ impl DebugLinkState {
         self.reset_word_pos = ::std::option::Option::Some(v);
     }
 
+    // optional .hw.trezor.messages.management.BackupType mnemonic_type = 12;
+
+    pub fn mnemonic_type(&self) -> super::messages_management::BackupType {
+        match self.mnemonic_type {
+            Some(e) => e.enum_value_or(super::messages_management::BackupType::Bip39),
+            None => super::messages_management::BackupType::Bip39,
+        }
+    }
+
+    pub fn clear_mnemonic_type(&mut self) {
+        self.mnemonic_type = ::std::option::Option::None;
+    }
+
+    pub fn has_mnemonic_type(&self) -> bool {
+        self.mnemonic_type.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_mnemonic_type(&mut self, v: super::messages_management::BackupType) {
+        self.mnemonic_type = ::std::option::Option::Some(::protobuf::EnumOrUnknown::new(v));
+    }
+
     fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-        let mut fields = ::std::vec::Vec::with_capacity(11);
+        let mut fields = ::std::vec::Vec::with_capacity(13);
         let mut oneofs = ::std::vec::Vec::with_capacity(0);
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
             "layout",
@@ -741,9 +1629,9 @@ impl DebugLinkState {
             |m: &mut DebugLinkState| { &mut m.matrix },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
-            "mnemonic",
-            |m: &DebugLinkState| { &m.mnemonic },
-            |m: &mut DebugLinkState| { &mut m.mnemonic },
+            "mnemonic_secret",
+            |m: &DebugLinkState| { &m.mnemonic_secret },
+            |m: &mut DebugLinkState| { &mut m.mnemonic_secret },
         ));
         fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, super::messages_common::HDNodeType>(
             "node",
@@ -780,6 +1668,16 @@ impl DebugLinkState {
             |m: &DebugLinkState| { &m.reset_word_pos },
             |m: &mut DebugLinkState| { &mut m.reset_word_pos },
         ));
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "mnemonic_type",
+            |m: &DebugLinkState| { &m.mnemonic_type },
+            |m: &mut DebugLinkState| { &mut m.mnemonic_type },
+        ));
+        fields.push(::protobuf::reflect::rt::v2::make_vec_simpler_accessor::<_, _>(
+            "tokens",
+            |m: &DebugLinkState| { &m.tokens },
+            |m: &mut DebugLinkState| { &mut m.tokens },
+        ));
         ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkState>(
             "DebugLinkState",
             fields,
@@ -813,7 +1711,7 @@ impl ::protobuf::Message for DebugLinkState {
                     self.matrix = ::std::option::Option::Some(is.read_string()?);
                 },
                 34 => {
-                    self.mnemonic = ::std::option::Option::Some(is.read_string()?);
+                    self.mnemonic_secret = ::std::option::Option::Some(is.read_bytes()?);
                 },
                 42 => {
                     ::protobuf::rt::read_singular_message_into_field(is, &mut self.node)?;
@@ -836,6 +1734,12 @@ impl ::protobuf::Message for DebugLinkState {
                 88 => {
                     self.reset_word_pos = ::std::option::Option::Some(is.read_uint32()?);
                 },
+                96 => {
+                    self.mnemonic_type = ::std::option::Option::Some(is.read_enum_or_unknown()?);
+                },
+                106 => {
+                    self.tokens.push(is.read_string()?);
+                },
                 tag => {
                     ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
                 },
@@ -857,8 +1761,8 @@ impl ::protobuf::Message for DebugLinkState {
         if let Some(v) = self.matrix.as_ref() {
             my_size += ::protobuf::rt::string_size(3, &v);
         }
-        if let Some(v) = self.mnemonic.as_ref() {
-            my_size += ::protobuf::rt::string_size(4, &v);
+        if let Some(v) = self.mnemonic_secret.as_ref() {
+            my_size += ::protobuf::rt::bytes_size(4, &v);
         }
         if let Some(v) = self.node.as_ref() {
             let len = v.compute_size();
@@ -882,6 +1786,12 @@ impl ::protobuf::Message for DebugLinkState {
         if let Some(v) = self.reset_word_pos {
             my_size += ::protobuf::rt::uint32_size(11, v);
         }
+        if let Some(v) = self.mnemonic_type {
+            my_size += ::protobuf::rt::int32_size(12, v.value());
+        }
+        for value in &self.tokens {
+            my_size += ::protobuf::rt::string_size(13, &value);
+        };
         my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
         self.special_fields.cached_size().set(my_size as u32);
         my_size
@@ -897,8 +1807,8 @@ impl ::protobuf::Message for DebugLinkState {
         if let Some(v) = self.matrix.as_ref() {
             os.write_string(3, v)?;
         }
-        if let Some(v) = self.mnemonic.as_ref() {
-            os.write_string(4, v)?;
+        if let Some(v) = self.mnemonic_secret.as_ref() {
+            os.write_bytes(4, v)?;
         }
         if let Some(v) = self.node.as_ref() {
             ::protobuf::rt::write_message_field_with_cached_size(5, v, os)?;
@@ -921,6 +1831,12 @@ impl ::protobuf::Message for DebugLinkState {
         if let Some(v) = self.reset_word_pos {
             os.write_uint32(11, v)?;
         }
+        if let Some(v) = self.mnemonic_type {
+            os.write_enum(12, ::protobuf::EnumOrUnknown::value(&v))?;
+        }
+        for v in &self.tokens {
+            os.write_string(13, &v)?;
+        };
         os.write_unknown_fields(self.special_fields.unknown_fields())?;
         ::std::result::Result::Ok(())
     }
@@ -941,7 +1857,7 @@ impl ::protobuf::Message for DebugLinkState {
         self.layout = ::std::option::Option::None;
         self.pin = ::std::option::Option::None;
         self.matrix = ::std::option::Option::None;
-        self.mnemonic = ::std::option::Option::None;
+        self.mnemonic_secret = ::std::option::Option::None;
         self.node.clear();
         self.passphrase_protection = ::std::option::Option::None;
         self.reset_word = ::std::option::Option::None;
@@ -949,6 +1865,8 @@ impl ::protobuf::Message for DebugLinkState {
         self.recovery_fake_word = ::std::option::Option::None;
         self.recovery_word_pos = ::std::option::Option::None;
         self.reset_word_pos = ::std::option::Option::None;
+        self.mnemonic_type = ::std::option::Option::None;
+        self.tokens.clear();
         self.special_fields.clear();
     }
 
@@ -957,7 +1875,7 @@ impl ::protobuf::Message for DebugLinkState {
             layout: ::std::option::Option::None,
             pin: ::std::option::Option::None,
             matrix: ::std::option::Option::None,
-            mnemonic: ::std::option::Option::None,
+            mnemonic_secret: ::std::option::Option::None,
             node: ::protobuf::MessageField::none(),
             passphrase_protection: ::std::option::Option::None,
             reset_word: ::std::option::Option::None,
@@ -965,6 +1883,8 @@ impl ::protobuf::Message for DebugLinkState {
             recovery_fake_word: ::std::option::Option::None,
             recovery_word_pos: ::std::option::Option::None,
             reset_word_pos: ::std::option::Option::None,
+            mnemonic_type: ::std::option::Option::None,
+            tokens: ::std::vec::Vec::new(),
             special_fields: ::protobuf::SpecialFields::new(),
         };
         &instance
@@ -2074,152 +2994,672 @@ impl ::protobuf::reflect::ProtobufValue for DebugLinkFlashErase {
     type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
 }
 
+/// *
+///  Request: Erase the SD card
+///  @start
+///  @next Success
+///  @next Failure
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkEraseSdCard)
+pub struct DebugLinkEraseSdCard {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkEraseSdCard.format)
+    pub format: ::std::option::Option<bool>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkEraseSdCard.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a DebugLinkEraseSdCard {
+    fn default() -> &'a DebugLinkEraseSdCard {
+        <DebugLinkEraseSdCard as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl DebugLinkEraseSdCard {
+    pub fn new() -> DebugLinkEraseSdCard {
+        ::std::default::Default::default()
+    }
+
+    // optional bool format = 1;
+
+    pub fn format(&self) -> bool {
+        self.format.unwrap_or(false)
+    }
+
+    pub fn clear_format(&mut self) {
+        self.format = ::std::option::Option::None;
+    }
+
+    pub fn has_format(&self) -> bool {
+        self.format.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_format(&mut self, v: bool) {
+        self.format = ::std::option::Option::Some(v);
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(1);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "format",
+            |m: &DebugLinkEraseSdCard| { &m.format },
+            |m: &mut DebugLinkEraseSdCard| { &mut m.format },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkEraseSdCard>(
+            "DebugLinkEraseSdCard",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for DebugLinkEraseSdCard {
+    const NAME: &'static str = "DebugLinkEraseSdCard";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                8 => {
+                    self.format = ::std::option::Option::Some(is.read_bool()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.format {
+            my_size += 1 + 1;
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.format {
+            os.write_bool(1, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> DebugLinkEraseSdCard {
+        DebugLinkEraseSdCard::new()
+    }
+
+    fn clear(&mut self) {
+        self.format = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static DebugLinkEraseSdCard {
+        static instance: DebugLinkEraseSdCard = DebugLinkEraseSdCard {
+            format: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for DebugLinkEraseSdCard {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("DebugLinkEraseSdCard").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for DebugLinkEraseSdCard {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for DebugLinkEraseSdCard {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Start or stop tracking layout changes
+///  @start
+///  @next Success
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkWatchLayout)
+pub struct DebugLinkWatchLayout {
+    // message fields
+    // @@protoc_insertion_point(field:hw.trezor.messages.debug.DebugLinkWatchLayout.watch)
+    pub watch: ::std::option::Option<bool>,
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkWatchLayout.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a DebugLinkWatchLayout {
+    fn default() -> &'a DebugLinkWatchLayout {
+        <DebugLinkWatchLayout as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl DebugLinkWatchLayout {
+    pub fn new() -> DebugLinkWatchLayout {
+        ::std::default::Default::default()
+    }
+
+    // optional bool watch = 1;
+
+    pub fn watch(&self) -> bool {
+        self.watch.unwrap_or(false)
+    }
+
+    pub fn clear_watch(&mut self) {
+        self.watch = ::std::option::Option::None;
+    }
+
+    pub fn has_watch(&self) -> bool {
+        self.watch.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_watch(&mut self, v: bool) {
+        self.watch = ::std::option::Option::Some(v);
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(1);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+            "watch",
+            |m: &DebugLinkWatchLayout| { &m.watch },
+            |m: &mut DebugLinkWatchLayout| { &mut m.watch },
+        ));
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkWatchLayout>(
+            "DebugLinkWatchLayout",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for DebugLinkWatchLayout {
+    const NAME: &'static str = "DebugLinkWatchLayout";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                8 => {
+                    self.watch = ::std::option::Option::Some(is.read_bool()?);
+                },
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        if let Some(v) = self.watch {
+            my_size += 1 + 1;
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        if let Some(v) = self.watch {
+            os.write_bool(1, v)?;
+        }
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> DebugLinkWatchLayout {
+        DebugLinkWatchLayout::new()
+    }
+
+    fn clear(&mut self) {
+        self.watch = ::std::option::Option::None;
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static DebugLinkWatchLayout {
+        static instance: DebugLinkWatchLayout = DebugLinkWatchLayout {
+            watch: ::std::option::Option::None,
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for DebugLinkWatchLayout {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("DebugLinkWatchLayout").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for DebugLinkWatchLayout {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for DebugLinkWatchLayout {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
+/// *
+///  Request: Remove all the previous debug event state
+///  @start
+///  @next Success
+#[derive(PartialEq,Clone,Default,Debug)]
+// @@protoc_insertion_point(message:hw.trezor.messages.debug.DebugLinkResetDebugEvents)
+pub struct DebugLinkResetDebugEvents {
+    // special fields
+    // @@protoc_insertion_point(special_field:hw.trezor.messages.debug.DebugLinkResetDebugEvents.special_fields)
+    pub special_fields: ::protobuf::SpecialFields,
+}
+
+impl<'a> ::std::default::Default for &'a DebugLinkResetDebugEvents {
+    fn default() -> &'a DebugLinkResetDebugEvents {
+        <DebugLinkResetDebugEvents as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl DebugLinkResetDebugEvents {
+    pub fn new() -> DebugLinkResetDebugEvents {
+        ::std::default::Default::default()
+    }
+
+    fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
+        let mut fields = ::std::vec::Vec::with_capacity(0);
+        let mut oneofs = ::std::vec::Vec::with_capacity(0);
+        ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<DebugLinkResetDebugEvents>(
+            "DebugLinkResetDebugEvents",
+            fields,
+            oneofs,
+        )
+    }
+}
+
+impl ::protobuf::Message for DebugLinkResetDebugEvents {
+    const NAME: &'static str = "DebugLinkResetDebugEvents";
+
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream<'_>) -> ::protobuf::Result<()> {
+        while let Some(tag) = is.read_raw_tag_or_eof()? {
+            match tag {
+                tag => {
+                    ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u64 {
+        let mut my_size = 0;
+        my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
+        self.special_fields.cached_size().set(my_size as u32);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::Result<()> {
+        os.write_unknown_fields(self.special_fields.unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn special_fields(&self) -> &::protobuf::SpecialFields {
+        &self.special_fields
+    }
+
+    fn mut_special_fields(&mut self) -> &mut ::protobuf::SpecialFields {
+        &mut self.special_fields
+    }
+
+    fn new() -> DebugLinkResetDebugEvents {
+        DebugLinkResetDebugEvents::new()
+    }
+
+    fn clear(&mut self) {
+        self.special_fields.clear();
+    }
+
+    fn default_instance() -> &'static DebugLinkResetDebugEvents {
+        static instance: DebugLinkResetDebugEvents = DebugLinkResetDebugEvents {
+            special_fields: ::protobuf::SpecialFields::new(),
+        };
+        &instance
+    }
+}
+
+impl ::protobuf::MessageFull for DebugLinkResetDebugEvents {
+    fn descriptor() -> ::protobuf::reflect::MessageDescriptor {
+        static descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::Lazy::new();
+        descriptor.get(|| file_descriptor().message_by_package_relative_name("DebugLinkResetDebugEvents").unwrap()).clone()
+    }
+}
+
+impl ::std::fmt::Display for DebugLinkResetDebugEvents {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for DebugLinkResetDebugEvents {
+    type RuntimeType = ::protobuf::reflect::rt::RuntimeTypeMessage<Self>;
+}
+
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n\x14messages-debug.proto\x12\x18hw.trezor.messages.debug\x1a\x15messag\
-    es-common.proto\"Y\n\x11DebugLinkDecision\x12\x15\n\x06yes_no\x18\x01\
-    \x20\x01(\x08R\x05yesNo\x12\x17\n\x07up_down\x18\x02\x20\x01(\x08R\x06up\
-    Down\x12\x14\n\x05input\x18\x03\x20\x01(\tR\x05input\"\x13\n\x11DebugLin\
-    kGetState\"\xa2\x03\n\x0eDebugLinkState\x12\x16\n\x06layout\x18\x01\x20\
+    \n\x14messages-debug.proto\x12\x18hw.trezor.messages.debug\x1a\x0emessag\
+    es.proto\x1a\x15messages-common.proto\x1a\x19messages-management.proto\"\
+    \x82\x03\n\x11DebugLinkDecision\x12O\n\x06button\x18\x01\x20\x01(\x0e27.\
+    hw.trezor.messages.debug.DebugLinkDecision.DebugButtonR\x06button\x12U\n\
+    \x05swipe\x18\x02\x20\x01(\x0e2?.hw.trezor.messages.debug.DebugLinkDecis\
+    ion.DebugSwipeDirectionR\x05swipe\x12\x14\n\x05input\x18\x03\x20\x01(\tR\
+    \x05input\x12\x0c\n\x01x\x18\x04\x20\x01(\rR\x01x\x12\x0c\n\x01y\x18\x05\
+    \x20\x01(\rR\x01y\x12\x12\n\x04wait\x18\x06\x20\x01(\x08R\x04wait\x12\
+    \x17\n\x07hold_ms\x18\x07\x20\x01(\rR\x06holdMs\"<\n\x13DebugSwipeDirect\
+    ion\x12\x06\n\x02UP\x10\0\x12\x08\n\x04DOWN\x10\x01\x12\x08\n\x04LEFT\
+    \x10\x02\x12\t\n\x05RIGHT\x10\x03\"(\n\x0bDebugButton\x12\x06\n\x02NO\
+    \x10\0\x12\x07\n\x03YES\x10\x01\x12\x08\n\x04INFO\x10\x02\")\n\x0fDebugL\
+    inkLayout\x12\x16\n\x06tokens\x18\x01\x20\x03(\tR\x06tokens\"-\n\x15Debu\
+    gLinkReseedRandom\x12\x14\n\x05value\x18\x01\x20\x01(\rR\x05value\"j\n\
+    \x15DebugLinkRecordScreen\x12)\n\x10target_directory\x18\x01\x20\x01(\tR\
+    \x0ftargetDirectory\x12&\n\rrefresh_index\x18\x02\x20\x01(\r:\x010R\x0cr\
+    efreshIndex\"~\n\x11DebugLinkGetState\x12$\n\x0ewait_word_list\x18\x01\
+    \x20\x01(\x08R\x0cwaitWordList\x12\"\n\rwait_word_pos\x18\x02\x20\x01(\
+    \x08R\x0bwaitWordPos\x12\x1f\n\x0bwait_layout\x18\x03\x20\x01(\x08R\nwai\
+    tLayout\"\x97\x04\n\x0eDebugLinkState\x12\x16\n\x06layout\x18\x01\x20\
     \x01(\x0cR\x06layout\x12\x10\n\x03pin\x18\x02\x20\x01(\tR\x03pin\x12\x16\
-    \n\x06matrix\x18\x03\x20\x01(\tR\x06matrix\x12\x1a\n\x08mnemonic\x18\x04\
-    \x20\x01(\tR\x08mnemonic\x129\n\x04node\x18\x05\x20\x01(\x0b2%.hw.trezor\
-    .messages.common.HDNodeTypeR\x04node\x123\n\x15passphrase_protection\x18\
-    \x06\x20\x01(\x08R\x14passphraseProtection\x12\x1d\n\nreset_word\x18\x07\
-    \x20\x01(\tR\tresetWord\x12#\n\rreset_entropy\x18\x08\x20\x01(\x0cR\x0cr\
-    esetEntropy\x12,\n\x12recovery_fake_word\x18\t\x20\x01(\tR\x10recoveryFa\
-    keWord\x12*\n\x11recovery_word_pos\x18\n\x20\x01(\rR\x0frecoveryWordPos\
-    \x12$\n\x0ereset_word_pos\x18\x0b\x20\x01(\rR\x0cresetWordPos\"\x0f\n\rD\
-    ebugLinkStop\"P\n\x0cDebugLinkLog\x12\x14\n\x05level\x18\x01\x20\x01(\rR\
-    \x05level\x12\x16\n\x06bucket\x18\x02\x20\x01(\tR\x06bucket\x12\x12\n\
-    \x04text\x18\x03\x20\x01(\tR\x04text\"G\n\x13DebugLinkMemoryRead\x12\x18\
-    \n\x07address\x18\x01\x20\x01(\rR\x07address\x12\x16\n\x06length\x18\x02\
-    \x20\x01(\rR\x06length\")\n\x0fDebugLinkMemory\x12\x16\n\x06memory\x18\
-    \x01\x20\x01(\x0cR\x06memory\"^\n\x14DebugLinkMemoryWrite\x12\x18\n\x07a\
-    ddress\x18\x01\x20\x01(\rR\x07address\x12\x16\n\x06memory\x18\x02\x20\
-    \x01(\x0cR\x06memory\x12\x14\n\x05flash\x18\x03\x20\x01(\x08R\x05flash\"\
-    -\n\x13DebugLinkFlashErase\x12\x16\n\x06sector\x18\x01\x20\x01(\rR\x06se\
-    ctorB9\n#com.satoshilabs.trezor.lib.protobufB\x12TrezorMessageDebugJ\xf5\
-    \x19\n\x06\x12\x04\0\0g\x01\n\x08\n\x01\x0c\x12\x03\0\0\x12\n\x08\n\x01\
-    \x02\x12\x03\x01\0!\n\x08\n\x01\x08\x12\x03\x04\0<\n.\n\x02\x08\x01\x12\
-    \x03\x04\0<\x1a#\x20Sugar\x20for\x20easier\x20handling\x20in\x20Java\n\n\
-    \x08\n\x01\x08\x12\x03\x05\03\n\t\n\x02\x08\x08\x12\x03\x05\03\n\t\n\x02\
-    \x03\0\x12\x03\x07\0\x1f\nP\n\x02\x04\0\x12\x04\x0e\0\x12\x01\x1aD*\n\
-    \x20Request:\x20\"Press\"\x20the\x20button\x20on\x20the\x20device\n\x20@\
-    start\n\x20@next\x20Success\n\n\n\n\x03\x04\0\x01\x12\x03\x0e\x08\x19\n5\
-    \n\x04\x04\0\x02\0\x12\x03\x0f\x04\x1d\"(\x20true\x20for\x20\"Confirm\",\
-    \x20false\x20for\x20\"Cancel\"\n\n\x0c\n\x05\x04\0\x02\0\x04\x12\x03\x0f\
-    \x04\x0c\n\x0c\n\x05\x04\0\x02\0\x05\x12\x03\x0f\r\x11\n\x0c\n\x05\x04\0\
-    \x02\0\x01\x12\x03\x0f\x12\x18\n\x0c\n\x05\x04\0\x02\0\x03\x12\x03\x0f\
-    \x1b\x1c\n8\n\x04\x04\0\x02\x01\x12\x03\x10\x04\x1e\"+\x20true\x20for\
-    \x20scroll\x20up,\x20false\x20for\x20scroll\x20down\n\n\x0c\n\x05\x04\0\
-    \x02\x01\x04\x12\x03\x10\x04\x0c\n\x0c\n\x05\x04\0\x02\x01\x05\x12\x03\
-    \x10\r\x11\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\x10\x12\x19\n\x0c\n\x05\
-    \x04\0\x02\x01\x03\x12\x03\x10\x1c\x1d\n\x1d\n\x04\x04\0\x02\x02\x12\x03\
-    \x11\x04\x1e\"\x10\x20keyboard\x20input\n\n\x0c\n\x05\x04\0\x02\x02\x04\
-    \x12\x03\x11\x04\x0c\n\x0c\n\x05\x04\0\x02\x02\x05\x12\x03\x11\r\x13\n\
-    \x0c\n\x05\x04\0\x02\x02\x01\x12\x03\x11\x14\x19\n\x0c\n\x05\x04\0\x02\
-    \x02\x03\x12\x03\x11\x1c\x1d\nU\n\x02\x04\x01\x12\x04\x19\0\x1a\x01\x1aI\
-    *\n\x20Request:\x20Computer\x20asks\x20for\x20device\x20state\n\x20@star\
-    t\n\x20@next\x20DebugLinkState\n\n\n\n\x03\x04\x01\x01\x12\x03\x19\x08\
-    \x19\n4\n\x02\x04\x02\x12\x04\x20\0,\x01\x1a(*\n\x20Response:\x20Device\
-    \x20current\x20state\n\x20@end\n\n\n\n\x03\x04\x02\x01\x12\x03\x20\x08\
-    \x16\n$\n\x04\x04\x02\x02\0\x12\x03!\x04\x1e\"\x17\x20raw\x20buffer\x20o\
-    f\x20display\n\n\x0c\n\x05\x04\x02\x02\0\x04\x12\x03!\x04\x0c\n\x0c\n\
-    \x05\x04\x02\x02\0\x05\x12\x03!\r\x12\n\x0c\n\x05\x04\x02\x02\0\x01\x12\
-    \x03!\x13\x19\n\x0c\n\x05\x04\x02\x02\0\x03\x12\x03!\x1c\x1d\n;\n\x04\
-    \x04\x02\x02\x01\x12\x03\"\x04\x1c\".\x20current\x20PIN,\x20blank\x20if\
-    \x20PIN\x20is\x20not\x20set/enabled\n\n\x0c\n\x05\x04\x02\x02\x01\x04\
-    \x12\x03\"\x04\x0c\n\x0c\n\x05\x04\x02\x02\x01\x05\x12\x03\"\r\x13\n\x0c\
-    \n\x05\x04\x02\x02\x01\x01\x12\x03\"\x14\x17\n\x0c\n\x05\x04\x02\x02\x01\
-    \x03\x12\x03\"\x1a\x1b\n!\n\x04\x04\x02\x02\x02\x12\x03#\x04\x1f\"\x14\
-    \x20current\x20PIN\x20matrix\n\n\x0c\n\x05\x04\x02\x02\x02\x04\x12\x03#\
-    \x04\x0c\n\x0c\n\x05\x04\x02\x02\x02\x05\x12\x03#\r\x13\n\x0c\n\x05\x04\
-    \x02\x02\x02\x01\x12\x03#\x14\x1a\n\x0c\n\x05\x04\x02\x02\x02\x03\x12\
-    \x03#\x1d\x1e\n&\n\x04\x04\x02\x02\x03\x12\x03$\x04!\"\x19\x20current\
-    \x20BIP-39\x20mnemonic\n\n\x0c\n\x05\x04\x02\x02\x03\x04\x12\x03$\x04\
-    \x0c\n\x0c\n\x05\x04\x02\x02\x03\x05\x12\x03$\r\x13\n\x0c\n\x05\x04\x02\
-    \x02\x03\x01\x12\x03$\x14\x1c\n\x0c\n\x05\x04\x02\x02\x03\x03\x12\x03$\
-    \x1f\x20\n\"\n\x04\x04\x02\x02\x04\x12\x03%\x04;\"\x15\x20current\x20BIP\
-    -32\x20node\n\n\x0c\n\x05\x04\x02\x02\x04\x04\x12\x03%\x04\x0c\n\x0c\n\
-    \x05\x04\x02\x02\x04\x06\x12\x03%\r1\n\x0c\n\x05\x04\x02\x02\x04\x01\x12\
-    \x03%26\n\x0c\n\x05\x04\x02\x02\x04\x03\x12\x03%9:\n;\n\x04\x04\x02\x02\
-    \x05\x12\x03&\x04,\".\x20is\x20node/mnemonic\x20encrypted\x20using\x20pa\
-    ssphrase?\n\n\x0c\n\x05\x04\x02\x02\x05\x04\x12\x03&\x04\x0c\n\x0c\n\x05\
-    \x04\x02\x02\x05\x05\x12\x03&\r\x11\n\x0c\n\x05\x04\x02\x02\x05\x01\x12\
-    \x03&\x12'\n\x0c\n\x05\x04\x02\x02\x05\x03\x12\x03&*+\nA\n\x04\x04\x02\
-    \x02\x06\x12\x03'\x04#\"4\x20word\x20on\x20device\x20display\x20during\
-    \x20ResetDevice\x20workflow\n\n\x0c\n\x05\x04\x02\x02\x06\x04\x12\x03'\
-    \x04\x0c\n\x0c\n\x05\x04\x02\x02\x06\x05\x12\x03'\r\x13\n\x0c\n\x05\x04\
-    \x02\x02\x06\x01\x12\x03'\x14\x1e\n\x0c\n\x05\x04\x02\x02\x06\x03\x12\
-    \x03'!\"\n:\n\x04\x04\x02\x02\x07\x12\x03(\x04%\"-\x20current\x20entropy\
-    \x20during\x20ResetDevice\x20workflow\n\n\x0c\n\x05\x04\x02\x02\x07\x04\
-    \x12\x03(\x04\x0c\n\x0c\n\x05\x04\x02\x02\x07\x05\x12\x03(\r\x12\n\x0c\n\
-    \x05\x04\x02\x02\x07\x01\x12\x03(\x13\x20\n\x0c\n\x05\x04\x02\x02\x07\
-    \x03\x12\x03(#$\nD\n\x04\x04\x02\x02\x08\x12\x03)\x04+\"7\x20(fake)\x20w\
-    ord\x20on\x20display\x20during\x20RecoveryDevice\x20workflow\n\n\x0c\n\
-    \x05\x04\x02\x02\x08\x04\x12\x03)\x04\x0c\n\x0c\n\x05\x04\x02\x02\x08\
-    \x05\x12\x03)\r\x13\n\x0c\n\x05\x04\x02\x02\x08\x01\x12\x03)\x14&\n\x0c\
-    \n\x05\x04\x02\x02\x08\x03\x12\x03))*\n\\\n\x04\x04\x02\x02\t\x12\x03*\
-    \x04+\"O\x20index\x20of\x20mnemonic\x20word\x20the\x20device\x20is\x20ex\
-    pecting\x20during\x20RecoveryDevice\x20workflow\n\n\x0c\n\x05\x04\x02\
-    \x02\t\x04\x12\x03*\x04\x0c\n\x0c\n\x05\x04\x02\x02\t\x05\x12\x03*\r\x13\
-    \n\x0c\n\x05\x04\x02\x02\t\x01\x12\x03*\x14%\n\x0c\n\x05\x04\x02\x02\t\
-    \x03\x12\x03*(*\nY\n\x04\x04\x02\x02\n\x12\x03+\x04(\"L\x20index\x20of\
-    \x20mnemonic\x20word\x20the\x20device\x20is\x20expecting\x20during\x20Re\
-    setDevice\x20workflow\n\n\x0c\n\x05\x04\x02\x02\n\x04\x12\x03+\x04\x0c\n\
-    \x0c\n\x05\x04\x02\x02\n\x05\x12\x03+\r\x13\n\x0c\n\x05\x04\x02\x02\n\
-    \x01\x12\x03+\x14\"\n\x0c\n\x05\x04\x02\x02\n\x03\x12\x03+%'\n6\n\x02\
-    \x04\x03\x12\x042\03\x01\x1a**\n\x20Request:\x20Ask\x20device\x20to\x20r\
-    estart\n\x20@start\n\n\n\n\x03\x04\x03\x01\x12\x032\x08\x15\nA\n\x02\x04\
-    \x04\x12\x049\0=\x01\x1a5*\n\x20Response:\x20Device\x20wants\x20host\x20\
-    to\x20log\x20event\n\x20@ignore\n\n\n\n\x03\x04\x04\x01\x12\x039\x08\x14\
-    \n\x0b\n\x04\x04\x04\x02\0\x12\x03:\x04\x1e\n\x0c\n\x05\x04\x04\x02\0\
-    \x04\x12\x03:\x04\x0c\n\x0c\n\x05\x04\x04\x02\0\x05\x12\x03:\r\x13\n\x0c\
-    \n\x05\x04\x04\x02\0\x01\x12\x03:\x14\x19\n\x0c\n\x05\x04\x04\x02\0\x03\
-    \x12\x03:\x1c\x1d\n\x0b\n\x04\x04\x04\x02\x01\x12\x03;\x04\x1f\n\x0c\n\
-    \x05\x04\x04\x02\x01\x04\x12\x03;\x04\x0c\n\x0c\n\x05\x04\x04\x02\x01\
-    \x05\x12\x03;\r\x13\n\x0c\n\x05\x04\x04\x02\x01\x01\x12\x03;\x14\x1a\n\
-    \x0c\n\x05\x04\x04\x02\x01\x03\x12\x03;\x1d\x1e\n\x0b\n\x04\x04\x04\x02\
-    \x02\x12\x03<\x04\x1d\n\x0c\n\x05\x04\x04\x02\x02\x04\x12\x03<\x04\x0c\n\
-    \x0c\n\x05\x04\x04\x02\x02\x05\x12\x03<\r\x13\n\x0c\n\x05\x04\x04\x02\
-    \x02\x01\x12\x03<\x14\x18\n\x0c\n\x05\x04\x04\x02\x02\x03\x12\x03<\x1b\
-    \x1c\nO\n\x02\x04\x05\x12\x04D\0G\x01\x1aC*\n\x20Request:\x20Read\x20mem\
-    ory\x20from\x20device\n\x20@start\n\x20@next\x20DebugLinkMemory\n\n\n\n\
-    \x03\x04\x05\x01\x12\x03D\x08\x1b\n\x0b\n\x04\x04\x05\x02\0\x12\x03E\x04\
-    \x20\n\x0c\n\x05\x04\x05\x02\0\x04\x12\x03E\x04\x0c\n\x0c\n\x05\x04\x05\
-    \x02\0\x05\x12\x03E\r\x13\n\x0c\n\x05\x04\x05\x02\0\x01\x12\x03E\x14\x1b\
-    \n\x0c\n\x05\x04\x05\x02\0\x03\x12\x03E\x1e\x1f\n\x0b\n\x04\x04\x05\x02\
-    \x01\x12\x03F\x04\x1f\n\x0c\n\x05\x04\x05\x02\x01\x04\x12\x03F\x04\x0c\n\
-    \x0c\n\x05\x04\x05\x02\x01\x05\x12\x03F\r\x13\n\x0c\n\x05\x04\x05\x02\
-    \x01\x01\x12\x03F\x14\x1a\n\x0c\n\x05\x04\x05\x02\x01\x03\x12\x03F\x1d\
-    \x1e\n8\n\x02\x04\x06\x12\x04M\0O\x01\x1a,*\n\x20Response:\x20Device\x20\
-    sends\x20memory\x20back\n\x20@end\n\n\n\n\x03\x04\x06\x01\x12\x03M\x08\
-    \x17\n\x0b\n\x04\x04\x06\x02\0\x12\x03N\x04\x1e\n\x0c\n\x05\x04\x06\x02\
-    \0\x04\x12\x03N\x04\x0c\n\x0c\n\x05\x04\x06\x02\0\x05\x12\x03N\r\x12\n\
-    \x0c\n\x05\x04\x06\x02\0\x01\x12\x03N\x13\x19\n\x0c\n\x05\x04\x06\x02\0\
-    \x03\x12\x03N\x1c\x1d\n\xa1\x01\n\x02\x04\x07\x12\x04X\0\\\x01\x1a\x94\
-    \x01*\n\x20Request:\x20Write\x20memory\x20to\x20device.\n\x20WARNING:\
-    \x20Writing\x20to\x20the\x20wrong\x20location\x20can\x20irreparably\x20b\
-    reak\x20the\x20device.\n\x20@start\n\x20@next\x20Success\n\x20@next\x20F\
-    ailure\n\n\n\n\x03\x04\x07\x01\x12\x03X\x08\x1c\n\x0b\n\x04\x04\x07\x02\
-    \0\x12\x03Y\x04\x20\n\x0c\n\x05\x04\x07\x02\0\x04\x12\x03Y\x04\x0c\n\x0c\
-    \n\x05\x04\x07\x02\0\x05\x12\x03Y\r\x13\n\x0c\n\x05\x04\x07\x02\0\x01\
-    \x12\x03Y\x14\x1b\n\x0c\n\x05\x04\x07\x02\0\x03\x12\x03Y\x1e\x1f\n\x0b\n\
-    \x04\x04\x07\x02\x01\x12\x03Z\x04\x1e\n\x0c\n\x05\x04\x07\x02\x01\x04\
-    \x12\x03Z\x04\x0c\n\x0c\n\x05\x04\x07\x02\x01\x05\x12\x03Z\r\x12\n\x0c\n\
-    \x05\x04\x07\x02\x01\x01\x12\x03Z\x13\x19\n\x0c\n\x05\x04\x07\x02\x01\
-    \x03\x12\x03Z\x1c\x1d\n\x0b\n\x04\x04\x07\x02\x02\x12\x03[\x04\x1c\n\x0c\
-    \n\x05\x04\x07\x02\x02\x04\x12\x03[\x04\x0c\n\x0c\n\x05\x04\x07\x02\x02\
-    \x05\x12\x03[\r\x11\n\x0c\n\x05\x04\x07\x02\x02\x01\x12\x03[\x12\x17\n\
-    \x0c\n\x05\x04\x07\x02\x02\x03\x12\x03[\x1a\x1b\n\xa8\x01\n\x02\x04\x08\
-    \x12\x04e\0g\x01\x1a\x9b\x01*\n\x20Request:\x20Erase\x20block\x20of\x20f\
-    lash\x20on\x20device\n\x20WARNING:\x20Writing\x20to\x20the\x20wrong\x20l\
-    ocation\x20can\x20irreparably\x20break\x20the\x20device.\n\x20@start\n\
-    \x20@next\x20Success\n\x20@next\x20Failure\n\n\n\n\x03\x04\x08\x01\x12\
-    \x03e\x08\x1b\n\x0b\n\x04\x04\x08\x02\0\x12\x03f\x04\x1f\n\x0c\n\x05\x04\
-    \x08\x02\0\x04\x12\x03f\x04\x0c\n\x0c\n\x05\x04\x08\x02\0\x05\x12\x03f\r\
-    \x13\n\x0c\n\x05\x04\x08\x02\0\x01\x12\x03f\x14\x1a\n\x0c\n\x05\x04\x08\
-    \x02\0\x03\x12\x03f\x1d\x1e\
+    \n\x06matrix\x18\x03\x20\x01(\tR\x06matrix\x12'\n\x0fmnemonic_secret\x18\
+    \x04\x20\x01(\x0cR\x0emnemonicSecret\x129\n\x04node\x18\x05\x20\x01(\x0b\
+    2%.hw.trezor.messages.common.HDNodeTypeR\x04node\x123\n\x15passphrase_pr\
+    otection\x18\x06\x20\x01(\x08R\x14passphraseProtection\x12\x1d\n\nreset_\
+    word\x18\x07\x20\x01(\tR\tresetWord\x12#\n\rreset_entropy\x18\x08\x20\
+    \x01(\x0cR\x0cresetEntropy\x12,\n\x12recovery_fake_word\x18\t\x20\x01(\t\
+    R\x10recoveryFakeWord\x12*\n\x11recovery_word_pos\x18\n\x20\x01(\rR\x0fr\
+    ecoveryWordPos\x12$\n\x0ereset_word_pos\x18\x0b\x20\x01(\rR\x0cresetWord\
+    Pos\x12N\n\rmnemonic_type\x18\x0c\x20\x01(\x0e2).hw.trezor.messages.mana\
+    gement.BackupTypeR\x0cmnemonicType\x12\x16\n\x06tokens\x18\r\x20\x03(\tR\
+    \x06tokens\"\x0f\n\rDebugLinkStop\"P\n\x0cDebugLinkLog\x12\x14\n\x05leve\
+    l\x18\x01\x20\x01(\rR\x05level\x12\x16\n\x06bucket\x18\x02\x20\x01(\tR\
+    \x06bucket\x12\x12\n\x04text\x18\x03\x20\x01(\tR\x04text\"G\n\x13DebugLi\
+    nkMemoryRead\x12\x18\n\x07address\x18\x01\x20\x01(\rR\x07address\x12\x16\
+    \n\x06length\x18\x02\x20\x01(\rR\x06length\")\n\x0fDebugLinkMemory\x12\
+    \x16\n\x06memory\x18\x01\x20\x01(\x0cR\x06memory\"^\n\x14DebugLinkMemory\
+    Write\x12\x18\n\x07address\x18\x01\x20\x01(\rR\x07address\x12\x16\n\x06m\
+    emory\x18\x02\x20\x01(\x0cR\x06memory\x12\x14\n\x05flash\x18\x03\x20\x01\
+    (\x08R\x05flash\"-\n\x13DebugLinkFlashErase\x12\x16\n\x06sector\x18\x01\
+    \x20\x01(\rR\x06sector\".\n\x14DebugLinkEraseSdCard\x12\x16\n\x06format\
+    \x18\x01\x20\x01(\x08R\x06format\",\n\x14DebugLinkWatchLayout\x12\x14\n\
+    \x05watch\x18\x01\x20\x01(\x08R\x05watch\"\x1b\n\x19DebugLinkResetDebugE\
+    ventsB=\n#com.satoshilabs.trezor.lib.protobufB\x12TrezorMessageDebug\x80\
+    \xa6\x1d\x01J\xb6/\n\x07\x12\x05\0\0\xc2\x01\x01\n\x08\n\x01\x0c\x12\x03\
+    \0\0\x12\n\x08\n\x01\x02\x12\x03\x01\0!\n\x08\n\x01\x08\x12\x03\x04\0<\n\
+    .\n\x02\x08\x01\x12\x03\x04\0<\x1a#\x20Sugar\x20for\x20easier\x20handlin\
+    g\x20in\x20Java\n\n\x08\n\x01\x08\x12\x03\x05\03\n\t\n\x02\x08\x08\x12\
+    \x03\x05\03\n\x08\n\x01\x08\x12\x03\x07\0(\n\x0b\n\x04\x08\xe0\xd4\x03\
+    \x12\x03\x07\0(\n\t\n\x02\x03\0\x12\x03\t\0\x18\n\t\n\x02\x03\x01\x12\
+    \x03\n\0\x1f\n\t\n\x02\x03\x02\x12\x03\x0b\0#\nX\n\x02\x04\0\x12\x04\x12\
+    \0-\x01\x1aL*\n\x20Request:\x20\"Press\"\x20the\x20button\x20on\x20the\
+    \x20device\n\x20@start\n\x20@next\x20DebugLinkLayout\n\n\n\n\x03\x04\0\
+    \x01\x12\x03\x12\x08\x19\n\x1b\n\x04\x04\0\x02\0\x12\x03\x13\x04$\"\x0e\
+    \x20button\x20press\n\n\x0c\n\x05\x04\0\x02\0\x04\x12\x03\x13\x04\x0c\n\
+    \x0c\n\x05\x04\0\x02\0\x06\x12\x03\x13\r\x18\n\x0c\n\x05\x04\0\x02\0\x01\
+    \x12\x03\x13\x19\x1f\n\x0c\n\x05\x04\0\x02\0\x03\x12\x03\x13\"#\n\x1e\n\
+    \x04\x04\0\x02\x01\x12\x03\x14\x04+\"\x11\x20swipe\x20direction\n\n\x0c\
+    \n\x05\x04\0\x02\x01\x04\x12\x03\x14\x04\x0c\n\x0c\n\x05\x04\0\x02\x01\
+    \x06\x12\x03\x14\r\x20\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\x14!&\n\x0c\
+    \n\x05\x04\0\x02\x01\x03\x12\x03\x14)*\n\x1d\n\x04\x04\0\x02\x02\x12\x03\
+    \x15\x04\x1e\"\x10\x20keyboard\x20input\n\n\x0c\n\x05\x04\0\x02\x02\x04\
+    \x12\x03\x15\x04\x0c\n\x0c\n\x05\x04\0\x02\x02\x05\x12\x03\x15\r\x13\n\
+    \x0c\n\x05\x04\0\x02\x02\x01\x12\x03\x15\x14\x19\n\x0c\n\x05\x04\0\x02\
+    \x02\x03\x12\x03\x15\x1c\x1d\n8\n\x04\x04\0\x04\0\x12\x04\x19\x04\x1e\
+    \x05\x1a**\n\x20Structure\x20representing\x20swipe\x20direction\n\n\x0c\
+    \n\x05\x04\0\x04\0\x01\x12\x03\x19\t\x1c\n\r\n\x06\x04\0\x04\0\x02\0\x12\
+    \x03\x1a\x08\x0f\n\x0e\n\x07\x04\0\x04\0\x02\0\x01\x12\x03\x1a\x08\n\n\
+    \x0e\n\x07\x04\0\x04\0\x02\0\x02\x12\x03\x1a\r\x0e\n\r\n\x06\x04\0\x04\0\
+    \x02\x01\x12\x03\x1b\x08\x11\n\x0e\n\x07\x04\0\x04\0\x02\x01\x01\x12\x03\
+    \x1b\x08\x0c\n\x0e\n\x07\x04\0\x04\0\x02\x01\x02\x12\x03\x1b\x0f\x10\n\r\
+    \n\x06\x04\0\x04\0\x02\x02\x12\x03\x1c\x08\x11\n\x0e\n\x07\x04\0\x04\0\
+    \x02\x02\x01\x12\x03\x1c\x08\x0c\n\x0e\n\x07\x04\0\x04\0\x02\x02\x02\x12\
+    \x03\x1c\x0f\x10\n\r\n\x06\x04\0\x04\0\x02\x03\x12\x03\x1d\x08\x12\n\x0e\
+    \n\x07\x04\0\x04\0\x02\x03\x01\x12\x03\x1d\x08\r\n\x0e\n\x07\x04\0\x04\0\
+    \x02\x03\x02\x12\x03\x1d\x10\x11\n7\n\x04\x04\0\x04\x01\x12\x04#\x04'\
+    \x05\x1a)*\n\x20Structure\x20representing\x20button\x20presses\n\n\x0c\n\
+    \x05\x04\0\x04\x01\x01\x12\x03#\t\x14\n\r\n\x06\x04\0\x04\x01\x02\0\x12\
+    \x03$\x08\x0f\n\x0e\n\x07\x04\0\x04\x01\x02\0\x01\x12\x03$\x08\n\n\x0e\n\
+    \x07\x04\0\x04\x01\x02\0\x02\x12\x03$\r\x0e\n\r\n\x06\x04\0\x04\x01\x02\
+    \x01\x12\x03%\x08\x10\n\x0e\n\x07\x04\0\x04\x01\x02\x01\x01\x12\x03%\x08\
+    \x0b\n\x0e\n\x07\x04\0\x04\x01\x02\x01\x02\x12\x03%\x0e\x0f\n\r\n\x06\
+    \x04\0\x04\x01\x02\x02\x12\x03&\x08\x11\n\x0e\n\x07\x04\0\x04\x01\x02\
+    \x02\x01\x12\x03&\x08\x0c\n\x0e\n\x07\x04\0\x04\x01\x02\x02\x02\x12\x03&\
+    \x0f\x10\n!\n\x04\x04\0\x02\x03\x12\x03)\x04\x1a\"\x14\x20touch\x20X\x20\
+    coordinate\n\n\x0c\n\x05\x04\0\x02\x03\x04\x12\x03)\x04\x0c\n\x0c\n\x05\
+    \x04\0\x02\x03\x05\x12\x03)\r\x13\n\x0c\n\x05\x04\0\x02\x03\x01\x12\x03)\
+    \x14\x15\n\x0c\n\x05\x04\0\x02\x03\x03\x12\x03)\x18\x19\n!\n\x04\x04\0\
+    \x02\x04\x12\x03*\x04\x1a\"\x14\x20touch\x20Y\x20coordinate\n\n\x0c\n\
+    \x05\x04\0\x02\x04\x04\x12\x03*\x04\x0c\n\x0c\n\x05\x04\0\x02\x04\x05\
+    \x12\x03*\r\x13\n\x0c\n\x05\x04\0\x02\x04\x01\x12\x03*\x14\x15\n\x0c\n\
+    \x05\x04\0\x02\x04\x03\x12\x03*\x18\x19\n%\n\x04\x04\0\x02\x05\x12\x03+\
+    \x04\x1b\"\x18\x20wait\x20for\x20layout\x20change\n\n\x0c\n\x05\x04\0\
+    \x02\x05\x04\x12\x03+\x04\x0c\n\x0c\n\x05\x04\0\x02\x05\x05\x12\x03+\r\
+    \x11\n\x0c\n\x05\x04\0\x02\x05\x01\x12\x03+\x12\x16\n\x0c\n\x05\x04\0\
+    \x02\x05\x03\x12\x03+\x19\x1a\n\"\n\x04\x04\0\x02\x06\x12\x03,\x04\x20\"\
+    \x15\x20touch\x20hold\x20duration\n\n\x0c\n\x05\x04\0\x02\x06\x04\x12\
+    \x03,\x04\x0c\n\x0c\n\x05\x04\0\x02\x06\x05\x12\x03,\r\x13\n\x0c\n\x05\
+    \x04\0\x02\x06\x01\x12\x03,\x14\x1b\n\x0c\n\x05\x04\0\x02\x06\x03\x12\
+    \x03,\x1e\x1f\nZ\n\x02\x04\x01\x12\x043\05\x01\x1aN*\n\x20Response:\x20D\
+    evice\x20text\x20layout\x20as\x20a\x20list\x20of\x20tokens\x20as\x20retu\
+    rned\x20by\x20Rust\n\x20@end\n\n\n\n\x03\x04\x01\x01\x12\x033\x08\x17\n\
+    \x0b\n\x04\x04\x01\x02\0\x12\x034\x04\x1f\n\x0c\n\x05\x04\x01\x02\0\x04\
+    \x12\x034\x04\x0c\n\x0c\n\x05\x04\x01\x02\0\x05\x12\x034\r\x13\n\x0c\n\
+    \x05\x04\x01\x02\0\x01\x12\x034\x14\x1a\n\x0c\n\x05\x04\x01\x02\0\x03\
+    \x12\x034\x1d\x1e\nL\n\x02\x04\x02\x12\x04<\0>\x01\x1a@*\n\x20Request:\
+    \x20Re-seed\x20RNG\x20with\x20given\x20value\n\x20@start\n\x20@next\x20S\
+    uccess\n\n\n\n\x03\x04\x02\x01\x12\x03<\x08\x1d\n\x0b\n\x04\x04\x02\x02\
+    \0\x12\x03=\x04\x1e\n\x0c\n\x05\x04\x02\x02\0\x04\x12\x03=\x04\x0c\n\x0c\
+    \n\x05\x04\x02\x02\0\x05\x12\x03=\r\x13\n\x0c\n\x05\x04\x02\x02\0\x01\
+    \x12\x03=\x14\x19\n\x0c\n\x05\x04\x02\x02\0\x03\x12\x03=\x1c\x1d\nr\n\
+    \x02\x04\x03\x12\x04E\0H\x01\x1af*\n\x20Request:\x20Start\x20or\x20stop\
+    \x20recording\x20screen\x20changes\x20into\x20given\x20target\x20directo\
+    ry\n\x20@start\n\x20@next\x20Success\n\n\n\n\x03\x04\x03\x01\x12\x03E\
+    \x08\x1d\n1\n\x04\x04\x03\x02\0\x12\x03F\x04)\"$\x20empty\x20or\x20missi\
+    ng\x20to\x20stop\x20recording\n\n\x0c\n\x05\x04\x03\x02\0\x04\x12\x03F\
+    \x04\x0c\n\x0c\n\x05\x04\x03\x02\0\x05\x12\x03F\r\x13\n\x0c\n\x05\x04\
+    \x03\x02\0\x01\x12\x03F\x14$\n\x0c\n\x05\x04\x03\x02\0\x03\x12\x03F'(\nL\
+    \n\x04\x04\x03\x02\x01\x12\x03G\x042\"?\x20which\x20index\x20to\x20give\
+    \x20the\x20screenshots\x20(after\x20emulator\x20restarts)\n\n\x0c\n\x05\
+    \x04\x03\x02\x01\x04\x12\x03G\x04\x0c\n\x0c\n\x05\x04\x03\x02\x01\x05\
+    \x12\x03G\r\x13\n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x03G\x14!\n\x0c\n\
+    \x05\x04\x03\x02\x01\x03\x12\x03G$%\n\x0c\n\x05\x04\x03\x02\x01\x08\x12\
+    \x03G&1\n\x0c\n\x05\x04\x03\x02\x01\x07\x12\x03G/0\nU\n\x02\x04\x04\x12\
+    \x04O\0S\x01\x1aI*\n\x20Request:\x20Computer\x20asks\x20for\x20device\
+    \x20state\n\x20@start\n\x20@next\x20DebugLinkState\n\n\n\n\x03\x04\x04\
+    \x01\x12\x03O\x08\x19\nB\n\x04\x04\x04\x02\0\x12\x03P\x04%\"5\x20Trezor\
+    \x20T\x20only\x20-\x20wait\x20until\x20mnemonic\x20words\x20are\x20shown\
+    \n\n\x0c\n\x05\x04\x04\x02\0\x04\x12\x03P\x04\x0c\n\x0c\n\x05\x04\x04\
+    \x02\0\x05\x12\x03P\r\x11\n\x0c\n\x05\x04\x04\x02\0\x01\x12\x03P\x12\x20\
+    \n\x0c\n\x05\x04\x04\x02\0\x03\x12\x03P#$\nJ\n\x04\x04\x04\x02\x01\x12\
+    \x03Q\x04$\"=\x20Trezor\x20T\x20only\x20-\x20wait\x20until\x20reset\x20w\
+    ord\x20position\x20is\x20requested\n\n\x0c\n\x05\x04\x04\x02\x01\x04\x12\
+    \x03Q\x04\x0c\n\x0c\n\x05\x04\x04\x02\x01\x05\x12\x03Q\r\x11\n\x0c\n\x05\
+    \x04\x04\x02\x01\x01\x12\x03Q\x12\x1f\n\x0c\n\x05\x04\x04\x02\x01\x03\
+    \x12\x03Q\"#\n0\n\x04\x04\x04\x02\x02\x12\x03R\x04\"\"#\x20wait\x20until\
+    \x20current\x20layout\x20changes\n\n\x0c\n\x05\x04\x04\x02\x02\x04\x12\
+    \x03R\x04\x0c\n\x0c\n\x05\x04\x04\x02\x02\x05\x12\x03R\r\x11\n\x0c\n\x05\
+    \x04\x04\x02\x02\x01\x12\x03R\x12\x1d\n\x0c\n\x05\x04\x04\x02\x02\x03\
+    \x12\x03R\x20!\n4\n\x02\x04\x05\x12\x04Y\0g\x01\x1a(*\n\x20Response:\x20\
+    Device\x20current\x20state\n\x20@end\n\n\n\n\x03\x04\x05\x01\x12\x03Y\
+    \x08\x16\n$\n\x04\x04\x05\x02\0\x12\x03Z\x04\x1e\"\x17\x20raw\x20buffer\
+    \x20of\x20display\n\n\x0c\n\x05\x04\x05\x02\0\x04\x12\x03Z\x04\x0c\n\x0c\
+    \n\x05\x04\x05\x02\0\x05\x12\x03Z\r\x12\n\x0c\n\x05\x04\x05\x02\0\x01\
+    \x12\x03Z\x13\x19\n\x0c\n\x05\x04\x05\x02\0\x03\x12\x03Z\x1c\x1d\n;\n\
+    \x04\x04\x05\x02\x01\x12\x03[\x04\x1c\".\x20current\x20PIN,\x20blank\x20\
+    if\x20PIN\x20is\x20not\x20set/enabled\n\n\x0c\n\x05\x04\x05\x02\x01\x04\
+    \x12\x03[\x04\x0c\n\x0c\n\x05\x04\x05\x02\x01\x05\x12\x03[\r\x13\n\x0c\n\
+    \x05\x04\x05\x02\x01\x01\x12\x03[\x14\x17\n\x0c\n\x05\x04\x05\x02\x01\
+    \x03\x12\x03[\x1a\x1b\n!\n\x04\x04\x05\x02\x02\x12\x03\\\x04\x1f\"\x14\
+    \x20current\x20PIN\x20matrix\n\n\x0c\n\x05\x04\x05\x02\x02\x04\x12\x03\\\
+    \x04\x0c\n\x0c\n\x05\x04\x05\x02\x02\x05\x12\x03\\\r\x13\n\x0c\n\x05\x04\
+    \x05\x02\x02\x01\x12\x03\\\x14\x1a\n\x0c\n\x05\x04\x05\x02\x02\x03\x12\
+    \x03\\\x1d\x1e\n&\n\x04\x04\x05\x02\x03\x12\x03]\x04'\"\x19\x20current\
+    \x20mnemonic\x20secret\n\n\x0c\n\x05\x04\x05\x02\x03\x04\x12\x03]\x04\
+    \x0c\n\x0c\n\x05\x04\x05\x02\x03\x05\x12\x03]\r\x12\n\x0c\n\x05\x04\x05\
+    \x02\x03\x01\x12\x03]\x13\"\n\x0c\n\x05\x04\x05\x02\x03\x03\x12\x03]%&\n\
+    \"\n\x04\x04\x05\x02\x04\x12\x03^\x04(\"\x15\x20current\x20BIP-32\x20nod\
+    e\n\n\x0c\n\x05\x04\x05\x02\x04\x04\x12\x03^\x04\x0c\n\x0c\n\x05\x04\x05\
+    \x02\x04\x06\x12\x03^\r\x1e\n\x0c\n\x05\x04\x05\x02\x04\x01\x12\x03^\x1f\
+    #\n\x0c\n\x05\x04\x05\x02\x04\x03\x12\x03^&'\n;\n\x04\x04\x05\x02\x05\
+    \x12\x03_\x04,\".\x20is\x20node/mnemonic\x20encrypted\x20using\x20passph\
+    rase?\n\n\x0c\n\x05\x04\x05\x02\x05\x04\x12\x03_\x04\x0c\n\x0c\n\x05\x04\
+    \x05\x02\x05\x05\x12\x03_\r\x11\n\x0c\n\x05\x04\x05\x02\x05\x01\x12\x03_\
+    \x12'\n\x0c\n\x05\x04\x05\x02\x05\x03\x12\x03_*+\nA\n\x04\x04\x05\x02\
+    \x06\x12\x03`\x04#\"4\x20word\x20on\x20device\x20display\x20during\x20Re\
+    setDevice\x20workflow\n\n\x0c\n\x05\x04\x05\x02\x06\x04\x12\x03`\x04\x0c\
+    \n\x0c\n\x05\x04\x05\x02\x06\x05\x12\x03`\r\x13\n\x0c\n\x05\x04\x05\x02\
+    \x06\x01\x12\x03`\x14\x1e\n\x0c\n\x05\x04\x05\x02\x06\x03\x12\x03`!\"\n:\
+    \n\x04\x04\x05\x02\x07\x12\x03a\x04%\"-\x20current\x20entropy\x20during\
+    \x20ResetDevice\x20workflow\n\n\x0c\n\x05\x04\x05\x02\x07\x04\x12\x03a\
+    \x04\x0c\n\x0c\n\x05\x04\x05\x02\x07\x05\x12\x03a\r\x12\n\x0c\n\x05\x04\
+    \x05\x02\x07\x01\x12\x03a\x13\x20\n\x0c\n\x05\x04\x05\x02\x07\x03\x12\
+    \x03a#$\nD\n\x04\x04\x05\x02\x08\x12\x03b\x04+\"7\x20(fake)\x20word\x20o\
+    n\x20display\x20during\x20RecoveryDevice\x20workflow\n\n\x0c\n\x05\x04\
+    \x05\x02\x08\x04\x12\x03b\x04\x0c\n\x0c\n\x05\x04\x05\x02\x08\x05\x12\
+    \x03b\r\x13\n\x0c\n\x05\x04\x05\x02\x08\x01\x12\x03b\x14&\n\x0c\n\x05\
+    \x04\x05\x02\x08\x03\x12\x03b)*\n\\\n\x04\x04\x05\x02\t\x12\x03c\x04+\"O\
+    \x20index\x20of\x20mnemonic\x20word\x20the\x20device\x20is\x20expecting\
+    \x20during\x20RecoveryDevice\x20workflow\n\n\x0c\n\x05\x04\x05\x02\t\x04\
+    \x12\x03c\x04\x0c\n\x0c\n\x05\x04\x05\x02\t\x05\x12\x03c\r\x13\n\x0c\n\
+    \x05\x04\x05\x02\t\x01\x12\x03c\x14%\n\x0c\n\x05\x04\x05\x02\t\x03\x12\
+    \x03c(*\nY\n\x04\x04\x05\x02\n\x12\x03d\x04(\"L\x20index\x20of\x20mnemon\
+    ic\x20word\x20the\x20device\x20is\x20expecting\x20during\x20ResetDevice\
+    \x20workflow\n\n\x0c\n\x05\x04\x05\x02\n\x04\x12\x03d\x04\x0c\n\x0c\n\
+    \x05\x04\x05\x02\n\x05\x12\x03d\r\x13\n\x0c\n\x05\x04\x05\x02\n\x01\x12\
+    \x03d\x14\"\n\x0c\n\x05\x04\x05\x02\n\x03\x12\x03d%'\n5\n\x04\x04\x05\
+    \x02\x0b\x12\x03e\x046\"(\x20current\x20mnemonic\x20type\x20(BIP-39/SLIP\
+    -39)\n\n\x0c\n\x05\x04\x05\x02\x0b\x04\x12\x03e\x04\x0c\n\x0c\n\x05\x04\
+    \x05\x02\x0b\x06\x12\x03e\r\"\n\x0c\n\x05\x04\x05\x02\x0b\x01\x12\x03e#0\
+    \n\x0c\n\x05\x04\x05\x02\x0b\x03\x12\x03e35\nD\n\x04\x04\x05\x02\x0c\x12\
+    \x03f\x04\x20\"7\x20current\x20layout\x20represented\x20as\x20a\x20list\
+    \x20of\x20string\x20tokens\n\n\x0c\n\x05\x04\x05\x02\x0c\x04\x12\x03f\
+    \x04\x0c\n\x0c\n\x05\x04\x05\x02\x0c\x05\x12\x03f\r\x13\n\x0c\n\x05\x04\
+    \x05\x02\x0c\x01\x12\x03f\x14\x1a\n\x0c\n\x05\x04\x05\x02\x0c\x03\x12\
+    \x03f\x1d\x1f\n6\n\x02\x04\x06\x12\x04m\0n\x01\x1a**\n\x20Request:\x20As\
+    k\x20device\x20to\x20restart\n\x20@start\n\n\n\n\x03\x04\x06\x01\x12\x03\
+    m\x08\x15\nA\n\x02\x04\x07\x12\x04t\0x\x01\x1a5*\n\x20Response:\x20Devic\
+    e\x20wants\x20host\x20to\x20log\x20event\n\x20@ignore\n\n\n\n\x03\x04\
+    \x07\x01\x12\x03t\x08\x14\n\x0b\n\x04\x04\x07\x02\0\x12\x03u\x04\x1e\n\
+    \x0c\n\x05\x04\x07\x02\0\x04\x12\x03u\x04\x0c\n\x0c\n\x05\x04\x07\x02\0\
+    \x05\x12\x03u\r\x13\n\x0c\n\x05\x04\x07\x02\0\x01\x12\x03u\x14\x19\n\x0c\
+    \n\x05\x04\x07\x02\0\x03\x12\x03u\x1c\x1d\n\x0b\n\x04\x04\x07\x02\x01\
+    \x12\x03v\x04\x1f\n\x0c\n\x05\x04\x07\x02\x01\x04\x12\x03v\x04\x0c\n\x0c\
+    \n\x05\x04\x07\x02\x01\x05\x12\x03v\r\x13\n\x0c\n\x05\x04\x07\x02\x01\
+    \x01\x12\x03v\x14\x1a\n\x0c\n\x05\x04\x07\x02\x01\x03\x12\x03v\x1d\x1e\n\
+    \x0b\n\x04\x04\x07\x02\x02\x12\x03w\x04\x1d\n\x0c\n\x05\x04\x07\x02\x02\
+    \x04\x12\x03w\x04\x0c\n\x0c\n\x05\x04\x07\x02\x02\x05\x12\x03w\r\x13\n\
+    \x0c\n\x05\x04\x07\x02\x02\x01\x12\x03w\x14\x18\n\x0c\n\x05\x04\x07\x02\
+    \x02\x03\x12\x03w\x1b\x1c\nP\n\x02\x04\x08\x12\x05\x7f\0\x82\x01\x01\x1a\
+    C*\n\x20Request:\x20Read\x20memory\x20from\x20device\n\x20@start\n\x20@n\
+    ext\x20DebugLinkMemory\n\n\n\n\x03\x04\x08\x01\x12\x03\x7f\x08\x1b\n\x0c\
+    \n\x04\x04\x08\x02\0\x12\x04\x80\x01\x04\x20\n\r\n\x05\x04\x08\x02\0\x04\
+    \x12\x04\x80\x01\x04\x0c\n\r\n\x05\x04\x08\x02\0\x05\x12\x04\x80\x01\r\
+    \x13\n\r\n\x05\x04\x08\x02\0\x01\x12\x04\x80\x01\x14\x1b\n\r\n\x05\x04\
+    \x08\x02\0\x03\x12\x04\x80\x01\x1e\x1f\n\x0c\n\x04\x04\x08\x02\x01\x12\
+    \x04\x81\x01\x04\x1f\n\r\n\x05\x04\x08\x02\x01\x04\x12\x04\x81\x01\x04\
+    \x0c\n\r\n\x05\x04\x08\x02\x01\x05\x12\x04\x81\x01\r\x13\n\r\n\x05\x04\
+    \x08\x02\x01\x01\x12\x04\x81\x01\x14\x1a\n\r\n\x05\x04\x08\x02\x01\x03\
+    \x12\x04\x81\x01\x1d\x1e\n:\n\x02\x04\t\x12\x06\x88\x01\0\x8a\x01\x01\
+    \x1a,*\n\x20Response:\x20Device\x20sends\x20memory\x20back\n\x20@end\n\n\
+    \x0b\n\x03\x04\t\x01\x12\x04\x88\x01\x08\x17\n\x0c\n\x04\x04\t\x02\0\x12\
+    \x04\x89\x01\x04\x1e\n\r\n\x05\x04\t\x02\0\x04\x12\x04\x89\x01\x04\x0c\n\
+    \r\n\x05\x04\t\x02\0\x05\x12\x04\x89\x01\r\x12\n\r\n\x05\x04\t\x02\0\x01\
+    \x12\x04\x89\x01\x13\x19\n\r\n\x05\x04\t\x02\0\x03\x12\x04\x89\x01\x1c\
+    \x1d\n\xa3\x01\n\x02\x04\n\x12\x06\x93\x01\0\x97\x01\x01\x1a\x94\x01*\n\
+    \x20Request:\x20Write\x20memory\x20to\x20device.\n\x20WARNING:\x20Writin\
+    g\x20to\x20the\x20wrong\x20location\x20can\x20irreparably\x20break\x20th\
+    e\x20device.\n\x20@start\n\x20@next\x20Success\n\x20@next\x20Failure\n\n\
+    \x0b\n\x03\x04\n\x01\x12\x04\x93\x01\x08\x1c\n\x0c\n\x04\x04\n\x02\0\x12\
+    \x04\x94\x01\x04\x20\n\r\n\x05\x04\n\x02\0\x04\x12\x04\x94\x01\x04\x0c\n\
+    \r\n\x05\x04\n\x02\0\x05\x12\x04\x94\x01\r\x13\n\r\n\x05\x04\n\x02\0\x01\
+    \x12\x04\x94\x01\x14\x1b\n\r\n\x05\x04\n\x02\0\x03\x12\x04\x94\x01\x1e\
+    \x1f\n\x0c\n\x04\x04\n\x02\x01\x12\x04\x95\x01\x04\x1e\n\r\n\x05\x04\n\
+    \x02\x01\x04\x12\x04\x95\x01\x04\x0c\n\r\n\x05\x04\n\x02\x01\x05\x12\x04\
+    \x95\x01\r\x12\n\r\n\x05\x04\n\x02\x01\x01\x12\x04\x95\x01\x13\x19\n\r\n\
+    \x05\x04\n\x02\x01\x03\x12\x04\x95\x01\x1c\x1d\n\x0c\n\x04\x04\n\x02\x02\
+    \x12\x04\x96\x01\x04\x1c\n\r\n\x05\x04\n\x02\x02\x04\x12\x04\x96\x01\x04\
+    \x0c\n\r\n\x05\x04\n\x02\x02\x05\x12\x04\x96\x01\r\x11\n\r\n\x05\x04\n\
+    \x02\x02\x01\x12\x04\x96\x01\x12\x17\n\r\n\x05\x04\n\x02\x02\x03\x12\x04\
+    \x96\x01\x1a\x1b\n\xaa\x01\n\x02\x04\x0b\x12\x06\xa0\x01\0\xa2\x01\x01\
+    \x1a\x9b\x01*\n\x20Request:\x20Erase\x20block\x20of\x20flash\x20on\x20de\
+    vice\n\x20WARNING:\x20Writing\x20to\x20the\x20wrong\x20location\x20can\
+    \x20irreparably\x20break\x20the\x20device.\n\x20@start\n\x20@next\x20Suc\
+    cess\n\x20@next\x20Failure\n\n\x0b\n\x03\x04\x0b\x01\x12\x04\xa0\x01\x08\
+    \x1b\n\x0c\n\x04\x04\x0b\x02\0\x12\x04\xa1\x01\x04\x1f\n\r\n\x05\x04\x0b\
+    \x02\0\x04\x12\x04\xa1\x01\x04\x0c\n\r\n\x05\x04\x0b\x02\0\x05\x12\x04\
+    \xa1\x01\r\x13\n\r\n\x05\x04\x0b\x02\0\x01\x12\x04\xa1\x01\x14\x1a\n\r\n\
+    \x05\x04\x0b\x02\0\x03\x12\x04\xa1\x01\x1d\x1e\nR\n\x02\x04\x0c\x12\x06\
+    \xab\x01\0\xae\x01\x01\x1aD*\n\x20Request:\x20Erase\x20the\x20SD\x20card\
+    \n\x20@start\n\x20@next\x20Success\n\x20@next\x20Failure\n\n\x0b\n\x03\
+    \x04\x0c\x01\x12\x04\xab\x01\x08\x1c\n=\n\x04\x04\x0c\x02\0\x12\x04\xac\
+    \x01\x04\x1d\"/\x20if\x20true,\x20the\x20card\x20will\x20be\x20formatted\
+    \x20to\x20FAT32.\n\n\r\n\x05\x04\x0c\x02\0\x04\x12\x04\xac\x01\x04\x0c\n\
+    \r\n\x05\x04\x0c\x02\0\x05\x12\x04\xac\x01\r\x11\n\r\n\x05\x04\x0c\x02\0\
+    \x01\x12\x04\xac\x01\x12\x18\n\r\n\x05\x04\x0c\x02\0\x03\x12\x04\xac\x01\
+    \x1b\x1c\nW\n\x02\x04\r\x12\x06\xb6\x01\0\xb9\x01\x01\x1aI*\n\x20Request\
+    :\x20Start\x20or\x20stop\x20tracking\x20layout\x20changes\n\x20@start\n\
+    \x20@next\x20Success\n\n\x0b\n\x03\x04\r\x01\x12\x04\xb6\x01\x08\x1c\n/\
+    \n\x04\x04\r\x02\0\x12\x04\xb7\x01\x04\x1c\"!\x20if\x20true,\x20start\
+    \x20watching\x20layout.\n\n\r\n\x05\x04\r\x02\0\x04\x12\x04\xb7\x01\x04\
+    \x0c\n\r\n\x05\x04\r\x02\0\x05\x12\x04\xb7\x01\r\x11\n\r\n\x05\x04\r\x02\
+    \0\x01\x12\x04\xb7\x01\x12\x17\n\r\n\x05\x04\r\x02\0\x03\x12\x04\xb7\x01\
+    \x1a\x1b\n[\n\x02\x04\x0e\x12\x06\xc1\x01\0\xc2\x01\x01\x1aM*\n\x20Reque\
+    st:\x20Remove\x20all\x20the\x20previous\x20debug\x20event\x20state\n\x20\
+    @start\n\x20@next\x20Success\n\n\x0b\n\x03\x04\x0e\x01\x12\x04\xc1\x01\
+    \x08!\
 ";
 
 /// `FileDescriptorProto` object which was a source for this generated file
@@ -2236,10 +3676,15 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     static file_descriptor: ::protobuf::rt::Lazy<::protobuf::reflect::FileDescriptor> = ::protobuf::rt::Lazy::new();
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
-            let mut deps = ::std::vec::Vec::with_capacity(1);
+            let mut deps = ::std::vec::Vec::with_capacity(3);
+            deps.push(super::messages::file_descriptor().clone());
             deps.push(super::messages_common::file_descriptor().clone());
-            let mut messages = ::std::vec::Vec::with_capacity(9);
+            deps.push(super::messages_management::file_descriptor().clone());
+            let mut messages = ::std::vec::Vec::with_capacity(15);
             messages.push(DebugLinkDecision::generated_message_descriptor_data());
+            messages.push(DebugLinkLayout::generated_message_descriptor_data());
+            messages.push(DebugLinkReseedRandom::generated_message_descriptor_data());
+            messages.push(DebugLinkRecordScreen::generated_message_descriptor_data());
             messages.push(DebugLinkGetState::generated_message_descriptor_data());
             messages.push(DebugLinkState::generated_message_descriptor_data());
             messages.push(DebugLinkStop::generated_message_descriptor_data());
@@ -2248,7 +3693,12 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
             messages.push(DebugLinkMemory::generated_message_descriptor_data());
             messages.push(DebugLinkMemoryWrite::generated_message_descriptor_data());
             messages.push(DebugLinkFlashErase::generated_message_descriptor_data());
-            let mut enums = ::std::vec::Vec::with_capacity(0);
+            messages.push(DebugLinkEraseSdCard::generated_message_descriptor_data());
+            messages.push(DebugLinkWatchLayout::generated_message_descriptor_data());
+            messages.push(DebugLinkResetDebugEvents::generated_message_descriptor_data());
+            let mut enums = ::std::vec::Vec::with_capacity(2);
+            enums.push(debug_link_decision::DebugSwipeDirection::generated_enum_descriptor_data());
+            enums.push(debug_link_decision::DebugButton::generated_enum_descriptor_data());
             ::protobuf::reflect::GeneratedFileDescriptor::new_generated(
                 file_descriptor_proto(),
                 deps,

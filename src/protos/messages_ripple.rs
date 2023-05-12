@@ -216,7 +216,7 @@ impl RippleAddress {
         ::std::default::Default::default()
     }
 
-    // optional string address = 1;
+    // required string address = 1;
 
     pub fn address(&self) -> &str {
         match self.address.as_ref() {
@@ -272,6 +272,9 @@ impl ::protobuf::Message for RippleAddress {
     const NAME: &'static str = "RippleAddress";
 
     fn is_initialized(&self) -> bool {
+        if self.address.is_none() {
+            return false;
+        }
         true
     }
 
@@ -388,7 +391,7 @@ impl RippleSignTx {
         ::std::default::Default::default()
     }
 
-    // optional uint64 fee = 2;
+    // required uint64 fee = 2;
 
     pub fn fee(&self) -> u64 {
         self.fee.unwrap_or(0)
@@ -410,7 +413,7 @@ impl RippleSignTx {
     // optional uint32 flags = 3;
 
     pub fn flags(&self) -> u32 {
-        self.flags.unwrap_or(0)
+        self.flags.unwrap_or(0u32)
     }
 
     pub fn clear_flags(&mut self) {
@@ -426,7 +429,7 @@ impl RippleSignTx {
         self.flags = ::std::option::Option::Some(v);
     }
 
-    // optional uint32 sequence = 4;
+    // required uint32 sequence = 4;
 
     pub fn sequence(&self) -> u32 {
         self.sequence.unwrap_or(0)
@@ -509,6 +512,20 @@ impl ::protobuf::Message for RippleSignTx {
     const NAME: &'static str = "RippleSignTx";
 
     fn is_initialized(&self) -> bool {
+        if self.fee.is_none() {
+            return false;
+        }
+        if self.sequence.is_none() {
+            return false;
+        }
+        if self.payment.is_none() {
+            return false;
+        }
+        for v in &self.payment {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -654,7 +671,7 @@ pub mod ripple_sign_tx {
     ///  Payment transaction type
     ///  - simple A sends money to B
     ///  - only a subset of fields is supported
-    ///  - see https://developers.ripple.com/payment.html 
+    ///  - see https://developers.ripple.com/payment.html
     #[derive(PartialEq,Clone,Default,Debug)]
     // @@protoc_insertion_point(message:hw.trezor.messages.ripple.RippleSignTx.RipplePayment)
     pub struct RipplePayment {
@@ -663,6 +680,8 @@ pub mod ripple_sign_tx {
         pub amount: ::std::option::Option<u64>,
         // @@protoc_insertion_point(field:hw.trezor.messages.ripple.RippleSignTx.RipplePayment.destination)
         pub destination: ::std::option::Option<::std::string::String>,
+        // @@protoc_insertion_point(field:hw.trezor.messages.ripple.RippleSignTx.RipplePayment.destination_tag)
+        pub destination_tag: ::std::option::Option<u32>,
         // special fields
         // @@protoc_insertion_point(special_field:hw.trezor.messages.ripple.RippleSignTx.RipplePayment.special_fields)
         pub special_fields: ::protobuf::SpecialFields,
@@ -679,7 +698,7 @@ pub mod ripple_sign_tx {
             ::std::default::Default::default()
         }
 
-        // optional uint64 amount = 1;
+        // required uint64 amount = 1;
 
         pub fn amount(&self) -> u64 {
             self.amount.unwrap_or(0)
@@ -698,7 +717,7 @@ pub mod ripple_sign_tx {
             self.amount = ::std::option::Option::Some(v);
         }
 
-        // optional string destination = 2;
+        // required string destination = 2;
 
         pub fn destination(&self) -> &str {
             match self.destination.as_ref() {
@@ -734,8 +753,27 @@ pub mod ripple_sign_tx {
             self.destination.take().unwrap_or_else(|| ::std::string::String::new())
         }
 
+        // optional uint32 destination_tag = 3;
+
+        pub fn destination_tag(&self) -> u32 {
+            self.destination_tag.unwrap_or(0)
+        }
+
+        pub fn clear_destination_tag(&mut self) {
+            self.destination_tag = ::std::option::Option::None;
+        }
+
+        pub fn has_destination_tag(&self) -> bool {
+            self.destination_tag.is_some()
+        }
+
+        // Param is passed by value, moved
+        pub fn set_destination_tag(&mut self, v: u32) {
+            self.destination_tag = ::std::option::Option::Some(v);
+        }
+
         pub(in super) fn generated_message_descriptor_data() -> ::protobuf::reflect::GeneratedMessageDescriptorData {
-            let mut fields = ::std::vec::Vec::with_capacity(2);
+            let mut fields = ::std::vec::Vec::with_capacity(3);
             let mut oneofs = ::std::vec::Vec::with_capacity(0);
             fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
                 "amount",
@@ -746,6 +784,11 @@ pub mod ripple_sign_tx {
                 "destination",
                 |m: &RipplePayment| { &m.destination },
                 |m: &mut RipplePayment| { &mut m.destination },
+            ));
+            fields.push(::protobuf::reflect::rt::v2::make_option_accessor::<_, _>(
+                "destination_tag",
+                |m: &RipplePayment| { &m.destination_tag },
+                |m: &mut RipplePayment| { &mut m.destination_tag },
             ));
             ::protobuf::reflect::GeneratedMessageDescriptorData::new_2::<RipplePayment>(
                 "RippleSignTx.RipplePayment",
@@ -759,6 +802,12 @@ pub mod ripple_sign_tx {
         const NAME: &'static str = "RipplePayment";
 
         fn is_initialized(&self) -> bool {
+            if self.amount.is_none() {
+                return false;
+            }
+            if self.destination.is_none() {
+                return false;
+            }
             true
         }
 
@@ -770,6 +819,9 @@ pub mod ripple_sign_tx {
                     },
                     18 => {
                         self.destination = ::std::option::Option::Some(is.read_string()?);
+                    },
+                    24 => {
+                        self.destination_tag = ::std::option::Option::Some(is.read_uint32()?);
                     },
                     tag => {
                         ::protobuf::rt::read_unknown_or_skip_group(tag, is, self.special_fields.mut_unknown_fields())?;
@@ -789,6 +841,9 @@ pub mod ripple_sign_tx {
             if let Some(v) = self.destination.as_ref() {
                 my_size += ::protobuf::rt::string_size(2, &v);
             }
+            if let Some(v) = self.destination_tag {
+                my_size += ::protobuf::rt::uint32_size(3, v);
+            }
             my_size += ::protobuf::rt::unknown_fields_size(self.special_fields.unknown_fields());
             self.special_fields.cached_size().set(my_size as u32);
             my_size
@@ -800,6 +855,9 @@ pub mod ripple_sign_tx {
             }
             if let Some(v) = self.destination.as_ref() {
                 os.write_string(2, v)?;
+            }
+            if let Some(v) = self.destination_tag {
+                os.write_uint32(3, v)?;
             }
             os.write_unknown_fields(self.special_fields.unknown_fields())?;
             ::std::result::Result::Ok(())
@@ -820,6 +878,7 @@ pub mod ripple_sign_tx {
         fn clear(&mut self) {
             self.amount = ::std::option::Option::None;
             self.destination = ::std::option::Option::None;
+            self.destination_tag = ::std::option::Option::None;
             self.special_fields.clear();
         }
 
@@ -827,6 +886,7 @@ pub mod ripple_sign_tx {
             static instance: RipplePayment = RipplePayment {
                 amount: ::std::option::Option::None,
                 destination: ::std::option::Option::None,
+                destination_tag: ::std::option::Option::None,
                 special_fields: ::protobuf::SpecialFields::new(),
             };
             &instance
@@ -878,7 +938,7 @@ impl RippleSignedTx {
         ::std::default::Default::default()
     }
 
-    // optional bytes signature = 1;
+    // required bytes signature = 1;
 
     pub fn signature(&self) -> &[u8] {
         match self.signature.as_ref() {
@@ -914,7 +974,7 @@ impl RippleSignedTx {
         self.signature.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    // optional bytes serialized_tx = 2;
+    // required bytes serialized_tx = 2;
 
     pub fn serialized_tx(&self) -> &[u8] {
         match self.serialized_tx.as_ref() {
@@ -975,6 +1035,12 @@ impl ::protobuf::Message for RippleSignedTx {
     const NAME: &'static str = "RippleSignedTx";
 
     fn is_initialized(&self) -> bool {
+        if self.signature.is_none() {
+            return false;
+        }
+        if self.serialized_tx.is_none() {
+            return false;
+        }
         true
     }
 
@@ -1070,90 +1136,97 @@ static file_descriptor_proto_data: &'static [u8] = b"\
     \n\x15messages-ripple.proto\x12\x19hw.trezor.messages.ripple\"R\n\x10Rip\
     pleGetAddress\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12!\
     \n\x0cshow_display\x18\x02\x20\x01(\x08R\x0bshowDisplay\")\n\rRippleAddr\
-    ess\x12\x18\n\x07address\x18\x01\x20\x01(\tR\x07address\"\xbd\x02\n\x0cR\
+    ess\x12\x18\n\x07address\x18\x01\x20\x02(\tR\x07address\"\xe9\x02\n\x0cR\
     ippleSignTx\x12\x1b\n\taddress_n\x18\x01\x20\x03(\rR\x08addressN\x12\x10\
-    \n\x03fee\x18\x02\x20\x01(\x04R\x03fee\x12\x14\n\x05flags\x18\x03\x20\
-    \x01(\rR\x05flags\x12\x1a\n\x08sequence\x18\x04\x20\x01(\rR\x08sequence\
-    \x120\n\x14last_ledger_sequence\x18\x05\x20\x01(\rR\x12lastLedgerSequenc\
-    e\x12O\n\x07payment\x18\x06\x20\x01(\x0b25.hw.trezor.messages.ripple.Rip\
-    pleSignTx.RipplePaymentR\x07payment\x1aI\n\rRipplePayment\x12\x16\n\x06a\
-    mount\x18\x01\x20\x01(\x04R\x06amount\x12\x20\n\x0bdestination\x18\x02\
-    \x20\x01(\tR\x0bdestination\"S\n\x0eRippleSignedTx\x12\x1c\n\tsignature\
-    \x18\x01\x20\x01(\x0cR\tsignature\x12#\n\rserialized_tx\x18\x02\x20\x01(\
+    \n\x03fee\x18\x02\x20\x02(\x04R\x03fee\x12\x17\n\x05flags\x18\x03\x20\
+    \x01(\r:\x010R\x05flags\x12\x1a\n\x08sequence\x18\x04\x20\x02(\rR\x08seq\
+    uence\x120\n\x14last_ledger_sequence\x18\x05\x20\x01(\rR\x12lastLedgerSe\
+    quence\x12O\n\x07payment\x18\x06\x20\x02(\x0b25.hw.trezor.messages.rippl\
+    e.RippleSignTx.RipplePaymentR\x07payment\x1ar\n\rRipplePayment\x12\x16\n\
+    \x06amount\x18\x01\x20\x02(\x04R\x06amount\x12\x20\n\x0bdestination\x18\
+    \x02\x20\x02(\tR\x0bdestination\x12'\n\x0fdestination_tag\x18\x03\x20\
+    \x01(\rR\x0edestinationTag\"S\n\x0eRippleSignedTx\x12\x1c\n\tsignature\
+    \x18\x01\x20\x02(\x0cR\tsignature\x12#\n\rserialized_tx\x18\x02\x20\x02(\
     \x0cR\x0cserializedTxB:\n#com.satoshilabs.trezor.lib.protobufB\x13Trezor\
-    MessageRippleJ\xd3\x10\n\x06\x12\x04\0\09\x01\n\x08\n\x01\x0c\x12\x03\0\
+    MessageRippleJ\xe5\x11\n\x06\x12\x04\0\0:\x01\n\x08\n\x01\x0c\x12\x03\0\
     \0\x12\n\x08\n\x01\x02\x12\x03\x01\0\"\n\x08\n\x01\x08\x12\x03\x04\0<\n.\
     \n\x02\x08\x01\x12\x03\x04\0<\x1a#\x20Sugar\x20for\x20easier\x20handling\
     \x20in\x20Java\n\n\x08\n\x01\x08\x12\x03\x05\04\n\t\n\x02\x08\x08\x12\
     \x03\x05\04\nT\n\x02\x04\0\x12\x04\x0c\0\x0f\x01\x1aH*\n\x20Request:\x20\
     Address\x20at\x20the\x20specified\x20index\n\x20@start\n\x20@next\x20Rip\
     pleAddress\n\n\n\n\x03\x04\0\x01\x12\x03\x0c\x08\x18\n[\n\x04\x04\0\x02\
-    \0\x12\x03\r\x08&\"N\x20BIP-32\x20path.\x20For\x20compatibility\x20with\
+    \0\x12\x03\r\x04\"\"N\x20BIP-32\x20path.\x20For\x20compatibility\x20with\
     \x20other\x20wallets,\x20must\x20be\x20m/44'/144'/index'\n\n\x0c\n\x05\
-    \x04\0\x02\0\x04\x12\x03\r\x08\x10\n\x0c\n\x05\x04\0\x02\0\x05\x12\x03\r\
-    \x11\x17\n\x0c\n\x05\x04\0\x02\0\x01\x12\x03\r\x18!\n\x0c\n\x05\x04\0\
-    \x02\0\x03\x12\x03\r$%\nC\n\x04\x04\0\x02\x01\x12\x03\x0e\x08'\"6\x20opt\
-    ionally\x20show\x20on\x20display\x20before\x20sending\x20the\x20result\n\
-    \n\x0c\n\x05\x04\0\x02\x01\x04\x12\x03\x0e\x08\x10\n\x0c\n\x05\x04\0\x02\
-    \x01\x05\x12\x03\x0e\x11\x15\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\x0e\
-    \x16\"\n\x0c\n\x05\x04\0\x02\x01\x03\x12\x03\x0e%&\n;\n\x02\x04\x01\x12\
-    \x04\x15\0\x17\x01\x1a/*\n\x20Response:\x20Address\x20for\x20the\x20give\
-    n\x20index\n\x20@end\n\n\n\n\x03\x04\x01\x01\x12\x03\x15\x08\x15\nJ\n\
-    \x04\x04\x01\x02\0\x12\x03\x16\x08$\"=\x20Address\x20in\x20Ripple\x20for\
-    mat\x20(base58\x20of\x20a\x20pubkey\x20with\x20checksum)\n\n\x0c\n\x05\
-    \x04\x01\x02\0\x04\x12\x03\x16\x08\x10\n\x0c\n\x05\x04\x01\x02\0\x05\x12\
-    \x03\x16\x11\x17\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x03\x16\x18\x1f\n\x0c\
-    \n\x05\x04\x01\x02\0\x03\x12\x03\x16\"#\n\\\n\x02\x04\x02\x12\x04\x1e\00\
-    \x01\x1aP*\n\x20Request:\x20ask\x20device\x20to\x20sign\x20Ripple\x20tra\
-    nsaction\n\x20@start\n\x20@next\x20RippleSignedTx\n\n\n\n\x03\x04\x02\
-    \x01\x12\x03\x1e\x08\x14\n[\n\x04\x04\x02\x02\0\x12\x03\x1f\x08&\"N\x20B\
-    IP-32\x20path.\x20For\x20compatibility\x20with\x20other\x20wallets,\x20m\
-    ust\x20be\x20m/44'/144'/index'\n\n\x0c\n\x05\x04\x02\x02\0\x04\x12\x03\
-    \x1f\x08\x10\n\x0c\n\x05\x04\x02\x02\0\x05\x12\x03\x1f\x11\x17\n\x0c\n\
-    \x05\x04\x02\x02\0\x01\x12\x03\x1f\x18!\n\x0c\n\x05\x04\x02\x02\0\x03\
-    \x12\x03\x1f$%\n1\n\x04\x04\x02\x02\x01\x12\x03\x20\x08\x20\"$\x20fee\
-    \x20(in\x20drops)\x20for\x20the\x20transaction\n\n\x0c\n\x05\x04\x02\x02\
-    \x01\x04\x12\x03\x20\x08\x10\n\x0c\n\x05\x04\x02\x02\x01\x05\x12\x03\x20\
-    \x11\x17\n\x0c\n\x05\x04\x02\x02\x01\x01\x12\x03\x20\x18\x1b\n\x0c\n\x05\
-    \x04\x02\x02\x01\x03\x12\x03\x20\x1e\x1f\n\x20\n\x04\x04\x02\x02\x02\x12\
-    \x03!\x08\"\"\x13\x20transaction\x20flags\n\n\x0c\n\x05\x04\x02\x02\x02\
-    \x04\x12\x03!\x08\x10\n\x0c\n\x05\x04\x02\x02\x02\x05\x12\x03!\x11\x17\n\
-    \x0c\n\x05\x04\x02\x02\x02\x01\x12\x03!\x18\x1d\n\x0c\n\x05\x04\x02\x02\
-    \x02\x03\x12\x03!\x20!\n*\n\x04\x04\x02\x02\x03\x12\x03\"\x08%\"\x1d\x20\
-    transaction\x20sequence\x20number\n\n\x0c\n\x05\x04\x02\x02\x03\x04\x12\
-    \x03\"\x08\x10\n\x0c\n\x05\x04\x02\x02\x03\x05\x12\x03\"\x11\x17\n\x0c\n\
-    \x05\x04\x02\x02\x03\x01\x12\x03\"\x18\x20\n\x0c\n\x05\x04\x02\x02\x03\
-    \x03\x12\x03\"#$\nh\n\x04\x04\x02\x02\x04\x12\x03#\x081\"[\x20see\x20htt\
-    ps://developers.ripple.com/reliable-transaction-submission.html#lastledg\
-    ersequence\n\n\x0c\n\x05\x04\x02\x02\x04\x04\x12\x03#\x08\x10\n\x0c\n\
-    \x05\x04\x02\x02\x04\x05\x12\x03#\x11\x17\n\x0c\n\x05\x04\x02\x02\x04\
-    \x01\x12\x03#\x18,\n\x0c\n\x05\x04\x02\x02\x04\x03\x12\x03#/0\n'\n\x04\
-    \x04\x02\x02\x05\x12\x03$\x08+\"\x1a\x20Payment\x20transaction\x20type\n\
-    \n\x0c\n\x05\x04\x02\x02\x05\x04\x12\x03$\x08\x10\n\x0c\n\x05\x04\x02\
-    \x02\x05\x06\x12\x03$\x11\x1e\n\x0c\n\x05\x04\x02\x02\x05\x01\x12\x03$\
-    \x1f&\n\x0c\n\x05\x04\x02\x02\x05\x03\x12\x03$)*\n\xa3\x01\n\x04\x04\x02\
-    \x03\0\x12\x04,\x08/\t\x1a\x94\x01*\n\x20Payment\x20transaction\x20type\
-    \n\x20-\x20simple\x20A\x20sends\x20money\x20to\x20B\n\x20-\x20only\x20a\
-    \x20subset\x20of\x20fields\x20is\x20supported\n\x20-\x20see\x20https://d\
-    evelopers.ripple.com/payment.html\x20\n\n\x0c\n\x05\x04\x02\x03\0\x01\
-    \x12\x03,\x10\x1d\nG\n\x06\x04\x02\x03\0\x02\0\x12\x03-\x10+\"8\x20only\
-    \x20XRP\x20is\x20supported\x20at\x20the\x20moment\x20so\x20this\x20an\
-    \x20integer\n\n\x0e\n\x07\x04\x02\x03\0\x02\0\x04\x12\x03-\x10\x18\n\x0e\
-    \n\x07\x04\x02\x03\0\x02\0\x05\x12\x03-\x19\x1f\n\x0e\n\x07\x04\x02\x03\
-    \0\x02\0\x01\x12\x03-\x20&\n\x0e\n\x07\x04\x02\x03\0\x02\0\x03\x12\x03-)\
-    *\n,\n\x06\x04\x02\x03\0\x02\x01\x12\x03.\x100\"\x1d\x20destination\x20a\
-    ccount\x20address\n\n\x0e\n\x07\x04\x02\x03\0\x02\x01\x04\x12\x03.\x10\
-    \x18\n\x0e\n\x07\x04\x02\x03\0\x02\x01\x05\x12\x03.\x19\x1f\n\x0e\n\x07\
-    \x04\x02\x03\0\x02\x01\x01\x12\x03.\x20+\n\x0e\n\x07\x04\x02\x03\0\x02\
-    \x01\x03\x12\x03../\n9\n\x02\x04\x03\x12\x046\09\x01\x1a-*\n\x20Response\
-    :\x20signature\x20for\x20transaction\n\x20@end\n\n\n\n\x03\x04\x03\x01\
-    \x12\x036\x08\x16\n\x0b\n\x04\x04\x03\x02\0\x12\x037\x08%\n\x0c\n\x05\
-    \x04\x03\x02\0\x04\x12\x037\x08\x10\n\x0c\n\x05\x04\x03\x02\0\x05\x12\
-    \x037\x11\x16\n\x0c\n\x05\x04\x03\x02\0\x01\x12\x037\x17\x20\n\x0c\n\x05\
-    \x04\x03\x02\0\x03\x12\x037#$\n\x0b\n\x04\x04\x03\x02\x01\x12\x038\x08)\
-    \n\x0c\n\x05\x04\x03\x02\x01\x04\x12\x038\x08\x10\n\x0c\n\x05\x04\x03\
-    \x02\x01\x05\x12\x038\x11\x16\n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x038\
-    \x17$\n\x0c\n\x05\x04\x03\x02\x01\x03\x12\x038'(\
+    \x04\0\x02\0\x04\x12\x03\r\x04\x0c\n\x0c\n\x05\x04\0\x02\0\x05\x12\x03\r\
+    \r\x13\n\x0c\n\x05\x04\0\x02\0\x01\x12\x03\r\x14\x1d\n\x0c\n\x05\x04\0\
+    \x02\0\x03\x12\x03\r\x20!\nC\n\x04\x04\0\x02\x01\x12\x03\x0e\x04#\"6\x20\
+    optionally\x20show\x20on\x20display\x20before\x20sending\x20the\x20resul\
+    t\n\n\x0c\n\x05\x04\0\x02\x01\x04\x12\x03\x0e\x04\x0c\n\x0c\n\x05\x04\0\
+    \x02\x01\x05\x12\x03\x0e\r\x11\n\x0c\n\x05\x04\0\x02\x01\x01\x12\x03\x0e\
+    \x12\x1e\n\x0c\n\x05\x04\0\x02\x01\x03\x12\x03\x0e!\"\n;\n\x02\x04\x01\
+    \x12\x04\x15\0\x17\x01\x1a/*\n\x20Response:\x20Address\x20for\x20the\x20\
+    given\x20index\n\x20@end\n\n\n\n\x03\x04\x01\x01\x12\x03\x15\x08\x15\nJ\
+    \n\x04\x04\x01\x02\0\x12\x03\x16\x04\x20\"=\x20Address\x20in\x20Ripple\
+    \x20format\x20(base58\x20of\x20a\x20pubkey\x20with\x20checksum)\n\n\x0c\
+    \n\x05\x04\x01\x02\0\x04\x12\x03\x16\x04\x0c\n\x0c\n\x05\x04\x01\x02\0\
+    \x05\x12\x03\x16\r\x13\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x03\x16\x14\x1b\
+    \n\x0c\n\x05\x04\x01\x02\0\x03\x12\x03\x16\x1e\x1f\n\\\n\x02\x04\x02\x12\
+    \x04\x1e\01\x01\x1aP*\n\x20Request:\x20ask\x20device\x20to\x20sign\x20Ri\
+    pple\x20transaction\n\x20@start\n\x20@next\x20RippleSignedTx\n\n\n\n\x03\
+    \x04\x02\x01\x12\x03\x1e\x08\x14\n[\n\x04\x04\x02\x02\0\x12\x03\x1f\x04\
+    \"\"N\x20BIP-32\x20path.\x20For\x20compatibility\x20with\x20other\x20wal\
+    lets,\x20must\x20be\x20m/44'/144'/index'\n\n\x0c\n\x05\x04\x02\x02\0\x04\
+    \x12\x03\x1f\x04\x0c\n\x0c\n\x05\x04\x02\x02\0\x05\x12\x03\x1f\r\x13\n\
+    \x0c\n\x05\x04\x02\x02\0\x01\x12\x03\x1f\x14\x1d\n\x0c\n\x05\x04\x02\x02\
+    \0\x03\x12\x03\x1f\x20!\n1\n\x04\x04\x02\x02\x01\x12\x03\x20\x04\x1c\"$\
+    \x20fee\x20(in\x20drops)\x20for\x20the\x20transaction\n\n\x0c\n\x05\x04\
+    \x02\x02\x01\x04\x12\x03\x20\x04\x0c\n\x0c\n\x05\x04\x02\x02\x01\x05\x12\
+    \x03\x20\r\x13\n\x0c\n\x05\x04\x02\x02\x01\x01\x12\x03\x20\x14\x17\n\x0c\
+    \n\x05\x04\x02\x02\x01\x03\x12\x03\x20\x1a\x1b\n\x20\n\x04\x04\x02\x02\
+    \x02\x12\x03!\x04*\"\x13\x20transaction\x20flags\n\n\x0c\n\x05\x04\x02\
+    \x02\x02\x04\x12\x03!\x04\x0c\n\x0c\n\x05\x04\x02\x02\x02\x05\x12\x03!\r\
+    \x13\n\x0c\n\x05\x04\x02\x02\x02\x01\x12\x03!\x14\x19\n\x0c\n\x05\x04\
+    \x02\x02\x02\x03\x12\x03!\x1c\x1d\n\x0c\n\x05\x04\x02\x02\x02\x08\x12\
+    \x03!\x1e)\n\x0c\n\x05\x04\x02\x02\x02\x07\x12\x03!'(\n*\n\x04\x04\x02\
+    \x02\x03\x12\x03\"\x04!\"\x1d\x20transaction\x20sequence\x20number\n\n\
+    \x0c\n\x05\x04\x02\x02\x03\x04\x12\x03\"\x04\x0c\n\x0c\n\x05\x04\x02\x02\
+    \x03\x05\x12\x03\"\r\x13\n\x0c\n\x05\x04\x02\x02\x03\x01\x12\x03\"\x14\
+    \x1c\n\x0c\n\x05\x04\x02\x02\x03\x03\x12\x03\"\x1f\x20\nh\n\x04\x04\x02\
+    \x02\x04\x12\x03#\x04-\"[\x20see\x20https://developers.ripple.com/reliab\
+    le-transaction-submission.html#lastledgersequence\n\n\x0c\n\x05\x04\x02\
+    \x02\x04\x04\x12\x03#\x04\x0c\n\x0c\n\x05\x04\x02\x02\x04\x05\x12\x03#\r\
+    \x13\n\x0c\n\x05\x04\x02\x02\x04\x01\x12\x03#\x14(\n\x0c\n\x05\x04\x02\
+    \x02\x04\x03\x12\x03#+,\n'\n\x04\x04\x02\x02\x05\x12\x03$\x04'\"\x1a\x20\
+    Payment\x20transaction\x20type\n\n\x0c\n\x05\x04\x02\x02\x05\x04\x12\x03\
+    $\x04\x0c\n\x0c\n\x05\x04\x02\x02\x05\x06\x12\x03$\r\x1a\n\x0c\n\x05\x04\
+    \x02\x02\x05\x01\x12\x03$\x1b\"\n\x0c\n\x05\x04\x02\x02\x05\x03\x12\x03$\
+    %&\n\xa2\x01\n\x04\x04\x02\x03\0\x12\x04,\x040\x05\x1a\x93\x01*\n\x20Pay\
+    ment\x20transaction\x20type\n\x20-\x20simple\x20A\x20sends\x20money\x20t\
+    o\x20B\n\x20-\x20only\x20a\x20subset\x20of\x20fields\x20is\x20supported\
+    \n\x20-\x20see\x20https://developers.ripple.com/payment.html\n\n\x0c\n\
+    \x05\x04\x02\x03\0\x01\x12\x03,\x0c\x19\nG\n\x06\x04\x02\x03\0\x02\0\x12\
+    \x03-\x08#\"8\x20only\x20XRP\x20is\x20supported\x20at\x20the\x20moment\
+    \x20so\x20this\x20an\x20integer\n\n\x0e\n\x07\x04\x02\x03\0\x02\0\x04\
+    \x12\x03-\x08\x10\n\x0e\n\x07\x04\x02\x03\0\x02\0\x05\x12\x03-\x11\x17\n\
+    \x0e\n\x07\x04\x02\x03\0\x02\0\x01\x12\x03-\x18\x1e\n\x0e\n\x07\x04\x02\
+    \x03\0\x02\0\x03\x12\x03-!\"\n,\n\x06\x04\x02\x03\0\x02\x01\x12\x03.\x08\
+    (\"\x1d\x20destination\x20account\x20address\n\n\x0e\n\x07\x04\x02\x03\0\
+    \x02\x01\x04\x12\x03.\x08\x10\n\x0e\n\x07\x04\x02\x03\0\x02\x01\x05\x12\
+    \x03.\x11\x17\n\x0e\n\x07\x04\x02\x03\0\x02\x01\x01\x12\x03.\x18#\n\x0e\
+    \n\x07\x04\x02\x03\0\x02\x01\x03\x12\x03.&'\n5\n\x06\x04\x02\x03\0\x02\
+    \x02\x12\x03/\x08,\"&\x20destination\x20tag\x20to\x20identify\x20payment\
+    s\n\n\x0e\n\x07\x04\x02\x03\0\x02\x02\x04\x12\x03/\x08\x10\n\x0e\n\x07\
+    \x04\x02\x03\0\x02\x02\x05\x12\x03/\x11\x17\n\x0e\n\x07\x04\x02\x03\0\
+    \x02\x02\x01\x12\x03/\x18'\n\x0e\n\x07\x04\x02\x03\0\x02\x02\x03\x12\x03\
+    /*+\n9\n\x02\x04\x03\x12\x047\0:\x01\x1a-*\n\x20Response:\x20signature\
+    \x20for\x20transaction\n\x20@end\n\n\n\n\x03\x04\x03\x01\x12\x037\x08\
+    \x16\n\x0b\n\x04\x04\x03\x02\0\x12\x038\x04!\n\x0c\n\x05\x04\x03\x02\0\
+    \x04\x12\x038\x04\x0c\n\x0c\n\x05\x04\x03\x02\0\x05\x12\x038\r\x12\n\x0c\
+    \n\x05\x04\x03\x02\0\x01\x12\x038\x13\x1c\n\x0c\n\x05\x04\x03\x02\0\x03\
+    \x12\x038\x1f\x20\n\x0b\n\x04\x04\x03\x02\x01\x12\x039\x04%\n\x0c\n\x05\
+    \x04\x03\x02\x01\x04\x12\x039\x04\x0c\n\x0c\n\x05\x04\x03\x02\x01\x05\
+    \x12\x039\r\x12\n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x039\x13\x20\n\x0c\n\
+    \x05\x04\x03\x02\x01\x03\x12\x039#$\
 ";
 
 /// `FileDescriptorProto` object which was a source for this generated file
