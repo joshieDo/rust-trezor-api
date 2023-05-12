@@ -53,12 +53,6 @@ impl<'a, T, R: TrezorMessage> ButtonRequest<'a, T, R> {
 		self.message.code()
 	}
 
-	/// The metadata sent with the button request.
-	// TODO now it returns pages
-	// pub fn request_data(&self) -> &str {
-	// 	self.message.get_data()
-	// }
-
 	/// Ack the request and get the next message from the device.
 	pub fn ack(self) -> Result<TrezorResponse<'a, T, R>> {
 		let req = protos::ButtonAck::new();

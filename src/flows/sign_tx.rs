@@ -325,10 +325,10 @@ impl<'a> SignTxProgress<'a> {
 			TxRequestType::TXOUTPUT => ack_output_request(&self.req, psbt, network),
 			TxRequestType::TXMETA => ack_meta_request(&self.req, psbt),
 			TxRequestType::TXEXTRADATA => unimplemented!(), //TODO(stevenroose) implement
-			TxRequestType::TXFINISHED => unreachable!(),
 			TxRequestType::TXORIGINPUT
 			| TxRequestType::TXORIGOUTPUT
 			| TxRequestType::TXPAYMENTREQ => unimplemented!(),
+			TxRequestType::TXFINISHED => unreachable!(),
 		}?;
 		self.ack_msg(ack)
 	}

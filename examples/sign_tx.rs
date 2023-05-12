@@ -114,8 +114,7 @@ fn main() {
 	};
 
 	println!("psbt before: {:?}", psbt);
-	// TODO
-	// println!("unsigned txid: {}", psbt.unsigned_tx.bitcoin_hash());
+	println!("unsigned txid: {}", psbt.unsigned_tx.txid());
 	println!(
 		"unsigned tx: {}",
 		hex::encode(bitcoin::consensus::encode::serialize(&psbt.unsigned_tx))
