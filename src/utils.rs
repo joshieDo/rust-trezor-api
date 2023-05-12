@@ -34,7 +34,7 @@ pub fn from_rev_bytes(rev_bytes: &[u8]) -> Option<sha256d::Hash> {
 
 /// Get the reverse byte representation of a hash.
 pub fn to_rev_bytes(hash: &sha256d::Hash) -> [u8; 32] {
-	let mut bytes: [u8; 32] = *hash.as_ref();
+	let mut bytes = hash.to_byte_array();
 	bytes.reverse();
 	bytes
 }

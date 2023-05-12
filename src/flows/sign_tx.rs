@@ -28,7 +28,7 @@ fn ack_input_request(
 	req: &protos::TxRequest,
 	psbt: &psbt::PartiallySignedTransaction,
 ) -> Result<protos::TxAck> {
-	if !req.details.is_some() || !req.details.has_request_index() {
+	if req.details.is_none() || !req.details.has_request_index() {
 		return Err(Error::MalformedTxRequest(req.clone()));
 	}
 
@@ -114,7 +114,7 @@ fn ack_output_request(
 	psbt: &psbt::PartiallySignedTransaction,
 	network: Network,
 ) -> Result<protos::TxAck> {
-	if !req.details.is_some() || !req.details.has_request_index() {
+	if req.details.is_none() || !req.details.has_request_index() {
 		return Err(Error::MalformedTxRequest(req.clone()));
 	}
 
@@ -196,7 +196,7 @@ fn ack_meta_request(
 	req: &protos::TxRequest,
 	psbt: &psbt::PartiallySignedTransaction,
 ) -> Result<protos::TxAck> {
-	if !req.details.is_some() {
+	if req.details.is_none() {
 		return Err(Error::MalformedTxRequest(req.clone()));
 	}
 
