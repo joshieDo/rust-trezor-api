@@ -37,7 +37,7 @@ pub struct AvailableWebUsbTransport {
 }
 
 impl fmt::Display for AvailableWebUsbTransport {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		write!(f, "WebUSB ({}:{})", self.bus, self.address)
 	}
 }

@@ -11,6 +11,8 @@
 //! We use the log package interface, so any logger that supports log can be attached.
 //! Please be aware that `trace` logging can contain sensitive data.
 
+#![warn(rust_2018_idioms)]
+
 #[macro_use]
 extern crate log;
 
@@ -54,7 +56,7 @@ pub enum Model {
 }
 
 impl fmt::Display for Model {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		f.write_str(match self {
 			Model::TrezorLegacy => "Trezor (legacy)",
 			Model::Trezor => "Trezor",
@@ -74,7 +76,7 @@ pub struct AvailableDevice {
 }
 
 impl fmt::Display for AvailableDevice {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		write!(f, "{} (transport: {}) (debug: {})", self.model, &self.transport, self.debug)
 	}
 }

@@ -42,7 +42,7 @@ pub struct ButtonRequest<'a, T, R: TrezorMessage> {
 }
 
 impl<'a, T, R: TrezorMessage> fmt::Debug for ButtonRequest<'a, T, R> {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		fmt::Debug::fmt(&self.message, f)
 	}
 }
@@ -74,7 +74,7 @@ pub struct PinMatrixRequest<'a, T, R: TrezorMessage> {
 }
 
 impl<'a, T, R: TrezorMessage> fmt::Debug for PinMatrixRequest<'a, T, R> {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		fmt::Debug::fmt(&self.message, f)
 	}
 }
@@ -101,7 +101,7 @@ pub struct PassphraseRequest<'a, T, R: TrezorMessage> {
 }
 
 impl<'a, T, R: TrezorMessage> fmt::Debug for PassphraseRequest<'a, T, R> {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		fmt::Debug::fmt(&self.message, f)
 	}
 }
@@ -145,7 +145,7 @@ pub enum TrezorResponse<'a, T, R: TrezorMessage> {
 }
 
 impl<'a, T, R: TrezorMessage> fmt::Display for TrezorResponse<'a, T, R> {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		match self {
 			TrezorResponse::Ok(ref _m) => write!(f, "Ok"), //TODO(stevenroose) should we make T: Debug?
 			TrezorResponse::Failure(ref m) => write!(f, "Failure: {:?}", m),
@@ -220,7 +220,7 @@ impl<'a, T, R: TrezorMessage> TrezorResponse<'a, T, R> {
 	}
 }
 
-pub fn handle_interaction<T, R: TrezorMessage>(resp: TrezorResponse<T, R>) -> Result<T> {
+pub fn handle_interaction<T, R: TrezorMessage>(resp: TrezorResponse<'_, T, R>) -> Result<T> {
 	match resp {
 		TrezorResponse::Ok(res) => Ok(res),
 		TrezorResponse::Failure(_) => resp.ok(), // assering ok() returns the failure error

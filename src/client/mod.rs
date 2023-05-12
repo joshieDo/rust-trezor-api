@@ -126,7 +126,7 @@ impl Trezor {
 	pub fn initialize(
 		&mut self,
 		session_id: Option<Vec<u8>>,
-	) -> Result<TrezorResponse<Features, Features>> {
+	) -> Result<TrezorResponse<'_, Features, Features>> {
 		let mut req = protos::Initialize::new();
 		if let Some(session_id) = session_id {
 			req.set_session_id(session_id);
@@ -134,19 +134,19 @@ impl Trezor {
 		self.call(req, Box::new(|_, m| Ok(m)))
 	}
 
-	pub fn ping(&mut self, message: &str) -> Result<TrezorResponse<(), protos::Success>> {
+	pub fn ping(&mut self, message: &str) -> Result<TrezorResponse<'_, (), protos::Success>> {
 		let mut req = protos::Ping::new();
 		req.set_message(message.to_owned());
 		self.call(req, Box::new(|_, _| Ok(())))
 	}
 
-	pub fn change_pin(&mut self, remove: bool) -> Result<TrezorResponse<(), protos::Success>> {
+	pub fn change_pin(&mut self, remove: bool) -> Result<TrezorResponse<'_, (), protos::Success>> {
 		let mut req = protos::ChangePin::new();
 		req.set_remove(remove);
 		self.call(req, Box::new(|_, _| Ok(())))
 	}
 
-	pub fn wipe_device(&mut self) -> Result<TrezorResponse<(), protos::Success>> {
+	pub fn wipe_device(&mut self) -> Result<TrezorResponse<'_, (), protos::Success>> {
 		let req = protos::WipeDevice::new();
 		self.call(req, Box::new(|_, _| Ok(())))
 	}
@@ -158,7 +158,7 @@ impl Trezor {
 		pin_protection: bool,
 		label: String,
 		dry_run: bool,
-	) -> Result<TrezorResponse<(), protos::Success>> {
+	) -> Result<TrezorResponse<'_, (), protos::Success>> {
 		let mut req = protos::RecoveryDevice::new();
 		req.set_word_count(word_count as u32);
 		req.set_passphrase_protection(passphrase_protection);
@@ -184,7 +184,7 @@ impl Trezor {
 		label: String,
 		skip_backup: bool,
 		no_backup: bool,
-	) -> Result<TrezorResponse<EntropyRequest, protos::EntropyRequest>> {
+	) -> Result<TrezorResponse<'_, EntropyRequest<'_>, protos::EntropyRequest>> {
 		let mut req = protos::ResetDevice::new();
 		req.set_display_random(display_random);
 		req.set_strength(strength as u32);
@@ -203,7 +203,7 @@ impl Trezor {
 		)
 	}
 
-	pub fn backup(&mut self) -> Result<TrezorResponse<(), protos::Success>> {
+	pub fn backup(&mut self) -> Result<TrezorResponse<'_, (), protos::Success>> {
 		let req = protos::BackupDevice::new();
 		self.call(req, Box::new(|_, _| Ok(())))
 	}
@@ -216,7 +216,7 @@ impl Trezor {
 		use_passphrase: Option<bool>,
 		homescreen: Option<Vec<u8>>,
 		auto_lock_delay_ms: Option<usize>,
-	) -> Result<TrezorResponse<(), protos::Success>> {
+	) -> Result<TrezorResponse<'_, (), protos::Success>> {
 		let mut req = protos::ApplySettings::new();
 		if let Some(label) = label {
 			req.set_label(label);
@@ -238,7 +238,7 @@ impl Trezor {
 		identity: protos::IdentityType,
 		digest: Vec<u8>,
 		curve: String,
-	) -> Result<TrezorResponse<Vec<u8>, protos::SignedIdentity>> {
+	) -> Result<TrezorResponse<'_, Vec<u8>, protos::SignedIdentity>> {
 		let mut req = protos::SignIdentity::new();
 		req.identity = MessageField::some(identity);
 		req.set_challenge_hidden(digest);

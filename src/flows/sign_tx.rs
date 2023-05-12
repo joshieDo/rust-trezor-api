@@ -242,7 +242,7 @@ pub struct SignTxProgress<'a> {
 
 impl<'a> SignTxProgress<'a> {
 	/// Only intended for internal usage.
-	pub fn new(client: &mut Trezor, req: protos::TxRequest) -> SignTxProgress {
+	pub fn new(client: &mut Trezor, req: protos::TxRequest) -> SignTxProgress<'_> {
 		SignTxProgress {
 			client,
 			req,

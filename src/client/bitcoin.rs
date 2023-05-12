@@ -18,7 +18,7 @@ impl Trezor {
 		script_type: InputScriptType,
 		network: Network,
 		show_display: bool,
-	) -> Result<TrezorResponse<bip32::ExtendedPubKey, protos::PublicKey>> {
+	) -> Result<TrezorResponse<'_, bip32::ExtendedPubKey, protos::PublicKey>> {
 		let mut req = protos::GetPublicKey::new();
 		req.address_n = utils::convert_path(path);
 		req.set_show_display(show_display);
@@ -34,7 +34,7 @@ impl Trezor {
 		script_type: InputScriptType,
 		network: Network,
 		show_display: bool,
-	) -> Result<TrezorResponse<Address, protos::Address>> {
+	) -> Result<TrezorResponse<'_, Address, protos::Address>> {
 		let mut req = protos::GetAddress::new();
 		req.address_n = utils::convert_path(path);
 		req.set_coin_name(utils::coin_name(network)?);
@@ -47,7 +47,7 @@ impl Trezor {
 		&mut self,
 		psbt: &psbt::PartiallySignedTransaction,
 		network: Network,
-	) -> Result<TrezorResponse<SignTxProgress, protos::TxRequest>> {
+	) -> Result<TrezorResponse<'_, SignTxProgress<'_>, protos::TxRequest>> {
 		let tx = &psbt.unsigned_tx;
 		let mut req = protos::SignTx::new();
 		req.set_inputs_count(tx.input.len() as u32);
@@ -64,7 +64,7 @@ impl Trezor {
 		path: &bip32::DerivationPath,
 		script_type: InputScriptType,
 		network: Network,
-	) -> Result<TrezorResponse<(Address, RecoverableSignature), protos::MessageSignature>> {
+	) -> Result<TrezorResponse<'_, (Address, RecoverableSignature), protos::MessageSignature>> {
 		let mut req = protos::SignMessage::new();
 		req.address_n = utils::convert_path(path);
 		// Normalize to Unicode NFC.
