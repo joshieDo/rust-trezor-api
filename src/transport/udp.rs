@@ -1,17 +1,16 @@
 use std::net::UdpSocket;
 use std::time::Duration;
 use std::{fmt, result::Result};
-use transport::error::Error;
 
+use super::error::Error;
+use super::protocol::{Link, Protocol, ProtocolV1};
+use super::{AvailableDeviceTransport, ProtoMessage, Transport};
 use crate::{AvailableDevice, Model};
 
-use self::constants::{DEFAULT_DEBUG_PORT, DEFAULT_HOST, DEFAULT_PORT, LOCAL_LISTENER};
+use constants::{DEFAULT_DEBUG_PORT, DEFAULT_HOST, DEFAULT_PORT, LOCAL_LISTENER};
 
-use super::{AvailableDeviceTransport, ProtoMessage, Transport};
-use transport::protocol::{Link, Protocol, ProtocolV1};
-
+// A collection of constants related to the Emulator Ports.
 mod constants {
-	///! A collection of constants related to the Emulator Ports.
 	pub const DEFAULT_HOST: &str = "127.0.0.1";
 	pub const DEFAULT_PORT: &str = "21324";
 	pub const DEFAULT_DEBUG_PORT: &str = "21325";

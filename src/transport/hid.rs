@@ -7,8 +7,8 @@ use crate::transport::protocol::{Link, Protocol, ProtocolV1};
 use crate::transport::{derive_model, AvailableDeviceTransport, ProtoMessage, Transport};
 use crate::AvailableDevice;
 
+// A collection of constants related to the HID protocol.
 mod constants {
-	//! A collection of constants related to the HID protocol.
 	pub use crate::transport::constants::*;
 
 	pub const WIRELINK_USAGE: u16 = 0xFF00;

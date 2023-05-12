@@ -8,8 +8,8 @@ use crate::transport::protocol::{Link, Protocol, ProtocolV1};
 use crate::transport::{derive_model, AvailableDeviceTransport, ProtoMessage, Transport};
 use crate::AvailableDevice;
 
+// A collection of constants related to the WebUsb protocol.
 mod constants {
-	//! A collection of constants related to the WebUsb protocol.
 	pub use crate::transport::constants::*;
 
 	pub const CONFIG_ID: u8 = 0;

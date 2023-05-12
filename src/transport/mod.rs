@@ -72,9 +72,8 @@ pub fn connect(available_device: &AvailableDevice) -> Result<Box<dyn Transport>,
 	}
 }
 
+// A collection of transport-global constants.
 mod constants {
-	//! A collection of transport-global constants.
-
 	pub const DEV_TREZOR_LEGACY: (u16, u16) = (0x534C, 0x0001);
 	pub const DEV_TREZOR: (u16, u16) = (0x1209, 0x53C1);
 	pub const DEV_TREZOR_BOOTLOADER: (u16, u16) = (0x1209, 0x53C0);
