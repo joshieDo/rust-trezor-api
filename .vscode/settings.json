@@ -1,0 +1,3 @@
+{
+    "rust-analyzer.cargo.features": ["f_bitcoin", "f_ethereum"]
+}

@@ -55,9 +55,6 @@ pub enum Error {
 	#[error("device referenced non-existing input or output index: {0}")]
 	TxRequestInvalidIndex(usize),
 
-	/// Device produced invalid TxRequest message.
-	#[error("malformed TxRequest: {0:?}")]
-	MalformedTxRequest(protos::TxRequest),
 	/// User provided invalid PSBT.
 	#[error("PSBT missing input tx: {0}")]
 	InvalidPsbt(String),
@@ -75,6 +72,10 @@ pub enum Error {
 	#[cfg(feature = "f_bitcoin")]
 	#[error("PSBT missing input tx: {0}")]
 	PsbtMissingInputTx(bitcoin_hashes::sha256d::Hash),
+	/// Device produced invalid TxRequest message.
+	#[cfg(feature = "f_bitcoin")]
+	#[error("malformed TxRequest: {0:?}")]
+	MalformedTxRequest(protos::TxRequest),
 	/// Error encoding/decoding a Bitcoin data structure.
 	#[cfg(feature = "f_bitcoin")]
 	#[error(transparent)]

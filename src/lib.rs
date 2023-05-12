@@ -29,13 +29,16 @@ mod flows {
 }
 
 pub use client::{
-	ButtonRequest, ButtonRequestType, EntropyRequest, Features, InputScriptType, InteractionType,
-	PassphraseRequest, PinMatrixRequest, PinMatrixRequestType, Trezor, TrezorResponse, WordCount,
+	ButtonRequest, ButtonRequestType, EntropyRequest, Features, PassphraseRequest,
+	PinMatrixRequest, PinMatrixRequestType, Trezor, TrezorResponse, WordCount,
 };
 pub use error::{Error, Result};
+pub use messages::TrezorMessage;
+
 #[cfg(feature = "f_bitcoin")]
 pub use flows::sign_tx::SignTxProgress;
-pub use messages::TrezorMessage;
+#[cfg(feature = "f_bitcoin")]
+pub use protos::InputScriptType;
 
 use std::fmt;
 
@@ -84,7 +87,7 @@ impl AvailableDevice {
 /// Most devices will show up twice both either debugging enables or disabled.
 ///
 /// Note: This will not show older devices that only support the HID interface.
-/// To use those, please use [find_hid_device].
+/// To use those, please use [find_hid_devices].
 pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
 	use transport::webusb::WebUsbTransport;
 	WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)

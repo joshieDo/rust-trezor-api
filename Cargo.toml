@@ -8,9 +8,15 @@ repository = "https://github.com/joshieDo/rust-trezor-api"
 description = "Client library for interfacing with Trezor hardware wallet devices."
 keywords = ["ethereum", "bitcoin", "trezor", "wallet"]
 readme = "README.md"
+exclude = [".github/", "examples/", "protos/", "generate-protos.sh", "rustfmt.toml"]
 edition = "2021"
 
 [dependencies]
+protobuf = "3.2"
+byteorder = "1.4"
+hidapi-rusb = { version = "1.3" }
+rusb = "0.9"
+
 log = "0.4"
 hex = { version = "0.4", default-features = false, features = ["std"] }
 thiserror = "1.0"
@@ -25,15 +31,23 @@ secp256k1 = { version = "0.27", optional = true }
 # ethereum
 primitive-types = { version = "0.12", default-features = false, optional = true }
 
-protobuf = "3.2"
-byteorder = "1.4"
-hidapi-rusb = { version = "1.3" }
-rusb = "0.9"
-
 [dev-dependencies]
 fern = "0.6"
 
 [features]
 default = ["f_bitcoin", "f_ethereum"]
+
+# Client implementations
 f_bitcoin = ["bitcoin", "secp256k1", "unicode-normalization", "bitcoin-bech32", "bitcoin_hashes"]
 f_ethereum = ["primitive-types"]
+
+# Just protobufs
+f_cardano = []
+f_lisk = []
+f_monero = []
+f_nem = []
+f_ontology = []
+f_ripple = []
+f_stellar = []
+f_tezos = []
+f_tron = []

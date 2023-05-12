@@ -108,7 +108,7 @@ pub fn coin_name(network: Network) -> Result<String> {
 	}
 }
 
-/// Convert a BIP-32 derivation path into a Vec<u32>.
+/// Convert a BIP-32 derivation path into a `Vec<u32>`.
 pub fn convert_path(path: &bip32::DerivationPath) -> Vec<u32> {
 	path.into_iter().map(|i| u32::from(*i)).collect()
 }
