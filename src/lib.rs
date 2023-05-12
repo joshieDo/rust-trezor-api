@@ -57,12 +57,18 @@ pub enum Model {
 
 impl fmt::Display for Model {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-		f.write_str(match self {
+		f.write_str(self.as_str())
+	}
+}
+
+impl Model {
+	pub const fn as_str(&self) -> &'static str {
+		match self {
 			Model::TrezorLegacy => "Trezor (legacy)",
 			Model::Trezor => "Trezor",
 			Model::TrezorBootloader => "Trezor (bootloader)",
 			Model::TrezorEmulator => "Trezor Emulator",
-		})
+		}
 	}
 }
 
