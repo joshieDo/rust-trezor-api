@@ -16,6 +16,7 @@ mod constants {
 	pub const DEFAULT_DEBUG_PORT: &str = "21325";
 	pub const LOCAL_LISTENER: &str = "127.0.0.1:34254";
 }
+
 /// The chunk size for the serial protocol.
 const CHUNK_SIZE: usize = 64;
 
@@ -80,9 +81,10 @@ impl UdpLink {
 		link.socket.connect(path)?;
 		Ok(link)
 	}
+
 	// Ping the port and compare against expected response
 	fn ping(&self) -> Result<bool, Error> {
-		let mut resp = vec![0; CHUNK_SIZE];
+		let mut resp = [0; CHUNK_SIZE];
 		self.socket.send("PINGPING".as_bytes())?;
 		let size = self.socket.recv(&mut resp)?;
 		Ok(&resp[..size] == "PONGPONG".as_bytes())

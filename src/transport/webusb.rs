@@ -44,15 +44,8 @@ impl fmt::Display for AvailableWebUsbTransport {
 
 /// An actual serial USB link to a device over which bytes can be sent.
 pub struct WebUsbLink {
-	handle: &'static mut rusb::DeviceHandle<GlobalContext>,
+	handle: DeviceHandle<GlobalContext>,
 	endpoint: u8,
-}
-
-impl Drop for WebUsbLink {
-	fn drop(&mut self) {
-		// Re-box the two static references and manually drop them.
-		drop(unsafe { Box::from_raw(self.handle) });
-	}
 }
 
 impl Link for WebUsbLink {
@@ -136,29 +129,23 @@ impl WebUsbTransport {
 		};
 
 		// Go over the devices again to match the desired device.
-		let handle = {
-			let dev = rusb::devices()?
-				.iter()
-				.find(|dev| dev.bus_number() == transport.bus && dev.address() == transport.address)
-				.ok_or(Error::DeviceDisconnected)?;
-			// Check if there is not another device connected on this bus.
-			let dev_desc = dev.device_descriptor()?;
-			let dev_id = (dev_desc.vendor_id(), dev_desc.product_id());
-			if derive_model(dev_id).as_ref() != Some(&device.model) {
-				return Err(Error::DeviceDisconnected);
-			}
-			let mut handle = dev.open()?;
-			handle.claim_interface(interface)?;
-			handle
-		};
-
-		let handle_ptr = Box::into_raw(Box::new(handle));
-		let handle_ref = unsafe { &mut *handle_ptr as &'static mut DeviceHandle<GlobalContext> };
+		let dev = rusb::devices()?
+			.iter()
+			.find(|dev| dev.bus_number() == transport.bus && dev.address() == transport.address)
+			.ok_or(Error::DeviceDisconnected)?;
+		// Check if there is not another device connected on this bus.
+		let dev_desc = dev.device_descriptor()?;
+		let dev_id = (dev_desc.vendor_id(), dev_desc.product_id());
+		if derive_model(dev_id).as_ref() != Some(&device.model) {
+			return Err(Error::DeviceDisconnected);
+		}
+		let mut handle = dev.open()?;
+		handle.claim_interface(interface)?;
 
 		Ok(Box::new(WebUsbTransport {
 			protocol: ProtocolV1 {
 				link: WebUsbLink {
-					handle: handle_ref,
+					handle,
 					endpoint: match device.debug {
 						false => constants::ENDPOINT,
 						true => constants::ENDPOINT_DEBUG,
