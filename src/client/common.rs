@@ -142,8 +142,8 @@ pub enum TrezorResponse<'a, T, R: TrezorMessage> {
 impl<'a, T, R: TrezorMessage> fmt::Display for TrezorResponse<'a, T, R> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            TrezorResponse::Ok(ref _m) => write!(f, "Ok"), /* TODO(stevenroose) should we make
-                                                             * T: Debug? */
+            // TODO(stevenroose) should we make T: Debug?
+            TrezorResponse::Ok(ref _m) => f.write_str("Ok"),
             TrezorResponse::Failure(ref m) => write!(f, "Failure: {:?}", m),
             TrezorResponse::ButtonRequest(ref r) => write!(f, "ButtonRequest: {:?}", r),
             TrezorResponse::PinMatrixRequest(ref r) => write!(f, "PinMatrixRequest: {:?}", r),

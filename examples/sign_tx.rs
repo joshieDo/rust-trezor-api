@@ -21,8 +21,8 @@ fn setup_logger() {
 fn handle_interaction<T, R: TrezorMessage>(resp: TrezorResponse<T, R>) -> T {
     match resp {
         TrezorResponse::Ok(res) => res,
-        TrezorResponse::Failure(_) => resp.ok().unwrap(), /* assering ok() returns the failure
-                                                            * error */
+        // assering ok() returns the failure error
+        TrezorResponse::Failure(_) => resp.ok().unwrap(),
         TrezorResponse::ButtonRequest(req) => handle_interaction(req.ack().unwrap()),
         TrezorResponse::PinMatrixRequest(req) => {
             println!("Enter PIN");
