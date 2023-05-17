@@ -10,10 +10,11 @@ authors = [
 license = "CC0-1.0"
 homepage = "https://github.com/joshieDo/rust-trezor-api"
 repository = "https://github.com/joshieDo/rust-trezor-api"
-description = "Client library for interfacing with Trezor hardware wallet devices."
+description = "Client library for interfacing with Trezor hardware wallet devices"
 keywords = ["ethereum", "bitcoin", "trezor", "wallet"]
+categories = ["api-bindings", "cryptography::cryptocurrencies"]
 readme = "README.md"
-exclude = [".github/", "examples/", "protos/", "generate-protos.sh", "rustfmt.toml"]
+exclude = [".github/", ".vscode/", "examples/", "scripts/", "trezor-common/", "rustfmt.toml"]
 edition = "2021"
 rust-version = "1.60"
 

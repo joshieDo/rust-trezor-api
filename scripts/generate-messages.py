@@ -3,7 +3,7 @@
 # Generates the `trezor_message_impl!` macro calls for the `src/messages.rs` file.
 
 # Path to the `messages.proto` file
-PATH = "./protos/messages.proto"
+PATH = "./trezor-common/protob/messages.proto"
 # Prefix of the enum variants
 PREFIX = "MessageType_"
 # Mapping of block name to feature name
