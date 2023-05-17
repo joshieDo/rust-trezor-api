@@ -1,7 +1,6 @@
-use std::fmt;
-
 use super::{AvailableDevice, Model};
 use crate::protos::MessageType;
+use std::fmt;
 
 pub mod error;
 pub mod protocol;

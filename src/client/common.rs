@@ -1,10 +1,9 @@
-use std::fmt;
-
 use crate::{
     error::{Error, Result},
     messages::TrezorMessage,
     protos, Trezor,
 };
+use std::fmt;
 
 // Some types with raw protos that we use in the public interface so they have to be exported.
 pub use protos::{

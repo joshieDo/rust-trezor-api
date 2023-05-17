@@ -1,7 +1,3 @@
-use std::{fmt, result::Result, time::Duration};
-
-use rusb::*;
-
 use crate::{
     transport::{
         derive_model,
@@ -11,6 +7,8 @@ use crate::{
     },
     AvailableDevice,
 };
+use rusb::*;
+use std::{fmt, result::Result, time::Duration};
 
 // A collection of constants related to the WebUsb protocol.
 mod constants {

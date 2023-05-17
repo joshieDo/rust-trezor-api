@@ -1,16 +1,15 @@
 #[cfg(feature = "bitcoin")]
 mod bitcoin;
-use protobuf::MessageField;
-
 #[cfg(feature = "bitcoin")]
 pub use self::bitcoin::*;
+
 #[cfg(feature = "ethereum")]
 mod ethereum;
 #[cfg(feature = "ethereum")]
-pub use self::ethereum::*;
+pub use ethereum::*;
 
 pub mod common;
-pub use self::common::*;
+pub use common::*;
 
 use crate::{
     error::{Error, Result},
@@ -20,6 +19,7 @@ use crate::{
     transport::{ProtoMessage, Transport},
     Model,
 };
+use protobuf::MessageField;
 
 /// A Trezor client.
 pub struct Trezor {

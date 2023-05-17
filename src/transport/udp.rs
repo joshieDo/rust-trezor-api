@@ -1,13 +1,10 @@
-use std::{fmt, net::UdpSocket, result::Result, time::Duration};
-
 use super::{
     error::Error,
     protocol::{Link, Protocol, ProtocolV1},
     AvailableDeviceTransport, ProtoMessage, Transport,
 };
 use crate::{AvailableDevice, Model};
-
-use constants::{DEFAULT_DEBUG_PORT, DEFAULT_HOST, DEFAULT_PORT, LOCAL_LISTENER};
+use std::{fmt, net::UdpSocket, result::Result, time::Duration};
 
 // A collection of constants related to the Emulator Ports.
 mod constants {
@@ -16,6 +13,8 @@ mod constants {
     pub const DEFAULT_DEBUG_PORT: &str = "21325";
     pub const LOCAL_LISTENER: &str = "127.0.0.1:34254";
 }
+
+use constants::{DEFAULT_DEBUG_PORT, DEFAULT_HOST, DEFAULT_PORT, LOCAL_LISTENER};
 
 /// The chunk size for the serial protocol.
 const CHUNK_SIZE: usize = 64;

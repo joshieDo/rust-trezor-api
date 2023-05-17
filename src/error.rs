@@ -1,10 +1,9 @@
 //! # Error Handling
 
-use protobuf::Error as ProtobufError;
-
 use crate::{client::InteractionType, protos, transport::error::Error as TransportError};
 
-/// Result type used in this crate.
+/// Trezor result type. Aliased to [`std::result::Result`] with the error type
+/// set to [`Error`].
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// Trezor error.
@@ -36,7 +35,7 @@ pub enum Error {
     UnexpectedMessageType(protos::MessageType), //TODO(stevenroose) type alias
     /// Error reading or writing protobuf messages.
     #[error(transparent)]
-    Protobuf(#[from] ProtobufError),
+    Protobuf(#[from] protobuf::Error),
     /// A failure message was returned by the device.
     #[error("failure received: code={:?} message=\"{}\"", .0.code(), .0.message())]
     FailureResponse(protos::Failure),

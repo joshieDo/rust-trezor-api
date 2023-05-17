@@ -1,3 +1,4 @@
+use crate::error::{Error, Result};
 use bitcoin::{
     address,
     address::Payload,
@@ -8,8 +9,6 @@ use bitcoin::{
     secp256k1::ecdsa::{RecoverableSignature, RecoveryId},
     Address, Network,
 };
-
-use crate::error::{Error, Result};
 
 /// Retrieve an address from the given script.
 pub fn address_from_script(script: &Script, network: Network) -> Option<address::Address> {

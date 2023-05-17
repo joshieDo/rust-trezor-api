@@ -1,7 +1,5 @@
 //! Logic to handle the sign_tx command flow.
 
-use bitcoin::{hashes::sha256d, psbt, Network, Transaction};
-
 use crate::{
     client::*,
     error::{Error, Result},
@@ -14,16 +12,16 @@ use crate::{
     },
     utils,
 };
+use bitcoin::{hashes::sha256d, psbt, Network, Transaction};
+use protos::{
+    tx_ack::transaction_type::TxInputType, tx_request::RequestType as TxRequestType,
+    OutputScriptType,
+};
 
 // Some types with raw protos that we use in the public interface so they have to be exported.
 pub use protos::{
     ButtonRequest as ButtonRequestType, Features, InputScriptType,
     PinMatrixRequest as PinMatrixRequestType,
-};
-
-use protos::{
-    tx_ack::transaction_type::TxInputType, tx_request::RequestType as TxRequestType,
-    OutputScriptType,
 };
 
 /// Fulfill a TxRequest for TXINPUT.

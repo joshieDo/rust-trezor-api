@@ -1,9 +1,11 @@
 use super::{handle_interaction, Trezor};
-use crate::{error::Result, protos, protos::ethereum_sign_tx_eip1559::EthereumAccessList};
-
+use crate::{
+    error::Result,
+    protos::{self, ethereum_sign_tx_eip1559::EthereumAccessList},
+};
 use primitive_types::U256;
 
-/// Access list item
+/// Access list item.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AccessListItem {
     /// Accessed address
@@ -12,8 +14,8 @@ pub struct AccessListItem {
     pub storage_keys: Vec<Vec<u8>>,
 }
 
+/// An ECDSA signature.
 #[derive(Debug, Clone, PartialEq, Eq, Copy)]
-/// An ECDSA signature
 pub struct Signature {
     /// R value
     pub r: U256,
