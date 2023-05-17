@@ -1,89 +1,90 @@
 use std::io::{self, Write};
 
 use bitcoin::{
-	bip32, blockdata::script::Builder, consensus::encode::Decodable, network::constants::Network,
-	psbt, Address, Sequence, Transaction, TxIn, TxOut,
+    bip32, blockdata::script::Builder, consensus::encode::Decodable, network::constants::Network,
+    psbt, Address, Sequence, Transaction, TxIn, TxOut,
 };
 
 use trezor_client::{Error, SignTxProgress, TrezorMessage, TrezorResponse};
 
 fn setup_logger() {
-	fern::Dispatch::new()
-		.format(|out, message, record| {
-			out.finish(format_args!("[{}][{}] {}", record.target(), record.level(), message))
-		})
-		.level(log::LevelFilter::Trace)
-		.chain(std::io::stderr())
-		.apply()
-		.unwrap();
+    fern::Dispatch::new()
+        .format(|out, message, record| {
+            out.finish(format_args!("[{}][{}] {}", record.target(), record.level(), message))
+        })
+        .level(log::LevelFilter::Trace)
+        .chain(std::io::stderr())
+        .apply()
+        .unwrap();
 }
 
 fn handle_interaction<T, R: TrezorMessage>(resp: TrezorResponse<T, R>) -> T {
-	match resp {
-		TrezorResponse::Ok(res) => res,
-		TrezorResponse::Failure(_) => resp.ok().unwrap(), // assering ok() returns the failure error
-		TrezorResponse::ButtonRequest(req) => handle_interaction(req.ack().unwrap()),
-		TrezorResponse::PinMatrixRequest(req) => {
-			println!("Enter PIN");
-			let mut pin = String::new();
-			if io::stdin().read_line(&mut pin).unwrap() != 5 {
-				println!("must enter pin, received: {}", pin);
-			}
-			// trim newline
-			handle_interaction(req.ack_pin(pin[..4].to_owned()).unwrap())
-		}
-		TrezorResponse::PassphraseRequest(req) => {
-			println!("Enter passphrase");
-			let mut pass = String::new();
-			io::stdin().read_line(&mut pass).unwrap();
-			// trim newline
-			handle_interaction(req.ack_passphrase(pass[..pass.len() - 1].to_owned()).unwrap())
-		}
-	}
+    match resp {
+        TrezorResponse::Ok(res) => res,
+        TrezorResponse::Failure(_) => resp.ok().unwrap(), /* assering ok() returns the failure
+                                                            * error */
+        TrezorResponse::ButtonRequest(req) => handle_interaction(req.ack().unwrap()),
+        TrezorResponse::PinMatrixRequest(req) => {
+            println!("Enter PIN");
+            let mut pin = String::new();
+            if io::stdin().read_line(&mut pin).unwrap() != 5 {
+                println!("must enter pin, received: {}", pin);
+            }
+            // trim newline
+            handle_interaction(req.ack_pin(pin[..4].to_owned()).unwrap())
+        }
+        TrezorResponse::PassphraseRequest(req) => {
+            println!("Enter passphrase");
+            let mut pass = String::new();
+            io::stdin().read_line(&mut pass).unwrap();
+            // trim newline
+            handle_interaction(req.ack_passphrase(pass[..pass.len() - 1].to_owned()).unwrap())
+        }
+    }
 }
 
 fn tx_progress(
-	psbt: &mut psbt::PartiallySignedTransaction,
-	progress: SignTxProgress,
-	raw_tx: &mut Vec<u8>,
+    psbt: &mut psbt::PartiallySignedTransaction,
+    progress: SignTxProgress,
+    raw_tx: &mut Vec<u8>,
 ) -> Result<(), Error> {
-	if let Some(part) = progress.get_serialized_tx_part() {
-		raw_tx.write_all(part).unwrap();
-	}
+    if let Some(part) = progress.get_serialized_tx_part() {
+        raw_tx.write_all(part).unwrap();
+    }
 
-	if !progress.finished() {
-		let progress = handle_interaction(progress.ack_psbt(psbt, Network::Testnet).unwrap());
-		tx_progress(psbt, progress, raw_tx)
-	} else {
-		Ok(())
-	}
+    if !progress.finished() {
+        let progress = handle_interaction(progress.ack_psbt(psbt, Network::Testnet).unwrap());
+        tx_progress(psbt, progress, raw_tx)
+    } else {
+        Ok(())
+    }
 }
 
 fn main() {
-	setup_logger();
-	// init with debugging
-	let mut trezor = trezor_client::unique(false).unwrap();
-	trezor.init_device(None).unwrap();
+    setup_logger();
+    // init with debugging
+    let mut trezor = trezor_client::unique(false).unwrap();
+    trezor.init_device(None).unwrap();
 
-	let pubkey = handle_interaction(
-		trezor
-			.get_public_key(
-				&vec![
-					bip32::ChildNumber::from_hardened_idx(0).unwrap(),
-					bip32::ChildNumber::from_hardened_idx(0).unwrap(),
-					bip32::ChildNumber::from_hardened_idx(1).unwrap(),
-				]
-				.into(),
-				trezor_client::protos::InputScriptType::SPENDADDRESS,
-				Network::Testnet,
-				true,
-			)
-			.unwrap(),
-	);
-	let addr = Address::p2pkh(&pubkey.to_pub(), Network::Testnet);
-	println!("address: {}", addr);
+    let pubkey = handle_interaction(
+        trezor
+            .get_public_key(
+                &vec![
+                    bip32::ChildNumber::from_hardened_idx(0).unwrap(),
+                    bip32::ChildNumber::from_hardened_idx(0).unwrap(),
+                    bip32::ChildNumber::from_hardened_idx(1).unwrap(),
+                ]
+                .into(),
+                trezor_client::protos::InputScriptType::SPENDADDRESS,
+                Network::Testnet,
+                true,
+            )
+            .unwrap(),
+    );
+    let addr = Address::p2pkh(&pubkey.to_pub(), Network::Testnet);
+    println!("address: {}", addr);
 
-	let mut psbt = psbt::PartiallySignedTransaction {
+    let mut psbt = psbt::PartiallySignedTransaction {
 		unsigned_tx: Transaction {
 				version: 1,
 				lock_time: bitcoin::absolute::LockTime::from_consensus(0),
@@ -113,16 +114,16 @@ fn main() {
 		xpub: Default::default(),
 	};
 
-	println!("psbt before: {:?}", psbt);
-	println!("unsigned txid: {}", psbt.unsigned_tx.txid());
-	println!(
-		"unsigned tx: {}",
-		hex::encode(bitcoin::consensus::encode::serialize(&psbt.unsigned_tx))
-	);
+    println!("psbt before: {:?}", psbt);
+    println!("unsigned txid: {}", psbt.unsigned_tx.txid());
+    println!(
+        "unsigned tx: {}",
+        hex::encode(bitcoin::consensus::encode::serialize(&psbt.unsigned_tx))
+    );
 
-	let mut raw_tx = Vec::new();
-	let progress = handle_interaction(trezor.sign_tx(&psbt, Network::Testnet).unwrap());
-	tx_progress(&mut psbt, progress, &mut raw_tx).unwrap();
+    let mut raw_tx = Vec::new();
+    let progress = handle_interaction(trezor.sign_tx(&psbt, Network::Testnet).unwrap());
+    tx_progress(&mut psbt, progress, &mut raw_tx).unwrap();
 
-	println!("signed tx: {}", hex::encode(raw_tx));
+    println!("signed tx: {}", hex::encode(raw_tx));
 }

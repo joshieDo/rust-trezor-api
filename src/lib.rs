@@ -26,13 +26,13 @@ pub mod protos;
 pub mod utils;
 
 mod flows {
-	#[cfg(feature = "bitcoin")]
-	pub mod sign_tx;
+    #[cfg(feature = "bitcoin")]
+    pub mod sign_tx;
 }
 
 pub use client::{
-	ButtonRequest, ButtonRequestType, EntropyRequest, Features, PassphraseRequest,
-	PinMatrixRequest, PinMatrixRequestType, Trezor, TrezorResponse, WordCount,
+    ButtonRequest, ButtonRequestType, EntropyRequest, Features, PassphraseRequest,
+    PinMatrixRequest, PinMatrixRequestType, Trezor, TrezorResponse, WordCount,
 };
 pub use error::{Error, Result};
 pub use messages::TrezorMessage;
@@ -43,64 +43,63 @@ pub use flows::sign_tx::SignTxProgress;
 pub use protos::InputScriptType;
 
 use std::fmt;
-use transport::udp::UdpTransport;
-use transport::webusb::WebUsbTransport;
+use transport::{udp::UdpTransport, webusb::WebUsbTransport};
 
 /// The different kind of Trezor device models.
 #[derive(PartialEq, Eq, Clone, Debug, Copy)]
 pub enum Model {
-	TrezorLegacy,
-	Trezor,
-	TrezorBootloader,
-	TrezorEmulator,
+    TrezorLegacy,
+    Trezor,
+    TrezorBootloader,
+    TrezorEmulator,
 }
 
 impl fmt::Display for Model {
-	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-		f.write_str(self.as_str())
-	}
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(self.as_str())
+    }
 }
 
 impl Model {
-	pub const fn as_str(&self) -> &'static str {
-		match self {
-			Model::TrezorLegacy => "Trezor (legacy)",
-			Model::Trezor => "Trezor",
-			Model::TrezorBootloader => "Trezor (bootloader)",
-			Model::TrezorEmulator => "Trezor Emulator",
-		}
-	}
+    pub const fn as_str(&self) -> &'static str {
+        match self {
+            Model::TrezorLegacy => "Trezor (legacy)",
+            Model::Trezor => "Trezor",
+            Model::TrezorBootloader => "Trezor (bootloader)",
+            Model::TrezorEmulator => "Trezor Emulator",
+        }
+    }
 }
 
 /// A device found by the `find_devices()` method.  It can be connected to using the `connect()`
 /// method.
 #[derive(Debug)]
 pub struct AvailableDevice {
-	pub model: Model,
-	pub debug: bool,
-	transport: transport::AvailableDeviceTransport,
+    pub model: Model,
+    pub debug: bool,
+    transport: transport::AvailableDeviceTransport,
 }
 
 impl fmt::Display for AvailableDevice {
-	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-		write!(f, "{} (transport: {}) (debug: {})", self.model, &self.transport, self.debug)
-	}
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{} (transport: {}) (debug: {})", self.model, &self.transport, self.debug)
+    }
 }
 
 impl AvailableDevice {
-	/// Connect to the device.
-	pub fn connect(self) -> Result<Trezor> {
-		let transport = transport::connect(&self).map_err(Error::TransportConnect)?;
-		Ok(client::trezor_with_transport(self.model, transport))
-	}
+    /// Connect to the device.
+    pub fn connect(self) -> Result<Trezor> {
+        let transport = transport::connect(&self).map_err(Error::TransportConnect)?;
+        Ok(client::trezor_with_transport(self.model, transport))
+    }
 }
 
 /// Search for all available devices.
 /// Most devices will show up twice both either debugging enables or disabled.
 pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
-	let mut devices = WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)?;
-	devices.extend(UdpTransport::find_devices(debug, None).map_err(Error::TransportConnect)?);
-	Ok(devices)
+    let mut devices = WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)?;
+    devices.extend(UdpTransport::find_devices(debug, None).map_err(Error::TransportConnect)?);
+    Ok(devices)
 }
 
 /// Try to get a single device.  Optionally specify whether debug should be enabled or not.
@@ -109,13 +108,13 @@ pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
 /// When using USB mode, the device will show up both with debug and without debug, so it's
 /// necessary to specify the debug option in order to find a unique one.
 pub fn unique(debug: bool) -> Result<Trezor> {
-	let mut devices = find_devices(debug)?;
-	match devices.len() {
-		0 => Err(Error::NoDeviceFound),
-		1 => Ok(devices.remove(0).connect()?),
-		_ => {
-			debug!("Trezor devices found: {:?}", devices);
-			Err(Error::DeviceNotUnique)
-		}
-	}
+    let mut devices = find_devices(debug)?;
+    match devices.len() {
+        0 => Err(Error::NoDeviceFound),
+        1 => Ok(devices.remove(0).connect()?),
+        _ => {
+            debug!("Trezor devices found: {:?}", devices);
+            Err(Error::DeviceNotUnique)
+        }
+    }
 }
