@@ -17,6 +17,7 @@ use protos::{
     tx_ack::transaction_type::TxInputType, tx_request::RequestType as TxRequestType,
     OutputScriptType,
 };
+use tracing::trace;
 
 // Some types with raw protos that we use in the public interface so they have to be exported.
 pub use protos::{

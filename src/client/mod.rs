@@ -20,6 +20,7 @@ use crate::{
     Model,
 };
 use protobuf::MessageField;
+use tracing::{debug, trace};
 
 /// A Trezor client.
 pub struct Trezor {

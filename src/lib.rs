@@ -13,9 +13,6 @@
 
 #![warn(rust_2018_idioms)]
 
-#[macro_use]
-extern crate log;
-
 mod messages;
 mod transport;
 
@@ -43,6 +40,7 @@ pub use flows::sign_tx::SignTxProgress;
 pub use protos::InputScriptType;
 
 use std::fmt;
+use tracing::{debug, warn};
 use transport::{udp::UdpTransport, webusb::WebUsbTransport};
 
 /// The different kind of Trezor device models.
@@ -96,10 +94,24 @@ impl AvailableDevice {
 
 /// Search for all available devices.
 /// Most devices will show up twice both either debugging enables or disabled.
-pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
-    let mut devices = WebUsbTransport::find_devices(debug).map_err(Error::TransportConnect)?;
-    devices.extend(UdpTransport::find_devices(debug, None).map_err(Error::TransportConnect)?);
-    Ok(devices)
+pub fn find_devices(debug: bool) -> Vec<AvailableDevice> {
+    let mut devices = vec![];
+
+    match WebUsbTransport::find_devices(debug) {
+        Ok(usb) => devices.extend(usb),
+        Err(err) => {
+            warn!("{}", Error::TransportConnect(err))
+        }
+    };
+
+    match UdpTransport::find_devices(debug, None) {
+        Ok(udp) => devices.extend(udp),
+        Err(err) => {
+            warn!("{}", Error::TransportConnect(err))
+        }
+    };
+
+    devices
 }
 
 /// Try to get a single device.  Optionally specify whether debug should be enabled or not.
@@ -108,7 +120,7 @@ pub fn find_devices(debug: bool) -> Result<Vec<AvailableDevice>> {
 /// When using USB mode, the device will show up both with debug and without debug, so it's
 /// necessary to specify the debug option in order to find a unique one.
 pub fn unique(debug: bool) -> Result<Trezor> {
-    let mut devices = find_devices(debug)?;
+    let mut devices = find_devices(debug);
     match devices.len() {
         0 => Err(Error::NoDeviceFound),
         1 => Ok(devices.remove(0).connect()?),

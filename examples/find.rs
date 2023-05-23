@@ -1,5 +1,5 @@
 fn main() {
-    let trezors = trezor_client::find_devices(false).unwrap();
+    let trezors = trezor_client::find_devices(false);
     println!("Found {} devices: ", trezors.len());
     for t in trezors.into_iter() {
         println!("- {}", t);

@@ -18,7 +18,7 @@ fn convert_path_from_str(derivation: &str) -> Vec<u32> {
 }
 
 fn device_selector() -> trezor_client::Trezor {
-    let mut devices = trezor_client::find_devices(false).expect("error finding devices");
+    let mut devices = trezor_client::find_devices(false);
 
     if devices.is_empty() {
         panic!("No devices connected");
@@ -42,6 +42,7 @@ fn device_selector() -> trezor_client::Trezor {
 
 fn do_main() -> Result<(), trezor_client::Error> {
     // init with debugging
+    tracing_subscriber::fmt().with_max_level(tracing::Level::TRACE).init();
 
     let mut trezor = device_selector();
     trezor.init_device(None)?;

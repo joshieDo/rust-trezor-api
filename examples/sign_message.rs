@@ -3,17 +3,6 @@ use std::io;
 use bitcoin::{bip32, network::constants::Network, Address};
 use trezor_client::{InputScriptType, TrezorMessage, TrezorResponse};
 
-fn setup_logger() {
-    fern::Dispatch::new()
-        .format(|out, message, record| {
-            out.finish(format_args!("[{}][{}] {}", record.target(), record.level(), message))
-        })
-        .level(log::LevelFilter::Trace)
-        .chain(std::io::stderr())
-        .apply()
-        .unwrap();
-}
-
 fn handle_interaction<T, R: TrezorMessage>(resp: TrezorResponse<T, R>) -> T {
     match resp {
         TrezorResponse::Ok(res) => res,
@@ -40,7 +29,8 @@ fn handle_interaction<T, R: TrezorMessage>(resp: TrezorResponse<T, R>) -> T {
 }
 
 fn main() {
-    setup_logger();
+    tracing_subscriber::fmt().with_max_level(tracing::Level::TRACE).init();
+
     // init with debugging
     let mut trezor = trezor_client::unique(false).unwrap();
     trezor.init_device(None).unwrap();
