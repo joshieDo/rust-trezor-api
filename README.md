@@ -1,3 +1,5 @@
+# moved to https://github.com/trezor/trezor-firmware/tree/master/rust/trezor-client
+
 # trezor-client
 
 [![Downloads][downloads-badge]][crates-io]
